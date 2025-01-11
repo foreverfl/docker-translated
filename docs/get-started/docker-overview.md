@@ -6,9 +6,13 @@ keywords:
   - docker daemon
   - why use docker
   - docker architecture
-  - what
-  to use docker for, docker client, what is docker for, why docker, uses for docker,
-  what is docker container used for, what are docker containers used for
+  - what to use docker for
+  - docker client
+  - what is docker for
+  - why docker
+  - uses for docker
+  - what is docker container used for
+  - what are docker containers used for
 title: What is Docker?
 weight: 20
 aliases:

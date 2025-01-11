@@ -8,8 +8,7 @@ keywords:
   - intro
   - concepts
   - kubernetes
-  - 
-  docker desktop
+  - docker desktop
 description: Get started resources learning docker
 ---
 
