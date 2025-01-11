@@ -27,8 +27,8 @@ const config: Config = {
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
+    defaultLocale: "ko",
+    locales: ["ko"],
   },
 
   presets: [
@@ -65,7 +65,6 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
       title: "",
@@ -163,7 +162,14 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
       additionalLanguages: ["bash", "git", "docker"],
     },
+    mermaid: {
+      theme: { light: "neutral", dark: "forest" },
+    },
   } satisfies Preset.ThemeConfig,
+  markdown: {
+    mermaid: true,
+  },
+  themes: ["@docusaurus/theme-mermaid"],
 };
 
 export default config;

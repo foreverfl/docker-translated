@@ -1,13 +1,13 @@
 ---
-title: What is an image?
+title: 이미지란 무엇인가요?
 weight: 20
 keywords:
-  - concepts
-  - build
-  - images
-  - container
-  - docker desktop
-description: What is an image
+  - 개념
+  - 빌드
+  - 이미지
+  - 컨테이너
+  - 도커 데스크탑
+description: 이미지란 무엇인가
 aliases:
   - /guides/docker-concepts/the-basics/what-is-an-image/
   - /get-started/run-docker-hub-images/
@@ -15,101 +15,101 @@ aliases:
 
 <YoutubeEmbed videoId="NyvT9REqLe4" />
 
-## Explanation
+## 설명 {#explanation}
 
-Seeing a [container](./what-is-a-container.md) is an isolated process, where does it get its files and configuration? How do you share those environments?
+[컨테이너](./what-is-a-container.md)가 격리된 프로세스라면, 파일과 설정은 어디에서 가져오나요? 이러한 환경을 어떻게 공유하나요?
 
-That's where container images come in. A container image is a standardized package that includes all of the files, binaries, libraries, and configurations to run a container.
+그것이 바로 컨테이너 이미지입니다. 컨테이너 이미지는 컨테이너를 실행하는 데 필요한 모든 파일, 바이너리, 라이브러리 및 설정을 포함하는 표준화된 패키지입니다.
 
-For a [PostgreSQL](https://hub.docker.com/_/postgres) image, that image will package the database binaries, config files, and other dependencies. For a Python web app, it'll include the Python runtime, your app code, and all of its dependencies.
+[PostgreSQL](https://hub.docker.com/_/postgres) 이미지의 경우, 해당 이미지는 데이터베이스 바이너리, 구성 파일 및 기타 종속성을 패키징합니다. Python 웹 앱의 경우, Python 런타임, 앱 코드 및 모든 종속성을 포함합니다.
 
-There are two important principles of images:
+이미지의 두 가지 중요한 원칙이 있습니다:
 
-1. Images are immutable. Once an image is created, it can't be modified. You can only make a new image or add changes on top of it.
+1. 이미지는 불변입니다. 이미지가 생성되면 수정할 수 없습니다. 새로운 이미지를 만들거나 변경 사항을 추가할 수만 있습니다.
 
-2. Container images are composed of layers. Each layer represents a set of file system changes that add, remove, or modify files.
+2. 컨테이너 이미지는 레이어로 구성됩니다. 각 레이어는 파일 시스템 변경 사항을 추가, 제거 또는 수정하는 파일 시스템 변경 집합을 나타냅니다.
 
-These two principles let you to extend or add to existing images. For example, if you are building a Python app, you can start from the [Python image](https://hub.docker.com/_/python) and add additional layers to install your app's dependencies and add your code. This lets you focus on your app, rather than Python itself.
+이 두 가지 원칙은 기존 이미지를 확장하거나 추가할 수 있게 합니다. 예를 들어, Python 앱을 빌드하는 경우, [Python 이미지](https://hub.docker.com/_/python)에서 시작하여 앱의 종속성을 설치하고 코드를 추가하는 추가 레이어를 추가할 수 있습니다. 이를 통해 Python 자체보다는 앱에 집중할 수 있습니다.
 
-### Finding images
+### 이미지 찾기 {#finding-images}
 
-[Docker Hub](https://hub.docker.com) is the default global marketplace for storing and distributing images. It has over 100,000 images created by developers that you can run locally. You can search for Docker Hub images and run them directly from Docker Desktop.
+[Docker Hub](https://hub.docker.com)는 이미지를 저장하고 배포하는 기본 글로벌 마켓플레이스입니다. 개발자가 만든 100,000개 이상의 이미지를 로컬에서 실행할 수 있습니다. Docker Hub 이미지를 검색하고 Docker Desktop에서 직접 실행할 수 있습니다.
 
-Docker Hub provides a variety of Docker-supported and endorsed images known as Docker Trusted Content. These provide fully managed services or great starters for your own images. These include:
+Docker Hub는 Docker가 지원하고 승인한 다양한 이미지를 제공합니다. 이러한 이미지는 완전히 관리되는 서비스 또는 자체 이미지의 훌륭한 시작점을 제공합니다. 여기에는 다음이 포함됩니다:
 
-- [Docker Official Images](https://hub.docker.com/search?q=&type=image&image_filter=official) - a curated set of Docker repositories, serve as the starting point for the majority of users, and are some of the most secure on Docker Hub
-- [Docker Verified Publishers](https://hub.docker.com/search?q=&image_filter=store) - high-quality images from commercial publishers verified by Docker
-- [Docker-Sponsored Open Source](https://hub.docker.com/search?q=&image_filter=open_source) - images published and maintained by open-source projects sponsored by Docker through Docker's open source program
+- [Docker 공식 이미지](https://hub.docker.com/search?q=&type=image&image_filter=official): Docker에서 엄선한 저장소 모음으로, 대부분의 사용자들이 처음 시작할 때 사용하며 Docker Hub에서 가장 안전한 이미지들입니다.
+- [Docker 검증된 게시자](https://hub.docker.com/search?q=&image_filter=store): Docker가 인증한 기업들이 제공하는 고품질 이미지입니다.
+- [Docker 후원 오픈 소스](https://hub.docker.com/search?q=&image_filter=open_source): Docker의 오픈소스 프로그램을 통해 지원받는 오픈소스 프로젝트에서 제공하고 관리하는 이미지입니다.
 
-For example, [Redis](https://hub.docker.com/_/redis) and [Memcached](https://hub.docker.com/_/memcached) are a few popular ready-to-go Docker Official Images. You can download these images and have these services up and running in a matter of seconds. There are also base images, like the [Node.js](https://hub.docker.com/_/node) Docker image, that you can use as a starting point and add your own files and configurations.
+예를 들어, [Redis](https://hub.docker.com/_/redis) 및 [Memcached](https://hub.docker.com/_/memcached)는 인기 있는 Docker 공식 이미지 중 일부입니다. 이러한 이미지를 다운로드하여 몇 초 만에 이러한 서비스를 실행할 수 있습니다. 또한 [Node.js](https://hub.docker.com/_/node) Docker 이미지와 같은 기본 이미지도 있으며, 이를 시작점으로 사용하여 자체 파일 및 구성을 추가할 수 있습니다.
 
-## Try it out
+## 시도해보기 {#try-it-out}
 
 <Tabs>
-<TabItem value="gui" label="Using the GUI">
+<TabItem value="gui" label="GUI 사용">
 
-In this hands-on, you will learn how to search and pull a container image using the Docker Desktop GUI.
+이 실습에서는 Docker Desktop GUI를 사용하여 컨테이너 이미지를 검색하고 가져오는 방법을 배웁니다.
 
-### Search for and download an image
+### 이미지 검색 및 다운로드 {#search-for-and-download-an-image}
 
-1. Open the Docker Desktop Dashboard and select the **Images** view in the left-hand navigation menu.
+1. Docker Desktop 대시보드를 열고 왼쪽 탐색 메뉴에서 **Images** 보기를 선택합니다.
 
-   ![A screenshot of the Docker Desktop Dashboard showing the image view on the left sidebar](images/click-image.webp?border=true&w=1050&h=400)
+   ![Docker Desktop 대시보드의 왼쪽 사이드바에 이미지 보기를 보여주는 스크린샷](images/click-image.webp?border=true&w=1050&h=400)
 
-2. Select the **Search images to run** button. If you don't see it, select the _global search bar_ at the top of the screen.
+2. **Search images to run** 버튼을 선택합니다. 보이지 않으면 화면 상단의 *글로벌 검색 바*를 선택합니다.
 
-   ![A screenshot of the Docker Desktop Dashboard showing the search ta](images/search-image.webp?border)
+   ![Docker Desktop 대시보드에서 검색 탭을 보여주는 스크린샷](images/search-image.webp?border)
 
-3. In the **Search** field, enter "welcome-to-docker". Once the search has completed, select the `docker/welcome-to-docker` image.
+3. **Search** 필드에 "welcome-to-docker"를 입력합니다. 검색이 완료되면 `docker/welcome-to-docker` 이미지를 선택합니다.
 
-   ![A screenshot of the Docker Desktop Dashboard showing the search results for the docker/welcome-to-docker image](images/select-image.webp?border=true&w=1050&h=400)
+   ![docker/welcome-to-docker 이미지를 검색한 결과를 보여주는 Docker Desktop 대시보드의 스크린샷](images/select-image.webp?border=true&w=1050&h=400)
 
-4. Select **Pull** to download the image.
+4. 이미지를 다운로드하려면 **Pull**을 선택합니다.
 
-### Learn about the image
+### 이미지에 대해 알아보기 {#learn-about-the-image}
 
-Once you have an image downloaded, you can learn quite a few details about the image either through the GUI or the CLI.
+이미지를 다운로드한 후에는 GUI 또는 CLI를 통해 이미지에 대한 여러 세부 정보를 확인할 수 있습니다.
 
-1. In the Docker Desktop Dashboard, select the **Images** view.
+1. Docker Desktop 대시보드에서 **Images** 보기를 선택합니다.
 
-2. Select the **docker/welcome-to-docker** image to open details about the image.
+2. **docker/welcome-to-docker** 이미지를 선택하여 이미지에 대한 세부 정보를 엽니다.
 
-   ![A screenshot of the Docker Desktop Dashboard showing the images view with an arrow pointing to the docker/welcome-to-docker image](images/pulled-image.webp?border=true&w=1050&h=400)
+   ![docker/welcome-to-docker 이미지를 가리키는 화살표와 함께 이미지 보기를 보여주는 Docker Desktop 대시보드의 스크린샷](images/pulled-image.webp?border=true&w=1050&h=400)
 
-3. The image details page presents you with information regarding the layers of the image, the packages and libraries installed in the image, and any discovered vulnerabilities.
+3. 이미지 세부 정보 페이지에서는 이미지의 레이어, 이미지에 설치된 패키지 및 라이브러리, 발견된 취약성에 대한 정보를 제공합니다.
 
-   ![A screenshot of the image details view for the docker/welcome-to-docker image](images/image-layers.webp?border=true&w=1050&h=400)
+   ![docker/welcome-to-docker 이미지의 이미지 레이어 보기를 보여주는 스크린샷](images/image-layers.webp?border=true&w=1050&h=400)
 
 </TabItem>
 
-<TabItem value="cli" label="Using the CLI">
+<TabItem value="cli" label="CLI 사용">
 
-Follow the instructions to search and pull a Docker image using CLI to view its layers.
+CLI를 사용하여 Docker 이미지를 검색하고 가져와서 레이어를 확인하는 방법을 따르세요.
 
-### Search for and download an image
+### 이미지 검색 및 다운로드 {#search-for-and-download-an-image}
 
-1. Open a terminal and search for images using the [`docker search`](/reference/cli/docker/search.md) command:
+1. 터미널을 열고 [`docker search`](/reference/cli/docker/search.md) 명령을 사용하여 이미지를 검색합니다:
 
    ```bash
    docker search docker/welcome-to-docker
    ```
 
-   You will see output like the following:
+   다음과 같은 출력이 표시됩니다:
 
    ```bash
    NAME                       DESCRIPTION                                     STARS     OFFICIAL
    docker/welcome-to-docker   Docker image for new users getting started w…   20
    ```
 
-   This output shows you information about relevant images available on Docker Hub.
+   이 출력은 Docker Hub에서 사용할 수 있는 관련 이미지에 대한 정보를 보여줍니다.
 
-2. Pull the image using the [`docker pull`](/reference/cli/docker/image/pull.md) command.
+2. [`docker pull`](/reference/cli/docker/image/pull.md) 명령을 사용하여 이미지를 가져옵니다.
 
    ```bash
    docker pull docker/welcome-to-docker
    ```
 
-   You will see output like the following:
+   다음과 같은 출력이 표시됩니다:
 
    ```bash
    Using default tag: latest
@@ -127,36 +127,36 @@ Follow the instructions to search and pull a Docker image using CLI to view its 
    docker.io/docker/welcome-to-docker:latest
    ```
 
-   Each of line represents a different downloaded layer of the image. Remember that each layer is a set of filesystem changes and provides functionality of the image.
+   각 줄은 이미지의 다른 다운로드된 레이어를 나타냅니다. 각 레이어는 파일 시스템 변경 집합이며 이미지의 기능을 제공합니다.
 
-### Learn about the image
+### 이미지에 대해 알아보기 {#learn-about-the-image}
 
-1. List your downloaded images using the [`docker image ls`](/reference/cli/docker/image/ls.md) command:
+1. [`docker image ls`](/reference/cli/docker/image/ls.md) 명령을 사용하여 다운로드한 이미지를 나열합니다:
 
    ```bash
    docker image ls
    ```
 
-   You will see output like the following:
+   다음과 같은 출력이 표시됩니다:
 
    ```bash
    REPOSITORY                 TAG       IMAGE ID       CREATED        SIZE
    docker/welcome-to-docker   latest    eedaff45e3c7   4 months ago   29.7MB
    ```
 
-   The command shows a list of Docker images currently available on your system. The `docker/welcome-to-docker` has a total size of approximately 29.7MB.
+   이 명령은 현재 시스템에 있는 Docker 이미지 목록을 보여줍니다. `docker/welcome-to-docker`의 총 크기는 약 29.7MB입니다.
 
-   > **Image size**
+   > **이미지 크기**
    >
-   > The image size represented here reflects the uncompressed size of the image, not the download size of the layers.
+   > 여기서 표시된 이미지 크기는 이미지의 압축 해제된 크기를 나타내며, 레이어의 다운로드 크기는 아닙니다.
 
-2. List the image's layers using the [`docker image history`](/reference/cli/docker/image/history.md) command:
+2. [`docker image history`](/reference/cli/docker/image/history.md) 명령을 사용하여 이미지의 레이어를 나열합니다:
 
    ```bash
    docker image history docker/welcome-to-docker
    ```
 
-   You will see output like the following:
+   다음과 같은 출력이 표시됩니다:
 
    ```bash
    IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
@@ -178,28 +178,28 @@ Follow the instructions to search and pull a Docker image using CLI to view its 
    <missing>      5 months ago   /bin/sh -c #(nop) ADD file:ff3112828967e8004…   7.66MB
    ```
 
-   This output shows you all of the layers, their sizes, and the command used to create the layer.
+   이 출력은 모든 레이어, 크기 및 레이어를 생성하는 데 사용된 명령을 보여줍니다.
 
-   > **Viewing the full command**
+   > **전체 명령 보기**
    >
-   > If you add the `--no-trunc` flag to the command, you will see the full command. Note that, since the output is in a table-like format, longer commands will cause the output to be very difficult to navigate.
+   > `--no-trunc` 플래그를 명령에 추가하면 전체 명령을 볼 수 있습니다. 출력이 테이블 형식이므로, 더 긴 명령은 탐색하기 어려울 수 있습니다.
 
 </TabItem>
 </Tabs>
 
-In this walkthrough, you searched and pulled a Docker image. In addition to pulling a Docker image, you also learned about the layers of a Docker Image.
+이번 학습에서는 Docker 이미지를 검색하고 가져왔습니다. Docker 이미지를 가져오는 것 외에도 Docker 이미지의 레이어에 대해 배웠습니다.
 
-## Additional resources
+## 추가 자료 {#additional-resources}
 
-The following resources will help you learn more about exploring, finding, and building images:
+다음 자료는 이미지 탐색, 찾기 및 빌드에 대해 더 배우는 데 도움이 됩니다:
 
-- [Docker trusted content](/manuals/docker-hub/image-library/trusted-content.md)
-- [Explore the Image view in Docker Desktop](/manuals/desktop/use-desktop/images.md)
-- [Docker Build overview](/manuals/build/concepts/overview.md)
+- [Docker 신뢰할 수 있는 콘텐츠](/manuals/docker-hub/image-library/trusted-content.md)
+- [Docker Desktop에서 이미지 보기 탐색](/manuals/desktop/use-desktop/images.md)
+- [Docker 빌드 개요](/manuals/build/concepts/overview.md)
 - [Docker Hub](https://hub.docker.com)
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-Now that you have learned the basics of images, it's time to learn about distributing images through registries.
+이미지의 기본 사항을 배웠으므로, 레지스트리를 통해 이미지를 배포하는 방법을 배울 차례입니다.
 
-<Button href="what-is-a-registry">What is a registry?</Button>
+<Button href="what-is-a-registry">레지스트리란 무엇인가?</Button>
