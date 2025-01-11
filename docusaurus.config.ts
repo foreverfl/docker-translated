@@ -94,6 +94,24 @@ const config: Config = {
         },
       ],
     },
+    plugins: [
+      async function myPlugin() {
+        return {
+          name: "custom-mdx-components",
+          configureWebpack() {
+            return {
+              resolve: {
+                alias: {
+                  "@theme/MDXComponents": require.resolve(
+                    "./src/theme/MDXComponents"
+                  ),
+                },
+              },
+            };
+          },
+        };
+      },
+    ],
     footer: {
       style: "dark",
       links: [

@@ -18,7 +18,7 @@ aliases:
   - /guides/docker-concepts/building-images/build-tag-and-publish-an-image/
 ---
 
-<YouTubeEmbed videoId="chiiGLlYRlY" />
+<YoutubeEmbed videoId="chiiGLlYRlY" />
 
 ## Explanation
 

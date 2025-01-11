@@ -1,5 +1,5 @@
 ---
-title: Get Docker Desktop 
+title: Get Docker Desktop
 keywords:
   - concepts
   - container
@@ -13,22 +13,20 @@ summary: |
   containers, ensuring consistency across different environments.
 weight: 1
 aliases:
- - /getting-started/get-docker-desktop/
+  - /getting-started/get-docker-desktop/
 ---
 
-<YouTubeEmbed videoId="C2bPVhiNU-0" />
+<YoutubeEmbed videoId="C2bPVhiNU-0" />
 
 ## Explanation
 
 Docker Desktop is the all-in-one package to build images, run containers, and so much more.
 This guide will walk you through the installation process, enabling you to experience Docker Desktop firsthand.
 
-
 > **Docker Desktop terms**
 >
 > Commercial use of Docker Desktop in larger enterprises (more than 250
 > employees OR more than $10 million USD in annual revenue) requires a [paid subscription](https://www.docker.com/pricing/?_gl=1*1nyypal*_ga*MTYxMTUxMzkzOS4xNjgzNTM0MTcw*_ga_XJWPQMJYHQ*MTcxNjk4MzU4Mi4xMjE2LjEuMTcxNjk4MzkzNS4xNy4wLjA.).
-
 
 <Card
   title="Docker Desktop for Mac"
@@ -59,12 +57,9 @@ In this hands-on guide, you will see how to run a Docker container using Docker 
 
 Follow the instructions to run a container using the CLI.
 
-
 ## Run your first container
 
 Open your CLI terminal and start a container by running the `docker run` command:
-
-
 
 ```console
 $ docker run -d -p 8080:80 docker/welcome-to-docker
@@ -74,20 +69,14 @@ $ docker run -d -p 8080:80 docker/welcome-to-docker
 
 For this container, the frontend is accessible on port `8080`. To open the website, visit [http://localhost:8080](http://localhost:8080) in your browser.
 
-
-
-
-
 ![Screenshot of the landing page of the Nginx web server, coming from the running container](../docker-concepts/the-basics/images/access-the-frontend.webp?border=true)
 
 ## Manage containers using Docker Desktop
-
 
 1. Open Docker Desktop and select the **Containers** field on the left sidebar.
 2. You can view information about your container including logs, and files, and even access the shell by selecting the **Exec** tab.
 
    ![Screenshot of exec into the running container in Docker Desktop](images/exec-into-docker-container.webp?border=true)
-
 
 3. Select the **Inspect** field to obtain detailed information about the container. You can perform various actions such as pause, resume, start or stop containers, or explore the **Logs**, **Bind mounts**, **Exec**, **Files**, and **Stats** tabs.
 
@@ -102,4 +91,3 @@ Now that you have Docker Desktop installed and ran your first container, it's ti
 <Button href="develop-with-containers">
 Develop with containers
 </Button>
-

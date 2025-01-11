@@ -14,11 +14,11 @@ summary: |
   how to define a base image and setup instructions, including software
   installation and copying necessary files.
 weight: 2
-aliases: 
- - /guides/docker-concepts/building-images/writing-a-dockerfile/
+aliases:
+  - /guides/docker-concepts/building-images/writing-a-dockerfile/
 ---
 
-<YouTubeEmbed videoId="Jx8zoIhiP4c" />
+<YoutubeEmbed videoId="Jx8zoIhiP4c" />
 
 ## Explanation
 
@@ -58,7 +58,6 @@ Some of the most common instructions in a `Dockerfile` include:
 - `USER <user-or-uid>` - this instruction sets the default user for all subsequent instructions.
 - `CMD ["<command>", "<arg1>"]` - this instruction sets the default command a container using this image will run.
 
-
 To read through all of the instructions or go into greater detail, check out the [Dockerfile reference](https://docs.docker.com/engine/reference/builder/).
 
 ## Try it out
@@ -84,50 +83,50 @@ Now that you have the project, you’re ready to create the `Dockerfile`.
 
 2. Create a file named `Dockerfile` in the same folder as the file `package.json`.
 
-    > **Dockerfile file extensions**
-    >
-    > It's important to note that the `Dockerfile` has _no_ file extension. Some editors
-    > will automatically add an extension to the file (or complain it doesn't have one).
+   > **Dockerfile file extensions**
+   >
+   > It's important to note that the `Dockerfile` has _no_ file extension. Some editors
+   > will automatically add an extension to the file (or complain it doesn't have one).
 
 3. In the `Dockerfile`, define your base image by adding the following line:
 
-    ```dockerfile
-    FROM node:20-alpine
-    ```
+   ```dockerfile
+   FROM node:20-alpine
+   ```
 
 4. Now, define the working directory by using the `WORKDIR` instruction. This will specify where future commands will run and the directory files will be copied inside the container image.
 
-    ```dockerfile
-    WORKDIR /app
-    ```
+   ```dockerfile
+   WORKDIR /app
+   ```
 
 5. Copy all of the files from your project on your machine into the container image by using the `COPY` instruction:
 
-    ```dockerfile
-    COPY . .
-    ```
+   ```dockerfile
+   COPY . .
+   ```
 
 6. Install the app's dependencies by using the `yarn` CLI and package manager. To do so, run a command using the `RUN` instruction:
 
-    ```dockerfile
-    RUN yarn install --production
-    ```
+   ```dockerfile
+   RUN yarn install --production
+   ```
 
 7. Finally, specify the default command to run by using the `CMD` instruction:
 
-    ```dockerfile
-    CMD ["node", "./src/index.js"]
-    ```
-    And with that, you should have the following Dockerfile:
+   ```dockerfile
+   CMD ["node", "./src/index.js"]
+   ```
 
+   And with that, you should have the following Dockerfile:
 
-    ```dockerfile
-    FROM node:20-alpine
-    WORKDIR /app
-    COPY . .
-    RUN yarn install --production
-    CMD ["node", "./src/index.js"]
-    ```
+   ```dockerfile
+   FROM node:20-alpine
+   WORKDIR /app
+   COPY . .
+   RUN yarn install --production
+   CMD ["node", "./src/index.js"]
+   ```
 
 > **This Dockerfile isn't production-ready yet**
 >
@@ -138,22 +137,21 @@ Now that you have the project, you’re ready to create the `Dockerfile`.
 > Keep reading to learn more about how to make the image maximize the
 > build cache, run as a non-root user, and multi-stage builds.
 
-
 > **Containerize new projects quickly with `docker init`**
 >
-> The `docker init` command will analyze your project and quickly create 
+> The `docker init` command will analyze your project and quickly create
 > a Dockerfile, a `compose.yaml`, and a `.dockerignore`, helping you get
-> up and going. Since you're learning about Dockerfiles specifically here, 
+> up and going. Since you're learning about Dockerfiles specifically here,
 > you won't use it now. But, [learn more about it here](/engine/reference/commandline/init/).
 
 ## Additional resources
 
 To learn more about writing a Dockerfile, visit the following resources:
 
-* [Dockerfile reference](/reference/dockerfile/)
-* [Dockerfile best practices](/develop/develop-images/dockerfile_best-practices/)
-* [Base images](/build/building/base-images/)
-* [Getting started with Docker Init](/reference/cli/docker/init/)
+- [Dockerfile reference](/reference/dockerfile/)
+- [Dockerfile best practices](/develop/develop-images/dockerfile_best-practices/)
+- [Base images](/build/building/base-images/)
+- [Getting started with Docker Init](/reference/cli/docker/init/)
 
 ## Next steps
 
@@ -162,4 +160,3 @@ Now that you have created a Dockerfile and learned the basics, it's time to lear
 <Button href="build-tag-and-publish-an-image">
 Build, tag and publish the Image
 </Button>
-

@@ -12,7 +12,7 @@ aliases:
   - /guides/docker-concepts/running-containers/multi-container-applications/
 ---
 
-<YouTubeEmbed videoId="1jUwR6F9hvM" />
+<YoutubeEmbed videoId="1jUwR6F9hvM" />
 
 ## Explanation
 
@@ -56,17 +56,17 @@ In this hands-on guide, you'll first see how to build and run a counter web appl
    <TabItem value="clone" label="Clone with git">
       Use the following command in a terminal to clone the sample application repository.
 
-      ```bash
-      git clone https://github.com/dockersamples/nginx-node-redis
-      ```
+   ```bash
+   git clone https://github.com/dockersamples/nginx-node-redis
+   ```
 
-      Navigate into the `nginx-node-redis` directory:
+   Navigate into the `nginx-node-redis` directory:
 
-      ```bash
-      cd nginx-node-redis
-      ```
+   ```bash
+   cd nginx-node-redis
+   ```
 
-      Inside this directory, you'll find two sub-directories - `nginx` and `web`.
+   Inside this directory, you'll find two sub-directories - `nginx` and `web`.
    </TabItem>
 
    <TabItem value="download" label="Download">
@@ -87,7 +87,6 @@ $ cd nginx-node-redis-main
 ```
 
 Inside this directory, you'll find two sub-directories - `nginx` and `web`.
-
 
 2. [Download and install](/get-started/get-docker.md) Docker Desktop.
 

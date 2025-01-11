@@ -18,7 +18,7 @@ aliases:
   - /guides/docker-concepts/building-images/multi-stage-builds/
 ---
 
-<YouTubeEmbed videoId="vR185cjwxZ8" />
+<YoutubeEmbed videoId="vR185cjwxZ8" />
 
 ## Explanation
 

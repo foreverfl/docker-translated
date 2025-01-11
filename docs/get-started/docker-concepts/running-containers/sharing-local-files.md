@@ -7,12 +7,11 @@ keywords:
   - container
   - docker desktop
 description: This concept page will teach you the various storage options available in Docker and their common usage.
-aliases: 
- - /guides/docker-concepts/running-containers/sharing-local-files/
+aliases:
+  - /guides/docker-concepts/running-containers/sharing-local-files/
 ---
 
-<YouTubeEmbed videoId="2dAzsVg3Dek" />
-
+<YoutubeEmbed videoId="2dAzsVg3Dek" />
 
 ## Explanation
 
@@ -85,10 +84,9 @@ In this hands-on guide, you’ll practice how to create and use a bind mount to 
 
 3. Open the browser and access [http://localhost:8080](http://localhost:8080) or use the curl command to verify if it's working fine or not.
 
-    ```console
-    $ curl localhost:8080
-    ```
-
+   ```console
+   $ curl localhost:8080
+   ```
 
 ### Use a bind mount
 
@@ -98,40 +96,40 @@ Using a bind mount, you can map the configuration file on your host computer to 
 
    ![A screenshot of Docker Desktop Dashboard showing how to delete the httpd container](images/delete-httpd-container.webp?border=true)
 
-
 2. Create a new directory called `public_html` on your host system.
 
-    ```console
-    $ mkdir public_html
-    ```
+   ```console
+   $ mkdir public_html
+   ```
 
 3. Change the directory to `public_html` and create a file called `index.html` with the following content. This is a basic HTML document that creates a simple webpage that welcomes you with a friendly whale.
 
-    ```html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <title> My Website with a Whale & Docker!</title>
-    </head>
-    <body>
-    <h1>Whalecome!!</h1>
-    <p>Look! There's a friendly whale greeting you!</p>
-    <pre id="docker-art">
-       ##         .
-      ## ## ##        ==
-     ## ## ## ## ##    ===
-     /"""""""""""""""""\___/ ===
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+     <head>
+       <meta charset="UTF-8" />
+       <title>My Website with a Whale & Docker!</title>
+     </head>
+     <body>
+       <h1>Whalecome!!</h1>
+       <p>Look! There's a friendly whale greeting you!</p>
+       <pre id="docker-art">
+      ##         .
+     ## ## ##        ==
+    ## ## ## ## ##    ===
+    /"""""""""""""""""\___/ ===
    {                       /  ===-
    \______ O           __/
-    \    \         __/
-     \____\_______/
-
-    Hello from Docker!
-    </pre>
-    </body>
-    </html>
-    ```
+   \    \         __/
+    \____\_______/
+   
+   Hello from Docker!
+   </pre
+       >
+     </body>
+   </html>
+   ```
 
 4. It's time to run the container. The `--mount` and `-v` examples produce the same result. You can't run them both unless you remove the `my_site` container after running the first one.
 
@@ -149,31 +147,22 @@ Using a bind mount, you can map the configuration file on your host computer to 
    </TabItem>
    </Tabs>
 
-
    > [!TIP]  
-   > When using the `-v` or `--mount` flag in Windows PowerShell, you need to provide the absolute path to your directory instead of just `./`. This is because PowerShell handles relative paths differently from bash (commonly used in Mac and Linux environments).    
-
-
+   > When using the `-v` or `--mount` flag in Windows PowerShell, you need to provide the absolute path to your directory instead of just `./`. This is because PowerShell handles relative paths differently from bash (commonly used in Mac and Linux environments).
 
    With everything now up and running, you should be able to access the site via [http://localhost:8080](http://localhost:8080) and find a new webpage that welcomes you with a friendly whale.
-
 
 ### Access the file on the Docker Desktop Dashboard
 
 1. You can view the mounted files inside a container by selecting the container's **Files** tab and then selecting a file inside the `/usr/local/apache2/htdocs/` directory. Then, select **Open file editor**.
 
-
    ![A screenshot of Docker Desktop Dashboard showing the mounted files inside the a container](images/mounted-files.webp?border=true)
 
 2. Delete the file on the host and verify the file is also deleted in the container. You will find that the files no longer exist under **Files** in the Docker Desktop Dashboard.
 
-
    ![A screenshot of Docker Desktop Dashboard showing the deleted files inside the a container](images/deleted-files.webp?border=true)
 
-
 3. Recreate the HTML file on the host system and see that file re-appears under the **Files** tab under **Containers** on the Docker Desktop Dashboard. By now, you will be able to access the site too.
-
-
 
 ### Stop your container
 
@@ -187,17 +176,16 @@ The container continues to run until you stop it.
 
 ![A screenshot of Docker Desktop Dashboard showing how to delete the container](images/delete-the-container.webp?border=true)
 
-
 ## Additional resources
 
 The following resources will help you learn more about bind mounts:
 
-* [Manage data in Docker](/storage/)
-* [Volumes](/storage/volumes/)
-* [Bind mounts](/storage/bind-mounts/)
-* [Running containers](/reference/run/)
-* [Troubleshoot storage errors](/storage/troubleshooting_volume_errors/)
-* [Persisting container data](/get-started/docker-concepts/running-containers/persisting-container-data/)
+- [Manage data in Docker](/storage/)
+- [Volumes](/storage/volumes/)
+- [Bind mounts](/storage/bind-mounts/)
+- [Running containers](/reference/run/)
+- [Troubleshoot storage errors](/storage/troubleshooting_volume_errors/)
+- [Persisting container data](/get-started/docker-concepts/running-containers/persisting-container-data/)
 
 ## Next steps
 
