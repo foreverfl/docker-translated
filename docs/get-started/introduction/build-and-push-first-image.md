@@ -1,10 +1,10 @@
 ---
-title: Build and push your first image
+title: 이미지를 빌드하고 푸시하기
 keywords:
-  - concepts
-  - container
-  - docker desktop
-description: This concept page will teach you how to build and push your first image
+  - 개념
+  - 컨테이너
+  - 도커 데스크탑
+description: 이 개념 페이지는 첫 번째 이미지를 빌드하고 푸시하는 방법을 가르쳐줍니다
 weight: 3
 aliases:
   - /guides/getting-started/build-and-push-first-image/
@@ -12,184 +12,180 @@ aliases:
 
 <YoutubeEmbed videoId="7ge1s5nAa34" />
 
-## Explanation
+## 설명 {#explanation}
 
-Now that you've updated the [to-do list app](develop-with-containers.md), you’re ready to create a container image for the application and share it on Docker Hub. To do so, you will need to do the following:
+이제 [to-do list 앱](develop-with-containers.md)을 업데이트했으므로, 애플리케이션을 위한 컨테이너 이미지를 만들고 Docker Hub에 공유할 준비가 되었습니다. 이를 위해 다음을 수행해야 합니다:
 
-1. Sign in with your Docker account
-2. Create an image repository on Docker Hub
-3. Build the container image
-4. Push the image to Docker Hub
+1. Docker 계정으로 로그인하기
+2. Docker Hub에서 이미지 저장소 생성하기
+3. 컨테이너 이미지 빌드하기
+4. 이미지를 Docker Hub에 푸시하기
 
-Before you dive into the hands-on guide, the following are a few core concepts that you should be aware of.
+실습 가이드를 시작하기 전에 알아두어야 할 몇 가지 핵심 개념이 있습니다.
 
-### Container images
+### 컨테이너 이미지 {#container-images}
 
-If you’re new to container images, think of them as a standardized package that contains everything needed to run an application, including its files, configuration, and dependencies. These packages can then be distributed and shared with others.
+컨테이너 이미지가 처음이라면, 애플리케이션을 실행하는 데 필요한 모든 파일, 구성 및 종속성을 포함하는 표준화된 패키지로 생각하십시오. 이러한 패키지는 다른 사람들과 공유할 수 있습니다.
 
-### Docker Hub
+### Docker Hub {#docker-hub}
 
-To share your Docker images, you need a place to store them. This is where registries come in. While there are many registries, Docker Hub is the default and go-to registry for images. Docker Hub provides both a place for you to store your own images and to find images from others to either run or use as the bases for your own images.
+Docker 이미지를 공유하려면 저장할 장소가 필요합니다. 여기서 레지스트리가 필요합니다. 많은 레지스트리가 있지만, Docker Hub는 기본 및 가장 많이 사용되는 이미지 레지스트리입니다. Docker Hub는 자신의 이미지를 저장할 장소와 다른 사람들의 이미지를 찾아 실행하거나 자신의 이미지의 기반으로 사용할 수 있는 장소를 제공합니다.
 
-In [Develop with containers](develop-with-containers.md), you used the following images that came from Docker Hub, each of which are [Docker Official Images](/manuals/docker-hub/image-library/trusted-content.md#docker-official-images):
+[컨테이너로 개발하기](develop-with-containers.md)에서 다음 이미지를 사용했습니다. 이 이미지는 모두 [Docker 공식 이미지](/manuals/docker-hub/image-library/trusted-content.md#docker-official-images)입니다:
 
-- [node](https://hub.docker.com/_/node) - provides a Node environment and is used as the base of your development efforts. This image is also used as the base for the final application image.
-- [mysql](https://hub.docker.com/_/mysql) - provides a MySQL database to store the to-do list items
-- [phpmyadmin](https://hub.docker.com/_/phpmyadmin) - provides phpMyAdmin, a web-based interface to the MySQL database
-- [traefik](https://hub.docker.com/_/traefik) - provides Traefik, a modern HTTP reverse proxy and load balancer that routes requests to the appropriate container based on routing rules
+- [node](https://hub.docker.com/_/node) - Node 환경을 제공하며 개발 작업의 기반으로 사용됩니다. 이 이미지는 최종 애플리케이션 이미지의 기반으로도 사용됩니다.
+- [mysql](https://hub.docker.com/_/mysql) - to-do list 항목을 저장하는 MySQL 데이터베이스를 제공합니다.
+- [phpmyadmin](https://hub.docker.com/_/phpmyadmin) - MySQL 데이터베이스에 대한 웹 기반 인터페이스인 phpMyAdmin을 제공합니다.
+- [traefik](https://hub.docker.com/_/traefik) - 요청을 라우팅 규칙에 따라 적절한 컨테이너로 라우팅하는 최신 HTTP 리버스 프록시 및 로드 밸런서를 제공합니다.
 
-Explore the full catalog of [Docker Official Images](https://hub.docker.com/search?image_filter=official&q=), [Docker Verified Publishers](https://hub.docker.com/search?q=&image_filter=store), and [Docker Sponsored Open Source Software](https://hub.docker.com/search?q=&image_filter=open_source) images to see more of what there is to run and build on.
+전체 [Docker 공식 이미지](https://hub.docker.com/search?image_filter=official&q=), [Docker 인증 게시자](https://hub.docker.com/search?q=&image_filter=store), 및 [Docker 후원 오픈 소스 소프트웨어](https://hub.docker.com/search?q=&image_filter=open_source) 이미지들을 둘러보며 다양한 활용 방법을 확인해보세요.
 
-## Try it out
+## 시도해보기 {#try-it-out}
 
-In this hands-on guide, you'll learn how to sign in to Docker Hub and push images to Docker Hub repository.
+이 실습 가이드에서는 Docker Hub에 로그인하고 이미지를 Docker Hub 저장소에 푸시하는 방법을 배웁니다.
 
-## Sign in with your Docker account
+## Docker 계정으로 로그인하기 {#sign-in-with-your-docker-account}
 
-To push images to Docker Hub, you will need to sign in with a Docker account.
+이미지를 Docker Hub에 푸시하려면 Docker 계정으로 로그인해야 합니다.
 
-1. Open the Docker Dashboard.
+1. Docker 대시보드를 엽니다.
 
-2. Select **Sign in** at the top-right corner.
+2. 오른쪽 상단의 **Sign in**을 선택합니다.
 
-3. If needed, create an account and then complete the sign-in flow.
+3. 필요하다면 계정을 생성한 후 로그인 절차를 완료합니다.
 
-Once you're done, you should see the **Sign in** button turn into a profile picture.
+로그인이 완료되면 **Sign in** 버튼이 프로필 사진으로 바뀌는 것을 볼 수 있습니다.
 
-## Create an image repository
+## 이미지 저장소 생성하기 {#create-an-image-repository}
 
-Now that you have an account, you can create an image repository. Just as a Git repository holds source code, an image repository stores container images.
+이제 계정이 있으므로 이미지 저장소를 생성할 수 있습니다. Git 저장소가 소스 코드를 저장하는 것처럼, 이미지 저장소는 컨테이너 이미지를 저장합니다.
 
-1. Go to [Docker Hub](https://hub.docker.com).
+1. [Docker Hub](https://hub.docker.com)로 이동합니다.
 
-2. Select **Create repository**.
+2. **Create repository**을 선택합니다.
 
-3. On the **Create repository** page, enter the following information:
+3. **Create repository** 페이지에서 다음 정보를 입력합니다:
 
    - **Repository name** - `getting-started-todo-app`
-   - **Short description** - feel free to enter a description if you'd like
-   - **Visibility** - select **Public** to allow others to pull your customized to-do app
+   - **Short description** - 원하시면 설명을 입력하십시오.
+   - **Visibility** - 다른 사람들이 사용자 정의한 to-do 앱을 가져갈 수 있도록 **Public**를 선택합니다.
 
-4. Select **Create** to create the repository.
+4. **Create**을 선택하여 저장소를 생성합니다.
 
-## Build and push the image
+## 이미지 빌드 및 푸시하기 {#build-and-push-the-image}
 
-Now that you have a repository, you are ready to build and push your image. An important note is that the image you are building extends the Node image, meaning you don't need to install or configure Node, yarn, etc. You can simply focus on what makes your application unique.
+이제 저장소가 있으므로 이미지를 빌드하고 푸시할 준비가 되었습니다. 중요한 점은 빌드하는 이미지가 Node 이미지를 확장한다는 것입니다. 즉, Node, yarn 등을 설치하거나 구성할 필요가 없으며 애플리케이션의 고유한 부분에 집중할 수 있습니다.
 
-> **What is an image/Dockerfile?**
+> **이미지/Dockerfile이란?**
 >
-> Without going too deep yet, think of a container image as a single package that contains
-> everything needed to run a process. In this case, it will contain a Node environment,
-> the backend code, and the compiled React code.
+> 깊이 들어가지 않고, 컨테이너 이미지를 프로세스를 실행하는 데 필요한 모든 것을 포함하는 단일 패키지로 생각하십시오.
+> 이 경우, Node 환경, 백엔드 코드 및 컴파일된 React 코드를 포함합니다.
 >
-> Any machine that runs a container using the image, will then be able to run the application as
-> it was built without needing anything else pre-installed on the machine.
+> 이미지를 사용하는 컨테이너를 실행하는 모든 머신은 사전에 아무것도 설치할 필요 없이 애플리케이션을 실행할 수 있습니다.
 >
-> A `Dockerfile` is a text-based script that provides the instruction set on how to build
-> the image. For this quick start, the repository already contains the Dockerfile.
+> `Dockerfile`은 이미지를 빌드하는 방법에 대한 명령어 세트를 제공하는 텍스트 기반 스크립트입니다. 이 빠른 시작을 위해 저장소에는 이미 Dockerfile이 포함되어 있습니다.
 
 <Tabs>
 <TabItem value="cli" label="CLI">
 
-1. To get started, either clone or [download the project as a ZIP file](https://github.com/docker/getting-started-todo-app/archive/refs/heads/main.zip) to your local machine.
+1. 시작하려면 프로젝트를 로컬 머신에 클론하거나 [ZIP 파일로 다운로드](https://github.com/docker/getting-started-todo-app/archive/refs/heads/main.zip)합니다.
 
-   ```console
+   ```bash
    $ git clone https://github.com/docker/getting-started-todo-app
    ```
 
-   And after the project is cloned, navigate into the new directory created by the clone:
+   프로젝트가 클론된 후, 클론으로 생성된 새 디렉토리로 이동합니다:
 
-   ```console
+   ```bash
    $ cd getting-started-todo-app
    ```
 
-2. Build the project by running the following command, swapping out `DOCKER_USERNAME` with your username.
+2. 다음 명령어를 실행하여 프로젝트를 빌드합니다. `DOCKER_USERNAME`을 사용자 이름으로 바꿉니다.
 
-   ```console
+   ```bash
    $ docker build -t <DOCKER_USERNAME>/getting-started-todo-app .
    ```
 
-   For example, if your Docker username was `mobydock`, you would run the following:
+   예를 들어, Docker 사용자 이름이 `mobydock`이라면 다음 명령어를 실행합니다:
 
-   ```console
+   ```bash
    $ docker build -t mobydock/getting-started-todo-app .
    ```
 
-3. To verify the image exists locally, you can use the `docker image ls` command:
+3. 이미지가 로컬에 존재하는지 확인하려면 `docker image ls` 명령어를 사용할 수 있습니다:
 
-   ```console
+   ```bash
    $ docker image ls
    ```
 
-   You will see output similar to the following:
+   다음과 유사한 출력이 표시됩니다:
 
-   ```console
+   ```bash
    REPOSITORY                          TAG       IMAGE ID       CREATED          SIZE
    mobydock/getting-started-todo-app   latest    1543656c9290   2 minutes ago    1.12GB
    ...
    ```
 
-4. To push the image, use the `docker push` command. Be sure to replace `DOCKER_USERNAME` with your username:
+4. 이미지를 푸시하려면 `docker push` 명령어를 사용합니다. `DOCKER_USERNAME`을 사용자 이름으로 바꿉니다:
 
-   ```console
+   ```bash
    $ docker push <DOCKER_USERNAME>/getting-started-todo-app
    ```
 
-   Depending on your upload speeds, this may take a moment to push.
+   업로드 속도에 따라 푸시하는 데 시간이 걸릴 수 있습니다.
 
 </TabItem>
 <TabItem value="vscode" label="VS Code">
 
-1. Open Visual Studio Code. In the **File** menu, select **Open Folder**. Choose **Clone Git Repository** and paste this URL: [https://github.com/docker/getting-started-todo-app](https://github.com/docker/getting-started-todo-app)
+1. Visual Studio Code를 실행합니다. [확장 마켓플레이스](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)에서 **Docker extension for VS Code**가 설치되어 있는지 확인하세요.
 
-   ![Screenshot of VS code showing how to clone a repository](images/clone-the-repo.webp?border=true)
+   ![VS code 확장 마켓플레이스의 스크린샷](images/install-docker-extension.webp)
 
-2. Right-click the `Dockerfile` and select the **Build Image...** menu item.
+1. Visual Studio Code를 엽니다. **File** 메뉴에서 **Open Folder**를 선택합니다. **Clone Git Repository**을 선택하고 이 URL을 붙여넣습니다: [https://github.com/docker/getting-started-todo-app](https://github.com/docker/getting-started-todo-app)
 
-   ![Screenshot of VS Code showing the right-click menu and "Build Image" menu item](images/build-vscode-menu-item.webp?border=true)
+   ![VS Code에서 저장소를 클론하는 방법을 보여주는 스크린샷](images/clone-the-repo.webp?border=true)
 
-3. In the dialog that appears, enter a name of `DOCKER_USERNAME/getting-started-todo-app`, replacing `DOCKER_USERNAME` with your Docker username.
+1. `Dockerfile`을 마우스 오른쪽 버튼으로 클릭하고 **Build Image...** 메뉴 항목을 선택합니다.
 
-4. After pressing **Enter**, you'll see a terminal appear where the build will occur. Once it's completed, feel free to close the terminal.
+   ![오른쪽 클릭 메뉴와 "이미지 빌드" 메뉴 항목을 보여주는 VS Code의 스크린샷](images/build-vscode-menu-item.webp?border=true)
 
-5. Open the Docker Extension for VS Code by selecting the Docker logo in the left nav menu.
+1. 나타나는 대화 상자에서 `DOCKER_USERNAME/getting-started-todo-app`이라는 이름을 입력합니다. `DOCKER_USERNAME`을 Docker 사용자 이름으로 바꿉니다.
 
-6. Find the image you created. It'll have a name of `docker.io/DOCKER_USERNAME/getting-started-todo-app`.
+1. **Enter**를 누르면 빌드가 진행될 터미널이 나타납니다. 완료되면 터미널을 닫아도 됩니다.
 
-7. Expand the image to view the tags (or different versions) of the image. You should see a tag named `latest`, which is the default tag given to an image.
+1. 왼쪽 탐색 메뉴에서 Docker 로고를 선택하여 VS Code의 Docker 확장을 엽니다.
 
-8. Right-click on the **latest** item and select the **Push...** option.
+1. 생성한 이미지를 찾습니다. `docker.io/DOCKER_USERNAME/getting-started-todo-app`이라는 이름을 가집니다.
 
-   ![Screenshot of the Docker Extension and the right-click menu to push an image](images/build-vscode-push-image.webp)
+1. 이미지를 확장하여 이미지의 태그(또는 다른 버전)를 봅니다. 기본적으로 `latest`라는 태그가 표시됩니다.
 
-9. Press **Enter** to confirm and then watch as your image is pushed to Docker Hub. Depending on your upload speeds, it might take a moment to push the image.
+1. **latest** 항목을 마우스 오른쪽 버튼으로 클릭하고 **Push...** 옵션을 선택합니다.
 
-   Once the upload is finished, feel free to close the terminal.
+   ![이미지를 푸시하기 위한 오른쪽 클릭 메뉴를 보여주는 Docker 확장의 스크린샷](images/build-vscode-push-image.webp)
+
+1. **Enter**를 눌러 확인한 후 이미지를 Docker Hub에 푸시하는 과정을 지켜봅니다. 업로드 속도에 따라 푸시하는 데 시간이 걸릴 수 있습니다.
+
+   업로드가 완료되면 터미널을 닫아도 됩니다.
 
 </TabItem>
 </Tabs>
 
-## Recap
+## 요약 {#recap}
 
-Before you move on, take a moment and reflect on what happened here. Within a few moments, you were able to build a container image that packages your application and push it to Docker Hub.
+다음으로 넘어가기 전에 여기서 일어난 일을 잠시 되돌아보세요. 몇 분 안에 애플리케이션을 패키징하는 컨테이너 이미지를 빌드하고 Docker Hub에 푸시할 수 있었습니다.
 
-Going forward, you’ll want to remember that:
+앞으로 기억해야 할 사항은 다음과 같습니다:
 
-- Docker Hub is the go-to registry for finding trusted content. Docker provides a collection of trusted content, composed of Docker Official Images, Docker Verified Publishers, and Docker Sponsored Open Source Software, to use directly or as bases for your own images.
+- Docker Hub는 신뢰할 수 있는 콘텐츠를 찾기 위한 기본 레지스트리입니다. Docker는 Docker 공식 이미지, Docker 인증 게시자 및 Docker 후원 오픈 소스 소프트웨어로 구성된 신뢰할 수 있는 콘텐츠 컬렉션을 제공하여 직접 사용하거나 자신의 이미지의 기반으로 사용할 수 있습니다.
 
-- Docker Hub provides a marketplace to distribute your own applications. Anyone can create an account and distribute images. While you are publicly distributing the image you created, private repositories can ensure your images are accessible to only authorized users.
+- Docker Hub는 자신의 애플리케이션을 배포할 수 있는 마켓플레이스를 제공합니다. 누구나 계정을 생성하고 이미지를 배포할 수 있습니다. 생성한 이미지를 공개적으로 배포하는 동안, 비공개 저장소는 이미지가 권한이 있는 사용자에게만 접근 가능하도록 할 수 있습니다.
 
-> **Usage of other registries**
+> **다른 레지스트리 사용**
 >
-> While Docker Hub is the default registry, registries are standardized and made
-> interoperable through the [Open Container Initiative](https://opencontainers.org/). This allows companies and
-> organizations to run their own private registries. Quite often, trusted content
-> is mirrored (or copied) from Docker Hub into these private registries.
+> Docker Hub는 기본 레지스트리이지만, 레지스트리는 [Open Container Initiative](https://opencontainers.org/)를 통해 표준화되고 상호 운용 가능합니다. 이를 통해 기업과 조직은 자체 비공개 레지스트리를 운영할 수 있습니다. 종종 신뢰할 수 있는 콘텐츠는 Docker Hub에서 이러한 비공개 레지스트리로 미러링(또는 복사)됩니다.
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-Now that you’ve built an image, it's time to discuss why you as a developer should learn more about Docker and how it will help you in your day-to-day tasks.
+이제 이미지를 빌드했으므로, 개발자로서 Docker를 더 많이 배워야 하는 이유와 일상 작업에서 Docker가 어떻게 도움이 되는지 논의할 시간입니다.
 
-<Button href="whats-next">
-What's Next
-</Button>
+<Button href="whats-next">다음 단계</Button>

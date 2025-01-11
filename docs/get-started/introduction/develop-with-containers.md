@@ -1,17 +1,12 @@
 ---
-title: Develop with containers
+title: 컨테이너로 개발하기
 keywords:
-  - concepts
-  - build
-  - images
-  - container
-  - docker desktop
-description: This concept page will teach you how to develop with containers
-summary: |
-  Learn how to run your first container, gaining hands-on experience with
-  Docker's powerful features. We'll cover making real-time changes to both
-  backend and frontend code within the containerized environment, ensuring
-  seamless integration and testing.
+  - 개념
+  - 빌드
+  - 이미지
+  - 컨테이너
+  - 도커 데스크탑
+description: 이 개념 페이지는 컨테이너로 개발하는 방법을 가르쳐줍니다.
 weight: 2
 aliases:
   - /guides/getting-started/develop-with-containers/
@@ -19,71 +14,71 @@ aliases:
 
 <YoutubeEmbed videoId="D0SDBrS3t9I" />
 
-## Explanation
+## 컨테이너로 개발하기 {#develop-with-containers}
 
-Now that you have Docker Desktop installed, you are ready to do some application development. Specifically, you will do the following:
+이제 Docker Desktop을 설치했으니 애플리케이션 개발을 시작할 준비가 되었습니다. 구체적으로 다음을 수행합니다:
 
-1. Clone and start a development project
-2. Make changes to the backend and frontend
-3. See the changes immediately
+1. 개발 프로젝트를 클론하고 시작하기
+2. 백엔드 및 프론트엔드 변경하기
+3. 변경 사항을 즉시 확인하기
 
-## Try it out
+## 시도해보기 {#try-it-out}
 
-In this hands-on guide, you'll learn how to develop with containers.
+이 실습 가이드에서는 컨테이너로 개발하는 방법을 배웁니다.
 
-## Start the project
+## 프로젝트 시작하기 {#start-the-project}
 
-1. To get started, either clone or [download the project as a ZIP file](https://github.com/docker/getting-started-todo-app/archive/refs/heads/main.zip) to your local machine.
+1. 시작하려면 프로젝트를 클론하거나 [ZIP 파일로 다운로드](https://github.com/docker/getting-started-todo-app/archive/refs/heads/main.zip)하여 로컬 머신에 저장합니다.
 
-   ```console
+   ```bash
    $ git clone https://github.com/docker/getting-started-todo-app
    ```
 
-   And after the project is cloned, navigate into the new directory created by the clone:
+   프로젝트를 클론한 후, 클론으로 생성된 새 디렉토리로 이동합니다:
 
-   ```console
+   ```bash
    $ cd getting-started-todo-app
    ```
 
-2. Once you have the project, start the development environment using Docker Compose.
+2. 프로젝트를 얻은 후, Docker Compose를 사용하여 개발 환경을 시작합니다.
 
-   To start the project using the CLI, run the following command:
+   CLI를 사용하여 프로젝트를 시작하려면 다음 명령어를 실행합니다:
 
-   ```console
+   ```bash
    $ docker compose watch
    ```
 
-   You will see an output that shows container images being pulled down, containers starting, and more. Don't worry if you don't understand it all at this point. But, within a moment or two, things should stabilize and finish.
+   컨테이너 이미지가 다운로드되고, 컨테이너가 시작되는 등의 출력을 볼 수 있습니다. 이 시점에서 모든 것을 이해하지 못해도 걱정하지 마세요. 몇 분 내에 안정화되고 완료될 것입니다.
 
-3. Open your browser to [http://localhost](http://localhost) to see the application up and running. It may take a few minutes for the app to run. The app is a simple to-do application, so feel free to add an item or two, mark some as done, or even delete an item.
+3. 브라우저를 열고 [http://localhost](http://localhost)에서 애플리케이션이 실행 중인지 확인합니다. 애플리케이션이 실행되는 데 몇 분이 걸릴 수 있습니다. 애플리케이션은 간단한 할 일 목록 애플리케이션이므로 항목을 추가하거나 완료로 표시하거나 항목을 삭제해보세요.
 
-   ![Screenshot of the getting started to-do app after its first launch](images/develop-getting-started-app-first-launch.webp)
+   ![첫 실행 후 시작된 할 일 애플리케이션의 스크린샷](images/develop-getting-started-app-first-launch.webp)
 
-### What's in the environment?
+### 환경에 무엇이 있나요? {#whats-in-the-environment}
 
-Now that the environment is up and running, what's actually in it? At a high-level, there are several containers (or processes) that each serve a specific need for the application:
+이제 환경이 실행 중인데, 실제로 무엇이 들어있을까요? 고레벨에서 애플리케이션에 특정 필요를 제공하는 여러 컨테이너(또는 프로세스)가 있습니다:
 
-- React frontend - a Node container that's running the React dev server, using [Vite](https://vitejs.dev/).
-- Node backend - the backend provides an API that provides the ability to retrieve, create, and delete to-do items.
-- MySQL database - a database to store the list of the items.
-- phpMyAdmin - a web-based interface to interact with the database that is accessible at [http://db.localhost](http://db.localhost).
-- Traefik proxy - [Traefik](https://traefik.io/traefik/) is an application proxy that routes requests to the right service. It sends all requests for `localhost/api/*` to the backend, requests for `localhost/*` to the frontend, and then requests for `db.localhost` to phpMyAdmin. This provides the ability to access all applications using port 80 (instead of different ports for each service).
+- React 프론트엔드 - [Vite](https://vitejs.dev/)를 사용하는 React 개발 서버를 실행하는 Node 컨테이너입니다.
+- Node 백엔드 - 백엔드는 할 일 항목을 검색, 생성 및 삭제할 수 있는 API를 제공합니다.
+- MySQL 데이터베이스 - 항목 목록을 저장하는 데이터베이스입니다.
+- phpMyAdmin - 데이터베이스와 상호작용할 수 있는 웹 기반 인터페이스로, [http://db.localhost](http://db.localhost)에서 접근할 수 있습니다.
+- Traefik 프록시 - [Traefik](https://traefik.io/traefik/)은 요청을 올바른 서비스로 라우팅하는 애플리케이션 프록시입니다. `localhost/api/*`에 대한 모든 요청을 백엔드로, `localhost/*`에 대한 요청을 프론트엔드로, `db.localhost`에 대한 요청을 phpMyAdmin으로 보냅니다. 이를 통해 각 서비스에 대해 다른 포트를 사용하는 대신 포트 80을 사용하여 모든 애플리케이션에 접근할 수 있습니다.
 
-With this environment, you as the developer don’t need to install or configure any services, populate a database schema, configure database credentials, or anything. You only need Docker Desktop. The rest just works.
+이 환경을 통해 개발자는 서비스를 설치하거나 구성할 필요가 없으며, 데이터베이스 스키마를 채우거나 데이터베이스 자격 증명을 구성할 필요도 없습니다. Docker Desktop만 있으면 됩니다. 나머지는 자동으로 작동합니다.
 
-## Make changes to the app
+## 애플리케이션 수정하기 {#make-changes-to-the-app}
 
-With this environment up and running, you’re ready to make a few changes to the application and see how Docker helps provide a fast feedback loop.
+이 환경이 실행 중인 상태에서 애플리케이션에 몇 가지 변경을 하고 Docker를 통해 변경사항을 빠르게 확인하는 방법을 알아보겠습니다
 
-### Change the greeting
+### 인사말 수정하기 {#change-the-greeting}
 
-The greeting at the top of the page is populated by an API call at `/api/greeting`. Currently, it always returns "Hello world!". You’ll now modify it to return one of three randomized messages (that you'll get to choose).
+페이지 상단의 인사말은 `/api/greeting`에서 API 호출로 채워집니다. 현재는 항상 "Hello world!"를 반환합니다. 이제 세 가지 무작위 메시지 중 하나를 반환하도록 수정합니다(직접 선택할 수 있습니다).
 
-1. Open the `backend/src/routes/getGreeting.js` file in a text editor. This file provides the handler for the API endpoint.
+1. 텍스트 편집기에서 `backend/src/routes/getGreeting.js` 파일을 엽니다. 이 파일은 API 엔드포인트에 대한 핸들러를 제공합니다.
 
-2. Modify the variable at the top to an array of greetings. Feel free to use the following modifications or customize it to your own liking. Also, update the endpoint to send a random greeting from this list.
+2. 상단의 변수를 인사말 배열로 수정합니다. 다음 수정 사항을 사용하거나 원하는 대로 사용자 정의할 수 있습니다. 또한, 이 목록에서 무작위 인사말을 보내도록 엔드포인트를 업데이트합니다.
 
-   ```js {linenos=table,hl_lines=["1-5",9],linenostart=1}
+   ```js
    const GREETINGS = [
      "Whalecome!",
      "All hands on deck!",
@@ -97,19 +92,19 @@ The greeting at the top of the page is populated by an API call at `/api/greetin
    };
    ```
 
-3. If you haven't done so yet, save the file. If you refresh your browser, you should see a new greeting. If you keep refreshing, you should see all of the messages appear.
+3. 파일을 저장하지 않았다면 저장합니다. 브라우저를 새로 고치면 새로운 인사말을 볼 수 있습니다. 계속 새로 고치면 모든 메시지가 나타나는 것을 볼 수 있습니다.
 
-   ![Screenshot of the to-do app with a new greeting](images/develop-app-with-greetings.webp)
+   ![새로운 인사말이 있는 할 일 애플리케이션의 스크린샷](images/develop-app-with-greetings.webp)
 
-### Change the placeholder text
+### 플레이스홀더 텍스트 변경하기 {#change-the-placeholder-text}
 
-When you look at the app, you'll see the placeholder text is simply "New Item". You’ll now make that a little more descriptive and fun. You’ll also make a few changes to the styling of the app too.
+애플리케이션을 보면 플레이스홀더 텍스트가 단순히 "New Item"입니다. 이를 좀 더 설명적이고 재미있게 만듭니다. 또한 애플리케이션의 스타일링도 몇 가지 변경합니다.
 
-1. Open the `client/src/components/AddNewItemForm.jsx` file. This provides the component to add a new item to the to-do list.
+1. `client/src/components/AddNewItemForm.jsx` 파일을 엽니다. 이 파일은 할 일 목록에 새 항목을 추가하는 컴포넌트를 제공합니다.
 
-2. Modify the `placeholder` attribute of the `Form.Control` element to whatever you'd like to display.
+2. `Form.Control` 요소의 `placeholder` 속성을 원하는 텍스트로 수정합니다.
 
-   ```js {linenos=table,hl_lines=[5],linenostart=33}
+   ```js
    <Form.Control
      value={newItem}
      onChange={(e) => setNewItem(e.target.value)}
@@ -119,21 +114,21 @@ When you look at the app, you'll see the placeholder text is simply "New Item". 
    />
    ```
 
-3. Save the file and go back to your browser. You should see the change already hot-reloaded into your browser. If you don't like it, feel free to tweak it until it looks just right.
+3. 파일을 저장하고 브라우저로 돌아갑니다. 변경 사항이 이미 브라우저에 핫 리로드된 것을 볼 수 있습니다. 마음에 들지 않으면 원하는 대로 조정할 수 있습니다.
 
-![Screenshot of the to-do app with an updated placeholder in the add item text field"](images/develop-app-with-updated-placeholder.webp)
+![항목 추가 텍스트 필드에 업데이트된 플레이스홀더가 있는 할 일 애플리케이션의 스크린샷](images/develop-app-with-updated-placeholder.webp)
 
-### Change the background color
+### 배경색 변경하기 {#change-the-background-color}
 
-Before you consider the application finalized, you need to make the colors better.
+애플리케이션을 최종화하기 전에 색상을 더 좋게 만들어야 합니다.
 
-1. Open the `client/src/index.scss` file.
+1. `client/src/index.scss` 파일을 엽니다.
 
-2. Adjust the `background-color` attribute to any color you'd like. The provided snippet is a soft blue to go along with Docker's nautical theme.
+2. 원하는 색상으로 `background-color` 속성을 조정합니다. 제공된 스니펫은 Docker의 해양 테마에 맞는 부드러운 파란색입니다.
 
-   If you're using an IDE, you can pick a color using the integrated color pickers. Otherwise, feel free to use an online [Color Picker](https://www.w3schools.com/colors/colors_picker.asp).
+   IDE를 사용하는 경우 통합 색상 선택기를 사용하여 색상을 선택할 수 있습니다. 그렇지 않으면 온라인 [Color Picker](https://www.w3schools.com/colors/colors_picker.asp)를 사용해도 됩니다.
 
-   ```css {linenos=table,hl_lines=2,linenostart=3}
+   ```css
    body {
      background-color: #99bbff;
      margin-top: 50px;
@@ -141,26 +136,24 @@ Before you consider the application finalized, you need to make the colors bette
    }
    ```
 
-   Each save should let you see the change immediately in the browser. Keep adjusting it until it's the perfect setup for you.
+   각 저장은 브라우저에서 즉시 변경 사항을 확인할 수 있게 합니다. 완벽한 설정이 될 때까지 계속 조정합니다.
 
-   ![Screenshot of the to-do app with a new placeholder and background color"](images/develop-app-with-updated-client.webp)
+   ![새로운 플레이스홀더와 배경색이 있는 할 일 애플리케이션의 스크린샷](images/develop-app-with-updated-client.webp)
 
-And with that, you're done. Congrats on updating your website.
+이로써 완료되었습니다. 웹사이트 업데이트를 축하합니다.
 
-## Recap
+## 요약 {#recap}
 
-Before you move on, take a moment and reflect on what happened here. Within a few moments, you were able to:
+다음 단계로 넘어가기 전에, 지금까지 진행한 내용을 잠시 살펴보겠습니다. 짧은 시간 안에 우리는 다음과 같은 작업들을 완료했습니다:
 
-- Start a complete development project with zero installation effort. The containerized environment provided the development environment, ensuring you have everything you need. You didn't have to install Node, MySQL, or any of the other dependencies directly on your machine. All you needed was Docker Desktop and a code editor.
+- 설치 노력이 전혀 없이 완전한 개발 프로젝트를 시작했습니다. 컨테이너화된 환경은 개발 환경을 제공하여 필요한 모든 것을 갖추고 있습니다. Node, MySQL 또는 기타 종속성을 직접 설치할 필요가 없었습니다. Docker Desktop과 코드 편집기만 있으면 됩니다.
 
-- Make changes and see them immediately. This was made possible because 1) the processes running in each container are watching and responding to file changes and 2) the files are shared with the containerized environment.
+- 변경 사항을 즉시 확인했습니다. 이는 1) 각 컨테이너에서 실행 중인 프로세스가 파일 변경을 감지하고 응답하며 2) 파일이 컨테이너화된 환경과 공유되기 때문에 가능합니다.
 
-Docker Desktop enables all of this and so much more. Once you start thinking with containers, you can create almost any environment and easily share it with your team.
+Docker Desktop은 이 모든 것과 더 많은 것을 가능하게 합니다. 컨테이너를 사용하여 생각하기 시작하면 거의 모든 환경을 만들고 팀과 쉽게 공유할 수 있습니다.
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-Now that the application has been updated, you’re ready to learn about packaging it as a container image and pushing it to a registry, specifically Docker Hub.
+이제 애플리케이션이 업데이트되었으므로 컨테이너 이미지로 패키징하고 레지스트리, 특히 Docker Hub에 푸시하는 방법을 배울 준비가 되었습니다.
 
-<Button href="build-and-push-first-image">
-Build and push your first image
-</Button>
+<Button href="build-and-push-first-image">첫 번째 이미지 빌드 및 푸시하기</Button>

@@ -7,6 +7,7 @@ import ParamsCard from "@site/src/components/ParamsCard";
 import YoutubeEmbed from "@site/src/components/YoutubeEmbed";
 import MDXComponents from "@theme-original/MDXComponents";
 
+
 // Docusaurus 기본 제공 컴포넌트
 import TabItem from "@theme/TabItem";
 import Tabs from "@theme/Tabs";
