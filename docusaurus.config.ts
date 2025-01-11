@@ -7,7 +7,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 const config: Config = {
   title: "My Site",
   tagline: "Dinosaurs are cool",
-  favicon: "img/favicon.ico",
+  favicon: "img/docker-mark-blue.svg",
 
   // Set the production url of your site here
   url: "https://your-docusaurus-site.example.com",
@@ -68,10 +68,11 @@ const config: Config = {
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "My Site",
+      title: "",
       logo: {
-        alt: "My Site Logo",
-        src: "img/logo.svg",
+        alt: "Docker Logo",
+        src: "img/docker-logo-blue.svg",
+        srcDark: "img/docker-logo-white.svg",
       },
       items: [
         {
