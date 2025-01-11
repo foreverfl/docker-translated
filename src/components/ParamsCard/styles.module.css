@@ -1,0 +1,30 @@
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paramsCard {
+  background-color: #e1e2e6;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.paramsCard table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.paramsCard th,
+.paramsCard td {
+  padding: 8px 12px;
+  text-align: center;
+  border: none;
+}
+
+.paramsCard th {
+  font-weight: bold;
+  background-color: #e1e2e6;
+  color: #333;
+}

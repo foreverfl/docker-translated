@@ -3,13 +3,15 @@ import Button from "@site/src/components/Button";
 import Card from "@site/src/components/Card";
 import Grid from "@site/src/components/Grid";
 import GridItem from "@site/src/components/GridItem";
+import ParamsCard from "@site/src/components/ParamsCard";
 import YoutubeEmbed from "@site/src/components/YoutubeEmbed";
+import MDXComponents from "@theme-original/MDXComponents";
 
 // Docusaurus 기본 제공 컴포넌트
-import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
 
 
 export default {
-    Button, Card, Grid, GridItem, YoutubeEmbed, Tabs, TabItem,
+    ...MDXComponents, Button, Card, Grid, GridItem, YoutubeEmbed, Tabs, TabItem, ParamsCard
 };

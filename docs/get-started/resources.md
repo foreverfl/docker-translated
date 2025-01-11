@@ -77,10 +77,10 @@ A number of Docker Captains have also created video courses on Docker and Kubern
 
 ## Community-translated docs
 
-> [!NOTE]
->
-> The following section contains a subset of Docker docs that are translated by community
-> members. This is not an officially translated version of Docker docs and it may not be up to date.
-> You must use the community-translated docs at your own discretion.
+:::note
+The following section contains a subset of Docker docs that are translated by community
+members. This is not an officially translated version of Docker docs and it may not be up to date.
+You must use the community-translated docs at your own discretion.
+:::
 
 - [Subset of Docker docs in Japanese](https://docs.docker.jp/index.html) translated by Docker Captain [Masahito Zembutsu](https://github.com/zembutsu).

@@ -15,10 +15,14 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "시작하기",
+      link: {
+        type: "doc", 
+        id: "get-started/introduction/index", 
+      },
       items: [
-        "get-started/introduction/build-and-push-first-image",
-        "get-started/introduction/develop-with-containers",
         "get-started/introduction/get-docker-desktop",
+        "get-started/introduction/develop-with-containers",
+        "get-started/introduction/build-and-push-first-image",    
         "get-started/introduction/whats-next",
       ],
     },

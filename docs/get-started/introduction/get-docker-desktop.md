@@ -1,16 +1,10 @@
 ---
-title: Get Docker Desktop
+title: Docker Desktop 설치
 keywords:
-  - concepts
-  - container
-  - docker desktop
-description: This concept page will teach you download Docker Desktop and install it on Windows, Mac, and Linux
-summary: |
-  Getting Docker Desktop up and running is the first crucial step for
-  developers diving into containerization, offering a seamless and
-  user-friendly interface for managing Docker containers. Docker Desktop
-  simplifies the process of building, sharing, and running applications in
-  containers, ensuring consistency across different environments.
+  - 개념
+  - 컨테이너
+  - 도커 데스크탑
+description: 이 개념 페이지에서는 Windows, Mac, Linux에 Docker Desktop을 다운로드하고 설치하는 방법을 배웁니다.
 weight: 1
 aliases:
   - /getting-started/get-docker-desktop/
@@ -18,76 +12,73 @@ aliases:
 
 <YoutubeEmbed videoId="C2bPVhiNU-0" />
 
-## Explanation
+## 설명 {#explanation}
 
-Docker Desktop is the all-in-one package to build images, run containers, and so much more.
-This guide will walk you through the installation process, enabling you to experience Docker Desktop firsthand.
+Docker Desktop은 이미지를 빌드하고 컨테이너를 실행하는 등 다양한 기능을 제공하는 올인원 패키지입니다.
+이 가이드는 Docker Desktop을 직접 경험할 수 있도록 설치 과정을 안내합니다.
 
-> **Docker Desktop terms**
+> **Docker Desktop 이용 약관**
 >
-> Commercial use of Docker Desktop in larger enterprises (more than 250
-> employees OR more than $10 million USD in annual revenue) requires a [paid subscription](https://www.docker.com/pricing/?_gl=1*1nyypal*_ga*MTYxMTUxMzkzOS4xNjgzNTM0MTcw*_ga_XJWPQMJYHQ*MTcxNjk4MzU4Mi4xMjE2LjEuMTcxNjk4MzkzNS4xNy4wLjA.).
+> 대기업(직원 250명 이상 또는 연간 수익 1천만 달러 이상)에서 Docker Desktop을 상업적으로 사용하려면 [유료 구독](https://www.docker.com/pricing/?_gl=1*1nyypal*_ga*MTYxMTUxMzkzOS4xNjgzNTM0MTcw*_ga_XJWPQMJYHQ*MTcxNjk4MzU4Mi4xMjE2LjEuMTcxNjk4MzkzNS4xNy4wLjA.)이 필요합니다.
 
 <Card
-  title="Docker Desktop for Mac"
-  description="A native application using the macOS sandbox security model that delivers all Docker tools to your Mac."
+  title="Mac용 Docker Desktop"
+  description="macOS 샌드박스 보안 모델을 사용하는 네이티브 애플리케이션으로, 모든 Docker 도구를 Mac에 제공합니다."
   link="/desktop/setup/install/mac-install/"
   icon="/assets/images/apple_48.svg"
 />
 
 <Card
-  title="Docker Desktop for Windows"
-  description="A native Windows application that delivers all Docker tools to your Windows computer."
+  title="Windows용 Docker Desktop"
+  description="모든 Docker 도구를 Windows 컴퓨터에 제공하는 네이티브 Windows 애플리케이션입니다."
   link="/desktop/setup/install/windows-install/"
   icon="/assets/images/windows_48.svg"
 />
 
 <Card
-  title="Docker Desktop for Linux"
-  description="A native Linux application that delivers all Docker tools to your Linux computer."
+  title="Linux용 Docker Desktop"
+  description="모든 Docker 도구를 Linux 컴퓨터에 제공하는 네이티브 Linux 애플리케이션입니다."
   link="/desktop/setup/install/linux/"
   icon="/assets/images/linux_48.svg"
 />
 
-Once it's installed, complete the setup process and you're all set to run a Docker container.
+설치가 완료되면 설정 과정을 완료하고 Docker 컨테이너를 실행할 준비가 됩니다.
 
-## Try it out
+## 시도해보기 {#try-it-out}
 
-In this hands-on guide, you will see how to run a Docker container using Docker Desktop.
+이 실습 가이드에서는 Docker Desktop을 사용하여 Docker 컨테이너를 실행하는 방법을 보여줍니다.
 
-Follow the instructions to run a container using the CLI.
+CLI를 사용하여 컨테이너를 실행하는 지침을 따르세요.
 
-## Run your first container
+## 첫 번째 컨테이너 실행 {#run-your-first-container}
 
-Open your CLI terminal and start a container by running the `docker run` command:
+CLI 터미널을 열고 `docker run` 명령을 실행하여 컨테이너를 시작하세요:
 
 ```console
 $ docker run -d -p 8080:80 docker/welcome-to-docker
 ```
 
-## Access the frontend
+## 웹 페이지 접속 {#access-the-frontend}
 
-For this container, the frontend is accessible on port `8080`. To open the website, visit [http://localhost:8080](http://localhost:8080) in your browser.
+이 컨테이너의 웹 페이지는 `8080` 포트에서 접근할 수 있습니다. 웹사이트를 열려면 브라우저에서 [http://localhost:8080](http://localhost:8080)을 방문하세요.
 
-![Screenshot of the landing page of the Nginx web server, coming from the running container](../docker-concepts/the-basics/images/access-the-frontend.webp?border=true)
+![실행 중인 컨테이너에서 제공하는 Nginx 웹 서버의 랜딩 페이지 스크린샷](../docker-concepts/the-basics/images/access-the-frontend.webp?border=true)
 
-## Manage containers using Docker Desktop
+## Docker Desktop을 사용하여 컨테이너 관리 {#manage-containers-using-docker-desktop}
 
-1. Open Docker Desktop and select the **Containers** field on the left sidebar.
-2. You can view information about your container including logs, and files, and even access the shell by selecting the **Exec** tab.
+1. Docker Desktop을 열고 왼쪽 사이드바에서 **Containers** 필드를 선택하세요.
+2. **Exec** 탭을 선택하여 로그, 파일 등의 컨테이너 정보를 확인하고 셸에 접근할 수 있습니다.
 
-   ![Screenshot of exec into the running container in Docker Desktop](images/exec-into-docker-container.webp?border=true)
+   ![Docker Desktop에서 실행 중인 컨테이너에 exec하는 스크린샷](images/exec-into-docker-container.webp?border=true)
 
-3. Select the **Inspect** field to obtain detailed information about the container. You can perform various actions such as pause, resume, start or stop containers, or explore the **Logs**, **Bind mounts**, **Exec**, **Files**, and **Stats** tabs.
+3. **Inspect** 필드를 선택하여 컨테이너에 대한 자세한 정보를 얻을 수 있습니다. 컨테이너를 일시 중지, 재개, 시작 또는 중지하거나 **Logs**, **Bind mounts**, **Exec**, **Files**, **Stats** 탭을 탐색할 수 있습니다.
 
-![Screenshot of inspecting the running container in Docker Desktop](images/inspecting-container.webp?border=true)
+![Docker Desktop에서 실행 중인 컨테이너를 검사하는 스크린샷](images/inspecting-container.webp?border=true)
 
-Docker Desktop simplifies container management for developers by streamlining the setup, configuration, and compatibility of applications across different environments, thereby addressing the pain points of environment inconsistencies and deployment challenges.
+Docker Desktop은 설정, 구성 및 애플리케이션의 호환성을 간소화하여 환경 불일치 및 배포 문제를 해결함으로써 개발자가 컨테이너 관리를 쉽게 할 수 있도록 합니다.
 
-## What's next?
+## 다음 단계 {#whats-next}
 
-Now that you have Docker Desktop installed and ran your first container, it's time to start developing with containers.
+Docker Desktop을 설치하고 첫 번째 컨테이너를 실행했으니 이제 컨테이너를 사용하여 개발을 시작할 때입니다.
 
-<Button href="develop-with-containers">
-Develop with containers
-</Button>
+<Button href="develop-with-containers">컨테이너로 개발하기</Button>

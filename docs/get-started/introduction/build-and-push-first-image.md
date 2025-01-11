@@ -5,17 +5,13 @@ keywords:
   - container
   - docker desktop
 description: This concept page will teach you how to build and push your first image
-summary: |
-  Learn how to build your first Docker image, a key step in containerizing your
-  application. We'll guide you through the process of creating an image
-  repository and building and pushing your image to Docker Hub. This enables
-  you to share your image easily within your team.
 weight: 3
 aliases:
   - /guides/getting-started/build-and-push-first-image/
 ---
 
 <YoutubeEmbed videoId="7ge1s5nAa34" />
+
 ## Explanation
 
 Now that you've updated the [to-do list app](develop-with-containers.md), you’re ready to create a container image for the application and share it on Docker Hub. To do so, you will need to do the following:
