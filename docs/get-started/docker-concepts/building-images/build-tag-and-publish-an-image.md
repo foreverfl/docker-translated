@@ -1,6 +1,12 @@
 ---
 title: Build, tag, and publish an image
-keywords: concepts, build, images, container, docker desktop
+keywords: 
+ - concepts
+ - build
+ - images
+ - container
+ - docker
+ - desktop
 description: This concept page will teach you how to build, tag, and publish an image to Docker Hub or any other registry 
 summary: |
   Building, tagging, and publishing Docker images are key steps in the
