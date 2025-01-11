@@ -1,6 +1,9 @@
 ---
 title: Build and push your first image
-keywords: concepts, container, docker desktop
+keywords:
+  - concepts
+  - container
+  - docker desktop
 description: This concept page will teach you how to build and push your first image
 summary: |
   Learn how to build your first Docker image, a key step in containerizing your

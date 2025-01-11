@@ -2,7 +2,15 @@
 title: Use bind mounts
 weight: 60
 linkTitle: "Part 5: Use bind mounts"
-keywords: 'get started, setup, orientation, quickstart, intro, concepts, containers, docker desktop'
+keywords:
+  - 'get started
+  - setup
+  - orientation
+  - quickstart
+  - intro
+  - concepts
+  - containers
+  - docker desktop'
 description: Using bind mounts in our application
 aliases:
  - /guides/walkthroughs/access-local-folder/

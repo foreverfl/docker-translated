@@ -1,7 +1,12 @@
 ---
 title: Multi-container applications
 weight: 5
-keywords: concepts, build, images, container, docker desktop
+keywords:
+  - concepts
+  - build
+  - images
+  - container
+  - docker desktop
 description: This concept page will teach you the significance of multi-container application and how it is different from single-container application
 aliases: 
  - /guides/docker-concepts/running-containers/multi-container-applications/

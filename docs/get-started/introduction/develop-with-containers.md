@@ -1,6 +1,11 @@
 ---
 title: Develop with containers
-keywords: concepts, build, images, container, docker desktop
+keywords:
+  - concepts
+  - build
+  - images
+  - container
+  - docker desktop
 description: This concept page will teach you how to develop with containers
 summary: |
   Learn how to run your first container, gaining hands-on experience with

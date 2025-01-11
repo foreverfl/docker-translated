@@ -1,7 +1,12 @@
 ---
 title: What is Docker Compose?
 weight: 40
-keywords: concepts, build, images, container, docker desktop
+keywords:
+  - concepts
+  - build
+  - images
+  - container
+  - docker desktop
 description: What is Docker Compose?
 aliases:
  - /guides/walkthroughs/multi-container-apps/

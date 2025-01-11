@@ -2,7 +2,8 @@
 title: Containerize an application
 weight: 20
 linkTitle: "Part 1: Containerize an application"
-keywords: |
+keywords:
+  - |
   dockerfile example, Containerize an application, run docker file, running
   docker file, how to run dockerfile, example dockerfile, how to create a docker container,
   create dockerfile, simple dockerfile, creating containers

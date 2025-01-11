@@ -1,6 +1,11 @@
 ---
 title: Writing a Dockerfile
-keywords: concepts, build, images, container, docker desktop
+keywords:
+  - concepts
+  - build
+  - images
+  - container
+  - docker desktop
 description: This concept page will teach you how to create image using Dockerfile.
 summary: |
   Mastering Dockerfile practices is vital for leveraging container technology

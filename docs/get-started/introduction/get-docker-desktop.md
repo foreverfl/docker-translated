@@ -1,6 +1,9 @@
 ---
 title: Get Docker Desktop 
-keywords: concepts, container, docker desktop
+keywords:
+  - concepts
+  - container
+  - docker desktop
 description: This concept page will teach you download Docker Desktop and install it on Windows, Mac, and Linux
 summary: |
   Getting Docker Desktop up and running is the first crucial step for

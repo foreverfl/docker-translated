@@ -2,7 +2,15 @@
 title: Use Docker Compose
 weight: 80
 linkTitle: "Part 7: Use Docker Compose"
-keywords: get started, setup, orientation, quickstart, intro, concepts, containers,
+keywords:
+  - get started
+  - setup
+  - orientation
+  - quickstart
+  - intro
+  - concepts
+  - containers
+  - 
   docker desktop
 description: Using Docker Compose for multi-container applications
 aliases:

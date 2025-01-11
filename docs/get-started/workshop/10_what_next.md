@@ -2,7 +2,15 @@
 title: What next after the Docker workshop
 weight: 100
 linkTitle: "Part 9: What next"
-keywords: get started, setup, orientation, quickstart, intro, concepts, containers,
+keywords:
+  - get started
+  - setup
+  - orientation
+  - quickstart
+  - intro
+  - concepts
+  - containers
+  - 
   docker desktop
 description: Making sure you have more ideas of what you could do next with your application
 aliases:

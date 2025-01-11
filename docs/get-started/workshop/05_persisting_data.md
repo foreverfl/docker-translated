@@ -2,7 +2,15 @@
 title: Persist the DB
 weight: 50
 linkTitle: "Part 4: Persist the DB"
-keywords: get started, setup, orientation, quickstart, intro, concepts, containers,
+keywords:
+  - get started
+  - setup
+  - orientation
+  - quickstart
+  - intro
+  - concepts
+  - containers
+  - 
   docker desktop
 description: Making your DB persistent in your application
 aliases:

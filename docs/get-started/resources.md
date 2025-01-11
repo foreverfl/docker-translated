@@ -1,6 +1,14 @@
 ---
 title: Educational resources
-keywords: get started, setup, orientation, quickstart, intro, concepts, kubernetes,
+keywords:
+  - get started
+  - setup
+  - orientation
+  - quickstart
+  - intro
+  - concepts
+  - kubernetes
+  - 
   docker desktop
 description: Get started resources learning docker
 ---

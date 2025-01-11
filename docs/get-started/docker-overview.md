@@ -1,7 +1,12 @@
 ---
 description: Get an in-depth overview of the Docker platform including what it can
   be used for, the architecture it employs, and its underlying technology.
-keywords: what is a docker, docker daemon, why use docker, docker architecture, what
+keywords:
+  - what is a docker
+  - docker daemon
+  - why use docker
+  - docker architecture
+  - what
   to use docker for, docker client, what is docker for, why docker, uses for docker,
   what is docker container used for, what are docker containers used for
 title: What is Docker?

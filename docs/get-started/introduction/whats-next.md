@@ -1,6 +1,11 @@
 ---
 title: What's next 
-keywords: concepts, build, images, container, docker desktop
+keywords:
+  - concepts
+  - build
+  - images
+  - container
+  - docker desktop
 description: Explore step-by-step guides to hep you understand core Docker concepts, building images, and running containers.
 aliases:
  - /guides/getting-started/whats-next/

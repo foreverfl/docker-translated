@@ -1,6 +1,8 @@
 ---
 title: Get started
-keywords: Docker, get started
+keywords:
+  - Docker
+  - get started
 description: Get started with Docker
 layout: wide
 params:

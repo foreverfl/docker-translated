@@ -1,6 +1,11 @@
 ---
 title: Publishing and exposing ports
-keywords: concepts, build, images, container, docker desktop
+keywords:
+  - concepts
+  - build
+  - images
+  - container
+  - docker desktop
 description: This concept page will teach you the significance of publishing and exposing ports in Docker 
 weight: 1
 aliases: 

@@ -1,7 +1,12 @@
 ---
 title: What is an image?
 weight: 20
-keywords: concepts, build, images, container, docker desktop
+keywords:
+  - concepts
+  - build
+  - images
+  - container
+  - docker desktop
 description: What is an image
 aliases:
   - /guides/docker-concepts/the-basics/what-is-an-image/

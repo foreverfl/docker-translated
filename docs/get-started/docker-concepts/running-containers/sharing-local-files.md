@@ -1,7 +1,11 @@
 ---
 title: Sharing local files with containers
 weight: 4
-keywords: concepts, images, container, docker desktop
+keywords:
+  - concepts
+  - images
+  - container
+  - docker desktop
 description: This concept page will teach you the various storage options available in Docker and their common usage.
 aliases: 
  - /guides/docker-concepts/running-containers/sharing-local-files/

@@ -1,6 +1,11 @@
 ---
 title: Using the build cache
-keywords: concepts, build, images, container, docker desktop
+keywords:
+  - concepts
+  - build
+  - images
+  - container
+  - docker desktop
 description: This concept page will teach you about the build cache, what changes invalidate the cache and how to effectively use the build cache.
 summary: |
   Using the build cache effectively allows you to achieve faster builds by

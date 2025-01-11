@@ -44,7 +44,7 @@ function fixKeywordsInFile(filePath) {
     const newKeywords = `keywords:\n${keywordsArray}`;
 
     // 파일 내용 수정
-    const newContent = content.replace(regex, newKeywords);
+    const newContent = content.replace(/keywords:\s*(.*)/, newKeywords);
     writeFileSync(filePath, newContent, "utf-8");
     console.log(`Fixed keywords in: ${filePath}`);
   }
@@ -52,6 +52,16 @@ function fixKeywordsInFile(filePath) {
 
 // 실행
 const docsDir = join(__dirname, "docs"); // 문서 디렉터리 경로
+console.log(`Scanning directory: ${docsDir}`);
 const markdownFiles = findMarkdownFiles(docsDir);
-markdownFiles.forEach(fixKeywordsInFile);
+
+markdownFiles.forEach((file) => {
+  try {
+    fixKeywordsInFile(file);
+  } catch (error) {
+    console.error(`Error processing file: ${file}`);
+    console.error(error);
+  }
+});
+
 console.log("All keywords fixed!");

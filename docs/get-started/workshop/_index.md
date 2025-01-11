@@ -1,7 +1,11 @@
 ---
 title: Overview of the Docker workshop
 linkTitle: Docker workshop
-keywords: docker basics, how to start a docker container, container settings, setup
+keywords:
+  - docker basics
+  - how to start a docker container
+  - container settings
+  - setup
   docker, how to setup docker, setting up docker, docker container guide, how to get
   started with docker
 description: Get started with the Docker basics in this workshop, You'll
