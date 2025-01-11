@@ -34,7 +34,7 @@ file exists.
 
 1. Start an Alpine container and create a new file in it.
 
-   ```console
+   ```bash
    $ docker run --rm alpine touch greeting.txt
    ```
 
@@ -45,13 +45,13 @@ greeting.txt` puts a file named `greeting.txt` on the container's filesystem.
 
 2. Run a new Alpine container and use the `stat` command to check whether the file exists.
 
-   ```console
+   ```bash
    $ docker run --rm alpine stat greeting.txt
    ```
 
    You should see output similar to the following that indicates the file does not exist in the new container.
 
-   ```console
+   ```bash
    stat: can't stat 'greeting.txt': No such file or directory
    ```
 
@@ -108,44 +108,46 @@ You can create the volume and start the container using the CLI or Docker Deskto
        docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=todo-db,target=/etc/todos getting-started
        ```
 
-    > **Note**:  
+    > **Note**:
     > If you're using Git Bash, you must use different syntax for this command.
     >
     > ```bash
     > docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=todo-db,target=//etc/todos getting-started
     > ```
     >
-    > For more details about Git Bash's syntax differences, see  
+    > For more details about Git Bash's syntax differences, see
     > [Working with Git Bash](/desktop/troubleshoot-and-support/troubleshoot/topics/#working-with-git-bash).
+
   </TabItem>
 
   <TabItem value="docker-desktop" label="Docker Desktop">
     To create a volume:
 
-    1. Select **Volumes** in Docker Desktop.  
-    2. In **Volumes**, select **Create**.  
-    3. Specify `todo-db` as the volume name, and then select **Create**.  
+    1. Select **Volumes** in Docker Desktop.
+    2. In **Volumes**, select **Create**.
+    3. Specify `todo-db` as the volume name, and then select **Create**.
 
     To stop and remove the app container:
 
-    1. Select **Containers** in Docker Desktop.  
-    2. Select **Delete** in the **Actions** column for the container.  
+    1. Select **Containers** in Docker Desktop.
+    2. Select **Delete** in the **Actions** column for the container.
 
     To start the todo app container with the volume mounted:
 
-    1. Select the search box at the top of Docker Desktop.  
-    2. In the search window, select the **Images** tab.  
-    3. In the search box, specify the image name, `getting-started`.  
+    1. Select the search box at the top of Docker Desktop.
+    2. In the search window, select the **Images** tab.
+    3. In the search box, specify the image name, `getting-started`.
 
-       > **Tip**:  
-       > Use the search filter to filter images and only show **Local images**.  
+       > **Tip**:
+       > Use the search filter to filter images and only show **Local images**.
 
-    4. Select your image and then select **Run**.  
-    5. Select **Optional settings**.  
-    6. In **Host port**, specify the port, for example, `3000`.  
-    7. In **Host path**, specify the name of the volume, `todo-db`.  
-    8. In **Container path**, specify `/etc/todos`.  
-    9. Select **Run**.  
+    4. Select your image and then select **Run**.
+    5. Select **Optional settings**.
+    6. In **Host port**, specify the port, for example, `3000`.
+    7. In **Host path**, specify the name of the volume, `todo-db`.
+    8. In **Container path**, specify `/etc/todos`.
+    9. Select **Run**.
+
   </TabItem>
 </Tabs>
 
@@ -170,13 +172,13 @@ You've now learned how to persist data.
 A lot of people frequently ask "Where is Docker storing my data when I use a volume?" If you want to know,
 you can use the `docker volume inspect` command.
 
-```console
+```bash
 $ docker volume inspect todo-db
 ```
 
 You should see output like the following:
 
-```console
+```bash
 [
     {
         "CreatedAt": "2019-09-26T02:18:36Z",

@@ -38,7 +38,7 @@ Before you can run the application, you need to get the application source code 
 
 1. Clone the [getting-started-app repository](https://github.com/docker/getting-started-app/tree/main) using the following command:
 
-   ```console
+   ```bash
    $ git clone https://github.com/docker/getting-started-app.git
    ```
 
@@ -81,13 +81,13 @@ To build the image, you'll need to use a Dockerfile. A Dockerfile is simply a te
 
    In the terminal, make sure you're in the `getting-started-app` directory. Replace `/path/to/getting-started-app` with the path to your `getting-started-app` directory.
 
-   ```console
+   ```bash
    $ cd /path/to/getting-started-app
    ```
 
    Build the image.
 
-   ```console
+   ```bash
    $ docker build -t getting-started .
    ```
 
@@ -105,7 +105,7 @@ Now that you have an image, you can run the application in a container using the
 
 1. Run your container using the `docker run` command and specify the name of the image you just created:
 
-   ```console
+   ```bash
    $ docker run -d -p 127.0.0.1:3000:3000 getting-started
    ```
 
@@ -145,12 +145,14 @@ If you take a quick look at your containers, you should see at least one contain
     CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
     df784548666d        getting-started     "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes        127.0.0.1:3000->3000/tcp   priceless_mcclintock
     ```
+
   </TabItem>
 
   <TabItem value="docker-desktop" label="Docker Desktop">
     In Docker Desktop, select the **Containers** tab to see a list of your containers.
 
     ![Docker Desktop with get-started container running](./images/dashboard-two-containers.webp)
+
   </TabItem>
 </Tabs>
 

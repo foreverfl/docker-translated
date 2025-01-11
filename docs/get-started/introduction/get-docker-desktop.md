@@ -54,7 +54,7 @@ CLI를 사용하여 컨테이너를 실행하는 지침을 따르세요.
 
 CLI 터미널을 열고 `docker run` 명령을 실행하여 컨테이너를 시작하세요:
 
-```console
+```bash
 $ docker run -d -p 8080:80 docker/welcome-to-docker
 ```
 

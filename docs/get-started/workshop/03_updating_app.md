@@ -32,19 +32,19 @@ In the following steps, you'll change the "empty text" when you don't have any t
 
 2. Build your updated version of the image, using the `docker build` command.
 
-   ```console
+   ```bash
    $ docker build -t getting-started .
    ```
 
 3. Start a new container using the updated code.
 
-   ```console
+   ```bash
    $ docker run -dp 127.0.0.1:3000:3000 getting-started
    ```
 
 You probably saw an error like this:
 
-```console
+```bash
 docker: Error response from daemon: driver failed programming external connectivity on endpoint laughing_burnell
 (bb242b2ca4d67eba76e79474fb36bb5125708ebdabd7f45c8eaf16caaabde9dd): Bind for 127.0.0.1:3000 failed: port is already allocated.
 ```
@@ -77,11 +77,12 @@ To remove a container, you first need to stop it. Once it has stopped, you can r
        docker rm <the-container-id>
        ```
 
-    > **Note**:  
-    > You can stop and remove a container in a single command by adding the `force` flag to the `docker rm` command. For example:  
+    > **Note**:
+    > You can stop and remove a container in a single command by adding the `force` flag to the `docker rm` command. For example:
     > ```bash
     > docker rm -f <the-container-id>
     > ```
+
   </TabItem>
 
   <TabItem value="docker-desktop" label="Docker Desktop">
@@ -90,6 +91,7 @@ To remove a container, you first need to stop it. Once it has stopped, you can r
     1. Open Docker Desktop to the **Containers** view.
     2. Select the trash can icon under the **Actions** column for the container that you want to delete.
     3. In the confirmation dialog, select **Delete forever**.
+
   </TabItem>
 </Tabs>
 
@@ -97,7 +99,7 @@ To remove a container, you first need to stop it. Once it has stopped, you can r
 
 1. Now, start your updated app using the `docker run` command.
 
-   ```console
+   ```bash
    $ docker run -dp 127.0.0.1:3000:3000 getting-started
    ```
 

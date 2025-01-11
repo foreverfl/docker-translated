@@ -106,7 +106,7 @@ Docker를 사용할 때 이미지, 컨테이너, 네트워크, 볼륨, 플러그
 
 다음 명령은 `ubuntu` 컨테이너를 실행하고, 로컬 명령줄 세션에 대화형으로 연결하며, `/bin/bash`를 실행합니다.
 
-```console
+```bash
 $ docker run -i -t ubuntu /bin/bash
 ```
 

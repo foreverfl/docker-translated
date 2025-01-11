@@ -82,7 +82,7 @@ Download the source
 
 Navigate into the `nginx-node-redis-main` directory:
 
-```console
+```bash
 $ cd nginx-node-redis-main
 ```
 
@@ -94,13 +94,13 @@ Inside this directory, you'll find two sub-directories - `nginx` and `web`.
 
 1. Navigate into the `nginx` directory to build the image by running the following command:
 
-   ```console
+   ```bash
    $ docker build -t nginx .
    ```
 
 2. Navigate into the `web` directory and run the following command to build the first web image:
 
-   ```console
+   ```bash
    $ docker build -t web .
    ```
 
@@ -108,31 +108,31 @@ Inside this directory, you'll find two sub-directories - `nginx` and `web`.
 
 1. Before you can run a multi-container application, you need to create a network for them all to communicate through. You can do so using the `docker network create` command:
 
-   ```console
+   ```bash
    $ docker network create sample-app
    ```
 
 2. Start the Redis container by running the following command, which will attach it to the previously created network and create a network alias (useful for DNS lookups):
 
-   ```console
+   ```bash
    $ docker run -d  --name redis --network sample-app --network-alias redis redis
    ```
 
 3. Start the first web container by running the following command:
 
-   ```console
+   ```bash
    $ docker run -d --name web1 -h web1 --network sample-app --network-alias web1 web
    ```
 
 4. Start the second web container by running the following:
 
-   ```console
+   ```bash
    $ docker run -d --name web2 -h web2 --network sample-app --network-alias web2 web
    ```
 
 5. Start the Nginx container by running the following command:
 
-   ```console
+   ```bash
    $ docker run -d --name nginx --network sample-app  -p 80:80 nginx
    ```
 
@@ -142,7 +142,7 @@ Inside this directory, you'll find two sub-directories - `nginx` and `web`.
 
 6. Verify the containers are up by running the following command:
 
-   ```console
+   ```bash
    $ docker ps
    ```
 
@@ -162,7 +162,7 @@ Inside this directory, you'll find two sub-directories - `nginx` and `web`.
 
 8. With everything up and running, you can open [http://localhost](http://localhost) in your browser to see the site. Refresh the page several times to see the host that’s handling the request and the total number of requests:
 
-   ```console
+   ```bash
    web2: Number of visits is: 9
    web1: Number of visits is: 10
    web2: Number of visits is: 11
@@ -185,13 +185,13 @@ Navigate to the root of the project directory. Inside this directory, you'll fin
 
 1. Use the `docker compose up` command to start the application:
 
-   ```console
+   ```bash
    $ docker compose up -d --build
    ```
 
    When you run this command, you should see output similar to the following:
 
-   ```console
+   ```bash
    Running 5/5
    ✔ Network nginx-nodejs-redis_default    Created                                                0.0s
    ✔ Container nginx-nodejs-redis-web1-1   Started                                                0.1s

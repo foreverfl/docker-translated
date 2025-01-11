@@ -57,13 +57,13 @@ In this hands-on guide, you will learn how to use the Docker build cache effecti
 
 2. Open a terminal and [clone this sample application](https://github.com/dockersamples/todo-list-app).
 
-   ```console
+   ```bash
    $ git clone https://github.com/dockersamples/todo-list-app
    ```
 
 3. Navigate into the `todo-list-app` directory:
 
-   ```console
+   ```bash
    $ cd todo-list-app
    ```
 
@@ -80,13 +80,13 @@ In this hands-on guide, you will learn how to use the Docker build cache effecti
 
 4. Execute the following command to build the Docker image:
 
-   ```console
+   ```bash
    $ docker build .
    ```
 
    Here’s the result of the build process:
 
-   ```console
+   ```bash
    [+] Building 20.0s (10/10) FINISHED
    ```
 
@@ -96,13 +96,13 @@ In this hands-on guide, you will learn how to use the Docker build cache effecti
 
    Now, re-run the `docker build` command without making any change in the source code or Dockerfile as shown:
 
-   ```console
+   ```bash
    $ docker build .
    ```
 
    Subsequent builds after the initial are faster due to the caching mechanism, as long as the commands and context remain unchanged. Docker caches the intermediate layers generated during the build process. When you rebuild the image without making any changes to the Dockerfile or the source code, Docker can reuse the cached layers, significantly speeding up the build process.
 
-   ```console
+   ```bash
    [+] Building 1.0s (9/9) FINISHED                                                                            docker:desktop-linux
     => [internal] load build definition from Dockerfile                                                                        0.0s
     => => transferring dockerfile: 187B                                                                                        0.0s
@@ -210,13 +210,13 @@ To fix this, restructure your Dockerfile so that the dependency cache remains va
 
 8. Build the new image:
 
-   ```console
+   ```bash
    $ docker build .
    ```
 
    You'll then see output similar to the following:
 
-   ```console
+   ```bash
    [+] Building 16.1s (10/10) FINISHED
    => [internal] load build definition from Dockerfile                                               0.0s
    => => transferring dockerfile: 175B                                                               0.0s
@@ -243,13 +243,13 @@ To fix this, restructure your Dockerfile so that the dependency cache remains va
 
 10. Build the Docker image. This time, your output should look a little different.
 
-    ```console
+    ```bash
     $ docker build -t node-app:3.0 .
     ```
 
     You'll then see output similar to the following:
 
-    ```console
+    ```bash
     [+] Building 1.2s (10/10) FINISHED
     => [internal] load build definition from Dockerfile                                               0.0s
     => => transferring dockerfile: 37B                                                                0.0s

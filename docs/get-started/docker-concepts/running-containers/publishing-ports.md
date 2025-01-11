@@ -24,7 +24,7 @@ That’s where port publishing comes in.
 
 Publishing a port provides the ability to break through a little bit of networking isolation by setting up a forwarding rule. As an example, you can indicate that requests on your host’s port `8080` should be forwarded to the container’s port `80`. Publishing ports happens during container creation using the `-p` (or `--publish`) flag with `docker run`. The syntax is:
 
-```console
+```bash
 $ docker run -d -p HOST_PORT:CONTAINER_PORT nginx
 ```
 
@@ -33,7 +33,7 @@ $ docker run -d -p HOST_PORT:CONTAINER_PORT nginx
 
 For example, to publish the container's port `80` to host port `8080`:
 
-```console
+```bash
 $ docker run -d -p 8080:80 nginx
 ```
 
@@ -49,13 +49,13 @@ At times, you may want to simply publish the port but don’t care which host po
 
 For example, the following command will publish the container’s port `80` onto an ephemeral port on the host:
 
-```console
+```bash
 $ docker run -p 80 nginx
 ```
 
 Once the container is running, using `docker ps` will show you the port that was chosen:
 
-```console
+```bash
 docker ps
 CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
 a527355c9c53   nginx         "/docker-entrypoint.…"   4 seconds ago    Up 3 seconds    0.0.0.0:54772->80/tcp    romantic_williamson
@@ -71,7 +71,7 @@ With the `-P` or `--publish-all` flag, you can automatically publish all exposed
 
 For example, the following command will publish all of the exposed ports configured by the image:
 
-```console
+```bash
 $ docker run -P nginx
 ```
 
@@ -87,7 +87,7 @@ In this step, you will run a container and publish its port using the Docker CLI
 
 2. In a terminal, run the following command to start a new container:
 
-   ```console
+   ```bash
    $ docker run -d -p 8080:80 docker/welcome-to-docker
    ```
 

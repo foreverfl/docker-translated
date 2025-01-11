@@ -101,19 +101,19 @@ Don't worry about the specifics of the Dockerfile, as you'll learn about that in
 
 1. Clone the GitHub repository using the following command:
 
-   ```console
+   ```bash
    git clone https://github.com/dockersamples/helloworld-demo-node
    ```
 
 2. Navigate into the newly created directory.
 
-   ```console
+   ```bash
    cd helloworld-demo-node
    ```
 
 3. Run the following command to build a Docker image, swapping out `YOUR_DOCKER_USERNAME` with your username.
 
-   ```console
+   ```bash
    docker build -t <YOUR_DOCKER_USERNAME>/docker-quickstart .
    ```
 
@@ -123,20 +123,20 @@ Don't worry about the specifics of the Dockerfile, as you'll learn about that in
 
 4. Run the following command to list the newly created Docker image:
 
-   ```console
+   ```bash
    docker images
    ```
 
    You will see output like the following:
 
-   ```console
+   ```bash
    REPOSITORY                                 TAG       IMAGE ID       CREATED         SIZE
    <YOUR_DOCKER_USERNAME>/docker-quickstart   latest    476de364f70e   2 minutes ago   170MB
    ```
 
 5. Start a container to test the image by running the following command (swap out the username with your own username):
 
-   ```console
+   ```bash
    docker run -d -p 8080:8080 <YOUR_DOCKER_USERNAME>/docker-quickstart
    ```
 
@@ -144,13 +144,13 @@ Don't worry about the specifics of the Dockerfile, as you'll learn about that in
 
 6. Use the [`docker tag`](/reference/cli/docker/image/tag/) command to tag the Docker image. Docker tags allow you to label and version your images.
 
-   ```console
+   ```bash
    docker tag <YOUR_DOCKER_USERNAME>/docker-quickstart <YOUR_DOCKER_USERNAME>/docker-quickstart:1.0
    ```
 
 7. Finally, it's time to push the newly built image to your Docker Hub repository by using the [`docker push`](/reference/cli/docker/image/push/) command:
 
-   ```console
+   ```bash
    docker push <YOUR_DOCKER_USERNAME>/docker-quickstart:1.0
    ```
 
@@ -169,6 +169,4 @@ In this walkthrough, you signed up for a Docker account, created your first Dock
 
 Now that you understand the basics of containers and images, you're ready to learn about Docker Compose.
 
-<Button href="what-is-Docker-Compose">
-What is Docker Compose?
-</Button>
+<Button href="what-is-Docker-Compose">What is Docker Compose?</Button>

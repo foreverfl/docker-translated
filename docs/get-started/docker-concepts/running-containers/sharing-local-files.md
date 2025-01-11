@@ -37,13 +37,13 @@ Imagine you're a developer working on a project. You have a source directory on 
 
 Here's a way to use `docker run` to start a container using a bind mount and map it to the container file location.
 
-```console
+```bash
 $ docker run -v /HOST/PATH:/CONTAINER/PATH -it nginx
 ```
 
 The `--mount` flag offers more advanced features and granular control, making it suitable for complex mount scenarios or production deployments. If you use `--mount` to bind-mount a file or directory that doesn't yet exist on the Docker host, the `docker run` command doesn't automatically create it for you but generates an error.
 
-```console
+```bash
 $ docker run --mount type=bind,source=/HOST/PATH,target=/CONTAINER/PATH,readonly nginx
 ```
 
@@ -56,7 +56,7 @@ $ docker run --mount type=bind,source=/HOST/PATH,target=/CONTAINER/PATH,readonly
 When using bind mounts, it's crucial to ensure that Docker has the necessary permissions to access the host directory. To grant read/write access, you can use the `:ro` flag (read-only) or `:rw` (read-write) with the `-v` or `--mount` flag during container creation.
 For example, the following command grants read-write access permission.
 
-```console
+```bash
 $ docker run -v HOST-DIRECTORY:/CONTAINER-DIRECTORY:rw nginx
 ```
 
@@ -76,7 +76,7 @@ In this hands-on guide, you’ll practice how to create and use a bind mount to 
 
 2. Start a container using the [httpd](https://hub.docker.com/_/httpd) image with the following command:
 
-   ```console
+   ```bash
    $ docker run -d -p 8080:80 --name my_site httpd:2.4
    ```
 
@@ -84,7 +84,7 @@ In this hands-on guide, you’ll practice how to create and use a bind mount to 
 
 3. Open the browser and access [http://localhost:8080](http://localhost:8080) or use the curl command to verify if it's working fine or not.
 
-   ```console
+   ```bash
    $ curl localhost:8080
    ```
 
@@ -98,7 +98,7 @@ Using a bind mount, you can map the configuration file on your host computer to 
 
 2. Create a new directory called `public_html` on your host system.
 
-   ```console
+   ```bash
    $ mkdir public_html
    ```
 

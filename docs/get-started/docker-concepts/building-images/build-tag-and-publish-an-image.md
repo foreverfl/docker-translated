@@ -42,7 +42,7 @@ When you run a build, the builder pulls the base image, if needed, and then runs
 
 With the previous command, the image will have no name, but the output will provide the ID of the image. As an example, the previous command might produce the following output:
 
-```console
+```bash
 $ docker build .
 [+] Building 3.5s (11/11) FINISHED                                              docker:desktop-linux
  => [internal] load build definition from Dockerfile                                            0.0s
@@ -65,7 +65,7 @@ $ docker build .
 
 With the previous output, you could start a container by using the referenced image:
 
-```console
+```bash
 docker run sha256:9924dfd9350407b3df01d1a0e1033b1e543523ce7d5d5e2c83a724480ebe8f00
 ```
 
@@ -92,13 +92,13 @@ Some examples of image names include:
 
 To tag an image during a build, add the `-t` or `--tag` flag:
 
-```console
+```bash
 docker build -t my-username/my-image .
 ```
 
 If you've already built an image, you can add another tag to the image by using the [`docker image tag`](https://docs.docker.com/engine/reference/commandline/image_tag/) command:
 
-```console
+```bash
 docker image tag my-username/my-image another-username/another-image:v1
 ```
 
@@ -106,7 +106,7 @@ docker image tag my-username/my-image another-username/another-image:v1
 
 Once you have an image built and tagged, you're ready to push it to a registry. To do so, use the [`docker push`](https://docs.docker.com/engine/reference/commandline/image_push/) command:
 
-```console
+```bash
 docker push my-username/my-image
 ```
 
@@ -156,19 +156,19 @@ Now that you have a repository on Docker Hub, it's time for you to build an imag
 
 1. Using a terminal in the root of the sample app repository, run the following command. Replace `YOUR_DOCKER_USERNAME` with your Docker Hub username:
 
-   ```console
+   ```bash
    $ docker build -t <YOUR_DOCKER_USERNAME>/concepts-build-image-demo .
    ```
 
    As an example, if your username is `mobywhale`, you would run the command:
 
-   ```console
+   ```bash
    $ docker build -t mobywhale/concepts-build-image-demo .
    ```
 
 2. Once the build has completed, you can view the image by using the following command:
 
-   ```console
+   ```bash
    $ docker image ls
    ```
 
@@ -181,7 +181,7 @@ Now that you have a repository on Docker Hub, it's time for you to build an imag
 
 3. You can actually view the history (or how the image was created) by using the [docker image history](/reference/cli/docker/image/history/) command:
 
-   ```console
+   ```bash
    $ docker image history mobywhale/concepts-build-image-demo
    ```
 
@@ -211,7 +211,7 @@ Now that you have an image built, it's time to push the image to a registry.
 
 1. Push the image using the [docker push](/reference/cli/docker/image/push/) command:
 
-   ```console
+   ```bash
    $ docker push <YOUR_DOCKER_USERNAME>/concepts-build-image-demo
    ```
 

@@ -42,13 +42,13 @@ Follow the instructions to run the to-do list app on your system.
 1. [Download and install](https://www.docker.com/products/docker-desktop/) Docker Desktop.
 2. Open a terminal and [clone this sample application](https://github.com/dockersamples/todo-list-app).
 
-   ```console
+   ```bash
    git clone https://github.com/dockersamples/todo-list-app
    ```
 
 3. Navigate into the `todo-list-app` directory:
 
-   ```console
+   ```bash
    cd todo-list-app
    ```
 
@@ -56,13 +56,13 @@ Follow the instructions to run the to-do list app on your system.
 
 4. Use the [`docker compose up`](/reference/cli/docker/compose/up/) command to start the application:
 
-   ```console
+   ```bash
    docker compose up -d --build
    ```
 
    When you run this command, you should see an output like this:
 
-   ```console
+   ```bash
    [+] Running 4/4
    ✔ app 3 layers [⣿⣿⣿]      0B/0B            Pulled           7.1s
      ✔ e6f4e57cc59e Download complete                          0.9s
@@ -98,13 +98,13 @@ Since this application was started using Docker Compose, it's easy to tear it al
 
 1. In the CLI, use the [`docker compose down`](/reference/cli/docker/compose/down/) command to remove everything:
 
-   ```console
+   ```bash
    docker compose down
    ```
 
    You'll see output similar to the following:
 
-   ```console
+   ```bash
    [+] Running 2/2
    ✔ Container todo-list-app-mysql-1  Removed        2.9s
    ✔ Container todo-list-app-app-1    Removed        0.1s
@@ -117,7 +117,7 @@ Since this application was started using Docker Compose, it's easy to tear it al
    >
    > If you do want to remove the volumes, add the `--volumes` flag when running the `docker compose down` command:
    >
-   > ```console
+   > ```bash
    > docker compose down --volumes
    > ```
 

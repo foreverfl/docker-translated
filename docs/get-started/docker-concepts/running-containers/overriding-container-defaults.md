@@ -28,7 +28,7 @@ Here's a few ways you can achieve this.
 
 Sometimes you might want to use separate database instances for development and testing purposes. Running these database instances on the same port might conflict. You can use the `-p` option in `docker run` to map container ports to host ports, allowing you to run the multiple instances of the container without any conflict.
 
-```console
+```bash
 $ docker run -d -p HOST_PORT:CONTAINER_PORT postgres
 ```
 
@@ -36,13 +36,13 @@ $ docker run -d -p HOST_PORT:CONTAINER_PORT postgres
 
 This option sets an environment variable `foo` inside the container with the value `bar`.
 
-```console
+```bash
 $ docker run -e foo=bar postgres env
 ```
 
 You will see output like the following:
 
-```console
+```bash
 HOSTNAME=2042f2e6ebe4
 foo=bar
 ```
@@ -51,7 +51,7 @@ foo=bar
 >
 > The `.env` file acts as a convenient way to set environment variables for your Docker containers without cluttering your command line with numerous `-e` flags. To use a `.env` file, you can pass `--env-file` option with the `docker run` command.
 >
-> ```console
+> ```bash
 > $ docker run --env-file .env postgres env
 > ```
 
@@ -59,7 +59,7 @@ foo=bar
 
 You can use the `--memory` and `--cpus` flags with the `docker run` command to restrict how much CPU and memory a container can use. For example, you can set a memory limit for the Python API container, preventing it from consuming excessive resources on your host. Here's the command:
 
-```console
+```bash
 $ docker run -e POSTGRES_PASSWORD=secret --memory="512m" --cpus="0.5" postgres
 ```
 
@@ -81,7 +81,7 @@ In this hands-on guide, you'll see how to use the `docker run` command to overri
 
 1.  Start a container using the [Postgres image](https://hub.docker.com/_/postgres) with the following command:
 
-    ```console
+    ```bash
     $ docker run -d -e POSTGRES_PASSWORD=secret -p 5432:5432 postgres
     ```
 
@@ -89,7 +89,7 @@ In this hands-on guide, you'll see how to use the `docker run` command to overri
 
 2.  Start a second Postgres container mapped to a different port.
 
-    ```console
+    ```bash
     $ docker run -d -e POSTGRES_PASSWORD=secret -p 5433:5432 postgres
     ```
 
@@ -109,13 +109,13 @@ Follow the steps to see how to connect a Postgres container to a custom network.
 
 1. Create a new custom network by using the following command:
 
-   ```console
+   ```bash
    $ docker network create mynetwork
    ```
 
 2. Verify the network by running the following command:
 
-   ```console
+   ```bash
    $ docker network ls
    ```
 
@@ -123,7 +123,7 @@ Follow the steps to see how to connect a Postgres container to a custom network.
 
 3. Connect Postgres to the custom network by using the following command:
 
-   ```console
+   ```bash
    $ docker run -d -e POSTGRES_PASSWORD=secret -p 5434:5432 --network mynetwork postgres
    ```
 
@@ -140,7 +140,7 @@ By default, containers are not limited in their resource usage. However, on shar
 
 This is where the `docker run` command shines again. It offers flags like `--memory` and `--cpus` to restrict how much CPU and memory a container can use.
 
-```console
+```bash
 $ docker run -d -e POSTGRES_PASSWORD=secret --memory="512m" --cpus=".5" postgres
 ```
 
@@ -166,7 +166,7 @@ Sometimes, you might need to override the default commands (`CMD`) or entry poin
 
 2. Bring up the service by running the following command:
 
-   ```console
+   ```bash
    $ docker compose up -d
    ```
 
@@ -176,7 +176,7 @@ Sometimes, you might need to override the default commands (`CMD`) or entry poin
 
    Open the Docker Desktop Dashboard, select the **Postgres** container and select **Exec** to enter into the container shell. You can type the following command to connect to the Postgres database:
 
-   ```console
+   ```bash
    # psql -U postgres
    ```
 
@@ -190,7 +190,7 @@ Sometimes, you might need to override the default commands (`CMD`) or entry poin
 
 You can also override defaults directly using the `docker run` command with the following command:
 
-```console
+```bash
 $ docker run -e POSTGRES_PASSWORD=secret postgres docker-entrypoint.sh -h localhost -p 5432
 ```
 

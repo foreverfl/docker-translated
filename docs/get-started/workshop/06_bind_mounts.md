@@ -90,16 +90,17 @@ work.
       docker run -it --mount "type=bind,src=$($pwd),target=/src" ubuntu bash
       ```
     </TabItem>
+
   </Tabs>
 
-   The `--mount type=bind` option tells Docker to create a bind mount, where `src` is the
-   current working directory on your host machine (`getting-started-app`), and
-   `target` is where that directory should appear inside the container (`/src`).
+The `--mount type=bind` option tells Docker to create a bind mount, where `src` is the
+current working directory on your host machine (`getting-started-app`), and
+`target` is where that directory should appear inside the container (`/src`).
 
 4. After running the command, Docker starts an interactive `bash` session in the
    root directory of the container's filesystem.
 
-   ```console
+   ```bash
    root@ac1237fad8db:/# pwd
    /
    root@ac1237fad8db:/# ls
@@ -113,7 +114,7 @@ work.
    the contents of this directory displays the same files as in the
    `getting-started-app` directory on your host machine.
 
-   ```console
+   ```bash
    root@ac1237fad8db:/# cd src
    root@ac1237fad8db:/src# ls
    Dockerfile  node_modules  package.json  spec  src  yarn.lock
@@ -121,7 +122,7 @@ work.
 
 6. Create a new file named `myfile.txt`.
 
-   ```console
+   ```bash
    root@ac1237fad8db:/src# touch myfile.txt
    root@ac1237fad8db:/src# ls
    Dockerfile  myfile.txt  node_modules  package.json  spec  src  yarn.lock
@@ -144,7 +145,7 @@ work.
 8. From the host, delete the `myfile.txt` file.
 9. In the container, list the contents of the `app` directory once more. Observe that the file is now gone.
 
-   ```console
+   ```bash
    root@ac1237fad8db:/src# ls
    Dockerfile  node_modules  package.json  spec  src  yarn.lock
    ```
@@ -212,6 +213,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
        ```
 
        Exit the logs by pressing `Ctrl`+`C`.
+
   </TabItem>
 
   <TabItem value="powershell" label="PowerShell CLI">
@@ -235,6 +237,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
        ```
 
        You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+
   </TabItem>
 
   <TabItem value="command-prompt" label="Command Prompt CLI">
@@ -258,6 +261,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
        ```
 
        You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+
   </TabItem>
 
   <TabItem value="git-bash" label="Git Bash CLI">
@@ -281,6 +285,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
        ```
 
        You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+
   </TabItem>
 
   <TabItem value="docker-desktop" label="Docker Desktop">
@@ -314,6 +319,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
        Using sqlite database at /etc/todos/todo.db
        Listening on port 3000
        ```
+
   </TabItem>
 </Tabs>
 
@@ -344,7 +350,7 @@ Update your app on your host machine and see the changes reflected in the contai
    container automatically. When you're done, stop the container and build your
    new image using:
 
-   ```console
+   ```bash
    $ docker build -t getting-started .
    ```
 

@@ -13,8 +13,8 @@ keywords:
   - docker desktop
 description: Using more than one container in your application
 aliases:
- - /get-started/07_multi_container/
- - /guides/workshop/07_multi_container/
+  - /get-started/07_multi_container/
+  - /guides/workshop/07_multi_container/
 ---
 
 Up to this point, you've been working with single container apps. But, now you will add MySQL to the
@@ -31,7 +31,6 @@ And there are more reasons. So, like the following diagram, it's best to run you
 
 ![Todo App connected to MySQL container](images/multi-container.webp?w=350h=250)
 
-
 ## Container networking
 
 Remember that containers, by default, run in isolation and don't know anything about other processes
@@ -41,14 +40,15 @@ networking. If you place the two containers on the same network, they can talk t
 ## Start MySQL
 
 There are two ways to put a container on a network:
- - Assign the network when starting the container.
- - Connect an already running container to a network.
+
+- Assign the network when starting the container.
+- Connect an already running container to a network.
 
 In the following steps, you'll create the network first and then attach the MySQL container at startup.
 
 1. Create the network.
 
-   ```console
+   ```bash
    $ docker network create todo-app
    ```
 
@@ -92,20 +92,20 @@ In the following steps, you'll create the network first and then attach the MySQ
    
    In the previous command, you can see the `--network-alias` flag. In a later section, you'll learn more about this flag.
 
-   > [!TIP]
-   >
-   > You'll notice a volume named `todo-mysql-data` in the above command that is mounted at `/var/lib/mysql`, which is where MySQL stores its data. However, you never ran a `docker volume create` command. Docker recognizes you want to use a named volume and creates one automatically for you.
+> [!TIP]
+>
+> You'll notice a volume named `todo-mysql-data` in the above command that is mounted at `/var/lib/mysql`, which is where MySQL stores its data. However, you never ran a `docker volume create` command. Docker recognizes you want to use a named volume and creates one automatically for you.
 
 3. To confirm you have the database up and running, connect to the database and verify that it connects.
 
-   ```console
+   ```bash
    $ docker exec -it <mysql-container-id> mysql -u root -p
    ```
 
    When the password prompt comes up, type in `secret`. In the MySQL shell, list the databases and verify
    you see the `todos` database.
 
-   ```console
+   ```bash
    mysql> SHOW DATABASES;
    ```
 
@@ -126,7 +126,7 @@ In the following steps, you'll create the network first and then attach the MySQ
 
 4. Exit the MySQL shell to return to the shell on your machine.
 
-   ```console
+   ```bash
    mysql> exit
    ```
 
@@ -142,14 +142,14 @@ which ships with a lot of tools that are useful for troubleshooting or debugging
 
 1. Start a new container using the nicolaka/netshoot image. Make sure to connect it to the same network.
 
-   ```console
+   ```bash
    $ docker run -it --network todo-app nicolaka/netshoot
    ```
 
 2. Inside the container, you're going to use the `dig` command, which is a useful DNS tool. You're going to look up
    the IP address for the hostname `mysql`.
 
-   ```console
+   ```bash
    $ dig mysql
    ```
 
@@ -239,6 +239,7 @@ You can now start your dev-ready container.
       node:18-alpine `
       sh -c "yarn install && yarn run dev"
     ```
+
   </TabItem>
 
   <TabItem value="command-prompt" label="Command Prompt">
@@ -255,6 +256,7 @@ You can now start your dev-ready container.
       node:18-alpine ^
       sh -c "yarn install && yarn run dev"
     ```
+
   </TabItem>
 
   <TabItem value="git-bash" label="Git Bash">
@@ -275,7 +277,7 @@ You can now start your dev-ready container.
 2. If you look at the logs for the container (`docker logs -f <container-id>`), you should see a message similar to the following, which indicates it's
    using the mysql database.
 
-   ```console
+   ```bash
    $ nodemon src/index.js
    [nodemon] 2.0.20
    [nodemon] to restart at any time, enter `rs`
@@ -290,13 +292,13 @@ You can now start your dev-ready container.
 4. Connect to the mysql database and prove that the items are being written to the database. Remember, the password
    is `secret`.
 
-   ```console
+   ```bash
    $ docker exec -it <mysql-container-id> mysql -p todos
    ```
 
    And in the mysql shell, run the following:
 
-   ```console
+   ```bash
    mysql> select * from todo_items;
    +--------------------------------------+--------------------+-----------+
    | id                                   | name               | completed |
@@ -314,8 +316,9 @@ At this point, you have an application that now stores its data in an external d
 container. You learned a little bit about container networking and service discovery using DNS.
 
 Related information:
- - [docker CLI reference](/reference/cli/docker/)
- - [Networking overview](/manuals/engine/network/_index.md)
+
+- [docker CLI reference](/reference/cli/docker/)
+- [Networking overview](/manuals/engine/network/_index.md)
 
 ## Next steps
 

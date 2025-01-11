@@ -1,13 +1,13 @@
 ---
-title: What is a container?
+title: 컨테이너란 무엇인가?
 weight: 10
 keywords:
-  - concepts
-  - build
-  - images
-  - container
-  - docker desktop
-description: What is a container? This concept page will teach you about containers and provide a quick hands-on where you will run your first container.
+  - 개념
+  - 빌드
+  - 이미지
+  - 컨테이너
+  - 도커 데스크탑
+description: 컨테이너란 무엇인가? 이 개념 페이지는 컨테이너에 대해 가르치고 첫 번째 컨테이너를 실행하는 빠른 실습을 제공합니다.
 aliases:
   - /guides/walkthroughs/what-is-a-container/
   - /guides/walkthroughs/run-a-container/
@@ -18,183 +18,182 @@ aliases:
 
 <YoutubeEmbed videoId="W1kWqFkiu7k" />
 
-## Explanation
+## 설명 {#explanation}
 
-Imagine you're developing a killer web app that has three main components - a React frontend, a Python API, and a PostgreSQL database. If you wanted to work on this project, you'd have to install Node, Python, and PostgreSQL.
+React 프론트엔드와 Python API, PostgreSQL 데이터베이스로 구성된 멋진 웹 애플리케이션을 개발한다고 가정해보세요. 이 프로젝트를 작업하기 위해서는 Node와 Python, PostgreSQL을 설치해야 합니다.
 
-How do you make sure you have the same versions as the other developers on your team? Or your CI/CD system? Or what's used in production?
+팀의 다른 개발자들과 동일한 버전을 어떻게 유지할 수 있을까요? 또는 CI/CD 시스템과 동일한 버전을 어떻게 유지할 수 있을까요? 또는 프로덕션에서 사용되는 버전과 동일하게 유지할 수 있을까요?
 
-How do you ensure the version of Python (or Node or the database) your app needs isn't affected by what's already on your machine? How do you manage potential conflicts?
+Python(또는 Node 또는 데이터베이스)의 버전이 이미 설치된 것에 의해 영향을 받지 않도록 어떻게 할 수 있을까요? 잠재적인 충돌을 어떻게 관리할 수 있을까요?
 
-Enter containers!
+여기서 컨테이너가 등장합니다!
 
-What is a container? Simply put, containers are isolated processes for each of your app's components. Each component - the frontend React app, the Python API engine, and the database - runs in its own isolated environment, completely isolated from everything else on your machine.
+컨테이너란 무엇인가요? 간단히 말해서 컨테이너는 앱의 각 구성 요소를 위한 독립된 프로세스입니다. 프론트엔드 React 앱, Python API 엔진, 데이터베이스와 같은 각 구성 요소들은 자신만의 독립된 환경에서 실행되어 다른 요소들과 완전히 분리됩니다.
 
-Here's what makes them awesome. Containers are:
+컨테이너의 멋진 점은 다음과 같습니다. 컨테이너는:
 
-- Self-contained. Each container has everything it needs to function with no reliance on any pre-installed dependencies on the host machine.
-- Isolated. Since containers are run in isolation, they have minimal influence on the host and other containers, increasing the security of your applications.
-- Independent. Each container is independently managed. Deleting one container won't affect any others.
-- Portable. Containers can run anywhere! The container that runs on your development machine will work the same way in a data center or anywhere in the cloud!
+- 자체 포함 (Self-contained): 각 컨테이너는 호스트 머신에 사전 설치된 종속성에 의존하지 않고 기능하는 데 필요한 모든 것을 포함합니다.
+- 격리됨 (Isolated): 컨테이너는 격리된 상태로 실행되므로 호스트 및 다른 컨테이너에 미치는 영향이 최소화되어 애플리케이션의 보안이 향상됩니다.
+- 독립적 (Independent): 각 컨테이너는 독립적으로 관리됩니다. 하나의 컨테이너를 삭제해도 다른 컨테이너에 영향을 미치지 않습니다.
+- 이식성 (Portable): 컨테이너는 어디서나 실행될 수 있습니다! 개발 머신에서 실행되는 컨테이너는 데이터 센터나 클라우드 어디서나 동일하게 작동합니다!
 
-### Containers versus virtual machines (VMs)
+### 컨테이너와 가상 머신(VM)의 비교 {#containers-versus-virtual-machines-vms}
 
-Without getting too deep, a VM is an entire operating system with its own kernel, hardware drivers, programs, and applications. Spinning up a VM only to isolate a single application is a lot of overhead.
+너무 기술적인 설명은 제외하고 말씀드리면, VM은 자체 커널, 하드웨어 드라이버, 프로그램 및 애플리케이션을 포함한 전체 운영 체제입니다. 단순히 하나의 애플리케이션을 분리하기 위해 VM을 구동하는 것은 많은 시스템 자원이 낭비됩니다.
 
-A container is simply an isolated process with all of the files it needs to run. If you run multiple containers, they all share the same kernel, allowing you to run more applications on less infrastructure.
+컨테이너는 단순히 실행에 필요한 모든 파일을 포함한 격리된 프로세스입니다. 여러 컨테이너를 실행하면 동일한 커널을 공유하여 더 적은 인프라로 더 많은 애플리케이션을 실행할 수 있습니다.
 
-> **Using VMs and containers together**
+> **VM과 컨테이너를 함께 사용하기**
 >
-> Quite often, you will see containers and VMs used together. As an example, in a cloud environment, the provisioned machines are typically VMs. However, instead of provisioning one machine to run one application, a VM with a container runtime can run multiple containerized applications, increasing resource utilization and reducing costs.
+> 종종 컨테이너와 VM이 함께 사용되는 것을 볼 수 있습니다. 예를 들어, 클라우드 환경에서는 일반적으로 VM으로 서버를 구성합니다. 하나의 애플리케이션을 실행하기 위해 별도의 서버를 구성하는 대신, 컨테이너 실행 환경이 설치된 하나의 VM에서 여러 컨테이너화된 애플리케이션을 실행하면 자원 활용도를 높이고 비용을 절감할 수 있습니다.
 
-## Try it out
+## 실습해보기 {#try-it-out}
 
-In this hands-on, you will see how to run a Docker container using the Docker Desktop GUI.
+이 실습에서는 Docker Desktop GUI를 사용하여 Docker 컨테이너를 실행하는 방법을 배웁니다.
 
 <Tabs>
-<TabItem value="gui" label="Using the GUI">
+<TabItem value="gui" label="GUI 사용하기">
 
-Use the following instructions to run a container.
+다음 지침을 사용하여 컨테이너를 실행하세요.
 
-1. Open Docker Desktop and select the **Search** field on the top navigation bar.
+1. Docker Desktop을 열고 상단 탐색 표시줄의 **Search** 필드를 선택합니다.
 
-2. Specify `welcome-to-docker` in the search input and then select the **Pull** button.
+2. 검색 입력란에 `welcome-to-docker`를 지정한 다음 **Pull** 버튼을 선택합니다.
 
-   ![A screenshot of the Docker Desktop Dashboard showing the search result for welcome-to-docker Docker image ](images/search-the-docker-image.webp?border=true&w=1000&h=700)
+   ![welcome-to-docker Docker 이미지의 검색 결과를 보여주는 Docker Desktop 대시보드의 스크린샷](images/search-the-docker-image.webp?border=true&w=1000&h=700)
 
-3. Once the image is successfully pulled, select the **Run** button.
+3. 이미지가 성공적으로 풀리면 **Run** 버튼을 선택합니다.
 
-4. Expand the **Optional settings**.
+4. **Optional settings**를 확장합니다.
 
-5. In the **Container name**, specify `welcome-to-docker`.
+5. **Container name**에 `welcome-to-docker`를 지정합니다.
 
-6. In the **Host port**, specify `8080`.
+6. **Host port**에 `8080`을 지정합니다.
 
-   ![A screenshot of Docker Desktop Dashboard showing the container run dialog with welcome-to-docker typed in as the container name and 8080 specified as the port number](images/run-a-new-container.webp?border=true&w=550&h=400)
+   ![컨테이너 이름으로 welcome-to-docker를 입력하고 포트 번호로 8080을 지정한 컨테이너 실행 대화 상자를 보여주는 Docker Desktop 대시보드의 스크린샷](images/run-a-new-container.webp?border=true&w=550&h=400)
 
-7. Select **Run** to start your container.
+7. **Run**을 선택하여 컨테이너를 시작합니다.
 
-Congratulations! You just ran your first container! 🎉
+축하합니다! 첫 번째 컨테이너를 실행했습니다! 🎉
 
-### View your container
+### 컨테이너 보기 {#view-your-container}
 
-You can view all of your containers by going to the **Containers** view of the Docker Desktop Dashboard.
+Docker Desktop 대시보드의 **Containers** 보기로 이동하여 모든 컨테이너를 볼 수 있습니다.
 
-![Screenshot of the container view of the Docker Desktop GUI showing the welcome-to-docker container running on the host port 8080](images/view-your-containers.webp?border=true&w=750&h=600)
+![호스트 포트 8080에서 실행 중인 welcome-to-docker 컨테이너를 보여주는 Docker Desktop GUI의 컨테이너 보기 스크린샷](images/view-your-containers.webp?border=true&w=750&h=600)
 
-This container runs a web server that displays a simple website. When working with more complex projects, you'll run different parts in different containers. For example, you might run a different container for the frontend, backend, and database.
+이 컨테이너는 간단한 웹사이트를 표시하는 웹 서버를 실행합니다. 더 복잡한 프로젝트를 작업할 때는 다른 컨테이너에서 다른 부분을 실행합니다. 예를 들어, 프론트엔드, 백엔드 및 데이터베이스를 각각 다른 컨테이너에서 실행할 수 있습니다.
 
-### Access the frontend
+### 웹 화면 확인하기 {#access-the-frontend}
 
-When you launched the container, you exposed one of the container's ports onto your machine. Think of this as creating configuration to let you to connect through the isolated environment of the container.
+컨테이너를 시작할 때 컨테이너의 포트 중 하나를 머신에 노출했습니다. 이를 통해 컨테이너의 격리된 환경을 통해 연결할 수 있는 구성을 생성하는 것으로 생각하세요.
 
-For this container, the frontend is accessible on port `8080`. To open the website, select the link in the **Port(s)** column of your container or visit [http://localhost:8080](https://localhost:8080) in your browser.
+이 컨테이너의 프론트엔드는 `8080` 포트에서 접근할 수 있습니다. 웹사이트를 열려면 컨테이너의 **Port(s)** 열에 있는 링크를 선택하거나 브라우저에서 [http://localhost:8080](https://localhost:8080)을 방문하세요.
 
-![Screenshot of the landing page coming from the running container](images/access-the-frontend.webp?border)
+![실행 중인 컨테이너에서 나오는 랜딩 페이지의 스크린샷](images/access-the-frontend.webp?border)
 
-### Explore your container
+### 컨테이너 탐색하기 {#explore-your-container}
 
-Docker Desktop lets you explore and interact with different aspects of your container. Try it out yourself.
+Docker Desktop을 사용하면 컨테이너의 다양한 측면을 탐색하고 상호 작용할 수 있습니다. 직접 시도해보세요.
 
-1. Go to the **Containers** view in the Docker Desktop Dashboard.
+1. Docker Desktop 대시보드의 **Containers** 보기로 이동합니다.
 
-2. Select your container.
+2. 컨테이너를 선택합니다.
 
-3. Select the **Files** tab to explore your container's isolated file system.
+3. **Files** 탭을 선택하여 컨테이너의 격리된 파일 시스템을 탐색합니다.
 
-   ![Screenshot of the Docker Desktop Dashboard showing the files and directories inside a running container](images/explore-your-container.webp?border)
+   ![실행 중인 컨테이너 내부의 파일 및 디렉터리를 보여주는 Docker Desktop 대시보드의 스크린샷](images/explore-your-container.webp?border)
 
-### Stop your container
+### 컨테이너 중지하기 {#stop-your-container}
 
-The `docker/welcome-to-docker` container continues to run until you stop it.
+`docker/welcome-to-docker` 컨테이너는 중지할 때까지 계속 실행됩니다.
 
-1. Go to the **Containers** view in the Docker Desktop Dashboard.
+1. Docker Desktop 대시보드의 **Containers** 보기로 이동합니다.
 
-2. Locate the container you'd like to stop.
+2. 중지하려는 컨테이너를 찾습니다.
 
-3. Select the **Stop** action in the **Actions** column.
+3. **Actions** 열에서 **Stop** 작업을 선택합니다.
 
-   ![Screenshot of the Docker Desktop Dashboard with the welcome container selected and being prepared to stop](images/stop-your-container.webp?border)
+   ![welcome 컨테이너를 선택하고 중지 준비 중인 Docker Desktop 대시보드의 스크린샷](images/stop-your-container.webp?border)
 
 </TabItem>
-<TabItem value="cli" label="Using the CLI">
+<TabItem value="cli" label="CLI 사용하기">
 
-Follow the instructions to run a container using the CLI:
+CLI를 사용하여 컨테이너를 실행하려면 다음 지침을 따르세요:
 
-1. Open your CLI terminal and start a container by using the [`docker run`](/reference/cli/docker/container/run/) command:
+1. CLI 터미널을 열고 [`docker run`](/reference/cli/docker/container/run/) 명령을 사용하여 컨테이너를 시작합니다:
 
-   ```console
+   ```bash
    $ docker run -d -p 8080:80 docker/welcome-to-docker
    ```
 
-   The output from this command is the full container ID.
+   이 명령의 출력은 전체 컨테이너 ID입니다.
 
-Congratulations! You just fired up your first container! 🎉
+축하합니다! 첫 번째 컨테이너를 실행했습니다! 🎉
 
-### View your running containers
+### 실행 중인 컨테이너 보기 {#view-your-running-containers}
 
-You can verify if the container is up and running by using the [`docker ps`](/reference/cli/docker/container/ls/) command:
+[`docker ps`](/reference/cli/docker/container/ls/) 명령을 사용하여 컨테이너가 실행 중인지 확인할 수 있습니다:
 
-```console
+```bash
 docker ps
 ```
 
-You will see output like the following:
+다음과 같은 출력이 표시됩니다:
 
-```console
+```bash
  CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS          PORTS                      NAMES
  a1f7a4bb3a27   docker/welcome-to-docker   "/docker-entrypoint.…"   11 seconds ago   Up 11 seconds   0.0.0.0:8080->80/tcp       gracious_keldysh
 ```
 
-This container runs a web server that displays a simple website. When working with more complex projects, you'll run different parts in different containers. For example, a different container for the `frontend`, `backend`, and `database`.
+이 컨테이너는 간단한 웹사이트를 표시하는 웹 서버를 실행합니다. 더 복잡한 프로젝트를 작업할 때는 다른 컨테이너에서 다른 부분을 실행합니다. 예를 들어, 프론트엔드, 백엔드 및 데이터베이스를 각각 다른 컨테이너에서 실행할 수 있습니다.
 
-> [!TIP]
->
-> The `docker ps` command will show you _only_ running containers. To view stopped containers, add the `-a` flag to list all containers: `docker ps -a`
+:::tip
+`docker ps` 명령은 _실행 중인_ 컨테이너만 표시합니다. 중지된 컨테이너를 보려면 `-a` 플래그를 추가하여 모든 컨테이너를 나열하세요: `docker ps -a`
+:::
 
-### Access the frontend
+### 웹 화면 확인하기 {#access-the-frontend}
 
-When you launched the container, you exposed one of the container's ports onto your machine. Think of this as creating configuration to let you to connect through the isolated environment of the container.
+컨테이너를 시작할 때 컨테이너의 포트 중 하나를 머신에 노출했습니다. 이를 통해 컨테이너의 격리된 환경을 통해 연결할 수 있는 구성을 생성하는 것으로 생각하세요.
 
-For this container, the frontend is accessible on port `8080`. To open the website, select the link in the **Port(s)** column of your container or visit [http://localhost:8080](http://localhost:8080) in your browser.
+이 컨테이너의 프론트엔드는 `8080` 포트에서 접근할 수 있습니다. 웹사이트를 열려면 컨테이너의 **Port(s)** 열에 있는 링크를 선택하거나 브라우저에서 [http://localhost:8080](http://localhost:8080)을 방문하세요.
 
-![Screenshot of the landing page of the Nginx web server, coming from the running container](images/access-the-frontend.webp?border)
+![실행 중인 컨테이너에서 나오는 Nginx 웹 서버의 랜딩 페이지 스크린샷](images/access-the-frontend.webp?border)
 
-### Stop your container
+### 컨테이너 중지하기 {#stop-your-container}
 
-The `docker/welcome-to-docker` container continues to run until you stop it. You can stop a container using the `docker stop` command.
+`docker/welcome-to-docker` 컨테이너는 중지할 때까지 계속 실행됩니다. `docker stop` 명령을 사용하여 컨테이너를 중지할 수 있습니다.
 
-1. Run `docker ps` to get the ID of the container
+1. `docker ps`를 실행하여 컨테이너 ID를 가져옵니다.
 
-2. Provide the container ID or name to the [`docker stop`](/reference/cli/docker/container/stop/) command:
+2. [`docker stop`](/reference/cli/docker/container/stop/) 명령에 컨테이너 ID 또는 이름을 제공합니다:
 
-   ```console
+   ```bash
    docker stop <the-container-id>
    ```
 
-> [!TIP]
->
-> When referencing containers by ID, you don't need to provide the full ID. You only need to provide enough of the ID to make it unique. As an example, the previous container could be stopped by running the following command:
->
-> ```console
-> docker stop a1f
-> ```
+:::tip
+컨테이너를 ID로 참조할 때 전체 ID를 제공할 필요는 없습니다. ID의 일부만 제공하여 고유하게 만들면 됩니다. 예를 들어, 이전 컨테이너는 다음 명령을 실행하여 중지할 수 있습니다:
+
+```bash
+docker stop a1f
+```
+
+:::
 
 </TabItem>
 </Tabs>
 
-## Additional resources
+## 추가 자료 {#additional-resources}
 
-The following links provide additional guidance into containers:
+다음 링크는 컨테이너에 대한 추가 지침을 제공합니다:
 
-- [Running a container](/engine/containers/run/)
-- [Overview of container](https://www.docker.com/resources/what-container/)
-- [Why Docker?](https://www.docker.com/why-docker/)
+- [컨테이너 실행](/engine/containers/run/)
+- [컨테이너 개요](https://www.docker.com/resources/what-container/)
+- [왜 Docker인가?](https://www.docker.com/why-docker/)
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-Now that you have learned the basics of a Docker container, it's time to learn about Docker images.
+이제 Docker 컨테이너의 기본 사항을 배웠으므로 Docker 이미지에 대해 배울 차례입니다.
 
-<Button href="what-is-an-image">
-What is an image?
-</Button>
+<Button href="what-is-an-image">이미지란 무엇인가?</Button>

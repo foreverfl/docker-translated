@@ -27,13 +27,13 @@ Volumes are a storage mechanism that provide the ability to persist data beyond 
 
 As an example, imagine you create a volume named `log-data`.
 
-```console
+```bash
 $ docker volume create log-data
 ```
 
 When starting a container with the following command, the volume will be mounted (or attached) into the container at `/logs`:
 
-```console
+```bash
 $ docker run -d -p 80:80 -v log-data:/logs docker/welcome-to-docker
 ```
 
@@ -63,7 +63,7 @@ In this guide, you’ll practice creating and using volumes to persist data crea
 
 2. Start a container using the [Postgres image](https://hub.docker.com/_/postgres) with the following command:
 
-   ```console
+   ```bash
    $ docker run --name=db -e POSTGRES_PASSWORD=secret -d -v postgres_data:/var/lib/postgresql/data postgres
    ```
 
@@ -71,7 +71,7 @@ In this guide, you’ll practice creating and using volumes to persist data crea
 
 3. Connect to the database by using the following command:
 
-   ```console
+   ```bash
    $ docker exec -ti db psql -U postgres
    ```
 
@@ -103,20 +103,20 @@ In this guide, you’ll practice creating and using volumes to persist data crea
 
 6. Exit out of the PostgreSQL shell by running the following command:
 
-   ```console
+   ```bash
    \q
    ```
 
 7. Stop and remove the database container. Remember that, even though the container has been deleted, the data is persisted in the `postgres_data` volume.
 
-   ```console
+   ```bash
    $ docker stop db
    $ docker rm db
    ```
 
 8. Start a new container by running the following command, attaching the same volume with the persisted data:
 
-   ```console
+   ```bash
    $ docker run --name=new-db -d -v postgres_data:/var/lib/postgresql/data postgres
    ```
 
@@ -124,7 +124,7 @@ In this guide, you’ll practice creating and using volumes to persist data crea
 
 9. Verify the database still has the records by running the following command:
 
-   ```console
+   ```bash
    $ docker exec -ti new-db psql -U postgres -c "SELECT * FROM tasks"
    ```
 
@@ -144,7 +144,7 @@ The Docker Desktop Dashboard provides the ability to view the contents of any vo
 
 Before removing a volume, it must not be attached to any containers. If you haven’t removed the previous container, do so with the following command (the `-f` will stop the container first and then remove it):
 
-```console
+```bash
 $ docker rm -f new-db
 ```
 
@@ -153,13 +153,13 @@ There are a few methods to remove volumes, including the following:
 - Select the **Delete Volume** option on a volume in the Docker Desktop Dashboard.
 - Use the `docker volume rm` command:
 
-  ```console
+  ```bash
   $ docker volume rm postgres_data
   ```
 
 - Use the `docker volume prune` command to remove all unused volumes:
 
-  ```console
+  ```bash
   $ docker volume prune
   ```
 

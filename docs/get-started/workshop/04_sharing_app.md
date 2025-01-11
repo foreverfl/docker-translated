@@ -50,7 +50,7 @@ In the following image, you can see an example Docker command from Docker Hub. T
 1. In the command line, run the `docker push` command that you see on Docker
    Hub. Note that your command will have your Docker ID, not "docker". For example, `docker push YOUR-USER-NAME/getting-started`.
 
-   ```console
+   ```bash
    $ docker push docker/getting-started
    The push refers to repository [docker.io/docker/getting-started]
    An image does not exist locally with the tag: docker/getting-started
@@ -65,7 +65,7 @@ In the following image, you can see an example Docker command from Docker Hub. T
 
 3. Use the `docker tag` command to give the `getting-started` image a new name. Replace `YOUR-USER-NAME` with your Docker ID.
 
-   ```console
+   ```bash
    $ docker tag getting-started YOUR-USER-NAME/getting-started
    ```
 
@@ -73,7 +73,7 @@ In the following image, you can see an example Docker command from Docker Hub. T
    Docker Hub, you can drop the `tagname` part, as you didn't add a tag to the
    image name. If you don't specify a tag, Docker uses a tag called `latest`.
 
-   ```console
+   ```bash
    $ docker push YOUR-USER-NAME/getting-started
    ```
 
@@ -88,7 +88,7 @@ new instance that has never seen this container image. To do this, you will use 
 >
 > To build an image for the amd64 platform, use the `--platform` flag.
 >
-> ```console
+> ```bash
 > $ docker build --platform linux/amd64 -t YOUR-USER-NAME/getting-started .
 > ```
 >
@@ -106,7 +106,7 @@ new instance that has never seen this container image. To do this, you will use 
 
 5. In the terminal, start your freshly pushed app.
 
-   ```console
+   ```bash
    $ docker run -dp 0.0.0.0:3000:3000 YOUR-USER-NAME/getting-started
    ```
 

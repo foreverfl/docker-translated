@@ -90,13 +90,13 @@ Follow the instructions to search and pull a Docker image using CLI to view its 
 
 1. Open a terminal and search for images using the [`docker search`](/reference/cli/docker/search.md) command:
 
-   ```console
+   ```bash
    docker search docker/welcome-to-docker
    ```
 
    You will see output like the following:
 
-   ```console
+   ```bash
    NAME                       DESCRIPTION                                     STARS     OFFICIAL
    docker/welcome-to-docker   Docker image for new users getting started w…   20
    ```
@@ -105,13 +105,13 @@ Follow the instructions to search and pull a Docker image using CLI to view its 
 
 2. Pull the image using the [`docker pull`](/reference/cli/docker/image/pull.md) command.
 
-   ```console
+   ```bash
    docker pull docker/welcome-to-docker
    ```
 
    You will see output like the following:
 
-   ```console
+   ```bash
    Using default tag: latest
    latest: Pulling from docker/welcome-to-docker
    579b34f0a95b: Download complete
@@ -133,13 +133,13 @@ Follow the instructions to search and pull a Docker image using CLI to view its 
 
 1. List your downloaded images using the [`docker image ls`](/reference/cli/docker/image/ls.md) command:
 
-   ```console
+   ```bash
    docker image ls
    ```
 
    You will see output like the following:
 
-   ```console
+   ```bash
    REPOSITORY                 TAG       IMAGE ID       CREATED        SIZE
    docker/welcome-to-docker   latest    eedaff45e3c7   4 months ago   29.7MB
    ```
@@ -152,13 +152,13 @@ Follow the instructions to search and pull a Docker image using CLI to view its 
 
 2. List the image's layers using the [`docker image history`](/reference/cli/docker/image/history.md) command:
 
-   ```console
+   ```bash
    docker image history docker/welcome-to-docker
    ```
 
    You will see output like the following:
 
-   ```console
+   ```bash
    IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
    648f93a1ba7d   4 months ago   COPY /app/build /usr/share/nginx/html # buil…   1.6MB     buildkit.dockerfile.v0
    <missing>      5 months ago   /bin/sh -c #(nop)  CMD ["nginx" "-g" "daemon…   0B
@@ -202,6 +202,4 @@ The following resources will help you learn more about exploring, finding, and b
 
 Now that you have learned the basics of images, it's time to learn about distributing images through registries.
 
-<Button href="what-is-a-registry">
-What is a registry?
-</Button>
+<Button href="what-is-a-registry">What is a registry?</Button>

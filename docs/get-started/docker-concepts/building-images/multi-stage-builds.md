@@ -195,19 +195,19 @@ Now that you have the project, you’re ready to create the `Dockerfile`.
 
 1.  Execute the following command to build the Docker image:
 
-    ```console
+    ```bash
     $ docker build -t spring-helloworld .
     ```
 
 2.  Check the size of the Docker image by using the `docker images` command:
 
-    ```console
+    ```bash
     $ docker images
     ```
 
     Doing so will produce output like the following:
 
-    ```console
+    ```bash
     REPOSITORY          TAG       IMAGE ID       CREATED          SIZE
     spring-helloworld   latest    ff708d5ee194   3 minutes ago    880MB
     ```
@@ -218,7 +218,7 @@ Now that you have the project, you’re ready to create the `Dockerfile`.
 
 1. Now that you have an image built, it's time to run the container.
 
-   ```console
+   ```bash
    $ docker run -p 8080:8080 spring-helloworld
    ```
 
@@ -245,7 +245,7 @@ Now that you have the project, you’re ready to create the `Dockerfile`.
 
 2. Access your “Hello World” page through your web browser at [http://localhost:8080](http://localhost:8080), or via this curl command:
 
-   ```console
+   ```bash
    $ curl localhost:8080
    Hello World
    ```
@@ -282,7 +282,7 @@ Now that you have the project, you’re ready to create the `Dockerfile`.
 
 2. Now, rebuild your image and run your ready-to-use production build.
 
-   ```console
+   ```bash
    $ docker build -t spring-helloworld-builder .
    ```
 
@@ -294,13 +294,13 @@ Now that you have the project, you’re ready to create the `Dockerfile`.
 
 3. Look at the image size difference by using the `docker images` command:
 
-   ```console
+   ```bash
    $ docker images
    ```
 
    You'll get output similar to the following:
 
-   ```console
+   ```bash
    spring-helloworld-builder latest    c5c76cb815c0   24 minutes ago      428MB
    spring-helloworld         latest    ff708d5ee194   About an hour ago   880MB
    ```

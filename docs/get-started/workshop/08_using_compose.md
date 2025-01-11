@@ -13,8 +13,8 @@ keywords:
   - docker desktop
 description: Using Docker Compose for multi-container applications
 aliases:
- - /get-started/08_using_compose/
- - /guides/workshop/08_using_compose/
+  - /get-started/08_using_compose/
+  - /guides/workshop/08_using_compose/
 ---
 
 [Docker Compose](/manuals/compose/_index.md) is a tool that helps you define and
@@ -45,7 +45,7 @@ In the `getting-started-app` directory, create a file named `compose.yaml`.
 
 In [part 6](./07_multi_container.md), you used the following command to start the application service.
 
-```console
+```bash
 $ docker run -dp 127.0.0.1:3000:3000 \
   -w /app -v "$(pwd):/app" \
   --network todo-app \
@@ -91,7 +91,7 @@ You'll now define this service in the `compose.yaml` file.
 4. Next, migrate both the working directory (`-w /app`) and the volume mapping
    (`-v "$(pwd):/app"`) by using the `working_dir` and `volumes` definitions.
 
-    One advantage of Docker Compose volume definitions is you can use relative paths from the current directory.
+   One advantage of Docker Compose volume definitions is you can use relative paths from the current directory.
 
    ```yaml
    services:
@@ -128,7 +128,7 @@ You'll now define this service in the `compose.yaml` file.
 
 Now, it's time to define the MySQL service. The command that you used for that container was the following:
 
-```console
+```bash
 $ docker run -d \
   --network todo-app --network-alias mysql \
   -v todo-mysql-data:/var/lib/mysql \
@@ -140,7 +140,6 @@ $ docker run -d \
 1. First define the new service and name it `mysql` so it automatically gets the network alias. Also specify the image to use as well.
 
    ```yaml
-
    services:
      app:
        # The app service definition
@@ -149,7 +148,7 @@ $ docker run -d \
    ```
 
 2. Next, define the volume mapping. When you ran the container with `docker
-   run`, Docker created the named volume automatically. However, that doesn't
+run`, Docker created the named volume automatically. However, that doesn't
    happen when running with Compose. You need to define the volume in the
    top-level `volumes:` section and then specify the mountpoint in the service
    config. By simply providing only the volume name, the default options are
@@ -188,7 +187,6 @@ $ docker run -d \
 
 At this point, your complete `compose.yaml` should look like this:
 
-
 ```yaml
 services:
   app:
@@ -226,11 +224,11 @@ Now that you have your `compose.yaml` file, you can start your application.
 2. Start up the application stack using the `docker compose up` command. Add the
    `-d` flag to run everything in the background.
 
-   ```console
+   ```bash
    $ docker compose up -d
    ```
 
-    When you run the previous command, you should see output like the following:
+   When you run the previous command, you should see output like the following:
 
    ```plaintext
    Creating network "app_default" with the default driver
@@ -239,24 +237,24 @@ Now that you have your `compose.yaml` file, you can start your application.
    Creating app_mysql_1 ... done
    ```
 
-    You'll notice that Docker Compose created the volume as well as a network. By default, Docker Compose automatically creates a network specifically for the application stack (which is why you didn't define one in the Compose file).
+   You'll notice that Docker Compose created the volume as well as a network. By default, Docker Compose automatically creates a network specifically for the application stack (which is why you didn't define one in the Compose file).
 
 3. Look at the logs using the `docker compose logs -f` command. You'll see the logs from each of the services interleaved
-    into a single stream. This is incredibly useful when you want to watch for timing-related issues. The `-f` flag follows the
-    log, so will give you live output as it's generated.
+   into a single stream. This is incredibly useful when you want to watch for timing-related issues. The `-f` flag follows the
+   log, so will give you live output as it's generated.
 
-    If you have run the command already, you'll see output that looks like this:
+   If you have run the command already, you'll see output that looks like this:
 
-    ```plaintext
-    mysql_1  | 2019-10-03T03:07:16.083639Z 0 [Note] mysqld: ready for connections.
-    mysql_1  | Version: '8.0.31'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
-    app_1    | Connected to mysql db at host mysql
-    app_1    | Listening on port 3000
-    ```
+   ```plaintext
+   mysql_1  | 2019-10-03T03:07:16.083639Z 0 [Note] mysqld: ready for connections.
+   mysql_1  | Version: '8.0.31'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
+   app_1    | Connected to mysql db at host mysql
+   app_1    | Listening on port 3000
+   ```
 
-    The service name is displayed at the beginning of the line (often colored) to help distinguish messages. If you want to
-    view the logs for a specific service, you can add the service name to the end of the logs command (for example,
-    `docker compose logs -f app`).
+   The service name is displayed at the beginning of the line (often colored) to help distinguish messages. If you want to
+   view the logs for a specific service, you can add the service name to the end of the logs command (for example,
+   `docker compose logs -f app`).
 
 4. At this point, you should be able to open your app in your browser on [http://localhost:3000](http://localhost:3000) and see it running.
 
@@ -278,7 +276,7 @@ for the entire app. The containers will stop and the network will be removed.
 > [!WARNING]
 >
 > By default, named volumes in your compose file are not removed when you run `docker compose down`. If you want to
->remove the volumes, you need to add the `--volumes` flag.
+> remove the volumes, you need to add the `--volumes` flag.
 >
 > The Docker Desktop Dashboard does not remove volumes when you delete the app stack.
 
@@ -288,9 +286,10 @@ In this section, you learned about Docker Compose and how it helps you simplify
 the way you define and share multi-service applications.
 
 Related information:
- - [Compose overview](/manuals/compose/_index.md)
- - [Compose file reference](/reference/compose-file/_index.md)
- - [Compose CLI reference](/reference/cli/docker/compose/_index.md)
+
+- [Compose overview](/manuals/compose/_index.md)
+- [Compose file reference](/reference/compose-file/_index.md)
+- [Compose CLI reference](/reference/cli/docker/compose/_index.md)
 
 ## Next steps
 

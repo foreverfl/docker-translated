@@ -65,19 +65,19 @@ In this first step, you will create your own base image that you will then use f
 
 2. In a terminal, run the following command to start a new container:
 
-   ```console
+   ```bash
    $ docker run --name=base-container -ti ubuntu
    ```
 
    Once the image has been downloaded and the container has started, you should see a new shell prompt. This is running inside your container. It will look similar to the following (the container ID will vary):
 
-   ```console
+   ```bash
    root@d8c5ca119fcd:/#
    ```
 
 3. Inside the container, run the following command to install Node.js:
 
-   ```console
+   ```bash
    $ apt update && apt install -y nodejs
    ```
 
@@ -85,7 +85,7 @@ In this first step, you will create your own base image that you will then use f
 
 4. Validate if Node is installed by running the following command:
 
-   ```console
+   ```bash
    $ node -e 'console.log("Hello world!")'
    ```
 
@@ -93,19 +93,19 @@ In this first step, you will create your own base image that you will then use f
 
 5. Now that you have Node installed, you’re ready to save the changes you’ve made as a new image layer, from which you can start new containers or build new images. To do so, you will use the [`docker container commit`](https://docs.docker.com/reference/cli/docker/container/commit/) command. Run the following command in a new terminal:
 
-   ```console
+   ```bash
    $ docker container commit -m "Add node" base-container node-base
    ```
 
 6. View the layers of your image using the `docker image history` command:
 
-   ```console
+   ```bash
    $ docker image history node-base
    ```
 
    You will see output similar to the following:
 
-   ```console
+   ```bash
    IMAGE          CREATED          CREATED BY                                      SIZE      COMMENT
    d5c1fca2cdc4   10 seconds ago   /bin/bash                                       126MB     Add node
    2b7cc08dcdbb   5 weeks ago      /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B
@@ -120,7 +120,7 @@ In this first step, you will create your own base image that you will then use f
 
 7. To prove your image has Node installed, you can start a new container using this new image:
 
-   ```console
+   ```bash
    $ docker run node-base node -e "console.log('Hello again')"
    ```
 
@@ -128,7 +128,7 @@ In this first step, you will create your own base image that you will then use f
 
 8. Now that you’re done creating your base image, you can remove that container:
 
-   ```console
+   ```bash
    $ docker rm -f base-container
    ```
 
@@ -144,25 +144,25 @@ Now that you have a base image, you can extend that image to build additional im
 
 1. Start a new container using the newly created node-base image:
 
-   ```console
+   ```bash
    $ docker run --name=app-container -ti node-base
    ```
 
 2. Inside of this container, run the following command to create a Node program:
 
-   ```console
+   ```bash
    $ echo 'console.log("Hello from an app")' > app.js
    ```
 
    To run this Node program, you can use the following command and see the message printed on the screen:
 
-   ```console
+   ```bash
    $ node app.js
    ```
 
 3. In another terminal, run the following command to save this container’s changes as a new image:
 
-   ```console
+   ```bash
    $ docker container commit -c "CMD node app.js" -m "Add app" app-container sample-app
    ```
 
@@ -170,13 +170,13 @@ Now that you have a base image, you can extend that image to build additional im
 
 4. In a terminal outside of the container, run the following command to view the updated layers:
 
-   ```console
+   ```bash
    $ docker image history sample-app
    ```
 
    You’ll then see output that looks like the following. Note the top layer comment has “Add app” and the next layer has “Add node”:
 
-   ```console
+   ```bash
    IMAGE          CREATED              CREATED BY                                      SIZE      COMMENT
    c1502e2ec875   About a minute ago   /bin/bash                                       33B       Add app
    5310da79c50a   4 minutes ago        /bin/bash                                       126MB     Add node
@@ -190,7 +190,7 @@ Now that you have a base image, you can extend that image to build additional im
 
 5. Finally, start a new container using the brand new image. Since you specified the default command, you can use the following command:
 
-   ```console
+   ```bash
    $ docker run sample-app
    ```
 
@@ -198,7 +198,7 @@ Now that you have a base image, you can extend that image to build additional im
 
 6. Now that you’re done with your containers, you can remove them using the following command:
 
-   ```console
+   ```bash
    $ docker rm -f app-container
    ```
 
