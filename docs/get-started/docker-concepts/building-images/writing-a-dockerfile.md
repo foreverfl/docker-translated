@@ -159,5 +159,7 @@ To learn more about writing a Dockerfile, visit the following resources:
 
 Now that you have created a Dockerfile and learned the basics, it's time to learn about building, tagging, and pushing the images.
 
-{{< button text="Build, tag and publish the Image" url="build-tag-and-publish-an-image" >}}
+<Button href="build-tag-and-publish-an-image">
+Build, tag and publish the Image
+</Button>
 

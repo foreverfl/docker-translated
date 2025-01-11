@@ -92,70 +92,62 @@ name of the volume.
 
 You can create the volume and start the container using the CLI or Docker Desktop's graphical interface.
 
-{{< tabs >}}
-{{< tab name="CLI" >}}
+<Tabs>
+  <TabItem value="cli" label="CLI">
+    1. Create a volume by using the `docker volume create` command.
 
-1. Create a volume by using the `docker volume create` command.
+       ```bash
+       docker volume create todo-db
+       ```
 
-   ```console
-   $ docker volume create todo-db
-   ```
+    2. Stop and remove the todo app container once again with `docker rm -f <id>`, as it is still running without using the persistent volume.
 
-2. Stop and remove the todo app container once again with `docker rm -f <id>`,
-   as it is still running without using the persistent volume.
+    3. Start the todo app container, but add the `--mount` option to specify a volume mount. Give the volume a name, and mount it to `/etc/todos` in the container, which captures all files created at the path.
 
-3. Start the todo app container, but add the `--mount` option to specify a
-   volume mount. Give the volume a name, and mount it to `/etc/todos` in the
-   container, which captures all files created at the path.
+       ```bash
+       docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=todo-db,target=/etc/todos getting-started
+       ```
 
-   ```console
-   $ docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=todo-db,target=/etc/todos getting-started
-   ```
+    > **Note**:  
+    > If you're using Git Bash, you must use different syntax for this command.
+    >
+    > ```bash
+    > docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=todo-db,target=//etc/todos getting-started
+    > ```
+    >
+    > For more details about Git Bash's syntax differences, see  
+    > [Working with Git Bash](/desktop/troubleshoot-and-support/troubleshoot/topics/#working-with-git-bash).
+  </TabItem>
 
-   > [!NOTE]
-   >
-   > If you're using Git Bash, you must use different syntax for this command.
-   >
-   > ```console
-   > $ docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=todo-db,target=//etc/todos getting-started
-   > ```
-   >
-   > For more details about Git Bash's syntax differences, see
-   > [Working with Git Bash](/desktop/troubleshoot-and-support/troubleshoot/topics/#working-with-git-bash).
+  <TabItem value="docker-desktop" label="Docker Desktop">
+    To create a volume:
 
-{{< /tab >}}
-{{< tab name="Docker Desktop" >}}
+    1. Select **Volumes** in Docker Desktop.  
+    2. In **Volumes**, select **Create**.  
+    3. Specify `todo-db` as the volume name, and then select **Create**.  
 
-To create a volume:
+    To stop and remove the app container:
 
-1. Select **Volumes** in Docker Desktop.
-2. In **Volumes**, select **Create**.
-3. Specify `todo-db` as the volume name, and then select **Create**.
+    1. Select **Containers** in Docker Desktop.  
+    2. Select **Delete** in the **Actions** column for the container.  
 
-To stop and remove the app container:
+    To start the todo app container with the volume mounted:
 
-1. Select **Containers** in Docker Desktop.
-2. Select **Delete** in the **Actions** column for the container.
+    1. Select the search box at the top of Docker Desktop.  
+    2. In the search window, select the **Images** tab.  
+    3. In the search box, specify the image name, `getting-started`.  
 
-To start the todo app container with the volume mounted:
+       > **Tip**:  
+       > Use the search filter to filter images and only show **Local images**.  
 
-1. Select the search box at the top of Docker Desktop.
-2. In the search window, select the **Images** tab.
-3. In the search box, specify the image name, `getting-started`.
-
-   > [!TIP]
-   >
-   > Use the search filter to filter images and only show **Local images**.
-
-4. Select your image and then select **Run**.
-5. Select **Optional settings**.
-6. In **Host port**, specify the port, for example, `3000`.
-7. In **Host path**, specify the name of the volume, `todo-db`.
-8. In **Container path**, specify `/etc/todos`.
-9. Select **Run**.
-
-{{< /tab >}}
-{{< /tabs >}}
+    4. Select your image and then select **Run**.  
+    5. Select **Optional settings**.  
+    6. In **Host port**, specify the port, for example, `3000`.  
+    7. In **Host path**, specify the name of the volume, `todo-db`.  
+    8. In **Container path**, specify `/etc/todos`.  
+    9. Select **Run**.  
+  </TabItem>
+</Tabs>
 
 ### Verify that the data persists
 
@@ -214,4 +206,6 @@ Related information:
 
 Next, you'll learn how you can develop your app more efficiently using bind mounts.
 
-{{< button text="Use bind mounts" url="06_bind_mounts.md" >}}
+<Button href="06_bind_mounts.md">
+Use bind mounts
+</Button>

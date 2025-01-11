@@ -147,4 +147,6 @@ Related information:
 
 In the next section, you'll learn how to persist data in your containerized application.
 
-{{< button text="Persist the DB" url="05_persisting_data.md" >}}
+<Button href="05_persisting_data.md">
+Persist the DB
+</Button>

@@ -66,36 +66,31 @@ work.
 3. Run the following command to start `bash` in an `ubuntu` container with a
    bind mount.
 
-   {{< tabs >}}
-   {{< tab name="Mac / Linux" >}}
+  <Tabs>
+    <TabItem value="mac-linux" label="Mac / Linux">
+      ```bash
+      docker run -it --mount type=bind,src="$(pwd)",target=/src ubuntu bash
+      ```
+    </TabItem>
 
-   ```console
-   $ docker run -it --mount type=bind,src="$(pwd)",target=/src ubuntu bash
-   ```
+    <TabItem value="command-prompt" label="Command Prompt">
+      ```bash
+      docker run -it --mount "type=bind,src=%cd%,target=/src" ubuntu bash
+      ```
+    </TabItem>
 
-   {{< /tab >}}
-   {{< tab name="Command Prompt" >}}
+    <TabItem value="git-bash" label="Git Bash">
+      ```bash
+      docker run -it --mount type=bind,src="/$(pwd)",target=/src ubuntu bash
+      ```
+    </TabItem>
 
-   ```console
-   $ docker run -it --mount "type=bind,src=%cd%,target=/src" ubuntu bash
-   ```
-
-   {{< /tab >}}
-   {{< tab name="Git Bash" >}}
-
-   ```console
-   $ docker run -it --mount type=bind,src="/$(pwd)",target=/src ubuntu bash
-   ```
-
-   {{< /tab >}}
-   {{< tab name="PowerShell" >}}
-
-   ```console
-   $ docker run -it --mount "type=bind,src=$($pwd),target=/src" ubuntu bash
-   ```
-
-   {{< /tab >}}
-   {{< /tabs >}}
+    <TabItem value="powershell" label="PowerShell">
+      ```bash
+      docker run -it --mount "type=bind,src=$($pwd),target=/src" ubuntu bash
+      ```
+    </TabItem>
+  </Tabs>
 
    The `--mount type=bind` option tells Docker to create a bind mount, where `src` is the
    current working directory on your host machine (`getting-started-app`), and
@@ -176,235 +171,151 @@ mount that does the following:
 
 You can use the CLI or Docker Desktop to run your container with a bind mount.
 
-{{< tabs >}}
-{{< tab name="Mac / Linux CLI" >}}
+<Tabs>
+  <TabItem value="mac-linux" label="Mac / Linux CLI">
+    1. Make sure you don't have any `getting-started` containers currently running.
 
-1. Make sure you don't have any `getting-started` containers currently running.
+    2. Run the following command from the `getting-started-app` directory.
 
-2. Run the following command from the `getting-started-app` directory.
+       ```bash
+       docker run -dp 127.0.0.1:3000:3000 \
+           -w /app --mount type=bind,src="$(pwd)",target=/app \
+           node:18-alpine \
+           sh -c "yarn install && yarn run dev"
+       ```
 
-   ```console
-   $ docker run -dp 127.0.0.1:3000:3000 \
-       -w /app --mount type=bind,src="$(pwd)",target=/app \
-       node:18-alpine \
-       sh -c "yarn install && yarn run dev"
-   ```
+    The following is a breakdown of the command:
 
-   The following is a breakdown of the command:
+    - `-dp 127.0.0.1:3000:3000` - Run in detached mode and create a port mapping.
+    - `-w /app` - Sets the "working directory" in the container.
+    - `--mount type=bind,src="$(pwd)",target=/app` - Bind mount the current directory to `/app` in the container.
+    - `node:18-alpine` - The image to use.
+    - `sh -c "yarn install && yarn run dev"` - Starts the development server.
 
-   - `-dp 127.0.0.1:3000:3000` - same as before. Run in detached (background) mode and
-     create a port mapping
-   - `-w /app` - sets the "working directory" or the current directory that the
-     command will run from
-   - `--mount type=bind,src="$(pwd)",target=/app` - bind mount the current
-     directory from the host into the `/app` directory in the container
-   - `node:18-alpine` - the image to use. Note that this is the base image for
-     your app from the Dockerfile
-   - `sh -c "yarn install && yarn run dev"` - the command. You're starting a
-     shell using `sh` (alpine doesn't have `bash`) and running `yarn install` to
-     install packages and then running `yarn run dev` to start the development
-     server. If you look in the `package.json`, you'll see that the `dev` script
-     starts `nodemon`.
+    3. You can watch the logs using `docker logs <container-id>`:
 
-3. You can watch the logs using `docker logs <container-id>`. You'll know you're
-   ready to go when you see this:
+       ```bash
+       docker logs -f <container-id>
+       ```
 
-   ```console
-   $ docker logs -f <container-id>
-   nodemon -L src/index.js
-   [nodemon] 2.0.20
-   [nodemon] to restart at any time, enter `rs`
-   [nodemon] watching path(s): *.*
-   [nodemon] watching extensions: js,mjs,json
-   [nodemon] starting `node src/index.js`
-   Using sqlite database at /etc/todos/todo.db
-   Listening on port 3000
-   ```
+       You'll know you're ready when you see:
 
-   When you're done watching the logs, exit out by hitting `Ctrl`+`C`.
+       ```plaintext
+       nodemon -L src/index.js
+       [nodemon] 2.0.20
+       [nodemon] to restart at any time, enter `rs`
+       [nodemon] watching path(s): *.*
+       [nodemon] watching extensions: js,mjs,json
+       [nodemon] starting `node src/index.js`
+       Using sqlite database at /etc/todos/todo.db
+       Listening on port 3000
+       ```
 
-{{< /tab >}}
-{{< tab name="PowerShell CLI" >}}
+       Exit the logs by pressing `Ctrl`+`C`.
+  </TabItem>
 
-1. Make sure you don't have any `getting-started` containers currently running.
+  <TabItem value="powershell" label="PowerShell CLI">
+    1. Make sure you don't have any `getting-started` containers currently running.
 
-2. Run the following command from the `getting-started-app` directory.
+    2. Run the following command from the `getting-started-app` directory.
 
-   ```powershell
-   $ docker run -dp 127.0.0.1:3000:3000 `
-       -w /app --mount "type=bind,src=$pwd,target=/app" `
-       node:18-alpine `
-       sh -c "yarn install && yarn run dev"
-   ```
+       ```powershell
+       docker run -dp 127.0.0.1:3000:3000 `
+           -w /app --mount "type=bind,src=$pwd,target=/app" `
+           node:18-alpine `
+           sh -c "yarn install && yarn run dev"
+       ```
 
-   The following is a breakdown of the command:
+    The breakdown of the command is the same as the "Mac / Linux CLI" tab.
 
-   - `-dp 127.0.0.1:3000:3000` - same as before. Run in detached (background) mode and
-     create a port mapping
-   - `-w /app` - sets the "working directory" or the current directory that the
-     command will run from
-   - `--mount "type=bind,src=$pwd,target=/app"` - bind mount the current
-     directory from the host into the `/app` directory in the container
-   - `node:18-alpine` - the image to use. Note that this is the base image for
-     your app from the Dockerfile
-   - `sh -c "yarn install && yarn run dev"` - the command. You're starting a
-     shell using `sh` (alpine doesn't have `bash`) and running `yarn install` to
-     install packages and then running `yarn run dev` to start the development
-     server. If you look in the `package.json`, you'll see that the `dev` script
-     starts `nodemon`.
+    3. You can watch the logs using `docker logs <container-id>`:
 
-3. You can watch the logs using `docker logs <container-id>`. You'll know you're
-   ready to go when you see this:
+       ```bash
+       docker logs -f <container-id>
+       ```
 
-   ```console
-   $ docker logs -f <container-id>
-   nodemon -L src/index.js
-   [nodemon] 2.0.20
-   [nodemon] to restart at any time, enter `rs`
-   [nodemon] watching path(s): *.*
-   [nodemon] watching extensions: js,mjs,json
-   [nodemon] starting `node src/index.js`
-   Using sqlite database at /etc/todos/todo.db
-   Listening on port 3000
-   ```
+       You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+  </TabItem>
 
-   When you're done watching the logs, exit out by hitting `Ctrl`+`C`.
+  <TabItem value="command-prompt" label="Command Prompt CLI">
+    1. Make sure you don't have any `getting-started` containers currently running.
 
-{{< /tab >}}
-{{< tab name="Command Prompt CLI" >}}
+    2. Run the following command from the `getting-started-app` directory.
 
-1. Make sure you don't have any `getting-started` containers currently running.
+       ```cmd
+       docker run -dp 127.0.0.1:3000:3000 ^
+           -w /app --mount "type=bind,src=%cd%,target=/app" ^
+           node:18-alpine ^
+           sh -c "yarn install && yarn run dev"
+       ```
 
-2. Run the following command from the `getting-started-app` directory.
+    The breakdown of the command is the same as the "Mac / Linux CLI" tab.
 
-   ```console
-   $ docker run -dp 127.0.0.1:3000:3000 ^
-       -w /app --mount "type=bind,src=%cd%,target=/app" ^
-       node:18-alpine ^
-       sh -c "yarn install && yarn run dev"
-   ```
+    3. You can watch the logs using `docker logs <container-id>`:
 
-   The following is a breakdown of the command:
+       ```bash
+       docker logs -f <container-id>
+       ```
 
-   - `-dp 127.0.0.1:3000:3000` - same as before. Run in detached (background) mode and
-     create a port mapping
-   - `-w /app` - sets the "working directory" or the current directory that the
-     command will run from
-   - `--mount "type=bind,src=%cd%,target=/app"` - bind mount the current
-     directory from the host into the `/app` directory in the container
-   - `node:18-alpine` - the image to use. Note that this is the base image for
-     your app from the Dockerfile
-   - `sh -c "yarn install && yarn run dev"` - the command. You're starting a
-     shell using `sh` (alpine doesn't have `bash`) and running `yarn install` to
-     install packages and then running `yarn run dev` to start the development
-     server. If you look in the `package.json`, you'll see that the `dev` script
-     starts `nodemon`.
+       You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+  </TabItem>
 
-3. You can watch the logs using `docker logs <container-id>`. You'll know you're
-   ready to go when you see this:
+  <TabItem value="git-bash" label="Git Bash CLI">
+    1. Make sure you don't have any `getting-started` containers currently running.
 
-   ```console
-   $ docker logs -f <container-id>
-   nodemon -L src/index.js
-   [nodemon] 2.0.20
-   [nodemon] to restart at any time, enter `rs`
-   [nodemon] watching path(s): *.*
-   [nodemon] watching extensions: js,mjs,json
-   [nodemon] starting `node src/index.js`
-   Using sqlite database at /etc/todos/todo.db
-   Listening on port 3000
-   ```
+    2. Run the following command from the `getting-started-app` directory.
 
-   When you're done watching the logs, exit out by hitting `Ctrl`+`C`.
+       ```bash
+       docker run -dp 127.0.0.1:3000:3000 \
+           -w //app --mount type=bind,src="/$(pwd)",target=/app \
+           node:18-alpine \
+           sh -c "yarn install && yarn run dev"
+       ```
 
-{{< /tab >}}
-{{< tab name="Git Bash CLI" >}}
+    The breakdown of the command is the same as the "Mac / Linux CLI" tab.
 
-1. Make sure you don't have any `getting-started` containers currently running.
+    3. You can watch the logs using `docker logs <container-id>`:
 
-2. Run the following command from the `getting-started-app` directory.
+       ```bash
+       docker logs -f <container-id>
+       ```
 
-   ```console
-   $ docker run -dp 127.0.0.1:3000:3000 \
-       -w //app --mount type=bind,src="/$(pwd)",target=/app \
-       node:18-alpine \
-       sh -c "yarn install && yarn run dev"
-   ```
+       You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+  </TabItem>
 
-   The following is a breakdown of the command:
+  <TabItem value="docker-desktop" label="Docker Desktop">
+    1. Make sure you don't have any `getting-started` containers currently running.
 
-   - `-dp 127.0.0.1:3000:3000` - same as before. Run in detached (background) mode and
-     create a port mapping
-   - `-w //app` - sets the "working directory" or the current directory that the
-     command will run from
-   - `--mount type=bind,src="/$(pwd)",target=/app` - bind mount the current
-     directory from the host into the `/app` directory in the container
-   - `node:18-alpine` - the image to use. Note that this is the base image for
-     your app from the Dockerfile
-   - `sh -c "yarn install && yarn run dev"` - the command. You're starting a
-     shell using `sh` (alpine doesn't have `bash`) and running `yarn install` to
-     install packages and then running `yarn run dev` to start the development
-     server. If you look in the `package.json`, you'll see that the `dev` script
-     starts `nodemon`.
+    2. Run the image with a bind mount:
 
-3. You can watch the logs using `docker logs <container-id>`. You'll know you're
-   ready to go when you see this:
+       - Select the search box at the top of Docker Desktop.
+       - In the search window, select the **Images** tab.
+       - In the search box, specify the container name, `getting-started`.
+       - Select your image and then select **Run**.
+       - Select **Optional settings**.
+       - In **Host path**, specify the path to the `getting-started-app` directory on your host machine.
+       - In **Container path**, specify `/app`.
+       - Select **Run**.
 
-   ```console
-   $ docker logs -f <container-id>
-   nodemon -L src/index.js
-   [nodemon] 2.0.20
-   [nodemon] to restart at any time, enter `rs`
-   [nodemon] watching path(s): *.*
-   [nodemon] watching extensions: js,mjs,json
-   [nodemon] starting `node src/index.js`
-   Using sqlite database at /etc/todos/todo.db
-   Listening on port 3000
-   ```
+    3. You can watch the container logs using Docker Desktop:
 
-   When you're done watching the logs, exit out by hitting `Ctrl`+`C`.
+       - Select **Containers** in Docker Desktop.
+       - Select your container name.
 
-{{< /tab >}}
-{{< tab name="Docker Desktop" >}}
+       You'll know you're ready when you see:
 
-Make sure you don't have any `getting-started` containers currently running.
-
-Run the image with a bind mount.
-
-1. Select the search box at the top of Docker Desktop.
-2. In the search window, select the **Images** tab.
-3. In the search box, specify the container name, `getting-started`.
-
-   > [!TIP]
-   >
-   > Use the search filter to filter images and only show **Local images**.
-
-4. Select your image and then select **Run**.
-5. Select **Optional settings**.
-6. In **Host path**, specify the path to the `getting-started-app` directory on your host machine.
-7. In **Container path**, specify `/app`.
-8. Select **Run**.
-
-You can watch the container logs using Docker Desktop.
-
-1. Select **Containers** in Docker Desktop.
-2. Select your container name.
-
-You'll know you're ready to go when you see this:
-
-```console
-nodemon -L src/index.js
-[nodemon] 2.0.20
-[nodemon] to restart at any time, enter `rs`
-[nodemon] watching path(s): *.*
-[nodemon] watching extensions: js,mjs,json
-[nodemon] starting `node src/index.js`
-Using sqlite database at /etc/todos/todo.db
-Listening on port 3000
-```
-
-{{< /tab >}}
-{{< /tabs >}}
+       ```plaintext
+       nodemon -L src/index.js
+       [nodemon] 2.0.20
+       [nodemon] to restart at any time, enter `rs`
+       [nodemon] watching path(s): *.*
+       [nodemon] watching extensions: js,mjs,json
+       [nodemon] starting `node src/index.js`
+       Using sqlite database at /etc/todos/todo.db
+       Listening on port 3000
+       ```
+  </TabItem>
+</Tabs>
 
 ### Develop your app with the development container
 
@@ -457,4 +368,6 @@ simplicity, you'll keep using a relational database and switch your application
 to use MySQL. But, how should you run MySQL? How do you allow the containers to
 talk to each other? You'll learn about that in the next section.
 
-{{< button text="Multi container apps" url="07_multi_container.md" >}}
+<Button href="07_multi_container.md">
+Multi container apps
+</Button>

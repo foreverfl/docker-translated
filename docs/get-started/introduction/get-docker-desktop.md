@@ -96,5 +96,7 @@ Docker Desktop simplifies container management for developers by streamlining th
 
 Now that you have Docker Desktop installed and ran your first container, it's time to start developing with containers.
 
-{{< button text="Develop with containers" url="develop-with-containers" >}}
+<Button href="develop-with-containers">
+Develop with containers
+</Button>
 

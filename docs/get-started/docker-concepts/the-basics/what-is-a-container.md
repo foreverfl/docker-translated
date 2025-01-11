@@ -197,4 +197,6 @@ The following links provide additional guidance into containers:
 
 Now that you have learned the basics of a Docker container, it's time to learn about Docker images.
 
-{{< button text="What is an image?" url="what-is-an-image" >}}
+<Button href="what-is-an-image">
+What is an image?
+</Button>

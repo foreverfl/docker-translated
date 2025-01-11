@@ -210,5 +210,7 @@ This command runs a Postgres container, sets an environment variable for passwor
 
 Now that you have learned about overriding container defaults, it's time to learn how to persist container data.
 
-{{< button text="Persisting container data" url="persisting-container-data" >}}
+<Button href="persisting-container-data">
+Persisting container data
+</Button>
 

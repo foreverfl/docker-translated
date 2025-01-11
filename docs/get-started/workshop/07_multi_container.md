@@ -55,44 +55,40 @@ In the following steps, you'll create the network first and then attach the MySQ
 2. Start a MySQL container and attach it to the network. You're also going to define a few environment variables that the
    database will use to initialize the database. To learn more about the MySQL environment variables, see the "Environment Variables" section in the [MySQL Docker Hub listing](https://hub.docker.com/_/mysql/).
 
-   {{< tabs >}}
-   {{< tab name="Mac / Linux / Git Bash" >}}
-   
-   ```console
-   $ docker run -d \
-       --network todo-app --network-alias mysql \
-       -v todo-mysql-data:/var/lib/mysql \
-       -e MYSQL_ROOT_PASSWORD=secret \
-       -e MYSQL_DATABASE=todos \
-       mysql:8.0
-   ```
+<Tabs>
+  <TabItem value="mac-linux-gitbash" label="Mac / Linux / Git Bash">
+    ```bash
+    docker run -d \
+        --network todo-app --network-alias mysql \
+        -v todo-mysql-data:/var/lib/mysql \
+        -e MYSQL_ROOT_PASSWORD=secret \
+        -e MYSQL_DATABASE=todos \
+        mysql:8.0
+    ```
+  </TabItem>
 
-   {{< /tab >}}
-   {{< tab name="PowerShell" >}}
+  <TabItem value="powershell" label="PowerShell">
+    ```powershell
+    docker run -d `
+        --network todo-app --network-alias mysql `
+        -v todo-mysql-data:/var/lib/mysql `
+        -e MYSQL_ROOT_PASSWORD=secret `
+        -e MYSQL_DATABASE=todos `
+        mysql:8.0
+    ```
+  </TabItem>
 
-   ```powershell
-   $ docker run -d `
-       --network todo-app --network-alias mysql `
-       -v todo-mysql-data:/var/lib/mysql `
-       -e MYSQL_ROOT_PASSWORD=secret `
-       -e MYSQL_DATABASE=todos `
-       mysql:8.0
-   ```
-   
-   {{< /tab >}}
-   {{< tab name="Command Prompt" >}}
-
-   ```console
-   $ docker run -d ^
-       --network todo-app --network-alias mysql ^
-       -v todo-mysql-data:/var/lib/mysql ^
-       -e MYSQL_ROOT_PASSWORD=secret ^
-       -e MYSQL_DATABASE=todos ^
-       mysql:8.0
-   ```
-   
-   {{< /tab >}}
-   {{< /tabs >}}
+  <TabItem value="command-prompt" label="Command Prompt">
+    ```cmd
+    docker run -d ^
+        --network todo-app --network-alias mysql ^
+        -v todo-mysql-data:/var/lib/mysql ^
+        -e MYSQL_ROOT_PASSWORD=secret ^
+        -e MYSQL_DATABASE=todos ^
+        mysql:8.0
+    ```
+  </TabItem>
+</Tabs>
    
    In the previous command, you can see the `--network-alias` flag. In a later section, you'll learn more about this flag.
 
@@ -214,70 +210,67 @@ You can now start your dev-ready container.
 
 1. Specify each of the previous environment variables, as well as connect the container to your app network. Make sure that you are in the `getting-started-app` directory when you run this command.
 
-   {{< tabs >}}
-   {{< tab name="Mac / Linux" >}}
+<Tabs>
+  <TabItem value="mac-linux" label="Mac / Linux">
+    ```bash
+    docker run -dp 127.0.0.1:3000:3000 \
+      -w /app -v "$(pwd):/app" \
+      --network todo-app \
+      -e MYSQL_HOST=mysql \
+      -e MYSQL_USER=root \
+      -e MYSQL_PASSWORD=secret \
+      -e MYSQL_DB=todos \
+      node:18-alpine \
+      sh -c "yarn install && yarn run dev"
+    ```
+  </TabItem>
 
-   ```console
-   $ docker run -dp 127.0.0.1:3000:3000 \
-     -w /app -v "$(pwd):/app" \
-     --network todo-app \
-     -e MYSQL_HOST=mysql \
-     -e MYSQL_USER=root \
-     -e MYSQL_PASSWORD=secret \
-     -e MYSQL_DB=todos \
-     node:18-alpine \
-     sh -c "yarn install && yarn run dev"
-   ```
-   
-   {{< /tab >}}
-   {{< tab name="PowerShell" >}}
-   In Windows, run this command in PowerShell.
+  <TabItem value="powershell" label="PowerShell">
+    In Windows, run this command in PowerShell.
 
-   ```powershell
-   $ docker run -dp 127.0.0.1:3000:3000 `
-     -w /app -v "$(pwd):/app" `
-     --network todo-app `
-     -e MYSQL_HOST=mysql `
-     -e MYSQL_USER=root `
-     -e MYSQL_PASSWORD=secret `
-     -e MYSQL_DB=todos `
-     node:18-alpine `
-     sh -c "yarn install && yarn run dev"
-   ```
+    ```powershell
+    docker run -dp 127.0.0.1:3000:3000 `
+      -w /app -v "$(pwd):/app" `
+      --network todo-app `
+      -e MYSQL_HOST=mysql `
+      -e MYSQL_USER=root `
+      -e MYSQL_PASSWORD=secret `
+      -e MYSQL_DB=todos `
+      node:18-alpine `
+      sh -c "yarn install && yarn run dev"
+    ```
+  </TabItem>
 
-   {{< /tab >}}
-   {{< tab name="Command Prompt" >}}
-   In Windows, run this command in Command Prompt.
+  <TabItem value="command-prompt" label="Command Prompt">
+    In Windows, run this command in Command Prompt.
 
-   ```console
-   $ docker run -dp 127.0.0.1:3000:3000 ^
-     -w /app -v "%cd%:/app" ^
-     --network todo-app ^
-     -e MYSQL_HOST=mysql ^
-     -e MYSQL_USER=root ^
-     -e MYSQL_PASSWORD=secret ^
-     -e MYSQL_DB=todos ^
-     node:18-alpine ^
-     sh -c "yarn install && yarn run dev"
-   ```
+    ```cmd
+    docker run -dp 127.0.0.1:3000:3000 ^
+      -w /app -v "%cd%:/app" ^
+      --network todo-app ^
+      -e MYSQL_HOST=mysql ^
+      -e MYSQL_USER=root ^
+      -e MYSQL_PASSWORD=secret ^
+      -e MYSQL_DB=todos ^
+      node:18-alpine ^
+      sh -c "yarn install && yarn run dev"
+    ```
+  </TabItem>
 
-   {{< /tab >}}
-   {{< tab name="Git Bash" >}}
-
-   ```console
-   $ docker run -dp 127.0.0.1:3000:3000 \
-     -w //app -v "/$(pwd):/app" \
-     --network todo-app \
-     -e MYSQL_HOST=mysql \
-     -e MYSQL_USER=root \
-     -e MYSQL_PASSWORD=secret \
-     -e MYSQL_DB=todos \
-     node:18-alpine \
-     sh -c "yarn install && yarn run dev"
-   ```
-   
-   {{< /tab >}}
-   {{< /tabs >}}
+  <TabItem value="git-bash" label="Git Bash">
+    ```bash
+    docker run -dp 127.0.0.1:3000:3000 \
+      -w //app -v "/$(pwd):/app" \
+      --network todo-app \
+      -e MYSQL_HOST=mysql \
+      -e MYSQL_USER=root \
+      -e MYSQL_PASSWORD=secret \
+      -e MYSQL_DB=todos \
+      node:18-alpine \
+      sh -c "yarn install && yarn run dev"
+    ```
+  </TabItem>
+</Tabs>
 
 2. If you look at the logs for the container (`docker logs -f <container-id>`), you should see a message similar to the following, which indicates it's
    using the mysql database.
@@ -333,4 +326,6 @@ ports, and more. That's a lot to remember and it's certainly making things harde
 In the next section, you'll learn about Docker Compose. With Docker Compose, you can share your application stacks in a
 much easier way and let others spin them up with a single, simple command.
 
-{{< button text="Use Docker Compose" url="08_using_compose.md" >}}
+<Button href="08_using_compose.md">
+Use Docker Compose
+</Button>

@@ -169,4 +169,6 @@ In this walkthrough, you signed up for a Docker account, created your first Dock
 
 Now that you understand the basics of containers and images, you're ready to learn about Docker Compose.
 
-{{< button text="What is Docker Compose?" url="what-is-Docker-Compose" >}}
+<Button href="what-is-Docker-Compose">
+What is Docker Compose?
+</Button>

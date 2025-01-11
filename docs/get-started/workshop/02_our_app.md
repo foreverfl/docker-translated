@@ -131,31 +131,28 @@ At this point, you have a running todo list manager with a few items.
 
 If you take a quick look at your containers, you should see at least one container running that's using the `getting-started` image and on port `3000`. To see your containers, you can use the CLI or Docker Desktop's graphical interface.
 
-{{< tabs >}}
-{{< tab name="CLI" >}}
+<Tabs>
+  <TabItem value="cli" label="CLI">
+    Run the `docker ps` command in a terminal to list your containers.
 
-Run the `docker ps` command in a terminal to list your containers.
+    ```bash
+    docker ps
+    ```
 
-```console
-$ docker ps
-```
+    Output similar to the following should appear:
 
-Output similar to the following should appear.
+    ```plaintext
+    CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
+    df784548666d        getting-started     "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes        127.0.0.1:3000->3000/tcp   priceless_mcclintock
+    ```
+  </TabItem>
 
-```console
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                      NAMES
-df784548666d        getting-started     "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes        127.0.0.1:3000->3000/tcp   priceless_mcclintock
-```
+  <TabItem value="docker-desktop" label="Docker Desktop">
+    In Docker Desktop, select the **Containers** tab to see a list of your containers.
 
-{{< /tab >}}
-{{< tab name="Docker Desktop" >}}
-
-In Docker Desktop, select the **Containers** tab to see a list of your containers.
-
-![Docker Desktop with get-started container running](images/dashboard-two-containers.webp)
-
-{{< /tab >}}
-{{< /tabs >}}
+    ![Docker Desktop with get-started container running](./images/dashboard-two-containers.webp)
+  </TabItem>
+</Tabs>
 
 ## Summary
 
@@ -170,4 +167,6 @@ Related information:
 
 Next, you're going to make a modification to your app and learn how to update your running application with a new image. Along the way, you'll learn a few other useful commands.
 
-{{< button text="Update the application" url="03_updating_app.md" >}}
+<Button href="03_updating_app.md">
+Update the application
+</Button>

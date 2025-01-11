@@ -135,5 +135,7 @@ If you’d like to dive in deeper on this topic, be sure to check out the follow
 
 Now that you understand how to publish and expose ports, you're ready to learn how to override the container defaults using the `docker run` command.
 
-{{< button text="Overriding container defaults" url="overriding-container-defaults" >}}
+<Button href="overriding-container-defaults">
+Overriding container defaults
+</Button>
 
