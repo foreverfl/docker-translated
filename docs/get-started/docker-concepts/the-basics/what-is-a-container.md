@@ -52,8 +52,8 @@ A container is simply an isolated process with all of the files it needs to run.
 
 In this hands-on, you will see how to run a Docker container using the Docker Desktop GUI.
 
-{{< tabs group=concept-usage persist=true >}}
-{{< tab name="Using the GUI" >}}
+<Tabs>
+<TabItem value="gui" label="Using the GUI">
 
 Use the following instructions to run a container.
 
@@ -117,8 +117,8 @@ The `docker/welcome-to-docker` container continues to run until you stop it.
 
     ![Screenshot of the Docker Desktop Dashboard with the welcome container selected and being prepared to stop](images/stop-your-container.webp?border)
 
-{{< /tab >}}
-{{< tab name="Using the CLI" >}}
+</TabItem>
+<TabItem value="cli" label="Using the CLI">
 
 Follow the instructions to run a container using the CLI:
 
@@ -182,8 +182,8 @@ The `docker/welcome-to-docker` container continues to run until you stop it. You
 > docker stop a1f
 > ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Additional resources
 

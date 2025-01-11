@@ -45,8 +45,8 @@ For example, [Redis](https://hub.docker.com/_/redis) and [Memcached](https://hub
 
 ## Try it out
 
-{{< tabs group=concept-usage persist=true >}}
-{{< tab name="Using the GUI" >}}
+<Tabs>
+<TabItem value="gui" label="Using the GUI">
 
 In this hands-on, you will learn how to search and pull a container image using the Docker Desktop GUI.
 
@@ -80,9 +80,9 @@ Once you have an image downloaded, you can learn quite a few details about the i
 
    ![A screenshot of the image details view for the docker/welcome-to-docker image](images/image-layers.webp?border=true&w=1050&h=400)
 
-{{< /tab >}}
+</TabItem>
 
-{{< tab name="Using the CLI" >}}
+<TabItem value="cli" label="Using the CLI">
 
 Follow the instructions to search and pull a Docker image using CLI to view its layers.
 
@@ -184,8 +184,8 @@ Follow the instructions to search and pull a Docker image using CLI to view its 
    >
    > If you add the `--no-trunc` flag to the command, you will see the full command. Note that, since the output is in a table-like format, longer commands will cause the output to be very difficult to navigate.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 In this walkthrough, you searched and pulled a Docker image. In addition to pulling a Docker image, you also learned about the layers of a Docker Image.
 

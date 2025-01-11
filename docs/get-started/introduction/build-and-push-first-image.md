@@ -93,9 +93,8 @@ Now that you have a repository, you are ready to build and push your image. An i
 > A `Dockerfile` is a text-based script that provides the instruction set on how to build
 > the image. For this quick start, the repository already contains the Dockerfile.
 
-
-{{< tabs group="cli-or-vs-code" persist=true >}}
-{{< tab name="CLI" >}}
+<Tabs>
+<TabItem value="cli" label="CLI">
 
 1. To get started, either clone or [download the project as a ZIP file](https://github.com/docker/getting-started-todo-app/archive/refs/heads/main.zip) to your local machine.
 
@@ -143,17 +142,14 @@ Now that you have a repository, you are ready to build and push your image. An i
 
     Depending on your upload speeds, this may take a moment to push.
 
-{{< /tab >}}
-{{< tab name="VS Code" >}}
+</TabItem>
+<TabItem value="vscode" label="VS Code">
 
 1. Open Visual Studio Code. In the **File** menu, select **Open Folder**. Choose **Clone Git Repository** and paste this URL: [https://github.com/docker/getting-started-todo-app](https://github.com/docker/getting-started-todo-app)
 
     ![Screenshot of VS code showing how to clone a repository](images/clone-the-repo.webp?border=true)
 
-
-
 2. Right-click the `Dockerfile` and select the **Build Image...** menu item.
-
 
     ![Screenshot of VS Code showing the right-click menu and "Build Image" menu item](images/build-vscode-menu-item.webp?border=true)
 
@@ -175,8 +171,8 @@ Now that you have a repository, you are ready to build and push your image. An i
 
     Once the upload is finished, feel free to close the terminal.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 
 ## Recap

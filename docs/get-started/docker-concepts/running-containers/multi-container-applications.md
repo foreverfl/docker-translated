@@ -88,8 +88,6 @@ $ cd nginx-node-redis-main
 
 Inside this directory, you'll find two sub-directories - `nginx` and `web`.
 
-{{< /tab >}}
-{{< /tabs >}}
 
 2. [Download and install](/get-started/get-docker.md) Docker Desktop.
 

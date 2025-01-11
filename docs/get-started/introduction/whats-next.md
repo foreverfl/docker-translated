@@ -71,16 +71,16 @@ The following sections provide step-by-step guides to help you understand core D
 
 Get started learning the core concepts of containers, images, registries, and Docker Compose.
 
-{{< grid items="the-basics" >}}
+<!-- {{< grid items="the-basics" >}} -->
 
 ## Building images
 
 Craft optimized container images with Dockerfiles, build cache, and multi-stage builds.
 
-{{< grid items="building-images" >}}
+<!-- {{< grid items="building-images" >}} -->
 
 ## Running containers
 
 Master essential techniques for exposing ports, overriding defaults, persisting data, sharing files, and managing multi-container applications.
 
-{{< grid items="running-containers" >}}
+<!-- {{< grid items="running-containers" >}} -->
