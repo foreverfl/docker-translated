@@ -14,7 +14,7 @@ aliases:
 - /guides/docker-concepts/the-basics/what-is-a-registry/
 ---
 
-{{< youtube-embed 2WDl10Wv5rs >}}
+<YouTubeEmbed videoId="2WDl10Wv5rs" />
 
 ## Explanation
 

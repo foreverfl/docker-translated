@@ -10,8 +10,7 @@ keywords:
   - intro
   - concepts
   - containers
-  - 
-  docker desktop
+  - docker desktop
 description: Making sure you have more ideas of what you could do next with your application
 aliases:
  - /get-started/11_what_next/

@@ -17,7 +17,7 @@ aliases:
  - /guides/getting-started/develop-with-containers/
 ---
 
-{{< youtube-embed D0SDBrS3t9I >}}
+<YouTubeEmbed videoId="D0SDBrS3t9I" />
 
 ## Explanation
 

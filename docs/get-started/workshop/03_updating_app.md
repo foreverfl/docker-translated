@@ -10,12 +10,11 @@ keywords:
   - intro
   - concepts
   - containers
-  - 
-  docker desktop
+  - docker desktop
 description: Making changes to your application
 aliases:
- - /get-started/03_updating_app/
- - /guides/workshop/03_updating_app/
+  - /get-started/03_updating_app/
+  - /guides/workshop/03_updating_app/
 ---
 
 In [part 1](./02_our_app.md), you containerized a todo application. In this part, you'll update the application and image. You'll also learn how to stop and remove a container.
@@ -23,7 +22,6 @@ In [part 1](./02_our_app.md), you containerized a todo application. In this part
 ## Update the source code
 
 In the following steps, you'll change the "empty text" when you don't have any todo list items to "You have no todo items yet! Add one above!"
-
 
 1. In the `src/static/js/app.js` file, update line 56 to use the new empty text.
 
@@ -47,7 +45,7 @@ In the following steps, you'll change the "empty text" when you don't have any t
 You probably saw an error like this:
 
 ```console
-docker: Error response from daemon: driver failed programming external connectivity on endpoint laughing_burnell 
+docker: Error response from daemon: driver failed programming external connectivity on endpoint laughing_burnell
 (bb242b2ca4d67eba76e79474fb36bb5125708ebdabd7f45c8eaf16caaabde9dd): Bind for 127.0.0.1:3000 failed: port is already allocated.
 ```
 
@@ -111,7 +109,8 @@ To remove a container, you first need to stop it. Once it has stopped, you can r
 In this section, you learned how to update and rebuild a container, as well as how to stop and remove a container.
 
 Related information:
- - [docker CLI reference](/reference/cli/docker/)
+
+- [docker CLI reference](/reference/cli/docker/)
 
 ## Next steps
 

@@ -16,7 +16,7 @@ aliases:
 - /guides/docker-concepts/the-basics/what-is-a-container/
 ---
 
-{{< youtube-embed W1kWqFkiu7k >}}
+<YouTubeEmbed videoId="W1kWqFkiu7k" />
 
 ## Explanation
 

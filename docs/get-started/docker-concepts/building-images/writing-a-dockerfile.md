@@ -18,7 +18,7 @@ aliases:
  - /guides/docker-concepts/building-images/writing-a-dockerfile/
 ---
 
-{{< youtube-embed Jx8zoIhiP4c >}}
+<YouTubeEmbed videoId="Jx8zoIhiP4c" />
 
 ## Explanation
 

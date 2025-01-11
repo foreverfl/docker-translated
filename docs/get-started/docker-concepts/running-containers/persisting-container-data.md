@@ -13,7 +13,7 @@ aliases:
  - /guides/docker-concepts/running-containers/persisting-container-data/
 ---
 
-{{< youtube-embed 10_2BjqB_Ls >}}
+<YouTubeEmbed videoId="10_2BjqB_Ls" />
 
 ## Explanation
 

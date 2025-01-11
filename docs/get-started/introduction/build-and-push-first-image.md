@@ -15,8 +15,7 @@ aliases:
  - /guides/getting-started/build-and-push-first-image/
 ---
 
-{{< youtube-embed 7ge1s5nAa34 >}}
-
+<YouTubeEmbed videoId="7ge1s5nAa34" />
 ## Explanation
 
 Now that you've updated the [to-do list app](develop-with-containers.md), you’re ready to create a container image for the application and share it on Docker Hub. To do so, you will need to do the following:

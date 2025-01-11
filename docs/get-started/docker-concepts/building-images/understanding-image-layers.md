@@ -17,7 +17,7 @@ aliases:
  - /guides/docker-concepts/building-images/understanding-image-layers/
 ---
 
-{{< youtube-embed wJwqtAkmtQA >}}
+<YouTubeEmbed videoId="wJwqtAkmtQA" />
 
 ## Explanation
 

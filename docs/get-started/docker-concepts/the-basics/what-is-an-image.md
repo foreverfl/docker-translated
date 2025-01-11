@@ -13,7 +13,7 @@ aliases:
   - /get-started/run-docker-hub-images/
 ---
 
-{{< youtube-embed NyvT9REqLe4 >}}
+<YouTubeEmbed videoId="NyvT9REqLe4" />
 
 ## Explanation
 

@@ -3,19 +3,19 @@ title: Use bind mounts
 weight: 60
 linkTitle: "Part 5: Use bind mounts"
 keywords:
-  - 'get started
+  - get started
   - setup
   - orientation
   - quickstart
   - intro
   - concepts
   - containers
-  - docker desktop'
+  - docker desktop
 description: Using bind mounts in our application
 aliases:
- - /guides/walkthroughs/access-local-folder/
- - /get-started/06_bind_mounts/
- - /guides/workshop/06_bind_mounts/
+  - /guides/walkthroughs/access-local-folder/
+  - /get-started/06_bind_mounts/
+  - /guides/workshop/06_bind_mounts/
 ---
 
 In [part 4](./05_persisting_data.md), you used a volume mount to persist the
@@ -44,11 +44,11 @@ The following are examples of a named volume and a bind mount using `--mount`:
 The following table outlines the main differences between volume mounts and bind
 mounts.
 
-|                                              | Named volumes                                      | Bind mounts                                          |
-| -------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------- |
-| Host location                                | Docker chooses                                     | You decide                                           |
-| Populates new volume with container contents | Yes                                                | No                                                   |
-| Supports Volume Drivers                      | Yes                                                | No                                                   |
+|                                              | Named volumes  | Bind mounts |
+| -------------------------------------------- | -------------- | ----------- |
+| Host location                                | Docker chooses | You decide  |
+| Populates new volume with container contents | Yes            | No          |
+| Supports Volume Drivers                      | Yes            | No          |
 
 ## Trying out bind mounts
 
@@ -57,8 +57,8 @@ you can run a quick experiment to get a practical understanding of how bind moun
 work.
 
 1. Verify that your `getting-started-app` directory is in a directory defined in
-Docker Desktop's file sharing setting. This setting defines which parts of your
-filesystem you can share with containers. For details about accessing the setting, see [File sharing](/manuals/desktop/settings-and-maintenance/settings.md#file-sharing).
+   Docker Desktop's file sharing setting. This setting defines which parts of your
+   filesystem you can share with containers. For details about accessing the setting, see [File sharing](/manuals/desktop/settings-and-maintenance/settings.md#file-sharing).
 
 2. Open a terminal and change directory to the `getting-started-app`
    directory.
@@ -72,31 +72,31 @@ filesystem you can share with containers. For details about accessing the settin
    ```console
    $ docker run -it --mount type=bind,src="$(pwd)",target=/src ubuntu bash
    ```
-   
+
    {{< /tab >}}
    {{< tab name="Command Prompt" >}}
 
    ```console
    $ docker run -it --mount "type=bind,src=%cd%,target=/src" ubuntu bash
    ```
-   
+
    {{< /tab >}}
    {{< tab name="Git Bash" >}}
 
    ```console
    $ docker run -it --mount type=bind,src="/$(pwd)",target=/src ubuntu bash
    ```
-   
+
    {{< /tab >}}
    {{< tab name="PowerShell" >}}
 
    ```console
    $ docker run -it --mount "type=bind,src=$($pwd),target=/src" ubuntu bash
    ```
-   
+
    {{< /tab >}}
    {{< /tabs >}}
-   
+
    The `--mount type=bind` option tells Docker to create a bind mount, where `src` is the
    current working directory on your host machine (`getting-started-app`), and
    `target` is where that directory should appear inside the container (`/src`).
@@ -191,6 +191,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
    ```
 
    The following is a breakdown of the command:
+
    - `-dp 127.0.0.1:3000:3000` - same as before. Run in detached (background) mode and
      create a port mapping
    - `-w /app` - sets the "working directory" or the current directory that the
@@ -237,6 +238,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
    ```
 
    The following is a breakdown of the command:
+
    - `-dp 127.0.0.1:3000:3000` - same as before. Run in detached (background) mode and
      create a port mapping
    - `-w /app` - sets the "working directory" or the current directory that the
@@ -283,6 +285,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
    ```
 
    The following is a breakdown of the command:
+
    - `-dp 127.0.0.1:3000:3000` - same as before. Run in detached (background) mode and
      create a port mapping
    - `-w /app` - sets the "working directory" or the current directory that the
@@ -329,6 +332,7 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
    ```
 
    The following is a breakdown of the command:
+
    - `-dp 127.0.0.1:3000:3000` - same as before. Run in detached (background) mode and
      create a port mapping
    - `-w //app` - sets the "working directory" or the current directory that the
@@ -373,7 +377,7 @@ Run the image with a bind mount.
 
    > [!TIP]
    >
-   >  Use the search filter to filter images and only show **Local images**.
+   > Use the search filter to filter images and only show **Local images**.
 
 4. Select your image and then select **Run**.
 5. Select **Optional settings**.
@@ -442,8 +446,8 @@ types and storage drivers for handling more complex and specialized use cases.
 
 Related information:
 
- - [docker CLI reference](/reference/cli/docker/)
- - [Manage data in Docker](https://docs.docker.com/storage/)
+- [docker CLI reference](/reference/cli/docker/)
+- [Manage data in Docker](https://docs.docker.com/storage/)
 
 ## Next steps
 

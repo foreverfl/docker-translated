@@ -11,7 +11,7 @@ aliases:
  - /guides/docker-concepts/running-containers/sharing-local-files/
 ---
 
-{{< youtube-embed 2dAzsVg3Dek >}}
+<YouTubeEmbed videoId="2dAzsVg3Dek" />
 
 
 ## Explanation

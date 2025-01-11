@@ -10,8 +10,7 @@ keywords:
   - intro
   - concepts
   - containers
-  - 
-  docker desktop
+  - docker desktop
 description: Using more than one container in your application
 aliases:
  - /get-started/07_multi_container/

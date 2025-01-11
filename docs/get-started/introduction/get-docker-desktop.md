@@ -16,7 +16,7 @@ aliases:
  - /getting-started/get-docker-desktop/
 ---
 
-{{< youtube-embed C2bPVhiNU-0 >}}
+<YouTubeEmbed videoId="C2bPVhiNU-0" />
 
 ## Explanation
 

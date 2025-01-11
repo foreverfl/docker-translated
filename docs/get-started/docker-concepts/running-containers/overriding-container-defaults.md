@@ -12,7 +12,7 @@ aliases:
  - /guides/docker-concepts/running-containers/overriding-container-defaults/
 ---
 
-{{< youtube-embed PFszWK3BB8I >}}
+<YouTubeEmbed videoId="PFszWK3BB8I" />
 
 ## Explanation
 

@@ -10,8 +10,7 @@ keywords:
   - intro
   - concepts
   - containers
-  - 
-  docker desktop
+  - docker desktop
 description: Tips for building images for your application
 aliases:
  - /get-started/09_image_best/

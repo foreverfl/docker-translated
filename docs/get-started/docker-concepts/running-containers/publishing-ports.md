@@ -12,7 +12,7 @@ aliases:
  - /guides/docker-concepts/running-containers/publishing-ports/
 ---
 
-{{< youtube-embed 9JnqOmJ96ds >}}
+<YouTubeEmbed videoId="9JnqOmJ96ds" />
 
 ## Explanation
 

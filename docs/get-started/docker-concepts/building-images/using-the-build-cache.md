@@ -19,7 +19,7 @@ aliases:
  - /guides/docker-concepts/building-images/using-the-build-cache/
 ---
 
-{{< youtube-embed Ri6jMknjprY >}}
+<YouTubeEmbed videoId="Ri6jMknjprY" />
 
 ## Explanation
 

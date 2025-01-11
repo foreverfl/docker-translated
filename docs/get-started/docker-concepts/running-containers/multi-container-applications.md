@@ -12,7 +12,7 @@ aliases:
  - /guides/docker-concepts/running-containers/multi-container-applications/
 ---
 
-{{< youtube-embed 1jUwR6F9hvM >}}
+<YouTubeEmbed videoId="1jUwR6F9hvM" />
 
 ## Explanation
 

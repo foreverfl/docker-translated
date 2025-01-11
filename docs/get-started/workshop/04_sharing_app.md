@@ -10,14 +10,16 @@ keywords:
   - intro
   - concepts
   - containers
-  - 
-  docker desktop, docker hub, sharing
-description: Sharing your image you built for your example application so you can
+  - docker desktop
+  - docker hub
+  - sharing
+description:
+  Sharing your image you built for your example application so you can
   run it else where and other developers can use it
 aliases:
- - /get-started/part3/
- - /get-started/04_sharing_app/
- - /guides/workshop/04_sharing_app/
+  - /get-started/part3/
+  - /get-started/04_sharing_app/
+  - /guides/workshop/04_sharing_app/
 ---
 
 Now that you've built an image, you can share it. To share Docker images, you have to use a Docker
@@ -43,7 +45,6 @@ In the following image, you can see an example Docker command from Docker Hub. T
 
 ![Docker command with push example](images/push-command.webp)
 
-
 ## Push the image
 
 1. In the command line, run the `docker push` command that you see on Docker
@@ -55,10 +56,10 @@ In the following image, you can see an example Docker command from Docker Hub. T
    An image does not exist locally with the tag: docker/getting-started
    ```
 
-    Why did it fail? The push command was looking for an image named `docker/getting-started`, but
-    didn't find one. If you run `docker image ls`, you won't see one either.
+   Why did it fail? The push command was looking for an image named `docker/getting-started`, but
+   didn't find one. If you run `docker image ls`, you won't see one either.
 
-    To fix this, you need to tag your existing image you've built to give it another name.
+   To fix this, you need to tag your existing image you've built to give it another name.
 
 2. Sign in to Docker Hub using the command `docker login -u YOUR-USER-NAME`.
 
@@ -86,12 +87,12 @@ new instance that has never seen this container image. To do this, you will use 
 > Play with Docker uses the amd64 platform. If you are using an ARM based Mac with Apple silicon, you will need to rebuild the image to be compatible with Play with Docker and push the new image to your repository.
 >
 > To build an image for the amd64 platform, use the `--platform` flag.
+>
 > ```console
 > $ docker build --platform linux/amd64 -t YOUR-USER-NAME/getting-started .
 > ```
 >
 > Docker buildx also supports building multi-platform images. To learn more, see [Multi-platform images](/manuals/build/building/multi-platform.md).
-
 
 1. Open your browser to [Play with Docker](https://labs.play-with-docker.com/).
 
@@ -101,7 +102,7 @@ new instance that has never seen this container image. To do this, you will use 
 
 4. Select the **ADD NEW INSTANCE** option on the left side bar. If you don't see it, make your browser a little wider. After a few seconds, a terminal window opens in your browser.
 
-    ![Play with Docker add new instance](images/pwd-add-new-instance.webp)
+   ![Play with Docker add new instance](images/pwd-add-new-instance.webp)
 
 5. In the terminal, start your freshly pushed app.
 
@@ -109,20 +110,20 @@ new instance that has never seen this container image. To do this, you will use 
    $ docker run -dp 0.0.0.0:3000:3000 YOUR-USER-NAME/getting-started
    ```
 
-    You should see the image get pulled down and eventually start up.
+   You should see the image get pulled down and eventually start up.
 
-    > [!TIP]
-    >
-    > You may have noticed that this command binds the port mapping to a
-    > different IP address. Previous `docker run` commands published ports to
-    > `127.0.0.1:3000` on the host. This time, you're using `0.0.0.0`.
-    >
-    > Binding to `127.0.0.1` only exposes a container's ports to the loopback
-    > interface. Binding to `0.0.0.0`, however, exposes the container's port
-    > on all interfaces of the host, making it available to the outside world.
-    >
-    > For more information about how port mapping works, see
-    > [Networking](/manuals/engine/network/_index.md#published-ports).
+   > [!TIP]
+   >
+   > You may have noticed that this command binds the port mapping to a
+   > different IP address. Previous `docker run` commands published ports to
+   > `127.0.0.1:3000` on the host. This time, you're using `0.0.0.0`.
+   >
+   > Binding to `127.0.0.1` only exposes a container's ports to the loopback
+   > interface. Binding to `0.0.0.0`, however, exposes the container's port
+   > on all interfaces of the host, making it available to the outside world.
+   >
+   > For more information about how port mapping works, see
+   > [Networking](/manuals/engine/network/_index.md#published-ports).
 
 6. Select the 3000 badge when it appears.
 
@@ -138,9 +139,9 @@ can use the latest version of the image.
 
 Related information:
 
- - [docker CLI reference](/reference/cli/docker/)
- - [Multi-platform images](/manuals/build/building/multi-platform.md)
- - [Docker Hub overview](/manuals/docker-hub/_index.md)
+- [docker CLI reference](/reference/cli/docker/)
+- [Multi-platform images](/manuals/build/building/multi-platform.md)
+- [Docker Hub overview](/manuals/docker-hub/_index.md)
 
 ## Next steps
 

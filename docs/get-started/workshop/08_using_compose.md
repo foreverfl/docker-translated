@@ -10,8 +10,7 @@ keywords:
   - intro
   - concepts
   - containers
-  - 
-  docker desktop
+  - docker desktop
 description: Using Docker Compose for multi-container applications
 aliases:
  - /get-started/08_using_compose/
