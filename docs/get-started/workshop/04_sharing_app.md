@@ -1,54 +1,50 @@
 ---
-title: Share the application
+title: 애플리케이션 공유
 weight: 40
-linkTitle: "Part 3: Share the application"
+linkTitle: "Part 3: 애플리케이션 공유"
 keywords:
-  - get started
-  - setup
-  - orientation
-  - quickstart
-  - intro
-  - concepts
-  - containers
-  - docker desktop
-  - docker hub
-  - sharing
-description:
-  Sharing your image you built for your example application so you can
-  run it else where and other developers can use it
+  - 시작하기
+  - 설정
+  - 오리엔테이션
+  - 빠른 시작
+  - 소개
+  - 개념
+  - 컨테이너
+  - 도커 데스크탑
+  - 도커 허브
+  - 공유
+description: 예제 애플리케이션을 위해 빌드한 이미지를 공유하여 다른 곳에서 실행하고 다른 개발자들이 사용할 수 있도록 합니다.
 aliases:
   - /get-started/part3/
   - /get-started/04_sharing_app/
   - /guides/workshop/04_sharing_app/
 ---
 
-Now that you've built an image, you can share it. To share Docker images, you have to use a Docker
-registry. The default registry is Docker Hub and is where all of the images you've used have come from.
+이제 이미지를 빌드했으므로 공유할 수 있습니다. Docker 이미지를 공유하려면 Docker 레지스트리를 사용해야 합니다. 기본 레지스트리는 Docker Hub이며, 지금까지 사용한 모든 이미지는 여기에서 가져온 것입니다.
 
 > **Docker ID**
 >
-> A Docker ID lets you access Docker Hub, which is the world's largest library and community for container images. Create a [Docker ID](https://hub.docker.com/signup) for free if you don't have one.
+> Docker ID를 사용하면 세계 최대의 컨테이너 이미지 라이브러리 및 커뮤니티인 Docker Hub에 액세스할 수 있습니다. Docker ID가 없으면 무료로 [Docker ID](https://hub.docker.com/signup)를 만드세요.
 
-## Create a repository
+## 리포지토리 생성 {#Create-a-repository}
 
-To push an image, you first need to create a repository on Docker Hub.
+이미지를 푸시하려면 먼저 Docker Hub에서 리포지토리를 생성해야 합니다.
 
-1. [Sign up](https://www.docker.com/pricing?utm_source=docker&utm_medium=webreferral&utm_campaign=docs_driven_upgrade) or Sign in to [Docker Hub](https://hub.docker.com).
+1. [가입](https://www.docker.com/pricing?utm_source=docker&utm_medium=webreferral&utm_campaign=docs_driven_upgrade)하거나 [Docker Hub](https://hub.docker.com)에 로그인합니다.
 
-2. Select the **Create Repository** button.
+2. **Create Repository** 버튼을 선택합니다.
 
-3. For the repository name, use `getting-started`. Make sure the **Visibility** is **Public**.
+3. 리포지토리 이름으로 `getting-started`를 사용합니다. **Visibility**는 **Public**으로 설정합니다.
 
-4. Select **Create**.
+4. **Create**를 선택합니다.
 
-In the following image, you can see an example Docker command from Docker Hub. This command will push to this repository.
+다음 이미지는 Docker Hub에서 Docker 명령어 예제를 보여줍니다. 이 명령어는 이 리포지토리에 푸시합니다.
 
 ![Docker command with push example](images/push-command.webp)
 
-## Push the image
+## 이미지 푸시 {#Push-the-image}
 
-1. In the command line, run the `docker push` command that you see on Docker
-   Hub. Note that your command will have your Docker ID, not "docker". For example, `docker push YOUR-USER-NAME/getting-started`.
+1. 명령줄에서 Docker Hub에 표시된 `docker push` 명령어를 실행합니다. 명령어에 "docker"가 아닌 자신의 Docker ID가 포함되어야 합니다. 예를 들어, `docker push YOUR-USER-NAME/getting-started`.
 
    ```bash
    $ docker push docker/getting-started
@@ -56,97 +52,82 @@ In the following image, you can see an example Docker command from Docker Hub. T
    An image does not exist locally with the tag: docker/getting-started
    ```
 
-   Why did it fail? The push command was looking for an image named `docker/getting-started`, but
-   didn't find one. If you run `docker image ls`, you won't see one either.
+   왜 실패했을까요? 푸시 명령어는 `docker/getting-started`라는 이름의 이미지를 찾고 있었지만 찾지 못했습니다. `docker image ls`를 실행해도 해당 이미지를 찾을 수 없습니다.
 
-   To fix this, you need to tag your existing image you've built to give it another name.
+   이를 해결하려면 빌드한 기존 이미지에 새 이름을 태그해야 합니다.
 
-2. Sign in to Docker Hub using the command `docker login -u YOUR-USER-NAME`.
+2. `docker login -u YOUR-USER-NAME` 명령어를 사용하여 Docker Hub에 로그인합니다.
 
-3. Use the `docker tag` command to give the `getting-started` image a new name. Replace `YOUR-USER-NAME` with your Docker ID.
+3. `docker tag` 명령어를 사용하여 `getting-started` 이미지에 새 이름을 부여합니다. `YOUR-USER-NAME`을 자신의 Docker ID로 바꿉니다.
 
    ```bash
    $ docker tag getting-started YOUR-USER-NAME/getting-started
    ```
 
-4. Now run the `docker push` command again. If you're copying the value from
-   Docker Hub, you can drop the `tagname` part, as you didn't add a tag to the
-   image name. If you don't specify a tag, Docker uses a tag called `latest`.
+4. 이제 `docker push` 명령어를 다시 실행합니다. Docker Hub에서 값을 복사하는 경우, 이미지 이름에 태그를 추가하지 않았으므로 `tagname` 부분을 생략할 수 있습니다. 태그를 지정하지 않으면 Docker는 `latest`라는 태그를 사용합니다.
 
    ```bash
    $ docker push YOUR-USER-NAME/getting-started
    ```
 
-## Run the image on a new instance
+## 새 인스턴스에서 이미지 실행 {#Run-the-image-on-a-new-instance}
 
-Now that your image has been built and pushed into a registry, try running your app on a brand
-new instance that has never seen this container image. To do this, you will use Play with Docker.
+이제 이미지를 빌드하고 레지스트리에 푸시했으므로 이 컨테이너 이미지를 본 적이 없는 새 인스턴스에서 애플리케이션을 실행해 보세요. 이를 위해 Play with Docker를 사용합니다.
 
-> [!NOTE]
->
-> Play with Docker uses the amd64 platform. If you are using an ARM based Mac with Apple silicon, you will need to rebuild the image to be compatible with Play with Docker and push the new image to your repository.
->
-> To build an image for the amd64 platform, use the `--platform` flag.
->
-> ```bash
-> $ docker build --platform linux/amd64 -t YOUR-USER-NAME/getting-started .
-> ```
->
-> Docker buildx also supports building multi-platform images. To learn more, see [Multi-platform images](/manuals/build/building/multi-platform.md).
+:::note
+Play with Docker는 amd64 플랫폼을 사용합니다. Apple Silicon을 사용하는 ARM 기반 Mac을 사용하는 경우, Play with Docker와 호환되도록 이미지를 다시 빌드하고 새 이미지를 리포지토리에 푸시해야 합니다.
 
-1. Open your browser to [Play with Docker](https://labs.play-with-docker.com/).
+amd64 플랫폼용 이미지를 빌드하려면 `--platform` 플래그를 사용합니다.
 
-2. Select **Login** and then select **docker** from the drop-down list.
+```bash
+$ docker build --platform linux/amd64 -t YOUR-USER-NAME/getting-started .
+```
 
-3. Sign in with your Docker Hub account and then select **Start**.
+Docker buildx는 다중 플랫폼 이미지를 빌드하는 것도 지원합니다. 자세한 내용은 [다중 플랫폼 이미지](/manuals/build/building/multi-platform.md)를 참조하세요.
+:::
 
-4. Select the **ADD NEW INSTANCE** option on the left side bar. If you don't see it, make your browser a little wider. After a few seconds, a terminal window opens in your browser.
+1. 브라우저를 열고 [Play with Docker](https://labs.play-with-docker.com/)로 이동합니다.
+
+2. **Login**을 선택한 다음 드롭다운 목록에서 **docker**를 선택합니다.
+
+3. Docker Hub 계정으로 로그인한 다음 **Start**를 선택합니다.
+
+4. 왼쪽 사이드바에서 **ADD NEW INSTANCE** 옵션을 선택합니다. 보이지 않으면 브라우저 창을 조금 넓게 만드세요. 몇 초 후 브라우저에 터미널 창이 열립니다.
 
    ![Play with Docker add new instance](images/pwd-add-new-instance.webp)
 
-5. In the terminal, start your freshly pushed app.
+5. 터미널에서 새로 푸시한 애플리케이션을 시작합니다.
 
    ```bash
    $ docker run -dp 0.0.0.0:3000:3000 YOUR-USER-NAME/getting-started
    ```
 
-   You should see the image get pulled down and eventually start up.
+   이미지를 다운로드하고 결국 시작되는 것을 볼 수 있습니다.
 
-   > [!TIP]
-   >
-   > You may have noticed that this command binds the port mapping to a
-   > different IP address. Previous `docker run` commands published ports to
-   > `127.0.0.1:3000` on the host. This time, you're using `0.0.0.0`.
-   >
-   > Binding to `127.0.0.1` only exposes a container's ports to the loopback
-   > interface. Binding to `0.0.0.0`, however, exposes the container's port
-   > on all interfaces of the host, making it available to the outside world.
-   >
-   > For more information about how port mapping works, see
-   > [Networking](/manuals/engine/network/_index.md#published-ports).
+   :::tip
+   이 명령어가 포트 매핑을 다른 IP 주소에 바인딩하는 것을 눈치챘을 것입니다. 이전 `docker run` 명령어는 호스트의 `127.0.0.1:3000`에 포트를 게시했습니다. 이번에는 `0.0.0.0`을 사용합니다.
 
-6. Select the 3000 badge when it appears.
+   `127.0.0.1`에 바인딩하면 컨테이너의 포트가 루프백 인터페이스에만 노출됩니다. 그러나 `0.0.0.0`에 바인딩하면 호스트의 모든 인터페이스에 컨테이너의 포트가 노출되어 외부 세계에 접근할 수 있게 됩니다.
 
-   If the 3000 badge doesn't appear, you can select **Open Port** and specify `3000`.
+   포트 매핑 작동 방식에 대한 자세한 내용은 [네트워킹](/manuals/engine/network/_index.md#published-ports)을 참조하세요.
+   :::
 
-## Summary
+6. 3000 배지가 나타나면 선택합니다.
 
-In this section, you learned how to share your images by pushing them to a
-registry. You then went to a brand new instance and were able to run the freshly
-pushed image. This is quite common in CI pipelines, where the pipeline will
-create the image and push it to a registry and then the production environment
-can use the latest version of the image.
+   3000 배지가 나타나지 않으면 **Open Port**를 선택하고 `3000`을 지정할 수 있습니다.
 
-Related information:
+## 요약 {#Summary}
 
-- [docker CLI reference](/reference/cli/docker/)
-- [Multi-platform images](/manuals/build/building/multi-platform.md)
-- [Docker Hub overview](/manuals/docker-hub/_index.md)
+이 섹션에서는 이미지를 레지스트리에 푸시하여 공유하는 방법을 배웠습니다. 그런 다음 새 인스턴스로 이동하여 새로 푸시된 이미지를 실행할 수 있었습니다. 이는 CI 파이프라인에서 매우 일반적입니다. 파이프라인은 이미지를 생성하고 레지스트리에 푸시한 다음 프로덕션 환경에서 최신 버전의 이미지를 사용할 수 있습니다.
 
-## Next steps
+관련 정보:
 
-In the next section, you'll learn how to persist data in your containerized application.
+- [docker CLI 참조](/reference/cli/docker/)
+- [다중 플랫폼 이미지](/manuals/build/building/multi-platform.md)
+- [Docker Hub 개요](/manuals/docker-hub/_index.md)
 
-<Button href="05_persisting_data.md">
-Persist the DB
-</Button>
+## 다음 단계 {#Next-steps}
+
+다음 섹션에서는 컨테이너화된 애플리케이션에서 데이터를 지속하는 방법을 배웁니다.
+
+<Button href="05_persisting_data.md">DB 지속성</Button>

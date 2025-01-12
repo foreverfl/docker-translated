@@ -1,84 +1,86 @@
 ---
-title: Update the application
+title: 애플리케이션 업데이트
 weight: 30
 linkTitle: "Part 2: Update the application"
 keywords:
-  - get started
-  - setup
-  - orientation
-  - quickstart
-  - intro
-  - concepts
-  - containers
-  - docker desktop
-description: Making changes to your application
+  - 시작하기
+  - 설정
+  - 오리엔테이션
+  - 빠른 시작
+  - 소개
+  - 개념
+  - 컨테이너
+  - 도커 데스크탑
+description: 애플리케이션 변경하기
 aliases:
   - /get-started/03_updating_app/
   - /guides/workshop/03_updating_app/
 ---
 
-In [part 1](./02_our_app.md), you containerized a todo application. In this part, you'll update the application and image. You'll also learn how to stop and remove a container.
+## 애플리케이션 업데이트 {#update-the-application}
 
-## Update the source code
+[part 1](./02_our_app.md)에서, 당신은 todo 애플리케이션을 컨테이너화했습니다. 이 부분에서는 애플리케이션과 이미지를 업데이트할 것입니다. 또한 컨테이너를 중지하고 제거하는 방법도 배울 것입니다.
 
-In the following steps, you'll change the "empty text" when you don't have any todo list items to "You have no todo items yet! Add one above!"
+## 소스 코드 업데이트 {#update-the-source-code}
 
-1. In the `src/static/js/app.js` file, update line 56 to use the new empty text.
+다음 단계에서는 todo 리스트 항목이 없을 때 "empty text"를 "You have no todo items yet! Add one above!"로 변경할 것입니다.
+
+1. `src/static/js/app.js` 파일에서 56번째 줄을 새로운 빈 텍스트로 업데이트합니다.
 
    ```diff
    - <p className="text-center">No items yet! Add one above!</p>
    + <p className="text-center">You have no todo items yet! Add one above!</p>
    ```
 
-2. Build your updated version of the image, using the `docker build` command.
+2. `docker build` 명령어를 사용하여 업데이트된 버전의 이미지를 빌드합니다.
 
    ```bash
    $ docker build -t getting-started .
    ```
 
-3. Start a new container using the updated code.
+3. 업데이트된 코드를 사용하여 새 컨테이너를 시작합니다.
 
    ```bash
    $ docker run -dp 127.0.0.1:3000:3000 getting-started
    ```
 
-You probably saw an error like this:
+아마도 다음과 같은 오류를 보았을 것입니다:
 
 ```bash
 docker: Error response from daemon: driver failed programming external connectivity on endpoint laughing_burnell
 (bb242b2ca4d67eba76e79474fb36bb5125708ebdabd7f45c8eaf16caaabde9dd): Bind for 127.0.0.1:3000 failed: port is already allocated.
 ```
 
-The error occurred because you aren't able to start the new container while your old container is still running. The reason is that the old container is already using the host's port 3000 and only one process on the machine (containers included) can listen to a specific port. To fix this, you need to remove the old container.
+이 오류는 이전 컨테이너가 여전히 실행 중일 때 새 컨테이너를 시작할 수 없기 때문에 발생했습니다. 그 이유는 이전 컨테이너가 이미 호스트의 3000번 포트를 사용하고 있는데, 한 시스템에서는 하나의 프로세스만 특정 포트를 사용할 수 있기 있기 때문입니다. 이를 해결하려면 이전 컨테이너를 제거해야 합니다.
 
-## Remove the old container
+## 이전 컨테이너 제거 {#remove-the-old-container}
 
-To remove a container, you first need to stop it. Once it has stopped, you can remove it. You can remove the old container using the CLI or Docker Desktop's graphical interface. Choose the option that you're most comfortable with.
+컨테이너를 제거하려면 먼저 중지해야 합니다. 중지된 후에는 제거할 수 있습니다. CLI 또는 Docker Desktop의 그래픽 인터페이스를 사용하여 이전 컨테이너를 제거할 수 있습니다. 가장 편한 옵션을 선택하세요.
 
 <Tabs>
   <TabItem value="cli" label="CLI">
-    ### Remove a container using the CLI
+    ### CLI를 사용하여 컨테이너 제거
 
-    1. Get the ID of the container by using the `docker ps` command.
+    1. `docker ps` 명령어를 사용하여 컨테이너의 ID를 확인합니다.
 
        ```bash
        docker ps
        ```
 
-    2. Use the `docker stop` command to stop the container. Replace `<the-container-id>` with the ID from `docker ps`.
+    2. `docker stop` 명령어를 사용하여 컨테이너를 중지합니다. `<the-container-id>`를 `docker ps`에서 얻은 ID로 대체합니다.
 
        ```bash
        docker stop <the-container-id>
        ```
 
-    3. Once the container has stopped, you can remove it by using the `docker rm` command.
+    3. 컨테이너가 중지되면 `docker rm` 명령어를 사용하여 제거할 수 있습니다.
 
        ```bash
        docker rm <the-container-id>
        ```
 
-    > **Note**:
-    > You can stop and remove a container in a single command by adding the `force` flag to the `docker rm` command. For example:
+    > **참고**:
+    > `docker rm` 명령어에 `force` 플래그를 추가하여 단일 명령어로 컨테이너를 중지하고 제거할 수 있습니다. 예를 들어:
     > ```bash
     > docker rm -f <the-container-id>
     > ```
@@ -86,37 +88,35 @@ To remove a container, you first need to stop it. Once it has stopped, you can r
   </TabItem>
 
   <TabItem value="docker-desktop" label="Docker Desktop">
-    ### Remove a container using Docker Desktop
+    ### Docker Desktop을 사용하여 컨테이너 제거
 
-    1. Open Docker Desktop to the **Containers** view.
-    2. Select the trash can icon under the **Actions** column for the container that you want to delete.
-    3. In the confirmation dialog, select **Delete forever**.
+    1. Docker Desktop의 **Containers** 뷰를 엽니다.
+    2. 삭제하려는 컨테이너의 **Actions** 열 아래에 있는 휴지통 아이콘을 선택합니다.
+    3. 확인 대화 상자에서 **Delete forever**를 선택합니다.
 
   </TabItem>
 </Tabs>
 
-### Start the updated app container
+### 업데이트된 앱 컨테이너 시작 {#start-the-updated-app-container}
 
-1. Now, start your updated app using the `docker run` command.
+1. 이제 `docker run` 명령어를 사용하여 업데이트된 앱을 시작합니다.
 
    ```bash
    $ docker run -dp 127.0.0.1:3000:3000 getting-started
    ```
 
-2. Refresh your browser on [http://localhost:3000](http://localhost:3000) and you should see your updated help text.
+2. 브라우저를 [http://localhost:3000](http://localhost:3000)에서 새로 고침하면 업데이트된 도움말 텍스트를 볼 수 있습니다.
 
-## Summary
+## 요약 {#summary}
 
-In this section, you learned how to update and rebuild a container, as well as how to stop and remove a container.
+이 섹션에서는 컨테이너를 업데이트하고 다시 빌드하는 방법, 컨테이너를 중지하고 제거하는 방법을 배웠습니다.
 
-Related information:
+관련 정보:
 
 - [docker CLI reference](/reference/cli/docker/)
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-Next, you'll learn how to share images with others.
+다음으로, 이미지를 다른 사람과 공유하는 방법을 배울 것입니다.
 
-<Button href="04_sharing_app.md">
-Share the application
-</Button>
+<Button href="sharing_app">애플리케이션 공유</Button>

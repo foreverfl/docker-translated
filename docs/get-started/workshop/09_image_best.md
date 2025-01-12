@@ -1,35 +1,33 @@
 ---
-title: Image-building best practices
+title: 이미지 빌드 모범 사례
 weight: 90
 linkTitle: "Part 8: Image-building best practices"
 keywords:
-  - get started
-  - setup
-  - orientation
-  - quickstart
-  - intro
-  - concepts
-  - containers
-  - docker desktop
-description: Tips for building images for your application
+  - 시작하기
+  - 설정
+  - 오리엔테이션
+  - 빠른 시작
+  - 소개
+  - 개념
+  - 컨테이너
+  - 도커 데스크탑
+description: 애플리케이션 이미지를 빌드하기 위한 팁
 aliases:
   - /get-started/09_image_best/
   - /guides/workshop/09_image_best/
 ---
 
-## Image layering
+## 이미지 레이어링 {#image-layering}
 
-Using the `docker image history` command, you can see the command that was used
-to create each layer within an image.
+`docker image history` 명령어를 사용하면 이미지 내 각 레이어를 생성하는 데 사용된 명령어를 볼 수 있습니다.
 
-1. Use the `docker image history` command to see the layers in the `getting-started` image you
-   created.
+1. `docker image history` 명령어를 사용하여 생성한 `getting-started` 이미지의 레이어를 확인합니다.
 
    ```bash
    $ docker image history getting-started
    ```
 
-   You should get output that looks something like the following.
+   다음과 같은 출력이 나와야 합니다.
 
    ```plaintext
    IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
@@ -48,23 +46,19 @@ to create each layer within an image.
    <missing>           13 days ago         /bin/sh -c #(nop) ADD file:e69d441d729412d24…   5.59MB
    ```
 
-   Each of the lines represents a layer in the image. The display here shows the base at the bottom with
-   the newest layer at the top. Using this, you can also quickly see the size of each layer, helping
-   diagnose large images.
+   각 줄은 이미지의 레이어를 나타냅니다. 여기 표시된 내용은 맨 아래에 기본 레이어가 있고 맨 위에 최신 레이어가 있습니다. 이를 사용하여 각 레이어의 크기를 빠르게 확인하고 큰 이미지를 진단할 수 있습니다.
 
-2. You'll notice that several of the lines are truncated. If you add the `--no-trunc` flag, you'll get the
-   full output.
+2. 여러 줄이 잘린 것을 알 수 있습니다. `--no-trunc` 플래그를 추가하면 전체 출력을 볼 수 있습니다.
 
    ```bash
    $ docker image history --no-trunc getting-started
    ```
 
-## Layer caching
+## 레이어 캐싱 {#layer-caching}
 
-Now that you've seen the layering in action, there's an important lesson to learn to help decrease build
-times for your container images. Once a layer changes, all downstream layers have to be recreated as well.
+레이어링을 확인했으니, 컨테이너 이미지의 빌드 시간을 줄이는 중요한 교훈을 배울 차례입니다. 한 레이어가 변경되면 모든 하위 레이어도 다시 생성해야 합니다.
 
-Look at the following Dockerfile you created for the getting started app.
+다음은 시작 앱을 위해 생성한 Dockerfile입니다.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -75,16 +69,11 @@ RUN yarn install --production
 CMD ["node", "src/index.js"]
 ```
 
-Going back to the image history output, you see that each command in the Dockerfile becomes a new layer in the image.
-You might remember that when you made a change to the image, the yarn dependencies had to be reinstalled. It doesn't make much sense to ship around the same dependencies every time you build.
+이미지 히스토리 출력을 다시 보면 Dockerfile의 각 명령어가 이미지의 새로운 레이어가 되는 것을 볼 수 있습니다. 이미지를 변경할 때 yarn 종속성이 다시 설치되어야 했던 것을 기억할 것입니다. 매번 동일한 종속성을 빌드할 때마다 포함하는 것은 별로 의미가 없습니다.
 
-To fix it, you need to restructure your Dockerfile to help support the caching
-of the dependencies. For Node-based applications, those dependencies are defined
-in the `package.json` file. You can copy only that file in first, install the
-dependencies, and then copy in everything else. Then, you only recreate the yarn
-dependencies if there was a change to the `package.json`.
+이를 해결하려면 Dockerfile을 재구성하여 종속성 캐싱을 지원해야 합니다. Node 기반 애플리케이션의 경우, 이러한 종속성은 `package.json` 파일에 정의되어 있습니다. 먼저 해당 파일만 복사하여 종속성을 설치한 다음 모든 것을 복사할 수 있습니다. 그러면 `package.json`에 변경 사항이 있을 때만 yarn 종속성을 다시 생성합니다.
 
-1. Update the Dockerfile to copy in the `package.json` first, install dependencies, and then copy everything else in.
+1. Dockerfile을 업데이트하여 먼저 `package.json`을 복사하고 종속성을 설치한 다음 모든 것을 복사합니다.
 
    ```dockerfile
    # syntax=docker/dockerfile:1
@@ -96,13 +85,13 @@ dependencies if there was a change to the `package.json`.
    CMD ["node", "src/index.js"]
    ```
 
-2. Build a new image using `docker build`.
+2. `docker build`를 사용하여 새 이미지를 빌드합니다.
 
    ```bash
    $ docker build -t getting-started .
    ```
 
-   You should see output like the following.
+   다음과 같은 출력이 나와야 합니다.
 
    ```plaintext
    [+] Building 16.1s (10/10) FINISHED
@@ -124,9 +113,9 @@ dependencies if there was a change to the `package.json`.
    => => naming to docker.io/library/getting-started
    ```
 
-3. Now, make a change to the `src/static/index.html` file. For example, change the `<title>` to "The Awesome Todo App".
+3. 이제 `src/static/index.html` 파일을 변경합니다. 예를 들어, `<title>`을 "The Awesome Todo App"으로 변경합니다.
 
-4. Build the Docker image now using `docker build -t getting-started .` again. This time, your output should look a little different.
+4. 다시 `docker build -t getting-started .` 명령어를 사용하여 Docker 이미지를 빌드합니다. 이번에는 출력이 조금 다르게 보일 것입니다.
 
    ```plaintext
    [+] Building 1.2s (10/10) FINISHED
@@ -148,23 +137,18 @@ dependencies if there was a change to the `package.json`.
    => => naming to docker.io/library/getting-started
    ```
 
-   First off, you should notice that the build was much faster. And, you'll see
-   that several steps are using previously cached layers. Pushing and pulling
-   this image and updates to it will be much faster as well.
+   먼저, 빌드가 훨씬 빨라진 것을 알 수 있습니다. 그리고 여러 단계가 이전에 캐시된 레이어를 사용하고 있음을 볼 수 있습니다. 이 이미지를 푸시하고 업데이트하는 것도 훨씬 빨라질 것입니다.
 
-## Multi-stage builds
+## 멀티 스테이지 빌드 {#multi-stage-builds}
 
-Multi-stage builds are an incredibly powerful
-tool to help use multiple stages to create an image. There are several advantages for them:
+멀티 스테이지 빌드는 여러 스테이지를 사용하여 이미지를 생성하는 데 매우 강력한 도구입니다. 다음과 같은 여러 가지 장점이 있습니다:
 
-- Separate build-time dependencies from runtime dependencies
-- Reduce overall image size by shipping only what your app needs to run
+- 빌드 타임 종속성을 런타임 종속성과 분리
+- 애플리케이션 실행에 필요한 것만 포함하여 전체 이미지 크기 감소
 
-### Maven/Tomcat example
+### Maven/Tomcat 예제 {#maven-tomcat-example}
 
-When building Java-based applications, you need a JDK to compile the source code to Java bytecode. However,
-that JDK isn't needed in production. Also, you might be using tools like Maven or Gradle to help build the app.
-Those also aren't needed in your final image. Multi-stage builds help.
+Java 기반 애플리케이션을 빌드할 때, 소스 코드를 Java 바이트코드로 컴파일하기 위해 JDK가 필요합니다. 그러나 해당 JDK는 프로덕션에서는 필요하지 않습니다. 또한, Maven이나 Gradle과 같은 도구를 사용하여 앱을 빌드할 수도 있습니다. 이러한 도구들도 최종 이미지에는 필요하지 않습니다. 멀티 스테이지 빌드가 도움이 됩니다.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -177,15 +161,11 @@ FROM tomcat
 COPY --from=build /app/target/file.war /usr/local/tomcat/webapps
 ```
 
-In this example, you use one stage (called `build`) to perform the actual Java build using Maven. In the second
-stage (starting at `FROM tomcat`), you copy in files from the `build` stage. The final image is only the last stage
-being created, which can be overridden using the `--target` flag.
+이 예제에서는 `build`라는 스테이지를 사용하여 Maven을 사용하여 실제 Java 빌드를 수행합니다. 두 번째 스테이지(`FROM tomcat`에서 시작)에서는 `build` 스테이지에서 파일을 복사합니다. 최종 이미지는 마지막 스테이지만 생성되며, `--target` 플래그를 사용하여 재정의할 수 있습니다.
 
-### React example
+### React 예제 {#react-example}
 
-When building React applications, you need a Node environment to compile the JS code (typically JSX), SASS stylesheets,
-and more into static HTML, JS, and CSS. If you aren't doing server-side rendering, you don't even need a Node environment
-for your production build. You can ship the static resources in a static nginx container.
+React 애플리케이션을 빌드할 때, JS 코드(일반적으로 JSX), SASS 스타일시트 등을 정적 HTML, JS, CSS로 컴파일하기 위해 Node 환경이 필요합니다. 서버 사이드 렌더링을 하지 않는다면, 프로덕션 빌드에는 Node 환경이 필요하지 않습니다. 정적 리소스를 정적 nginx 컨테이너에 포함할 수 있습니다.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -201,22 +181,19 @@ FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 ```
 
-In the previous Dockerfile example, it uses the `node:lts` image to perform the build (maximizing layer caching) and then copies the output
-into an nginx container.
+이전 Dockerfile 예제에서는 `node:lts` 이미지를 사용하여 빌드를 수행하고(레이어 캐싱을 최대화) 출력물을 nginx 컨테이너에 복사합니다.
 
-## Summary
+## 요약 {#summary}
 
-In this section, you learned a few image building best practices, including layer caching and multi-stage builds.
+이 섹션에서는 레이어 캐싱 및 멀티 스테이지 빌드를 포함한 몇 가지 이미지 빌드 모범 사례를 배웠습니다.
 
-Related information:
+관련 정보:
 
-- [Dockerfile reference](/reference/dockerfile/)
-- [Dockerfile best practices](/manuals/build/building/best-practices.md)
+- [Dockerfile 참조](/reference/dockerfile/)
+- [Dockerfile 모범 사례](/manuals/build/building/best-practices.md)
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-In the next section, you'll learn about additional resources you can use to continue learning about containers.
+다음 섹션에서는 컨테이너에 대해 계속 학습할 수 있는 추가 리소스에 대해 알아봅니다.
 
-<Button href="10_what_next.md">
-What next
-</Button>
+<Button href="10_what_next.md">다음은 무엇인가요</Button>

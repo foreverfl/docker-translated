@@ -1,70 +1,53 @@
 ---
-title: Use bind mounts
+title: 바인드 마운트 사용
 weight: 60
 linkTitle: "Part 5: Use bind mounts"
 keywords:
-  - get started
-  - setup
-  - orientation
-  - quickstart
-  - intro
-  - concepts
-  - containers
-  - docker desktop
-description: Using bind mounts in our application
+  - 시작하기
+  - 설정
+  - 오리엔테이션
+  - 빠른 시작
+  - 소개
+  - 개념
+  - 컨테이너
+  - 도커 데스크탑
+description: 애플리케이션에서 바인드 마운트 사용
 aliases:
   - /guides/walkthroughs/access-local-folder/
   - /get-started/06_bind_mounts/
   - /guides/workshop/06_bind_mounts/
 ---
 
-In [part 4](./05_persisting_data.md), you used a volume mount to persist the
-data in your database. A volume mount is a great choice when you need somewhere
-persistent to store your application data.
+[파트 4](./05_persisting_data.md)에서는 데이터베이스의 데이터를 지속시키기 위해 볼륨 마운트를 사용했습니다. 볼륨 마운트는 애플리케이션 데이터를 저장할 영구적인 장소가 필요할 때 좋은 선택입니다.
 
-A bind mount is another type of mount, which lets you share a directory from the
-host's filesystem into the container. When working on an application, you can
-use a bind mount to mount source code into the container. The container sees the
-changes you make to the code immediately, as soon as you save a file. This means
-that you can run processes in the container that watch for filesystem changes
-and respond to them.
+바인드 마운트는 또 다른 유형의 마운트로, 호스트 파일 시스템의 디렉토리를 컨테이너와 공유할 수 있게 해줍니다. 애플리케이션 작업 시, 바인드 마운트를 사용하여 소스 코드를 컨테이너에 마운트할 수 있습니다. 파일을 저장하자마자 코드 변경 사항이 컨테이너에 즉시 반영됩니다. 이는 파일 시스템 변경을 감지하고 이에 반응하는 프로세스를 컨테이너에서 실행할 수 있음을 의미합니다.
 
-In this chapter, you'll see how you can use bind mounts and a tool called
-[nodemon](https://npmjs.com/package/nodemon) to watch for file changes, and then restart the application
-automatically. There are equivalent tools in most other languages and
-frameworks.
+이 장에서는 바인드 마운트와 [nodemon](https://npmjs.com/package/nodemon)이라는 도구를 사용하여 파일 변경을 감지하고 애플리케이션을 자동으로 재시작하는 방법을 살펴보겠습니다. 대부분의 다른 언어와 프레임워크에서도 유사한 도구가 있습니다.
 
-## Quick volume type comparisons
+## 볼륨 유형 간의 빠른 비교 {#quick-volume-type-comparisons}
 
-The following are examples of a named volume and a bind mount using `--mount`:
+다음은 `--mount`를 사용한 명명된 볼륨과 바인드 마운트의 예입니다:
 
-- Named volume: `type=volume,src=my-volume,target=/usr/local/data`
-- Bind mount: `type=bind,src=/path/to/data,target=/usr/local/data`
+- 명명된 볼륨: `type=volume,src=my-volume,target=/usr/local/data`
+- 바인드 마운트: `type=bind,src=/path/to/data,target=/usr/local/data`
 
-The following table outlines the main differences between volume mounts and bind
-mounts.
+다음 표는 볼륨 마운트와 바인드 마운트 간의 주요 차이점을 요약한 것입니다.
 
-|                                              | Named volumes  | Bind mounts |
-| -------------------------------------------- | -------------- | ----------- |
-| Host location                                | Docker chooses | You decide  |
-| Populates new volume with container contents | Yes            | No          |
-| Supports Volume Drivers                      | Yes            | No          |
+|                                  | 명명된 볼륨   | 바인드 마운트 |
+| -------------------------------- | ------------- | ------------- |
+| 호스트 위치                      | Docker가 선택 | 사용자가 결정 |
+| 새 볼륨을 컨테이너 내용으로 채움 | 예            | 아니요        |
+| 볼륨 드라이버 지원               | 예            | 아니요        |
 
-## Trying out bind mounts
+## 바인드 마운트 시도하기 {#trying-out-bind-mounts}
 
-Before looking at how you can use bind mounts for developing your application,
-you can run a quick experiment to get a practical understanding of how bind mounts
-work.
+애플리케이션 개발에 바인드 마운트를 사용하는 방법을 살펴보기 전에, 바인드 마운트가 어떻게 작동하는지 실습을 통해 이해해보겠습니다.
 
-1. Verify that your `getting-started-app` directory is in a directory defined in
-   Docker Desktop's file sharing setting. This setting defines which parts of your
-   filesystem you can share with containers. For details about accessing the setting, see [File sharing](/manuals/desktop/settings-and-maintenance/settings.md#file-sharing).
+1. `getting-started-app` 디렉토리가 Docker Desktop의 파일 공유 설정에 정의된 디렉토리에 있는지 확인합니다. 이 설정은 컨테이너와 공유할 수 있는 파일 시스템의 부분을 정의합니다. 설정에 액세스하는 방법에 대한 자세한 내용은 [파일 공유](/manuals/desktop/settings-and-maintenance/settings.md#file-sharing)를 참조하세요.
 
-2. Open a terminal and change directory to the `getting-started-app`
-   directory.
+2. 터미널을 열고 `getting-started-app` 디렉토리로 이동합니다.
 
-3. Run the following command to start `bash` in an `ubuntu` container with a
-   bind mount.
+3. 바인드 마운트와 함께 `ubuntu` 컨테이너에서 `bash`를 시작하려면 다음 명령을 실행합니다.
 
   <Tabs>
     <TabItem value="mac-linux" label="Mac / Linux">
@@ -93,12 +76,9 @@ work.
 
   </Tabs>
 
-The `--mount type=bind` option tells Docker to create a bind mount, where `src` is the
-current working directory on your host machine (`getting-started-app`), and
-`target` is where that directory should appear inside the container (`/src`).
+`--mount type=bind` 옵션은 Docker에게 바인드 마운트를 생성하도록 지시합니다. 여기서 `src`는 호스트 머신의 현재 작업 디렉토리(`getting-started-app`), `target`은 해당 디렉토리가 컨테이너 내에서 나타나야 하는 위치(`/src`)입니다.
 
-4. After running the command, Docker starts an interactive `bash` session in the
-   root directory of the container's filesystem.
+4. 명령을 실행한 후, Docker는 컨테이너 파일 시스템의 루트 디렉토리에서 대화형 `bash` 세션을 시작합니다.
 
    ```bash
    root@ac1237fad8db:/# pwd
@@ -108,11 +88,9 @@ current working directory on your host machine (`getting-started-app`), and
    boot  etc  lib   mnt    proc  run   src   sys  usr
    ```
 
-5. Change directory to the `src` directory.
+5. `src` 디렉토리로 이동합니다.
 
-   This is the directory that you mounted when starting the container. Listing
-   the contents of this directory displays the same files as in the
-   `getting-started-app` directory on your host machine.
+   이 디렉토리는 컨테이너를 시작할 때 마운트한 디렉토리입니다. 이 디렉토리의 내용을 나열하면 호스트 머신의 `getting-started-app` 디렉토리와 동일한 파일이 표시됩니다.
 
    ```bash
    root@ac1237fad8db:/# cd src
@@ -120,7 +98,7 @@ current working directory on your host machine (`getting-started-app`), and
    Dockerfile  node_modules  package.json  spec  src  yarn.lock
    ```
 
-6. Create a new file named `myfile.txt`.
+6. `myfile.txt`라는 새 파일을 만듭니다.
 
    ```bash
    root@ac1237fad8db:/src# touch myfile.txt
@@ -128,8 +106,7 @@ current working directory on your host machine (`getting-started-app`), and
    Dockerfile  myfile.txt  node_modules  package.json  spec  src  yarn.lock
    ```
 
-7. Open the `getting-started-app` directory on the host and observe that the
-   `myfile.txt` file is in the directory.
+7. 호스트에서 `getting-started-app` 디렉토리를 열고 `myfile.txt` 파일이 디렉토리에 있는지 확인합니다.
 
    ```text
    ├── getting-started-app/
@@ -142,41 +119,37 @@ current working directory on your host machine (`getting-started-app`), and
    │ └── yarn.lock
    ```
 
-8. From the host, delete the `myfile.txt` file.
-9. In the container, list the contents of the `app` directory once more. Observe that the file is now gone.
+8. 호스트에서 `myfile.txt` 파일을 삭제합니다.
+9. 컨테이너에서 `app` 디렉토리의 내용을 다시 나열합니다. 파일이 사라진 것을 확인합니다.
 
    ```bash
    root@ac1237fad8db:/src# ls
    Dockerfile  node_modules  package.json  spec  src  yarn.lock
    ```
 
-10. Stop the interactive container session with `Ctrl` + `D`.
+10. `Ctrl` + `D`를 사용하여 대화형 컨테이너 세션을 중지합니다.
 
-That's all for a brief introduction to bind mounts. This procedure
-demonstrated how files are shared between the host and the container, and how
-changes are immediately reflected on both sides. Now you can use
-bind mounts to develop software.
+이것으로 바인드 마운트에 대한 간단한 소개가 끝났습니다. 이 절차는 파일이 호스트와 컨테이너 간에 어떻게 공유되는지, 그리고 변경 사항이 양쪽에 즉시 반영되는지 보여주었습니다. 이제 바인드 마운트를 사용하여 소프트웨어를 개발할 수 있습니다.
 
-## Development containers
+## 개발 컨테이너 {#development-containers}
 
-Using bind mounts is common for local development setups. The advantage is that the development machine doesn’t need to have all of the build tools and environments installed. With a single docker run command, Docker pulls dependencies and tools.
+바인드 마운트를 사용하는 것은 로컬 개발 환경에서 일반적입니다. 장점은 개발 머신에 모든 빌드 도구와 환경을 설치할 필요가 없다는 것입니다. 단일 docker run 명령으로 Docker는 종속성과 도구를 가져옵니다.
 
-### Run your app in a development container
+### 개발 컨테이너에서 애플리케이션 실행 {#run-your-app-in-a-development-container}
 
-The following steps describe how to run a development container with a bind
-mount that does the following:
+다음 단계는 바인드 마운트를 사용하여 개발 컨테이너를 실행하는 방법을 설명합니다:
 
-- Mount your source code into the container
-- Install all dependencies
-- Start `nodemon` to watch for filesystem changes
+- 소스 코드를 컨테이너에 마운트
+- 모든 종속성 설치
+- 파일 시스템 변경을 감지하기 위해 `nodemon` 시작
 
-You can use the CLI or Docker Desktop to run your container with a bind mount.
+CLI 또는 Docker Desktop을 사용하여 바인드 마운트로 컨테이너를 실행할 수 있습니다.
 
 <Tabs>
   <TabItem value="mac-linux" label="Mac / Linux CLI">
-    1. Make sure you don't have any `getting-started` containers currently running.
+    1. 현재 실행 중인 `getting-started` 컨테이너가 없는지 확인합니다.
 
-    2. Run the following command from the `getting-started-app` directory.
+    2. `getting-started-app` 디렉토리에서 다음 명령을 실행합니다.
 
        ```bash
        docker run -dp 127.0.0.1:3000:3000 \
@@ -185,21 +158,21 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
            sh -c "yarn install && yarn run dev"
        ```
 
-    The following is a breakdown of the command:
+    다음은 명령의 세부 사항입니다:
 
-    - `-dp 127.0.0.1:3000:3000` - Run in detached mode and create a port mapping.
-    - `-w /app` - Sets the "working directory" in the container.
-    - `--mount type=bind,src="$(pwd)",target=/app` - Bind mount the current directory to `/app` in the container.
-    - `node:18-alpine` - The image to use.
-    - `sh -c "yarn install && yarn run dev"` - Starts the development server.
+    - `-dp 127.0.0.1:3000:3000` - 분리 모드로 실행하고 포트 매핑을 생성합니다.
+    - `-w /app` - 컨테이너에서 "작업 디렉토리"를 설정합니다.
+    - `--mount type=bind,src="$(pwd)",target=/app` - 현재 디렉토리를 컨테이너의 `/app`에 바인드 마운트합니다.
+    - `node:18-alpine` - 사용할 이미지입니다.
+    - `sh -c "yarn install && yarn run dev"` - 개발 서버를 시작합니다.
 
-    3. You can watch the logs using `docker logs <container-id>`:
+    3. `docker logs <container-id>`를 사용하여 로그를 확인할 수 있습니다:
 
        ```bash
        docker logs -f <container-id>
        ```
 
-       You'll know you're ready when you see:
+       다음과 같은 메시지가 표시되면 준비가 완료된 것입니다:
 
        ```plaintext
        nodemon -L src/index.js
@@ -212,14 +185,14 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
        Listening on port 3000
        ```
 
-       Exit the logs by pressing `Ctrl`+`C`.
+       `Ctrl`+`C`를 눌러 로그를 종료합니다.
 
   </TabItem>
 
   <TabItem value="powershell" label="PowerShell CLI">
-    1. Make sure you don't have any `getting-started` containers currently running.
+    1. 현재 실행 중인 `getting-started` 컨테이너가 없는지 확인합니다.
 
-    2. Run the following command from the `getting-started-app` directory.
+    2. `getting-started-app` 디렉토리에서 다음 명령을 실행합니다.
 
        ```powershell
        docker run -dp 127.0.0.1:3000:3000 `
@@ -228,22 +201,22 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
            sh -c "yarn install && yarn run dev"
        ```
 
-    The breakdown of the command is the same as the "Mac / Linux CLI" tab.
+    명령의 세부 사항은 "Mac / Linux CLI" 탭과 동일합니다.
 
-    3. You can watch the logs using `docker logs <container-id>`:
+    3. `docker logs <container-id>`를 사용하여 로그를 확인할 수 있습니다:
 
        ```bash
        docker logs -f <container-id>
        ```
 
-       You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+       "Mac / Linux CLI" 탭과 동일한 출력이 표시되면 준비가 완료된 것입니다.
 
   </TabItem>
 
   <TabItem value="command-prompt" label="Command Prompt CLI">
-    1. Make sure you don't have any `getting-started` containers currently running.
+    1. 현재 실행 중인 `getting-started` 컨테이너가 없는지 확인합니다.
 
-    2. Run the following command from the `getting-started-app` directory.
+    2. `getting-started-app` 디렉토리에서 다음 명령을 실행합니다.
 
        ```cmd
        docker run -dp 127.0.0.1:3000:3000 ^
@@ -252,22 +225,22 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
            sh -c "yarn install && yarn run dev"
        ```
 
-    The breakdown of the command is the same as the "Mac / Linux CLI" tab.
+    명령의 세부 사항은 "Mac / Linux CLI" 탭과 동일합니다.
 
-    3. You can watch the logs using `docker logs <container-id>`:
+    3. `docker logs <container-id>`를 사용하여 로그를 확인할 수 있습니다:
 
        ```bash
        docker logs -f <container-id>
        ```
 
-       You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+       "Mac / Linux CLI" 탭과 동일한 출력이 표시되면 준비가 완료된 것입니다.
 
   </TabItem>
 
   <TabItem value="git-bash" label="Git Bash CLI">
-    1. Make sure you don't have any `getting-started` containers currently running.
+    1. 현재 실행 중인 `getting-started` 컨테이너가 없는지 확인합니다.
 
-    2. Run the following command from the `getting-started-app` directory.
+    2. `getting-started-app` 디렉토리에서 다음 명령을 실행합니다.
 
        ```bash
        docker run -dp 127.0.0.1:3000:3000 \
@@ -276,38 +249,38 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
            sh -c "yarn install && yarn run dev"
        ```
 
-    The breakdown of the command is the same as the "Mac / Linux CLI" tab.
+    명령의 세부 사항은 "Mac / Linux CLI" 탭과 동일합니다.
 
-    3. You can watch the logs using `docker logs <container-id>`:
+    3. `docker logs <container-id>`를 사용하여 로그를 확인할 수 있습니다:
 
        ```bash
        docker logs -f <container-id>
        ```
 
-       You'll know you're ready when you see the same output as in the "Mac / Linux CLI" tab.
+       "Mac / Linux CLI" 탭과 동일한 출력이 표시되면 준비가 완료된 것입니다.
 
   </TabItem>
 
   <TabItem value="docker-desktop" label="Docker Desktop">
-    1. Make sure you don't have any `getting-started` containers currently running.
+    1. 현재 실행 중인 `getting-started` 컨테이너가 없는지 확인합니다.
 
-    2. Run the image with a bind mount:
+    2. 바인드 마운트로 이미지를 실행합니다:
 
-       - Select the search box at the top of Docker Desktop.
-       - In the search window, select the **Images** tab.
-       - In the search box, specify the container name, `getting-started`.
-       - Select your image and then select **Run**.
-       - Select **Optional settings**.
-       - In **Host path**, specify the path to the `getting-started-app` directory on your host machine.
-       - In **Container path**, specify `/app`.
-       - Select **Run**.
+       - Docker Desktop 상단의 검색 상자를 선택합니다.
+       - 검색 창에서 **이미지** 탭을 선택합니다.
+       - 검색 상자에 컨테이너 이름 `getting-started`를 입력합니다.
+       - 이미지를 선택한 다음 **실행**을 선택합니다.
+       - **선택적 설정**을 선택합니다.
+       - **호스트 경로**에 호스트 머신의 `getting-started-app` 디렉토리 경로를 지정합니다.
+       - **컨테이너 경로**에 `/app`을 지정합니다.
+       - **실행**을 선택합니다.
 
-    3. You can watch the container logs using Docker Desktop:
+    3. Docker Desktop을 사용하여 컨테이너 로그를 확인할 수 있습니다:
 
-       - Select **Containers** in Docker Desktop.
-       - Select your container name.
+       - Docker Desktop에서 **컨테이너**를 선택합니다.
+       - 컨테이너 이름을 선택합니다.
 
-       You'll know you're ready when you see:
+       다음과 같은 메시지가 표시되면 준비가 완료된 것입니다:
 
        ```plaintext
        nodemon -L src/index.js
@@ -323,57 +296,42 @@ You can use the CLI or Docker Desktop to run your container with a bind mount.
   </TabItem>
 </Tabs>
 
-### Develop your app with the development container
+### 개발 컨테이너로 애플리케이션 개발 {#develop-your-app-with-the-development-container}
 
-Update your app on your host machine and see the changes reflected in the container.
+호스트 머신에서 애플리케이션을 업데이트하고 컨테이너에서 변경 사항이 반영되는지 확인합니다.
 
-1. In the `src/static/js/app.js` file, on line
-   109, change the "Add Item" button to simply say "Add":
+1. `src/static/js/app.js` 파일의 109번째 줄에서 "Add Item" 버튼을 "Add"로 변경합니다:
 
    ```diff
    - {submitting ? 'Adding...' : 'Add Item'}
    + {submitting ? 'Adding...' : 'Add'}
    ```
 
-   Save the file.
+   파일을 저장합니다.
 
-2. Refresh the page in your web browser, and you should see the change reflected
-   almost immediately because of the bind mount. Nodemon detects the change and
-   restarts the server. It might take a few seconds for the Node server to
-   restart. If you get an error, try refreshing after a few seconds.
+2. 웹 브라우저에서 페이지를 새로 고치면 바인드 마운트 덕분에 변경 사항이 거의 즉시 반영되는 것을 볼 수 있습니다. Nodemon이 변경 사항을 감지하고 서버를 재시작합니다. Node 서버가 재시작되는 데 몇 초가 걸릴 수 있습니다. 오류가 발생하면 몇 초 후에 새로 고침을 시도해 보세요.
 
-   ![Screenshot of updated label for Add button](images/updated-add-button.webp)
+   ![업데이트된 Add 버튼 레이블의 스크린샷](images/updated-add-button.webp)
 
-3. Feel free to make any other changes you'd like to make. Each time you make a
-   change and save a file, the change is reflected in the container because of
-   the bind mount. When Nodemon detects a change, it restarts the app inside the
-   container automatically. When you're done, stop the container and build your
-   new image using:
+3. 원하는 다른 변경 사항을 자유롭게 수행하세요. 파일을 변경하고 저장할 때마다 바인드 마운트 덕분에 변경 사항이 컨테이너에 반영됩니다. Nodemon이 변경 사항을 감지하면 컨테이너 내부에서 앱을 자동으로 재시작합니다. 완료되면 컨테이너를 중지하고 다음 명령을 사용하여 새 이미지를 빌드하세요:
 
    ```bash
    $ docker build -t getting-started .
    ```
 
-## Summary
+## 요약 {#summary}
 
-At this point, you can persist your database and see changes in your app as you develop without rebuilding the image.
+이 시점에서 데이터베이스를 지속시키고 이미지를 다시 빌드하지 않고도 애플리케이션을 개발하면서 변경 사항을 확인할 수 있습니다.
 
-In addition to volume mounts and bind mounts, Docker also supports other mount
-types and storage drivers for handling more complex and specialized use cases.
+볼륨 마운트와 바인드 마운트 외에도 Docker는 더 복잡하고 전문화된 사용 사례를 처리하기 위한 다른 마운트 유형과 스토리지 드라이버를 지원합니다.
 
-Related information:
+관련 정보:
 
-- [docker CLI reference](/reference/cli/docker/)
-- [Manage data in Docker](https://docs.docker.com/storage/)
+- [docker CLI 참조](/reference/cli/docker/)
+- [Docker에서 데이터 관리](https://docs.docker.com/storage/)
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-In order to prepare your app for production, you need to migrate your database
-from working in SQLite to something that can scale a little better. For
-simplicity, you'll keep using a relational database and switch your application
-to use MySQL. But, how should you run MySQL? How do you allow the containers to
-talk to each other? You'll learn about that in the next section.
+애플리케이션을 프로덕션에 준비하려면 데이터베이스를 SQLite에서 더 확장 가능한 것으로 마이그레이션해야 합니다. 간단히 하기 위해 관계형 데이터베이스를 계속 사용하고 애플리케이션을 MySQL로 전환할 것입니다. 하지만 MySQL을 어떻게 실행해야 할까요? 컨테이너 간의 통신을 어떻게 허용할까요? 다음 섹션에서 이에 대해 배울 것입니다.
 
-<Button href="07_multi_container.md">
-Multi container apps
-</Button>
+<Button href="07_multi_container.md">다중 컨테이너 애플리케이션</Button>

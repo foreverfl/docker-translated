@@ -1,34 +1,30 @@
 ---
-title: Use Docker Compose
+title: Docker Compose 사용하기
 weight: 80
 linkTitle: "Part 7: Use Docker Compose"
 keywords:
-  - get started
-  - setup
-  - orientation
-  - quickstart
-  - intro
-  - concepts
-  - containers
-  - docker desktop
-description: Using Docker Compose for multi-container applications
+  - 시작하기
+  - 설정
+  - 오리엔테이션
+  - 빠른 시작
+  - 소개
+  - 개념
+  - 컨테이너
+  - 도커 데스크탑
+description: 다중 컨테이너 애플리케이션을 위한 Docker Compose 사용
 aliases:
   - /get-started/08_using_compose/
   - /guides/workshop/08_using_compose/
 ---
 
-[Docker Compose](/manuals/compose/_index.md) is a tool that helps you define and
-share multi-container applications. With Compose, you can create a YAML file to define the services
-and with a single command, you can spin everything up or tear it all down.
+[Docker Compose](/manuals/compose/_index.md)는 다중 컨테이너 애플리케이션을 정의하고
+공유하는 데 도움이 되는 도구입니다. Compose를 사용하면 서비스를 정의하는 YAML 파일을 만들 수 있으며, 단일 명령으로 모든 것을 시작하거나 종료할 수 있습니다.
 
-The big advantage of using Compose is you can define your application stack in a file, keep it at the root of
-your project repository (it's now version controlled), and easily enable someone else to contribute to your project.
-Someone would only need to clone your repository and start the app using Compose. In fact, you might see quite a few projects
-on GitHub/GitLab doing exactly this now.
+Compose를 사용하는 큰 장점은 애플리케이션 스택을 파일에 정의하고 프로젝트 저장소의 루트에 보관할 수 있으며(이제 버전 관리됨), 다른 사람이 프로젝트에 쉽게 기여할 수 있다는 것입니다. 누군가가 저장소를 클론하고 Compose를 사용하여 앱을 시작하기만 하면 됩니다. 실제로 GitHub/GitLab에서 정확히 이렇게 하는 프로젝트를 많이 볼 수 있습니다.
 
-## Create the Compose file
+## Compose 파일 생성 {#create-the-compose-file}
 
-In the `getting-started-app` directory, create a file named `compose.yaml`.
+`getting-started-app` 디렉토리에서 `compose.yaml`이라는 파일을 만듭니다.
 
 ```text
 ├── getting-started-app/
@@ -41,9 +37,9 @@ In the `getting-started-app` directory, create a file named `compose.yaml`.
 │ └── yarn.lock
 ```
 
-## Define the app service
+## 앱 서비스 정의 {#define-the-app-service}
 
-In [part 6](./07_multi_container.md), you used the following command to start the application service.
+[part 6](./07_multi_container.md)에서 애플리케이션 서비스를 시작하기 위해 다음 명령을 사용했습니다.
 
 ```bash
 $ docker run -dp 127.0.0.1:3000:3000 \
@@ -57,10 +53,9 @@ $ docker run -dp 127.0.0.1:3000:3000 \
   sh -c "yarn install && yarn run dev"
 ```
 
-You'll now define this service in the `compose.yaml` file.
+이제 이 서비스를 `compose.yaml` 파일에 정의합니다.
 
-1. Open `compose.yaml` in a text or code editor, and start by defining the name and image of the first service (or container) you want to run as part of your application.
-   The name will automatically become a network alias, which will be useful when defining your MySQL service.
+1. 텍스트 또는 코드 편집기에서 `compose.yaml`을 열고 애플리케이션의 일부로 실행하려는 첫 번째 서비스(또는 컨테이너)의 이름과 이미지를 정의하는 것으로 시작합니다. 이름은 자동으로 네트워크 별칭이 되며, MySQL 서비스를 정의할 때 유용합니다.
 
    ```yaml
    services:
@@ -68,7 +63,7 @@ You'll now define this service in the `compose.yaml` file.
        image: node:18-alpine
    ```
 
-2. Typically, you will see `command` close to the `image` definition, although there is no requirement on ordering. Add the `command` to your `compose.yaml` file.
+2. 일반적으로 `command`는 `image` 정의 근처에 있지만, 순서에 대한 요구 사항은 없습니다. `compose.yaml` 파일에 `command`를 추가합니다.
 
    ```yaml
    services:
@@ -77,7 +72,7 @@ You'll now define this service in the `compose.yaml` file.
        command: sh -c "yarn install && yarn run dev"
    ```
 
-3. Now migrate the `-p 127.0.0.1:3000:3000` part of the command by defining the `ports` for the service.
+3. 이제 명령의 `-p 127.0.0.1:3000:3000` 부분을 서비스의 `ports`로 정의합니다.
 
    ```yaml
    services:
@@ -88,10 +83,9 @@ You'll now define this service in the `compose.yaml` file.
          - 127.0.0.1:3000:3000
    ```
 
-4. Next, migrate both the working directory (`-w /app`) and the volume mapping
-   (`-v "$(pwd):/app"`) by using the `working_dir` and `volumes` definitions.
+4. 다음으로 작업 디렉토리(`-w /app`)와 볼륨 매핑(`-v "$(pwd):/app"`)을 `working_dir` 및 `volumes` 정의를 사용하여 마이그레이션합니다.
 
-   One advantage of Docker Compose volume definitions is you can use relative paths from the current directory.
+   Docker Compose 볼륨 정의의 한 가지 장점은 현재 디렉토리에서 상대 경로를 사용할 수 있다는 것입니다.
 
    ```yaml
    services:
@@ -105,7 +99,7 @@ You'll now define this service in the `compose.yaml` file.
          - ./:/app
    ```
 
-5. Finally, you need to migrate the environment variable definitions using the `environment` key.
+5. 마지막으로 환경 변수 정의를 `environment` 키를 사용하여 마이그레이션해야 합니다.
 
    ```yaml
    services:
@@ -124,9 +118,9 @@ You'll now define this service in the `compose.yaml` file.
          MYSQL_DB: todos
    ```
 
-### Define the MySQL service
+### MySQL 서비스 정의 {#define-the-mysql-service}
 
-Now, it's time to define the MySQL service. The command that you used for that container was the following:
+이제 MySQL 서비스를 정의할 시간입니다. 해당 컨테이너에 사용한 명령은 다음과 같습니다.
 
 ```bash
 $ docker run -d \
@@ -137,7 +131,7 @@ $ docker run -d \
   mysql:8.0
 ```
 
-1. First define the new service and name it `mysql` so it automatically gets the network alias. Also specify the image to use as well.
+1. 먼저 새 서비스를 정의하고 `mysql`이라고 이름을 지정하여 자동으로 네트워크 별칭을 얻도록 합니다. 또한 사용할 이미지를 지정합니다.
 
    ```yaml
    services:
@@ -147,12 +141,7 @@ $ docker run -d \
        image: mysql:8.0
    ```
 
-2. Next, define the volume mapping. When you ran the container with `docker
-run`, Docker created the named volume automatically. However, that doesn't
-   happen when running with Compose. You need to define the volume in the
-   top-level `volumes:` section and then specify the mountpoint in the service
-   config. By simply providing only the volume name, the default options are
-   used.
+2. 다음으로 볼륨 매핑을 정의합니다. `docker run`으로 컨테이너를 실행할 때 Docker는 자동으로 명명된 볼륨을 생성했습니다. 그러나 Compose로 실행할 때는 그렇지 않습니다. 상위 수준의 `volumes:` 섹션에서 볼륨을 정의한 다음 서비스 구성에서 마운트 지점을 지정해야 합니다. 볼륨 이름만 제공하면 기본 옵션이 사용됩니다.
 
    ```yaml
    services:
@@ -167,7 +156,7 @@ run`, Docker created the named volume automatically. However, that doesn't
      todo-mysql-data:
    ```
 
-3. Finally, you need to specify the environment variables.
+3. 마지막으로 환경 변수를 지정해야 합니다.
 
    ```yaml
    services:
@@ -185,7 +174,7 @@ run`, Docker created the named volume automatically. However, that doesn't
      todo-mysql-data:
    ```
 
-At this point, your complete `compose.yaml` should look like this:
+이 시점에서 전체 `compose.yaml`은 다음과 같아야 합니다:
 
 ```yaml
 services:
@@ -215,20 +204,19 @@ volumes:
   todo-mysql-data:
 ```
 
-## Run the application stack
+## 애플리케이션 스택 실행 {#run-the-application-stack}
 
-Now that you have your `compose.yaml` file, you can start your application.
+이제 `compose.yaml` 파일이 있으므로 애플리케이션을 시작할 수 있습니다.
 
-1. Make sure no other copies of the containers are running first. Use `docker ps` to list the containers and `docker rm -f <ids>` to remove them.
+1. 먼저 다른 컨테이너의 복사본이 실행 중이지 않은지 확인합니다. `docker ps`를 사용하여 컨테이너를 나열하고 `docker rm -f <ids>`를 사용하여 제거합니다.
 
-2. Start up the application stack using the `docker compose up` command. Add the
-   `-d` flag to run everything in the background.
+2. `docker compose up` 명령을 사용하여 애플리케이션 스택을 시작합니다. 모든 것을 백그라운드에서 실행하려면 `-d` 플래그를 추가합니다.
 
    ```bash
    $ docker compose up -d
    ```
 
-   When you run the previous command, you should see output like the following:
+   이전 명령을 실행하면 다음과 같은 출력이 표시됩니다:
 
    ```plaintext
    Creating network "app_default" with the default driver
@@ -237,13 +225,11 @@ Now that you have your `compose.yaml` file, you can start your application.
    Creating app_mysql_1 ... done
    ```
 
-   You'll notice that Docker Compose created the volume as well as a network. By default, Docker Compose automatically creates a network specifically for the application stack (which is why you didn't define one in the Compose file).
+   Docker Compose가 볼륨과 네트워크를 생성한 것을 알 수 있습니다. 기본적으로 Docker Compose는 애플리케이션 스택을 위해 특별히 네트워크를 자동으로 생성합니다(따라서 Compose 파일에서 네트워크를 정의하지 않았습니다).
 
-3. Look at the logs using the `docker compose logs -f` command. You'll see the logs from each of the services interleaved
-   into a single stream. This is incredibly useful when you want to watch for timing-related issues. The `-f` flag follows the
-   log, so will give you live output as it's generated.
+3. `docker compose logs -f` 명령을 사용하여 로그를 확인합니다. 각 서비스의 로그가 단일 스트림으로 혼합되어 표시됩니다. 이는 타이밍 관련 문제를 확인할 때 매우 유용합니다. `-f` 플래그는 로그를 따라가므로 생성될 때 실시간 출력을 제공합니다.
 
-   If you have run the command already, you'll see output that looks like this:
+   이미 명령을 실행한 경우 다음과 같은 출력이 표시됩니다:
 
    ```plaintext
    mysql_1  | 2019-10-03T03:07:16.083639Z 0 [Note] mysqld: ready for connections.
@@ -252,49 +238,38 @@ Now that you have your `compose.yaml` file, you can start your application.
    app_1    | Listening on port 3000
    ```
 
-   The service name is displayed at the beginning of the line (often colored) to help distinguish messages. If you want to
-   view the logs for a specific service, you can add the service name to the end of the logs command (for example,
-   `docker compose logs -f app`).
+   서비스 이름은 줄의 시작 부분에 표시되어 메시지를 구분하는 데 도움이 됩니다(종종 색상이 지정됨). 특정 서비스의 로그를 보려면 로그 명령 끝에 서비스 이름을 추가할 수 있습니다(예: `docker compose logs -f app`).
 
-4. At this point, you should be able to open your app in your browser on [http://localhost:3000](http://localhost:3000) and see it running.
+4. 이 시점에서 [http://localhost:3000](http://localhost:3000)에서 브라우저로 앱을 열고 실행 중인 것을 확인할 수 있어야 합니다.
 
-## See the app stack in Docker Desktop Dashboard
+## Docker Desktop 대시보드에서 앱 스택 보기 {#see-the-app-stack-in-docker-desktop-dashboard}
 
-If you look at the Docker Desktop Dashboard, you'll see that there is a group named **getting-started-app**. This is the project name from Docker
-Compose and used to group the containers together. By default, the project name is simply the name of the directory that the
-`compose.yaml` was located in.
+Docker Desktop 대시보드를 보면 **getting-started-app**이라는 그룹이 있습니다. 이는 Docker Compose의 프로젝트 이름이며 컨테이너를 함께 그룹화하는 데 사용됩니다. 기본적으로 프로젝트 이름은 `compose.yaml`이 위치한 디렉토리의 이름입니다.
 
-If you expand the stack, you'll see the two containers you defined in the Compose file. The names are also a little
-more descriptive, as they follow the pattern of `<service-name>-<replica-number>`. So, it's very easy to
-quickly see what container is your app and which container is the mysql database.
+스택을 확장하면 Compose 파일에 정의된 두 컨테이너가 표시됩니다. 이름도 `<service-name>-<replica-number>` 패턴을 따르므로 앱이 어떤 컨테이너인지, mysql 데이터베이스가 어떤 컨테이너인지 쉽게 알 수 있습니다.
 
-## Tear it all down
+## 모두 종료하기 {#tear-it-all-down}
 
-When you're ready to tear it all down, simply run `docker compose down` or hit the trash can on the Docker Desktop Dashboard
-for the entire app. The containers will stop and the network will be removed.
+모두 종료할 준비가 되면 `docker compose down` 명령을 실행하거나 Docker Desktop 대시보드에서 전체 앱 스택에 대해 휴지통 아이콘을 클릭합니다. 컨테이너가 중지되고 네트워크가 제거됩니다.
 
 > [!WARNING]
 >
-> By default, named volumes in your compose file are not removed when you run `docker compose down`. If you want to
-> remove the volumes, you need to add the `--volumes` flag.
+> 기본적으로, `docker compose down`을 실행할 때 Compose 파일의 명명된 볼륨은 제거되지 않습니다. 볼륨을 제거하려면 `--volumes` 플래그를 추가해야 합니다.
 >
-> The Docker Desktop Dashboard does not remove volumes when you delete the app stack.
+> Docker Desktop 대시보드는 앱 스택을 삭제할 때 볼륨을 제거하지 않습니다.
 
-## Summary
+## 요약 {#summary}
 
-In this section, you learned about Docker Compose and how it helps you simplify
-the way you define and share multi-service applications.
+이 섹션에서는 Docker Compose에 대해 배우고 다중 서비스 애플리케이션을 정의하고 공유하는 방법을 단순화하는 방법을 배웠습니다.
 
-Related information:
+관련 정보:
 
-- [Compose overview](/manuals/compose/_index.md)
-- [Compose file reference](/reference/compose-file/_index.md)
-- [Compose CLI reference](/reference/cli/docker/compose/_index.md)
+- [Compose 개요](/manuals/compose/_index.md)
+- [Compose 파일 참조](/reference/compose-file/_index.md)
+- [Compose CLI 참조](/reference/cli/docker/compose/_index.md)
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-Next, you'll learn about a few best practices you can use to improve your Dockerfile.
+다음으로 Dockerfile을 개선하는 데 사용할 수 있는 몇 가지 모범 사례에 대해 배웁니다.
 
-<Button href="09_image_best.md">
-Image-building best practices
-</Button>
+<Button href="09_image_best.md">이미지 빌드 모범 사례</Button>
