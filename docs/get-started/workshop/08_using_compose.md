@@ -252,11 +252,11 @@ Docker Desktop 대시보드를 보면 **getting-started-app**이라는 그룹이
 
 모두 종료할 준비가 되면 `docker compose down` 명령을 실행하거나 Docker Desktop 대시보드에서 전체 앱 스택에 대해 휴지통 아이콘을 클릭합니다. 컨테이너가 중지되고 네트워크가 제거됩니다.
 
-> [!WARNING]
->
-> 기본적으로, `docker compose down`을 실행할 때 Compose 파일의 명명된 볼륨은 제거되지 않습니다. 볼륨을 제거하려면 `--volumes` 플래그를 추가해야 합니다.
->
-> Docker Desktop 대시보드는 앱 스택을 삭제할 때 볼륨을 제거하지 않습니다.
+:::warning
+기본적으로, `docker compose down`을 실행할 때 Compose 파일의 명명된 볼륨은 제거되지 않습니다. 볼륨을 제거하려면 `--volumes` 플래그를 추가해야 합니다.
+
+Docker Desktop 대시보드는 앱 스택을 삭제할 때 볼륨을 제거하지 않습니다.
+:::
 
 ## 요약 {#summary}
 

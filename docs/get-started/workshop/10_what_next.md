@@ -29,7 +29,7 @@ aliases:
 
 ## 클라우드 네이티브 컴퓨팅 재단 프로젝트 {#cloud-native-computing-foundation-projects}
 
-CNCF는 Kubernetes, Prometheus, Envoy, Linkerd, NATS 등 다양한 오픈 소스 프로젝트를 위한 벤더 중립적인 집입니다. [여기에서 졸업 및 인큐베이팅된 프로젝트를 볼 수 있습니다](https://www.cncf.io/projects/) 및 전체 [CNCF Landscape를 여기에서 볼 수 있습니다](https://landscape.cncf.io/). 모니터링, 로깅, 보안, 이미지 레지스트리, 메시징 등과 관련된 문제를 해결하는 많은 프로젝트가 있습니다.
+CNCF는 Kubernetes, Prometheus, Envoy, Linkerd, NATS 등 다양한 오픈 소스 프로젝트를 위한 공정하고 독립적인 플랫폼인 플랫폼입니다. [여기에서 졸업한 프로젝트와 인큐베이팅 중인 프로젝트를 볼 수 있습니다](https://www.cncf.io/projects/) 및 전체 [CNCF Landscape를 여기에서 볼 수 있습니다](https://landscape.cncf.io/). 모니터링, 로깅, 보안, 이미지 레지스트리, 메시징 등과 관련된 문제를 해결하는 많은 프로젝트가 있습니다.
 
 ## 시작하기 비디오 워크숍 {#getting-started-video-workshop}
 
