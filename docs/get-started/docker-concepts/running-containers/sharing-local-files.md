@@ -1,108 +1,108 @@
 ---
-title: Sharing local files with containers
+title: 컨테이너와 로컬 파일 공유
 weight: 4
 keywords:
-  - concepts
-  - images
-  - container
-  - docker desktop
-description: This concept page will teach you the various storage options available in Docker and their common usage.
+  - 개념
+  - 이미지
+  - 컨테이너
+  - 도커 데스크탑
+description: 이 개념 페이지에서는 Docker에서 사용할 수 있는 다양한 스토리지 옵션과 그 일반적인 사용법을 배웁니다.
 aliases:
   - /guides/docker-concepts/running-containers/sharing-local-files/
 ---
 
 <YoutubeEmbed videoId="2dAzsVg3Dek" />
 
-## Explanation
+## 설명 {#explanation}
 
-Each container has everything it needs to function with no reliance on any pre-installed dependencies on the host machine. Since containers run in isolation, they have minimal influence on the host and other containers. This isolation has a major benefit: containers minimize conflicts with the host system and other containers. However, this isolation also means containers can't directly access data on the host machine by default.
+각 컨테이너는 호스트 머신에 사전 설치된 종속성에 의존하지 않고 기능하는 데 필요한 모든 것을 갖추고 있습니다. 컨테이너는 격리된 상태로 실행되므로 호스트 및 다른 컨테이너에 미치는 영향이 최소화됩니다. 이러한 격리는 컨테이너는 호스트 시스템 및 다른 컨테이너와의 충돌을 최소화하는 이점을 제공합니다. 그러나 이러한 격리는 기본적으로 컨테이너가 호스트 머신의 데이터에 직접 액세스할 수 없음을 의미합니다.
 
-Consider a scenario where you have a web application container that requires access to configuration settings stored in a file on your host system. This file may contain sensitive data such as database credentials or API keys. Storing such sensitive information directly within the container image poses security risks, especially during image sharing. To address this challenge, Docker offers storage options that bridge the gap between container isolation and your host machine's data.
+웹 애플리케이션 컨테이너가 호스트 시스템에 저장된 구성 설정 파일에 액세스해야 하는 시나리오를 고려해 보십시오. 이 파일에는 데이터베이스 자격 증명이나 API 키와 같은 민감한 데이터가 포함될 수 있습니다. 이러한 민감한 정보를 컨테이너 이미지에 직접 저장하면 이미지 공유 중 보안 위험이 발생할 수 있습니다. 이 문제를 해결하기 위해 Docker는 컨테이너 격리와 호스트 머신의 데이터 간의 격차를 해소하는 스토리지 옵션을 제공합니다.
 
-Docker offers two primary storage options for persisting data and sharing files between the host machine and containers: volumes and bind mounts.
+Docker는 데이터를 지속하고 호스트 머신과 컨테이너 간에 파일을 공유하기 위한 볼륨과 바인드 마운트라는 두 가지 주요 스토리지 옵션을 제공합니다:
 
-### Volume versus bind mounts
+### 볼륨 대 바인드 마운트 {#volume-versus-bind-mounts}
 
-If you want to ensure that data generated or modified inside the container persists even after the container stops running, you would opt for a volume. See [Persisting container data](/get-started/docker-concepts/running-containers/persisting-container-data/) to learn more about volumes and their use cases.
+컨테이너가 중지된 후에도 컨테이너 내부에서 생성되거나 수정된 데이터가 유지되도록 하려면 볼륨을 선택해야 합니다. 볼륨과 그 사용 사례에 대해 자세히 알아보려면 [컨테이너 데이터 유지](/get-started/docker-concepts/running-containers/persisting-container-data/)를 참조하십시오.
 
-If you have specific files or directories on your host system that you want to directly share with your container, like configuration files or development code, then you would use a bind mount. It's like opening a direct portal between your host and container for sharing. Bind mounts are ideal for development environments where real-time file access and sharing between the host and container are crucial.
+호스트 시스템에 있는 특정 파일이나 디렉토리를 컨테이너와 직접 공유하려면 바인드 마운트를 사용합니다. 이는 호스트와 컨테이너 간의 직접적인 포털을 여는 것과 같습니다. 바인드 마운트는 실시간 파일 액세스 및 공유가 중요한 개발 환경에 이상적입니다.
 
-### Sharing files between a host and container
+### 호스트와 컨테이너 간 파일 공유 {#sharing-files-between-a-host-and-container}
 
-Both `-v` (or `--volume`) and `--mount` flags used with the `docker run` command let you share files or directories between your local machine (host) and a Docker container. However, there are some key differences in their behavior and usage.
+`docker run` 명령어와 함께 사용되는 `-v` (또는 `--volume`) 및 `--mount` 플래그는 로컬 머신(호스트)과 Docker 컨테이너 간에 파일이나 디렉토리를 공유할 수 있게 해줍니다. 그러나 이들의 동작과 사용법에는 몇 가지 중요한 차이점이 있습니다.
 
-The `-v` flag is simpler and more convenient for basic volume or bind mount operations. If the host location doesn’t exist when using `-v` or `--volume`, a directory will be automatically created.
+`-v` 플래그는 기본적인 볼륨 또는 바인드 마운트 작업에 더 간단하고 편리합니다. `-v` 또는 `--volume`을 사용할 때 호스트 위치가 존재하지 않으면 디렉토리가 자동으로 생성됩니다.
 
-Imagine you're a developer working on a project. You have a source directory on your development machine where your code resides. When you compile or build your code, the generated artifacts (compiled code, executables, images, etc.) are saved in a separate subdirectory within your source directory. In the following examples, this subdirectory is `/HOST/PATH`. Now you want these build artifacts to be accessible within a Docker container running your application. Additionally, you want the container to automatically access the latest build artifacts whenever you rebuild your code.
+개발자가 프로젝트를 작업하고 있다고 상상해 보십시오. 개발 머신에 소스 디렉토리가 있고, 코드가 저장되어 있습니다. 코드를 컴파일하거나 빌드할 때 생성된 아티팩트(컴파일된 코드, 실행 파일, 이미지 등)는 소스 디렉토리 내의 별도 하위 디렉토리에 저장됩니다. 다음 예제에서 이 하위 디렉토리는 `/HOST/PATH`입니다. 이제 이 빌드 아티팩트를 애플리케이션을 실행하는 Docker 컨테이너 내에서 액세스할 수 있도록 하고 싶습니다. 또한 코드를 다시 빌드할 때마다 컨테이너가 최신 빌드 아티팩트에 자동으로 액세스할 수 있도록 하고 싶습니다.
 
-Here's a way to use `docker run` to start a container using a bind mount and map it to the container file location.
+다음은 바인드 마운트를 사용하여 컨테이너 파일 위치에 매핑하는 방법입니다.
 
 ```bash
 $ docker run -v /HOST/PATH:/CONTAINER/PATH -it nginx
 ```
 
-The `--mount` flag offers more advanced features and granular control, making it suitable for complex mount scenarios or production deployments. If you use `--mount` to bind-mount a file or directory that doesn't yet exist on the Docker host, the `docker run` command doesn't automatically create it for you but generates an error.
+`--mount` 플래그는 더 고급 기능과 세밀한 제어를 제공하여 복잡한 마운트 시나리오나 프로덕션 배포에 적합합니다. `--mount`를 사용하여 Docker 호스트에 아직 존재하지 않는 파일이나 디렉토리를 바인드 마운트하면 `docker run` 명령어가 자동으로 생성하지 않고 오류를 발생시킵니다.
 
 ```bash
 $ docker run --mount type=bind,source=/HOST/PATH,target=/CONTAINER/PATH,readonly nginx
 ```
 
-> [!NOTE]
->
-> Docker recommends using the `--mount` syntax instead of `-v`. It provides better control over the mounting process and avoids potential issues with missing directories.
+:::note
+Docker는 `-v` 대신 `--mount` 구문을 사용할 것을 권장합니다. 이는 마운팅 프로세스에 대한 더 나은 제어를 제공하고 누락된 디렉토리와 관련된 잠재적인 문제를 피할 수 있습니다.
+:::
 
-### File permissions for Docker access to host files
+### Docker가 호스트 파일에 액세스할 수 있는 파일 권한 {#file-permissions-for-docker-access-to-host-files}
 
-When using bind mounts, it's crucial to ensure that Docker has the necessary permissions to access the host directory. To grant read/write access, you can use the `:ro` flag (read-only) or `:rw` (read-write) with the `-v` or `--mount` flag during container creation.
-For example, the following command grants read-write access permission.
+바인드 마운트를 사용할 때 Docker가 호스트 디렉토리에 액세스할 수 있는 권한을 갖는 것이 중요합니다. 읽기/쓰기 액세스를 부여하려면 컨테이너 생성 중 `-v` 또는 `--mount` 플래그와 함께 `:ro` 플래그(읽기 전용) 또는 `:rw` 플래그(읽기/쓰기)를 사용할 수 있습니다.
+예를 들어, 다음 명령어는 읽기/쓰기 액세스 권한을 부여합니다.
 
 ```bash
 $ docker run -v HOST-DIRECTORY:/CONTAINER-DIRECTORY:rw nginx
 ```
 
-Read-only bind mounts let the container access the mounted files on the host for reading, but it can't change or delete the files. With read-write bind mounts, containers can modify or delete mounted files, and these changes or deletions will also be reflected on the host system. Read-only bind mounts ensures that files on the host can't be accidentally modified or deleted by a container.
+읽기 전용 바인드 마운트는 컨테이너가 호스트의 마운트된 파일을 읽을 수 있지만 변경하거나 삭제할 수 없습니다. 읽기/쓰기 바인드 마운트를 사용하면 컨테이너가 마운트된 파일을 수정하거나 삭제할 수 있으며 이러한 변경 사항이나 삭제는 호스트 시스템에도 반영됩니다. 읽기 전용 바인드 마운트는 컨테이너가 호스트의 파일을 실수로 수정하거나 삭제하지 않도록 보장합니다.
 
-> **Synchronized File Share**
+> **동기화된 파일 공유**
 >
-> As your codebase grows larger, traditional methods of file sharing like bind mounts may become inefficient or slow, especially in development environments where frequent access to files is necessary. [Synchronized file shares](/manuals/desktop/features/synchronized-file-sharing.md) improve bind mount performance by leveraging synchronized filesystem caches. This optimization ensures that file access between the host and virtual machine (VM) is fast and efficient.
+> 코드베이스가 커짐에 따라 바인드 마운트와 같은 전통적인 파일 공유 방법은 비효율적이거나 느려질 수 있습니다. 특히 개발 환경에서 파일에 자주 액세스해야 하는 경우 동기화된 파일 공유는 동기화된 파일 시스템 캐시를 활용하여 바인드 마운트 성능을 향상시킵니다. 이 최적화는 호스트와 가상 머신(VM) 간의 파일 액세스를 빠르고 효율적으로 보장합니다.
 
-## Try it out
+## 직접 해보기 {#try-it-out}
 
-In this hands-on guide, you’ll practice how to create and use a bind mount to share files between a host and a container.
+이 실습 가이드에서는 호스트와 컨테이너 간에 파일을 공유하기 위해 바인드 마운트를 생성하고 사용하는 방법을 연습합니다.
 
-### Run a container
+### 컨테이너 실행 {#run-a-container}
 
-1. [Download and install](/get-started/get-docker/) Docker Desktop.
+1. Docker Desktop을 [다운로드하고 설치](/get-started/get-docker/)합니다.
 
-2. Start a container using the [httpd](https://hub.docker.com/_/httpd) image with the following command:
+2. 다음 명령어를 사용하여 [httpd](https://hub.docker.com/_/httpd) 이미지를 사용하여 컨테이너를 시작합니다:
 
    ```bash
    $ docker run -d -p 8080:80 --name my_site httpd:2.4
    ```
 
-   This will start the `httpd` service in the background, and publish the webpage to port `8080` on the host.
+   이는 백그라운드에서 `httpd` 서비스를 시작하고, 웹페이지를 호스트의 포트 `8080`에 게시합니다.
 
-3. Open the browser and access [http://localhost:8080](http://localhost:8080) or use the curl command to verify if it's working fine or not.
+3. 브라우저를 열고 [http://localhost:8080](http://localhost:8080)에 액세스하거나 curl 명령어를 사용하여 작동 여부를 확인합니다.
 
    ```bash
    $ curl localhost:8080
    ```
 
-### Use a bind mount
+### 바인드 마운트 사용 {#use-a-bind-mount}
 
-Using a bind mount, you can map the configuration file on your host computer to a specific location within the container. In this example, you’ll see how to change the look and feel of the webpage by using bind mount:
+바인드 마운트를 사용하여 호스트 컴퓨터의 구성 파일을 컨테이너 내의 특정 위치에 매핑할 수 있습니다. 이 예제에서는 바인드 마운트를 사용하여 웹페이지의 모양과 느낌을 변경하는 방법을 보여줍니다:
 
-1. Delete the existing container by using the Docker Desktop Dashboard:
+1. Docker Desktop 대시보드를 사용하여 기존 컨테이너를 삭제합니다:
 
-   ![A screenshot of Docker Desktop Dashboard showing how to delete the httpd container](images/delete-httpd-container.webp?border=true)
+   ![Docker Desktop 대시보드에서 httpd 컨테이너를 삭제하는 방법을 보여주는 스크린샷](images/delete-httpd-container.webp?border=true)
 
-2. Create a new directory called `public_html` on your host system.
+2. 호스트 시스템에 `public_html`이라는 새 디렉토리를 만듭니다.
 
    ```bash
    $ mkdir public_html
    ```
 
-3. Change the directory to `public_html` and create a file called `index.html` with the following content. This is a basic HTML document that creates a simple webpage that welcomes you with a friendly whale.
+3. 디렉토리를 `public_html`로 변경하고 다음 내용을 포함하는 `index.html` 파일을 만듭니다. 이는 친근한 고래가 환영하는 간단한 웹페이지를 만드는 기본 HTML 문서입니다.
 
    ```html
    <!DOCTYPE html>
@@ -115,82 +115,80 @@ Using a bind mount, you can map the configuration file on your host computer to 
        <h1>Whalecome!!</h1>
        <p>Look! There's a friendly whale greeting you!</p>
        <pre id="docker-art">
-      ##         .
-     ## ## ##        ==
-    ## ## ## ## ##    ===
-    /"""""""""""""""""\___/ ===
-   {                       /  ===-
-   \______ O           __/
-   \    \         __/
-    \____\_______/
-   
-   Hello from Docker!
-   </pre
-       >
+            ##         .
+         ## ## ##        ==
+         ## ## ## ## ##    ===
+         /"""""""""""""""""\___/ ===
+         {                       /  ===-
+         \______ O           __/
+         \    \         __/
+         \____\_______/
+         
+         Hello from Docker!
+       </pre>
      </body>
    </html>
    ```
 
-4. It's time to run the container. The `--mount` and `-v` examples produce the same result. You can't run them both unless you remove the `my_site` container after running the first one.
+4. 이제 컨테이너를 실행할 시간입니다. `--mount` 및 `-v` 예제는 동일한 결과를 생성합니다. 첫 번째를 실행한 후 `my_site` 컨테이너를 제거하지 않으면 둘 다 실행할 수 없습니다.
 
    <Tabs>
-   <TabItem value="v-option" label="`-v`">
+   <TabItem value="v-option" label="-v">
       ```bash
       docker run -d --name my_site -p 8080:80 -v .:/usr/local/apache2/htdocs/ httpd:2.4
       ```
    </TabItem>
 
-   <TabItem value="mount-option" label="`--mount`">
+   <TabItem value="mount-option" label="--mount">
       ```bash
       docker run -d --name my_site -p 8080:80 --mount type=bind,source=./,target=/usr/local/apache2/htdocs/ httpd:2.4
       ```
    </TabItem>
    </Tabs>
 
-   > [!TIP]  
-   > When using the `-v` or `--mount` flag in Windows PowerShell, you need to provide the absolute path to your directory instead of just `./`. This is because PowerShell handles relative paths differently from bash (commonly used in Mac and Linux environments).
+   :::tip  
+   Windows PowerShell에서 `-v` 또는 `--mount` 플래그를 사용할 때는 디렉토리의 절대 경로를 제공해야 합니다. 이는 PowerShell이 Mac 및 Linux 환경에서 일반적으로 사용되는 bash와 다르게 상대 경로를 처리하기 때문입니다.
+   :::
 
-   With everything now up and running, you should be able to access the site via [http://localhost:8080](http://localhost:8080) and find a new webpage that welcomes you with a friendly whale.
+   이제 모든 것이 실행 중이므로 [http://localhost:8080](http://localhost:8080)에서 사이트에 액세스하여 친근한 고래가 환영하는 새로운 웹페이지를 확인할 수 있습니다.
 
-### Access the file on the Docker Desktop Dashboard
+### Docker Desktop 대시보드에서 파일 액세스 {#access-the-file-on-the-docker-desktop-dashboard}
 
-1. You can view the mounted files inside a container by selecting the container's **Files** tab and then selecting a file inside the `/usr/local/apache2/htdocs/` directory. Then, select **Open file editor**.
+1. 컨테이너의 **Files** 탭을 선택하고 `/usr/local/apache2/htdocs/` 디렉토리 내의 파일을 선택하여 마운트된 파일을 볼 수 있습니다. 그런 다음 **Open file editor**를 선택합니다.
 
-   ![A screenshot of Docker Desktop Dashboard showing the mounted files inside the a container](images/mounted-files.webp?border=true)
+   ![컨테이너 내의 마운트된 파일을 보여주는 Docker Desktop 대시보드의 스크린샷](images/mounted-files.webp?border=true)
 
-2. Delete the file on the host and verify the file is also deleted in the container. You will find that the files no longer exist under **Files** in the Docker Desktop Dashboard.
+2. 호스트에서 파일을 삭제하고 컨테이너에서도 파일이 삭제되었는지 확인합니다. Docker Desktop 대시보드의 **Files**에서 더 이상 파일이 존재하지 않음을 알 수 있습니다.
 
-   ![A screenshot of Docker Desktop Dashboard showing the deleted files inside the a container](images/deleted-files.webp?border=true)
+   ![컨테이너 내의 삭제된 파일을 보여주는 Docker Desktop 대시보드의 스크린샷](images/deleted-files.webp?border=true)
 
-3. Recreate the HTML file on the host system and see that file re-appears under the **Files** tab under **Containers** on the Docker Desktop Dashboard. By now, you will be able to access the site too.
+3. 호스트 시스템에서 HTML 파일을 다시 생성하고 Docker Desktop 대시보드의 **Containers**의 **Files** 탭에서 파일이 다시 나타나는지 확인합니다. 이제 사이트에도 액세스할 수 있습니다.
 
-### Stop your container
+### 컨테이너 중지 {#stop-your-container}
 
-The container continues to run until you stop it.
+컨테이너는 중지할 때까지 계속 실행됩니다.
 
-1. Go to the **Containers** view in the Docker Desktop Dashboard.
+1. Docker Desktop 대시보드에서 **Containers** 보기로 이동합니다.
 
-2. Locate the container you'd like to stop.
+2. 중지하려는 컨테이너를 찾습니다.
 
-3. Select the **Delete** action in the Actions column.
+3. 작업 열에서 **Delete** 작업을 선택합니다.
 
-![A screenshot of Docker Desktop Dashboard showing how to delete the container](images/delete-the-container.webp?border=true)
+![컨테이너를 삭제하는 방법을 보여주는 Docker Desktop 대시보드의 스크린샷](images/delete-the-container.webp?border=true)
 
-## Additional resources
+## 추가 자료 {#additional-resources}
 
-The following resources will help you learn more about bind mounts:
+다음 자료는 바인드 마운트에 대해 더 많이 배우는 데 도움이 됩니다:
 
-- [Manage data in Docker](/storage/)
-- [Volumes](/storage/volumes/)
-- [Bind mounts](/storage/bind-mounts/)
-- [Running containers](/reference/run/)
-- [Troubleshoot storage errors](/storage/troubleshooting_volume_errors/)
-- [Persisting container data](/get-started/docker-concepts/running-containers/persisting-container-data/)
+- [Docker에서 데이터 관리](/storage/)
+- [볼륨](/storage/volumes/)
+- [바인드 마운트](/storage/bind-mounts/)
+- [컨테이너 실행](/reference/run/)
+- [스토리지 오류 문제 해결](/storage/troubleshooting_volume_errors/)
+- [컨테이너 데이터 유지](/get-started/docker-concepts/running-containers/persisting-container-data/)
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-Now that you have learned about sharing local files with containers, it’s time to learn about multi-container applications.
+이제 컨테이너와 로컬 파일을 공유하는 방법을 배웠으므로 다중 컨테이너 애플리케이션에 대해 배울 차례입니다.
 
-<Button href="Multi-container applications">
-Multi-container applications
-</Button>
+<Button href="Multi-container applications">다중 컨테이너 애플리케이션</Button>
