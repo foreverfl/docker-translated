@@ -116,7 +116,6 @@ The following snippet shows a sample configuration:
   "docker": {
     "organization_name": "acme",
     "username": "mobythewhale",
-    "pat": "dckr_pat__dsaCAs_xL3kNyupAa7dwO1alwg"
   },
   "artifactory": [
     {
