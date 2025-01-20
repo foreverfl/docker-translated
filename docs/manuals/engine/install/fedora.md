@@ -96,7 +96,7 @@ your DNF repositories) and set up the repository.
 
 ```console
 $ sudo dnf -y install dnf-plugins-core
-$ sudo dnf-3 config-manager --add-repo {{% param "download-url-base" %}}/docker-ce.repo
+$ sudo dnf-3 config-manager --add-repo /docker-ce.repo
 ```
 
 #### Install Docker Engine
@@ -127,8 +127,8 @@ $ sudo dnf-3 config-manager --add-repo {{% param "download-url-base" %}}/docker-
    ```console
    $ dnf list docker-ce --showduplicates | sort -r
 
-   docker-ce.x86_64    3:{{% param "docker_ce_version" %}}-1.fc41    docker-ce-stable
-   docker-ce.x86_64    3:{{% param "docker_ce_version_prev" %}}-1.fc41    docker-ce-stable
+   docker-ce.x86_64    3:-1.fc41    docker-ce-stable
+   docker-ce.x86_64    3:-1.fc41    docker-ce-stable
    <...>
    ```
 
@@ -137,7 +137,7 @@ $ sudo dnf-3 config-manager --add-repo {{% param "download-url-base" %}}/docker-
 
    Install a specific version by its fully qualified package name, which is
    the package name (`docker-ce`) plus the version string (2nd column),
-   separated by a hyphen (`-`). For example, `docker-ce-3:{{% param "docker_ce_version" %}}-1.fc41`.
+   separated by a hyphen (`-`). For example, `docker-ce-3:-1.fc41`.
 
    Replace `<VERSION_STRING>` with the desired version and then run the following
    command to install:
@@ -188,7 +188,7 @@ download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
 
-1. Go to [{{% param "download-url-base" %}}/]({{% param "download-url-base" %}}/)
+1. Go to [/](/)
    and choose your version of Fedora. Then browse to `x86_64/stable/Packages/`
    and download the `.rpm` file for the Docker version you want to install.
 

@@ -34,19 +34,19 @@ driver with the best overall performance and stability in the most usual scenari
 
 The Docker Engine provides the following storage drivers on Linux:
 
-| Driver            | Description                                                                                                                                                                                                                                                                                                                                          |
-| :---------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `overlay2`        | `overlay2` is the preferred storage driver for all currently supported Linux distributions, and requires no extra configuration.                                                                                                                                                                                                                     |
+| Driver            | Description                                                                                                                                                                                                                                                                                                                                                 |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `overlay2`        | `overlay2` is the preferred storage driver for all currently supported Linux distributions, and requires no extra configuration.                                                                                                                                                                                                                            |
 | `fuse-overlayfs`  | `fuse-overlayfs`is preferred only for running Rootless Docker on an old host that does not provide support for rootless `overlay2`. The `fuse-overlayfs` driver does not need to be used since Linux kernel 5.11, and `overlay2` works even in rootless mode. Refer to the [rootless mode documentation](/manuals/engine/security/rootless.md) for details. |
-| `btrfs` and `zfs` | The `btrfs` and `zfs` storage drivers allow for advanced options, such as creating "snapshots", but require more maintenance and setup. Each of these relies on the backing filesystem being configured correctly.                                                                                                                                   |
-| `vfs`             | The `vfs` storage driver is intended for testing purposes, and for situations where no copy-on-write filesystem can be used. Performance of this storage driver is poor, and is not generally recommended for production use.                                                                                                                        |
+| `btrfs` and `zfs` | The `btrfs` and `zfs` storage drivers allow for advanced options, such as creating "snapshots", but require more maintenance and setup. Each of these relies on the backing filesystem being configured correctly.                                                                                                                                          |
+| `vfs`             | The `vfs` storage driver is intended for testing purposes, and for situations where no copy-on-write filesystem can be used. Performance of this storage driver is poor, and is not generally recommended for production use.                                                                                                                               |
 
 <!-- markdownlint-disable reference-links-images -->
 
 The Docker Engine has a prioritized list of which storage driver to use if no
 storage driver is explicitly configured, assuming that the storage driver meets
 the prerequisites, and automatically selects a compatible storage driver. You
-can see the order in the [source code for Docker Engine {{% param "docker_ce_version" %}}](https://github.com/moby/moby/blob/v{{% param "docker_ce_version" %}}/daemon/graphdriver/driver_linux.go#L52-L53).
+can see the order in the [source code for Docker Engine ](https://github.com/moby/moby/blob/v/daemon/graphdriver/driver_linux.go#L52-L53).
 { #storage-driver-order }
 
 <!-- markdownlint-enable reference-links-images -->
@@ -76,14 +76,14 @@ example, `btrfs` is only supported if your system uses `btrfs` as storage. In
 general, the following configurations work on recent versions of the Linux
 distribution:
 
-| Linux distribution   | Recommended storage drivers  | Alternative drivers  |
-| :------------------- | :--------------------------- | :------------------- |
-| Ubuntu               | `overlay2`                   | `zfs`, `vfs`         |
-| Debian               | `overlay2`                   | `vfs`                |
-| CentOS               | `overlay2`                   | `zfs`, `vfs`         |
-| Fedora               | `overlay2`                   | `zfs`, `vfs`         |
-| SLES 15              | `overlay2`                   | `vfs`                |
-| RHEL                 | `overlay2`                   | `vfs`                |
+| Linux distribution | Recommended storage drivers | Alternative drivers |
+| :----------------- | :-------------------------- | :------------------ |
+| Ubuntu             | `overlay2`                  | `zfs`, `vfs`        |
+| Debian             | `overlay2`                  | `vfs`               |
+| CentOS             | `overlay2`                  | `zfs`, `vfs`        |
+| Fedora             | `overlay2`                  | `zfs`, `vfs`        |
+| SLES 15            | `overlay2`                  | `vfs`               |
+| RHEL               | `overlay2`                  | `vfs`               |
 
 When in doubt, the best all-around configuration is to use a modern Linux
 distribution with a kernel that supports the `overlay2` storage driver, and to

@@ -9,8 +9,8 @@ keywords:
   - build
   - best practices
 aliases:
-- /engine/userguide/eng-image/multistage-build/
-- /develop/develop-images/multistage-build/
+  - /engine/userguide/eng-image/multistage-build/
+  - /develop/develop-images/multistage-build/
 ---
 
 Multi-stage builds are useful to anyone who has struggled to optimize
@@ -28,7 +28,7 @@ and another where the binary gets copied from the first stage into the next stag
 
 ```dockerfile
 # syntax=docker/dockerfile:1
-FROM golang:{{% param "example_go_version" %}}
+FROM golang:
 WORKDIR /src
 COPY <<EOF ./main.go
 package main
@@ -73,7 +73,7 @@ Dockerfile are re-ordered later, the `COPY` doesn't break.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
-FROM golang:{{% param "example_go_version" %}} AS build
+FROM golang: AS build
 WORKDIR /src
 COPY <<EOF /src/main.go
 package main
@@ -171,7 +171,7 @@ There is no dependency on `stage1`, so it's skipped.
 
 ```console
 $ DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile --target stage2 .
-[+] Building 0.4s (7/7) FINISHED                                                                    
+[+] Building 0.4s (7/7) FINISHED
  => [internal] load build definition from Dockerfile                                            0.0s
  => => transferring dockerfile: 36B                                                             0.0s
  => [internal] load .dockerignore                                                               0.0s

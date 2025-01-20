@@ -25,7 +25,7 @@ This page contains instructions on how to install Docker Compose standalone on L
 1. To download and install the Docker Compose standalone, run:
 
    ```console
-   $ curl -SL https://github.com/docker/compose/releases/download/{{% param "compose_version" %}}/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+   $ curl -SL https://github.com/docker/compose/releases/download//docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
    ```
 
 2. Apply executable permissions to the standalone binary in the target path for the installation.
@@ -41,6 +41,7 @@ This page contains instructions on how to install Docker Compose standalone on L
 > If the command `docker-compose` fails after installation, check your path.
 > You can also create a symbolic link to `/usr/bin` or any other directory in your path.
 > For example:
+>
 > ```console
 > $ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 > ```
@@ -53,30 +54,30 @@ on Microsoft Windows Server](/manuals/engine/install/binaries.md#install-server-
 1.  Run PowerShell as an administrator.
     In order to proceed with the installation, select **Yes** when asked if you want this app to make changes to your device.
 
-2.  Optional. Ensure TLS1.2 is enabled. 
+2.  Optional. Ensure TLS1.2 is enabled.
     GitHub requires TLS1.2 fore secure connections. If you’re using an older version of Windows Server, for example 2016, or suspect that TLS1.2 is not enabled, run the following command in PowerShell:
 
     ```powershell
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     ```
 
-3. Download the latest release of Docker Compose ({{% param "compose_version" %}}). Run the following command:
+3.  Download the latest release of Docker Compose (). Run the following command:
 
     ```powershell
-     Start-BitsTransfer -Source "https://github.com/docker/compose/releases/download/{{% param "compose_version" %}}/docker-compose-windows-x86_64.exe" -Destination $Env:ProgramFiles\Docker\docker-compose.exe
+     Start-BitsTransfer -Source "https://github.com/docker/compose/releases/download//docker-compose-windows-x86_64.exe" -Destination $Env:ProgramFiles\Docker\docker-compose.exe
     ```
 
-    To install a different version of Docker Compose, substitute `{{% param "compose_version" %}}` with the version of Compose you want to use.
+    To install a different version of Docker Compose, substitute `` with the version of Compose you want to use.
 
     > [!NOTE]
     >
     > On Windows Server 2019 you can add the Compose executable to `$Env:ProgramFiles\Docker`.
-     Because this directory is registered in the system `PATH`, you can run the `docker-compose --version` 
-     command on the subsequent step with no additional configuration.
+    > Because this directory is registered in the system `PATH`, you can run the `docker-compose --version`
+    > command on the subsequent step with no additional configuration.
 
 4.  Test the installation.
 
     ```console
     $ docker-compose.exe version
-    Docker Compose version {{% param "compose_version" %}}
+    Docker Compose version
     ```
