@@ -1,5 +1,6 @@
 ---
-description: Download and install Docker Compose on Linux with this step-by-step handbook.
+description:
+  Download and install Docker Compose on Linux with this step-by-step handbook.
   This plugin can be installed manually or by using a repository.
 keywords:
   - install docker compose linux
@@ -16,14 +17,15 @@ toc_max: 3
 title: Install the Docker Compose plugin
 linkTitle: Plugin
 aliases:
-- /compose/compose-plugin/
-- /compose/compose-linux/
+  - /compose/compose-plugin/
+  - /compose/compose-linux/
 weight: 10
 ---
 
 This page contains instructions on how to install the Docker Compose plugin on Linux from the command line.
 
 To install the Docker Compose plugin on Linux, you can either:
+
 - [Set up Docker's repository on your Linux system](#install-using-the-repository).
 - [Install manually](#install-the-plugin-manually).
 
@@ -35,59 +37,61 @@ To install the Docker Compose plugin on Linux, you can either:
 
 1. Set up the repository. Find distribution-specific instructions in:
 
-    [Ubuntu](/manuals/engine/install/ubuntu.md#install-using-the-repository) |
-    [CentOS](/manuals/engine/install/centos.md#set-up-the-repository) |
-    [Debian](/manuals/engine/install/debian.md#install-using-the-repository) |
-    [Raspberry Pi OS](/manuals/engine/install/raspberry-pi-os.md#install-using-the-repository) |
-    [Fedora](/manuals/engine/install/fedora.md#set-up-the-repository) |
-    [RHEL](/manuals/engine/install/rhel.md#set-up-the-repository) |
-    [SLES](/manuals/engine/install/sles.md#set-up-the-repository).
+   [Ubuntu](/manuals/engine/install/ubuntu.md#install-using-the-repository) |
+   [CentOS](/manuals/engine/install/centos.md#set-up-the-repository) |
+   [Debian](/manuals/engine/install/debian.md#install-using-the-repository) |
+   [Raspberry Pi OS](/manuals/engine/install/raspberry-pi-os.md#install-using-the-repository) |
+   [Fedora](/manuals/engine/install/fedora.md#set-up-the-repository) |
+   [RHEL](/manuals/engine/install/rhel.md#set-up-the-repository) |
+   [SLES](/manuals/engine/install/sles.md#set-up-the-repository).
 
 2. Update the package index, and install the latest version of Docker Compose:
 
-    * For Ubuntu and Debian, run:
+   - For Ubuntu and Debian, run:
 
-        ```console
-        $ sudo apt-get update
-        $ sudo apt-get install docker-compose-plugin
-        ```
-    * For RPM-based distributions, run:
+     ```console
+     $ sudo apt-get update
+     $ sudo apt-get install docker-compose-plugin
+     ```
 
-        ```console
-        $ sudo yum update
-        $ sudo yum install docker-compose-plugin
-        ```
+   - For RPM-based distributions, run:
 
-3.  Verify that Docker Compose is installed correctly by checking the version.
+     ```console
+     $ sudo yum update
+     $ sudo yum install docker-compose-plugin
+     ```
 
-    ```console
-    $ docker compose version
-    ```
+3. Verify that Docker Compose is installed correctly by checking the version.
 
-    Expected output:
+   ```console
+   $ docker compose version
+   ```
 
-    ```text
-    Docker Compose version vN.N.N
-    ```
+   Expected output:
 
-    Where `vN.N.N` is placeholder text standing in for the latest version.
+   ```text
+   Docker Compose version vN.N.N
+   ```
+
+   Where `vN.N.N` is placeholder text standing in for the latest version.
 
 ### Update Docker Compose
 
 To update the Docker Compose plugin, run the following commands:
 
-* For Ubuntu and Debian, run:
+- For Ubuntu and Debian, run:
 
-    ```console
-    $ sudo apt-get update
-    $ sudo apt-get install docker-compose-plugin
-    ```
-* For RPM-based distributions, run:
+  ```console
+  $ sudo apt-get update
+  $ sudo apt-get install docker-compose-plugin
+  ```
 
-    ```console
-    $ sudo yum update
-    $ sudo yum install docker-compose-plugin
-    ```
+- For RPM-based distributions, run:
+
+  ```console
+  $ sudo yum update
+  $ sudo yum install docker-compose-plugin
+  ```
 
 ## Install the plugin manually
 
@@ -100,36 +104,37 @@ To update the Docker Compose plugin, run the following commands:
     ```console
     $ DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
     $ mkdir -p $DOCKER_CONFIG/cli-plugins
-    $ curl -SL https://github.com/docker/compose/releases/download/{{% param "compose_version" %}}/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+    $ curl -SL https://github.com/docker/compose/releases/download//docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
     ```
 
     This command downloads and installs the latest release of Docker Compose for the active user under `$HOME` directory.
 
     To install:
+
     - Docker Compose for _all users_ on your system, replace `~/.docker/cli-plugins` with `/usr/local/lib/docker/cli-plugins`.
-    - A different version of Compose, substitute `{{% param "compose_version" %}}` with the version of Compose you want to use.
-    - For a different architecture, substitute `x86_64` with the [architecture you want](https://github.com/docker/compose/releases).   
+    - A different version of Compose, substitute `` with the version of Compose you want to use.
+    - For a different architecture, substitute `x86_64` with the [architecture you want](https://github.com/docker/compose/releases).
 
-
-2. Apply executable permissions to the binary:
+2.  Apply executable permissions to the binary:
 
     ```console
     $ chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
     ```
+
     or, if you chose to install Compose for all users:
 
     ```console
     $ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
     ```
 
-3. Test the installation.
+3.  Test the installation.
 
     ```console
     $ docker compose version
     ```
-   
-   Expected output:
+
+    Expected output:
 
     ```text
-    Docker Compose version {{% param "compose_version" %}}
+    Docker Compose version
     ```

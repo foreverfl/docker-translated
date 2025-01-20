@@ -46,7 +46,7 @@ target "backend" {
   context = "./backend"
   dockerfile = "backend.Dockerfile"
   args = {
-    GO_VERSION = "{{% param "example_go_version" %}}"
+    GO_VERSION = ""
   }
   tags = ["myapp/backend:latest"]
 }

@@ -120,12 +120,12 @@ Docker from the repository.
    sudo apt-get update
    sudo apt-get install ca-certificates curl
    sudo install -m 0755 -d /etc/apt/keyrings
-   sudo curl -fsSL {{% param "download-url-base" %}}/gpg -o /etc/apt/keyrings/docker.asc
+   sudo curl -fsSL /gpg -o /etc/apt/keyrings/docker.asc
    sudo chmod a+r /etc/apt/keyrings/docker.asc
 
    # Add the repository to Apt sources:
    echo \
-     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] {{% param "download-url-base" %}} \
+     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc]  \
      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
    sudo apt-get update
@@ -152,15 +152,15 @@ Docker from the repository.
    # List the available versions:
    $ apt-cache madison docker-ce | awk '{ print $3 }'
 
-   5:{{% param "docker_ce_version" %}}-1~raspbian.12~bookworm
-   5:{{% param "docker_ce_version_prev" %}}-1~raspbian.12~bookworm
+   5:-1~raspbian.12~bookworm
+   5:-1~raspbian.12~bookworm
    ...
    ```
 
    Select the desired version and install:
 
    ```console
-   $ VERSION_STRING=5:{{% param "docker_ce_version" %}}-1~raspbian.12~bookworm
+   $ VERSION_STRING=5:-1~raspbian.12~bookworm
    $ sudo apt-get install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
@@ -194,7 +194,7 @@ download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
 
-1. Go to [`{{% param "download-url-base" %}}/dists/`]({{% param "download-url-base" %}}/dists/).
+1. Go to [`/dists/`](/dists/).
 
 2. Select your Raspberry Pi OS version in the list.
 

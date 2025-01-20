@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           build-contexts: |
-            alpine=docker-image://alpine:{{% param "example_alpine_version" %}}
+            alpine=docker-image://alpine:
           tags: myimage:latest
 ```
 

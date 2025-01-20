@@ -122,7 +122,7 @@ Docker from the repository.
 Set up the repository.
 
 ```console
-$ sudo zypper addrepo {{% param "download-url-base" %}}/docker-ce.repo
+$ sudo zypper addrepo /docker-ce.repo
 ```
 
 #### Install Docker Engine
@@ -153,8 +153,8 @@ $ sudo zypper addrepo {{% param "download-url-base" %}}/docker-ce.repo
    ```console
    $ sudo zypper search -s --match-exact docker-ce | sort -r
 
-     v  | docker-ce | package | 3:{{% param "docker_ce_version" %}}-1 | s390x | Docker CE Stable - s390x
-     v  | docker-ce | package | 3:{{% param "docker_ce_version_prev" %}}-1 | s390x | Docker CE Stable - s390x
+     v  | docker-ce | package | 3:-1 | s390x | Docker CE Stable - s390x
+     v  | docker-ce | package | 3:-1 | s390x | Docker CE Stable - s390x
    ```
 
    The list returned depends on which repositories are enabled, and is specific
@@ -162,7 +162,7 @@ $ sudo zypper addrepo {{% param "download-url-base" %}}/docker-ce.repo
 
    Install a specific version by its fully qualified package name, which is
    the package name (`docker-ce`) plus the version string (2nd column),
-   separated by a hyphen (`-`). For example, `docker-ce-3:{{% param "docker_ce_version" %}}`.
+   separated by a hyphen (`-`). For example, `docker-ce-3:`.
 
    Replace `<VERSION_STRING>` with the desired version and then run the following
    command to install:
@@ -213,7 +213,7 @@ download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
 
-1. Go to [{{% param "download-url-base" %}}/]({{% param "download-url-base" %}}/)
+1. Go to [/](/)
    and choose your version of SLES. Then browse to `s390x/stable/Packages/`
    and download the `.rpm` file for the Docker version you want to install.
 
