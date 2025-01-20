@@ -48,7 +48,7 @@ and
 [Extra Packages for Enterprise Linux (EPEL)](https://docs.fedoraproject.org/en-US/epel/).
 
 {{< tabs group="os_version" >}}
-{{< tab name="RHEL 9" >}}
+<TabItem value="rhel-9" label="RHEL 9">
 
 ```console
 $ sudo subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
@@ -56,8 +56,8 @@ $ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.n
 $ sudo dnf install pass
 ```
 
-{{< /tab >}}
-{{< tab name="RHEL 8" >}}
+</TabItem>
+<TabItem value="rhel-8" label="RHEL 8">
 
 ```console
 $ sudo subscription-manager repos --enable codeready-builder-for-rhel-8-$(arch)-rpms
@@ -65,13 +65,13 @@ $ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.n
 $ sudo dnf install pass
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 Additionally, for a GNOME desktop environment you must install AppIndicator and KStatusNotifierItem [GNOME extensions](https://extensions.gnome.org/extension/615/appindicator-support/). You must also enable EPEL.
 
 {{< tabs group="os_version" >}}
-{{< tab name="RHEL 9" >}}
+<TabItem value="rhel-9" label="RHEL 9">
 
 ```console
 $ # enable EPEL as described above
@@ -79,8 +79,8 @@ $ sudo dnf install gnome-shell-extension-appindicator
 $ sudo gnome-extensions enable appindicatorsupport@rgcjonas.gmail.com
 ```
 
-{{< /tab >}}
-{{< tab name="RHEL 8" >}}
+</TabItem>
+<TabItem value="rhel-8" label="RHEL 8">
 
 ```console
 $ # enable EPEL as described above
@@ -89,8 +89,8 @@ $ sudo dnf install gnome-shell-extension-desktop-icons
 $ sudo gnome-shell-extension-tool -e appindicatorsupport@rgcjonas.gmail.com
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 For non-GNOME desktop environments, `gnome-terminal` must be installed:
 

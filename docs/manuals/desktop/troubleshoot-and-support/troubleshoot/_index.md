@@ -97,7 +97,7 @@ In some cases, it's useful to run the diagnostics yourself, for instance, if
 Docker Desktop cannot start.
 
 {{< tabs group="os" >}}
-{{< tab name="Windows" >}}
+<TabItem value="windows" label="Windows">
 
 1. Locate the `com.docker.diagnose` tool:
 
@@ -113,8 +113,8 @@ Docker Desktop cannot start.
 
 After the diagnostics have finished, the terminal displays your diagnostics ID and the path to the diagnostics file. The diagnostics ID is composed of your user ID and a timestamp. For example `BE9AFAAF-F68B-41D0-9D12-84760E6B8740/20190905152051`. 
 
-{{< /tab >}}
-{{< tab name="Mac" >}}
+</TabItem>
+<TabItem value="mac" label="Mac">
 
 1. Locate the `com.docker.diagnose` tool:
 
@@ -130,8 +130,8 @@ After the diagnostics have finished, the terminal displays your diagnostics ID a
 
 After the diagnostics have finished, the terminal displays your diagnostics ID and the path to the diagnostics file. The diagnostics ID is composed of your user ID and a timestamp. For example `BE9AFAAF-F68B-41D0-9D12-84760E6B8740/20190905152051`. 
 
-{{< /tab >}}
-{{< tab name="Linux" >}}
+</TabItem>
+<TabItem value="linux" label="Linux">
 
 1. Locate the `com.docker.diagnose` tool:
 
@@ -147,13 +147,13 @@ After the diagnostics have finished, the terminal displays your diagnostics ID a
 
 After the diagnostics have finished, the terminal displays your diagnostics ID and the path to the diagnostics file. The diagnostics ID is composed of your user ID and a timestamp. For example `BE9AFAAF-F68B-41D0-9D12-84760E6B8740/20190905152051`. 
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 To view the contents of the diagnostic file:
 
 {{< tabs group="os" >}}
-{{< tab name="Windows" >}}
+<TabItem value="windows" label="Windows">
 
 1. Unzip the file. In PowerShell, copy and paste the path to the diagnostics file into the following command and then run it. It should be similar to the following example:
 
@@ -167,8 +167,8 @@ To view the contents of the diagnostic file:
    $ code <path-to-file>
    ```
 
-{{< /tab >}}
-{{< tab name="Mac" >}}
+</TabItem>
+<TabItem value="mac" label="Mac">
 
 Run:
 
@@ -176,8 +176,8 @@ Run:
 $ open /tmp/<your-diagnostics-ID>.zip
 ```
 
-{{< /tab >}}
-{{< tab name="Linux" >}}
+</TabItem>
+<TabItem value="linux" label="Linux">
 
 Run:
 
@@ -185,8 +185,8 @@ Run:
 $ unzip –l /tmp/<your-diagnostics-ID>.zip
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 #### Use your diagnostics ID to get help
 
@@ -203,7 +203,7 @@ If you don't have a paid Docker subscription, create an issue on GitHub:
 Docker Desktop contains a self-diagnose tool which can help you identify some common problems. 
 
 {{< tabs group="os" >}}
-{{< tab name="Windows" >}}
+<TabItem value="windows" label="Windows">
 1. Locate the `com.docker.diagnose` tool. 
      
    ```console
@@ -216,8 +216,8 @@ Docker Desktop contains a self-diagnose tool which can help you identify some co
    $ & "C:\Program Files\Docker\Docker\resources\com.docker.diagnose.exe" check
    ```
 
-{{< /tab >}}
-{{< tab name="Mac" >}}
+</TabItem>
+<TabItem value="mac" label="Mac">
 
 1. Locate the `com.docker.diagnose` tool. 
 
@@ -231,8 +231,8 @@ Docker Desktop contains a self-diagnose tool which can help you identify some co
    $ /Applications/Docker.app/Contents/MacOS/com.docker.diagnose check
    ```
 
-{{< /tab >}}
-{{< tab name="Linux" >}}
+</TabItem>
+<TabItem value="linux" label="Linux">
 
 1. Locate the `com.docker.diagnose` tool. 
 
@@ -242,8 +242,8 @@ Docker Desktop contains a self-diagnose tool which can help you identify some co
    $ /opt/docker-desktop/bin/com.docker.diagnose check
    ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 The tool runs a suite of checks and displays **PASS** or **FAIL** next to each check. If there are any failures, it highlights the most relevant at the end of the report.
 
@@ -258,7 +258,7 @@ You can then create an issue on GitHub:
 In addition to using the diagnose option to submit logs, you can browse the logs yourself.
 
 {{< tabs group="os" >}}
-{{< tab name="Windows" >}}
+<TabItem value="windows" label="Windows">
 
 In PowerShell, run:
 
@@ -268,8 +268,8 @@ $ code $Env:LOCALAPPDATA\Docker\log
 
 This opens up all the logs in your preferred text editor for you to explore.
 
-{{< /tab >}}
-{{< tab name="Mac" >}}
+</TabItem>
+<TabItem value="mac" label="Mac">
 
 ### From terminal
 
@@ -301,8 +301,8 @@ To read the Docker app log messages, type `docker` in the Console window search 
 You can use the Console Log Query to search logs, filter the results in various
 ways, and create reports.
 
-{{< /tab >}}
-{{< tab name="Linux" >}}
+</TabItem>
+<TabItem value="linux" label="Linux">
 
 You can access Docker Desktop logs by running the following command:
 
@@ -313,8 +313,8 @@ $ journalctl --user --unit=docker-desktop
 You can also find the logs for the internal components included in Docker
 Desktop at `$HOME/.docker/desktop/log/`.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## View the Docker daemon logs
 

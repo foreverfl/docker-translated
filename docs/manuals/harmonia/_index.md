@@ -34,7 +34,7 @@ This guide introduces you to essential commands and steps for creating, managing
 ### Step one: Create a cloud engine
 
 {{< tabs group="method" >}}
-{{< tab name="Docker Desktop">}}
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 1. In the Docker Desktop Dashboard, navigate to the **Project Harmonia** tab. 
 2. In the top right-hand corner, select **Create Cloud Engine**.
@@ -48,8 +48,8 @@ This guide introduces you to essential commands and steps for creating, managing
 
 To verify creation, check the context switcher in the top-left corner of the Docker Desktop Dashboard; it should display `cloudengine`. You’re now ready to use it.
 
-{{< /tab >}}
-{{< tab name="CLI">}}
+</TabItem>
+<TabItem value="cli" label="CLI">
 
 Run the following command: 
 
@@ -85,8 +85,8 @@ You should see the following:
 ...
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Step two: Run and remove containers with the newly created cloud engine 
 
@@ -112,7 +112,7 @@ Running a container with a cloud engine is just as straightforward as running it
 ### Step three: Create and switch to a new cloud engine
 
 {{< tabs group="method" >}}
-{{< tab name="Docker Desktop">}}
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 1. Create a new cloud engine:
    - Enter `cloudengine2` as the name
@@ -121,8 +121,8 @@ Running a container with a cloud engine is just as straightforward as running it
    In the **Project Harmonia** view you should now see both `cloudengine` and `cloudengine2`. 
 2. Switch between engines, also known as your Docker contexts. Use the context switcher in the top-left corner of the Docker Desktop Dashboard to toggle between your cloud engines or switch from your local engine (`desktop-linux`) to a cloud engine. 
 
-{{< /tab >}}
-{{< tab name="CLI">}}
+</TabItem>
+<TabItem value="cli" label="CLI">
 
 1. Create a new cloud engine. Run:
    ```console
@@ -138,15 +138,15 @@ Running a container with a cloud engine is just as straightforward as running it
    $ docker context use desktop-linux
    ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Step four: Use a file sync for your cloud engine
 
 Project Harmonia takes advantage of [Synchronized file shares](/manuals/desktop/features/synchronized-file-sharing.md) to enable local-to-remote file shares and port mappings. 
 
 {{< tabs group="method" >}}
-{{< tab name="Docker Desktop">}}
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 1. Clone the [Awesome Compose](https://github.com/docker/awesome-compose) repository.
 2. In the Docker Desktop Dashboard, navigate to the **Project Harmonia** view.
@@ -162,8 +162,8 @@ Project Harmonia takes advantage of [Synchronized file shares](/manuals/desktop/
    You should see the home page. The code for this page is located in `react-express-mysql/frontend/src/App.js`.
 9. In an IDE or text editor, open the `App.js` file, change some text, and save. Watch as the code reloads live in your browser.
 
-{{< /tab >}}
-{{< tab name="CLI">}}
+</TabItem>
+<TabItem value="cli" label="CLI">
 
 1. Clone the [Awesome Compose](https://github.com/docker/awesome-compose) repository.
 2. In your terminal, change into the `awesome-compose/react-express-mysql` directory.
@@ -178,13 +178,13 @@ Project Harmonia takes advantage of [Synchronized file shares](/manuals/desktop/
    You should see the home page. The code for this page is located in `react-express-mysql/frontend/src/App.js`.
 6. In an IDE or text editor, open the `App.js` file, change some text, and save. Watch as the code reloads live in your browser.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Step five: Share a container port
 
 {{< tabs group="method" >}}
-{{< tab name="Docker Desktop">}}
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 1.  Make sure your Docker context is set to `cloudengine`.
 2.  In the Docker Desktop Dashboard, navigate to the **Containers** view.
@@ -195,8 +195,8 @@ Project Harmonia takes advantage of [Synchronized file shares](/manuals/desktop/
 
 To view all shared ports for your Docker context, select the **Shared ports** icon in the bottom-right corner of the Docker Desktop Dashboard.
 
-{{< /tab >}}
-{{< tab name="CLI">}}
+</TabItem>
+<TabItem value="cli" label="CLI">
 
 To share a container port, make sure your Docker context is set to `cloudengine` and then run: 
 ``` console
@@ -210,13 +210,13 @@ To see a list of all your shared ports, run:
 $ docker harmonia engine share list 
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Step six: Clean up 
 
 {{< tabs group="method" >}}
-{{< tab name="Docker Desktop">}}
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 To stop the running project:
 
@@ -232,8 +232,8 @@ To remove a file sync session:
 
 To remove a cloud engine, navigate to the **Project Harmonia** view and then select the **delete** icon.
 
-{{< /tab >}}
-{{< tab name="CLI">}}
+</TabItem>
+<TabItem value="cli" label="CLI">
 
 To stop the running project:
 
@@ -253,8 +253,8 @@ To remove a cloud engine, run:
 $ docker harmonia engine delete <name-of-engine>
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Troubleshoot
 

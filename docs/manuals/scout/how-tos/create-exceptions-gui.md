@@ -27,8 +27,8 @@ that owns the image.
 To create an exception for a vulnerability in an image using the Docker Scout
 Dashboard or Docker Desktop:
 
-{{< tabs >}}
-{{< tab name="Docker Scout Dashboard" >}}
+<Tabs>
+<TabItem value="docker-scout-dashboard" label="Docker Scout Dashboard">
 
 1. Go to the [Images page](https://scout.docker.com/reports/images).
 2. Select the image tag that contains the vulnerability you want to create an
@@ -84,8 +84,8 @@ images that you selected. The exception is also listed on the **Exceptions**
 tab of the [Vulnerabilities page](https://scout.docker.com/reports/vulnerabilities/exceptions)
 in the Docker Scout Dashboard.
 
-{{< /tab >}}
-{{< tab name="Docker Desktop" >}}
+</TabItem>
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 1. Open the **Images** view in Docker Desktop.
 2. Open the **Hub** tab.
@@ -97,5 +97,5 @@ in the Docker Scout Dashboard.
    exception for.
 6. Select the **Create exception** button next to the vulnerability.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>

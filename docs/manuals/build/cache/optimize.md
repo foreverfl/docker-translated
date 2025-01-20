@@ -228,16 +228,16 @@ How you specify cache mounts depends on the build tool you're using. If you're
 unsure how to specify cache mounts, refer to the documentation for the build
 tool you're using. Here are a few examples:
 
-{{< tabs >}}
-{{< tab name="Go" >}}
+<Tabs>
+<TabItem value="go" label="Go">
 
 ```dockerfile
 RUN --mount=type=cache,target=/go/pkg/mod \
     go build -o /app/hello
 ```
 
-{{< /tab >}}
-{{< tab name="Apt" >}}
+</TabItem>
+<TabItem value="apt" label="Apt">
 
 ```dockerfile
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -245,24 +245,24 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   apt update && apt-get --no-install-recommends install -y gcc
 ```
 
-{{< /tab >}}
-{{< tab name="Python" >}}
+</TabItem>
+<TabItem value="python" label="Python">
 
 ```dockerfile
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements.txt
 ```
 
-{{< /tab >}}
-{{< tab name="Ruby" >}}
+</TabItem>
+<TabItem value="ruby" label="Ruby">
 
 ```dockerfile
 RUN --mount=type=cache,target=/root/.gem \
     bundle install
 ```
 
-{{< /tab >}}
-{{< tab name="Rust" >}}
+</TabItem>
+<TabItem value="rust" label="Rust">
 
 ```dockerfile
 RUN --mount=type=cache,target=/app/target/ \
@@ -271,24 +271,24 @@ RUN --mount=type=cache,target=/app/target/ \
     cargo build
 ```
 
-{{< /tab >}}
-{{< tab name=".NET" >}}
+</TabItem>
+<TabItem value=".net" label=".NET">
 
 ```dockerfile
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet restore
 ```
 
-{{< /tab >}}
-{{< tab name="PHP" >}}  
+</TabItem>
+<TabItem value="php" label="PHP">  
 
 ```dockerfile
 RUN --mount=type=cache,target=/tmp/cache \
     composer install
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 It's important that you read the documentation for the build tool you're using
 to make sure you're using the correct cache mount options. Package managers

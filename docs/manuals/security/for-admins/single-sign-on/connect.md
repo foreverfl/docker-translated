@@ -32,8 +32,8 @@ Make sure you have completed the following before you begin:
 >
 > Before creating an SSO connection in Docker, you must verify at least one domain.
 
-{{< tabs >}}
-{{< tab name="Admin Console" >}}
+<Tabs>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -47,8 +47,8 @@ Make sure you have completed the following before you begin:
    - Azure OIDC: **Redirect URL**
 7. Keep this window open so you can paste the connection information from your IdP here at the end of this guide.
 
-{{< /tab >}}
-{{< tab name="Docker Hub" >}}
+</TabItem>
+<TabItem value="docker-hub" label="Docker Hub">
 
 1. Sign in to Docker Hub.
 2. Select **Organizations** and then your organization from the list.
@@ -60,15 +60,15 @@ Make sure you have completed the following before you begin:
    - Azure OIDC: **Redirect URL**
 7. Keep this window open so you can paste the connection information from your IdP here at the end of this guide.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Step two: Create an SSO connection in your IdP
 
 The user interface for your IdP may differ slightly from the following steps. Refer to the documentation for your IdP to verify.
 
-{{< tabs >}}
-{{< tab name="Okta SAML" >}}
+<Tabs>
+<TabItem value="okta-saml" label="Okta SAML">
 
 1. Sign in to your Okta account.
 2. Select **Admin** to open the Okta Admin portal.
@@ -89,8 +89,8 @@ The user interface for your IdP may differ slightly from the following steps. Re
 12. Select the **This is an internal app that we have created** checkbox.
 13. Select **Finish**.
 
-{{< /tab >}}
-{{< tab name="Entra ID SAML 2.0" >}}
+</TabItem>
+<TabItem value="entra-id-saml-2.0" label="Entra ID SAML 2.0">
 
 1. Sign in to your Azure AD admin portal.
 2. Select **Default Directory** and then **Add**.
@@ -104,8 +104,8 @@ The user interface for your IdP may differ slightly from the following steps. Re
 8. Save configuration.
 9. From the **SAML Signing Certificate** section, download your **Certificate (Base64)**.
 
-{{< /tab >}}
-{{< tab name="Azure Connect (OIDC)" >}}
+</TabItem>
+<TabItem value="azure-connect-(oidc)" label="Azure Connect (OIDC)">
 
 To create an Azure Connect (OIDC) connection, you must create an app registration, client secrets, and configure API permissions for Docker:
 
@@ -137,15 +137,15 @@ To create an Azure Connect (OIDC) connection, you must create an app registratio
 6. Select **Add permissions** to confirm.
 7. Verify admin consent was granted for each permission by checking the **Status** column.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Step three: Connect Docker and your IdP
 
 After creating your connection in Docker and your IdP, you can cross-connect them to complete your SSO connection:
 
-{{< tabs >}}
-{{< tab name="Okta SAML" >}}
+<Tabs>
+<TabItem value="okta-saml" label="Okta SAML">
 
 1. Open your app you created in Okta and select **View SAML setup instructions**.
 2. Copy the following values from the Okta SAML setup instruction page:
@@ -158,8 +158,8 @@ After creating your connection in Docker and your IdP, you can cross-connect the
 7. Optional. Select a default team to provision users to and select **Next**.
 8. Verify your SSO connection details and select **Create Connection**.
 
-{{< /tab >}}
-{{< tab name="Entra ID SAML 2.0" >}}
+</TabItem>
+<TabItem value="entra-id-saml-2.0" label="Entra ID SAML 2.0">
 
 1. Open your app in Azure AD.
 2. Open your downloaded **Certificate (Base64)** in a text editor.
@@ -172,8 +172,8 @@ After creating your connection in Docker and your IdP, you can cross-connect the
 7. Optional. Select a default team to provision users to and select **Next**.
 8. Verify your SSO connection details and select **Create Connection**.
 
-{{< /tab >}}
-{{< tab name="Azure Connect (OIDC)" >}}
+</TabItem>
+<TabItem value="azure-connect-(oidc)" label="Azure Connect (OIDC)">
 
 1. Open Docker Hub or the Admin Console. Your SSO configuration page should still be open from Step one of this guide.
 2. Paste the following values from Azure AD in to Docker:
@@ -184,8 +184,8 @@ After creating your connection in Docker and your IdP, you can cross-connect the
 4. Optional. Select a default team to provision users to and select **Next**.
 5. Verify your SSO connection details and select **Create Connection**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Step four: Test your connection
 

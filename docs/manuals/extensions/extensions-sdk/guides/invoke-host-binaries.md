@@ -32,8 +32,8 @@ string.
 
 ## Add the executables to the extension
 
-{{< tabs >}}
-{{< tab name="Mac and Linux" >}}
+<Tabs>
+<TabItem value="mac-and-linux" label="Mac and Linux">
 
 Create a `bash` script for macOS and Linux, in the file `binaries/unix/hello.sh` with the following content:
 
@@ -42,8 +42,8 @@ Create a `bash` script for macOS and Linux, in the file `binaries/unix/hello.sh`
 echo "Hello, $1!"
 ```
 
-{{< /tab >}}
-{{< tab name="Windows" >}}
+</TabItem>
+<TabItem value="windows" label="Windows">
 
 Create a `batch script` for Windows in another file `binaries/windows/hello.cmd` with the following content:
 
@@ -52,8 +52,8 @@ Create a `batch script` for Windows in another file `binaries/windows/hello.cmd`
 echo "Hello, %1!"
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 Then update the `Dockerfile` to copy the `binaries` folder into the extension's container filesystem and make the
 files executable.
@@ -72,7 +72,7 @@ provided by the extension with the `ddClient.extension.host.cli.exec()` function
 In this example, the binary returns a string as result, obtained by `result?.stdout`, as soon as the extension view is rendered.
 
 {{< tabs group="framework" >}}
-{{< tab name="React" >}}
+<TabItem value="react" label="React">
 
 ```typescript
 export function App() {
@@ -101,32 +101,32 @@ export function App() {
 }
 ```
 
-{{< /tab >}}
-{{< tab name="Vue" >}}
+</TabItem>
+<TabItem value="vue" label="Vue">
 
 > [!IMPORTANT]
 >
 > We don't have an example for Vue yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Vue)
 > and let us know if you'd like a sample with Vue.
 
-{{< /tab >}}
-{{< tab name="Angular" >}}
+</TabItem>
+<TabItem value="angular" label="Angular">
 
 > [!IMPORTANT]
 >
 > We don't have an example for Angular yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Angular)
 > and let us know if you'd like a sample with Angular.
 
-{{< /tab >}}
-{{< tab name="Svelte" >}}
+</TabItem>
+<TabItem value="svelte" label="Svelte">
 
 > [!IMPORTANT]
 >
 > We don't have an example for Svelte yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Svelte)
 > and let us know if you'd like a sample with Svelte.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Configure the metadata file
 

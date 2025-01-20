@@ -17,8 +17,8 @@ aliases:
 
 Learn how to deploy Docker Desktop for Windows and Mac using Intune, Microsoft's cloud-based device management tool. 
 
-{{< tabs >}}
-{{< tab name="Windows" >}}
+<Tabs>
+<TabItem value="windows" label="Windows">
 
 1. Sign in to your Intune admin center.
 2. Add a new app. Select **Apps**, then **Windows**, then **Add**.
@@ -37,8 +37,8 @@ Learn how to deploy Docker Desktop for Windows and Mac using Intune, Microsoft's
 
 7. Complete the rest of the tabs and then review and create the app. 
 
-{{< /tab >}}
-{{< tab name="Mac" >}}
+</TabItem>
+<TabItem value="mac" label="Mac">
 
 First, upload the package:
 
@@ -53,8 +53,8 @@ Next, assign the app:
 2. Select **Add group** and choose the user or device groups you want to assign the app to.
 3. Select **Save**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Additional resources
 

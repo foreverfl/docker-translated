@@ -19,8 +19,8 @@ The billing information provided appears on all your billing invoices. The email
 
 ### Personal account
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To update your billing information:
 
@@ -30,8 +30,8 @@ To update your billing information:
 4. On your billing information card, select **Change**.
 5. Update your billing contact and billing address information, then select **Update**.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 To update your billing information:
 
@@ -41,8 +41,8 @@ To update your billing information:
 4. Select **Billing Address** and enter your updated billing information.
 5. Select **Submit**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Organization
 
@@ -50,8 +50,8 @@ To update your billing information:
 >
 > You must be an organization owner to make changes to the billing information.
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To update your billing information:
 
@@ -61,8 +61,8 @@ To update your billing information:
 4. On your billing information card, select **Change**.
 5. Update your billing contact and billing address information, then select **Update**.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 To update your billing information:
 
@@ -74,8 +74,8 @@ To update your billing information:
 6. Enter your updated billing information.
 7. Select **Submit**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Update your billing invoice email address
 
@@ -92,8 +92,8 @@ You can update the email address that receives billing invoices at any time.
 
 ### Personal account
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To update your billing email address:
 
@@ -103,8 +103,8 @@ To update your billing email address:
 4. On your billing information card, select **Change**.
 5. Update your billing contact information and select **Update**.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 To update your billing email address:
 
@@ -115,13 +115,13 @@ To update your billing email address:
 5. Update the email address in the **Billing contact** section.
 6. Select **Submit**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Organizations
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To update your billing email address:
 
@@ -131,8 +131,8 @@ To update your billing email address:
 4. On your billing information card, select **Change**.
 5. Update your billing contact information and select **Update**.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 To update your billing email address:
 
@@ -144,5 +144,5 @@ To update your billing email address:
 6. Update the email address in the **Billing contact** section.
 7. Select **Submit**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>

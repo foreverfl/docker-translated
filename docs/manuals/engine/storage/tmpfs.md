@@ -155,8 +155,8 @@ To use a `tmpfs` mount in a container, use the `--tmpfs` flag, or use the
 `/app` in a Nginx container. The first example uses the `--mount` flag and the
 second uses the `--tmpfs` flag.
 
-{{< tabs >}}
-{{< tab name="`--mount`" >}}
+<Tabs>
+<TabItem value="`--mount`" label="`--mount`">
 
 ```console
 $ docker run -d \
@@ -174,8 +174,8 @@ $ docker inspect tmptest --format '{{ json .Mounts }}'
 [{"Type":"tmpfs","Source":"","Destination":"/app","Mode":"","RW":true,"Propagation":""}]
 ```
 
-{{< /tab >}}
-{{< tab name="`--tmpfs`" >}}
+</TabItem>
+<TabItem value="`--tmpfs`" label="`--tmpfs`">
 
 ```console
 $ docker run -d \
@@ -193,8 +193,8 @@ $ docker inspect tmptest --format '{{ json .Mounts }}'
 {"/app":""}
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 Stop and remove the container:
 

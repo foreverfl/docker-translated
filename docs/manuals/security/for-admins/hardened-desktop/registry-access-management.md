@@ -44,16 +44,16 @@ feature always takes effect.
 
 ## Configure Registry Access Management permissions
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Verify the restrictions
 

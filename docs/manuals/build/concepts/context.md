@@ -366,22 +366,22 @@ on any local files.
 You can pass the text file using a standard input stream, or by pointing at the
 URL of a remote text file.
 
-{{< tabs >}}
-{{< tab name="Unix pipe" >}}
+<Tabs>
+<TabItem value="unix-pipe" label="Unix pipe">
 
 ```console
 $ docker build - < Dockerfile
 ```
 
-{{< /tab >}}
-{{< tab name="PowerShell" >}}
+</TabItem>
+<TabItem value="powershell" label="PowerShell">
 
 ```powershell
 Get-Content Dockerfile | docker build -
 ```
 
-{{< /tab >}}
-{{< tab name="Heredocs" >}}
+</TabItem>
+<TabItem value="heredocs" label="Heredocs">
 
 ```bash
 docker build -t myimage:latest - <<EOF
@@ -390,15 +390,15 @@ RUN echo "hello world"
 EOF
 ```
 
-{{< /tab >}}
-{{< tab name="Remote file" >}}
+</TabItem>
+<TabItem value="remote-file" label="Remote file">
 
 ```console
 $ docker build https://raw.githubusercontent.com/dvdksn/clockbox/main/Dockerfile
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 When you build without a filesystem context, Dockerfile instructions such as
 `COPY` can't refer to local files:

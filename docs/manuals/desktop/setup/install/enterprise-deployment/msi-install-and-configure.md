@@ -215,13 +215,13 @@ The MSI installer collects anonymous usage statistics to better understand user 
 
 ### How to opt-out
 
-{{< tabs >}}
-{{< tab name="From the GUI" >}}
+<Tabs>
+<TabItem value="from-the-gui" label="From the GUI">
 
 When you install Docker Desktop from the default installer GUI, select the **Disable analytics** checkbox located on the bottom-left corner of the **Welcome** dialog.
 
-{{< /tab >}}
-{{< tab name="From the command line" >}}
+</TabItem>
+<TabItem value="from-the-command-line" label="From the command line">
 
 When you install Docker Desktop from the command line, use the `DISABLEANALYTICS` property.
 
@@ -229,8 +229,8 @@ When you install Docker Desktop from the command line, use the `DISABLEANALYTICS
 msiexec /i "win\msi\bin\en-US\DockerDesktop.msi" /L*V ".\msi.log" DISABLEANALYTICS=1
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Persistence
 

@@ -33,8 +33,8 @@ $ sh install-scout.sh
 
 ## Manual installation
 
-{{< tabs >}}
-{{< tab name="Linux" >}}
+<Tabs>
+<TabItem value="linux" label="Linux">
 
 1. Download the latest release from the [releases page](https://github.com/docker/scout-cli/releases).
 2. Create a subdirectory under `$HOME/.docker` called `scout`.
@@ -60,8 +60,8 @@ $ sh install-scout.sh
    > [!NOTE]
    > The path for `cliPluginsExtraDirs` must be an absolute path.
 
-{{< /tab >}}
-{{< tab name="macOS" >}}
+</TabItem>
+<TabItem value="macos" label="macOS">
 
 1. Download the latest release from the [releases page](https://github.com/docker/scout-cli/releases).
 2. Create a subdirectory under `$HOME/.docker` called `scout`.
@@ -98,8 +98,8 @@ $ sh install-scout.sh
    > [!NOTE]
    > The path for `cliPluginsExtraDirs` must be an absolute path.
 
-{{< /tab >}}
-{{< tab name="Windows" >}}
+</TabItem>
+<TabItem value="windows" label="Windows">
 
 1. Download the latest release from the [releases page](https://github.com/docker/scout-cli/releases).
 2. Create a subdirectory under `%USERPROFILE%/.docker` called `scout`.
@@ -124,8 +124,8 @@ $ sh install-scout.sh
    > [!NOTE]
    > The path for `cliPluginsExtraDirs` must be an absolute path.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Container image
 

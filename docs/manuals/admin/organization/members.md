@@ -16,16 +16,16 @@ Learn how to manage members for your organization in Docker Hub and the Docker A
 
 ## Invite members
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Accept invitation
 
@@ -53,8 +53,8 @@ After inviting members, you can resend or remove invitations as needed.
 
 ### Resend an invitation
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
 To resend an invitation from Docker Hub:
 
@@ -64,8 +64,8 @@ To resend an invitation from Docker Hub:
    **Resend invitation**.
 4. Select **Invite** to confirm.
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -76,13 +76,13 @@ To resend an invitation from the Admin Console:
 3. Select the **action menu** next to the invitee and select **Resend invitation**.
 4. Select **Invite** to confirm.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Remove an invitation
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
 To remove a member's invitation from Docker Hub:
 
@@ -91,8 +91,8 @@ To remove a member's invitation from Docker Hub:
 3. In the table, select the **Action** icon, and then select **Remove member** or **Remove invitee**.
 4. Follow the on-screen instructions to remove the member or invitee.
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -103,8 +103,8 @@ To remove an invitation from the Admin Console:
 3. Select the **action menu** next to the invitee and select **Remove invitee**.
 4. Select **Remove** to confirm.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Manage members on a team
 
@@ -112,8 +112,8 @@ Use Docker Hub or the Admin Console to add or remove team members. Organization 
 
 ### Add a member to a team
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
 To add a member to a team with Docker Hub:
 
@@ -131,8 +131,8 @@ To add a member to a team with Docker Hub:
    >
    > An invitee must first accept the invitation to join the organization before being added to the team.
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -146,15 +146,15 @@ To add a member to a team with the Admin Console:
    >
    > An invitee must first accept the invitation to join the organization before being added to the team.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Remove a member from a team
 
 Organization owners can remove a member from a team in Docker Hub or Admin Console. Removing the member from the team will revoke their access to the permitted resources.
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
 To remove a member from a specific team with Docker Hub:
 
@@ -163,8 +163,8 @@ To remove a member from a specific team with Docker Hub:
 3. Select the **X** next to the user’s name to remove them from the team.
 4. When prompted, select **Remove** to confirm.
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -175,8 +175,8 @@ To remove a member from a specific team with the Admin Console:
 3. Select the **X** next to the user's name to remove them from the team.
 4. When prompted, select **Remove** to confirm.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Update a member role
 
@@ -208,8 +208,8 @@ Owners can export a CSV file containing all members. The CSV file for a company 
 - Invited to Organizations: All organizations the user is an invitee of within a company
 - Account Created: The time and date when the user account was created
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
 To export a CSV file of your members:
 
@@ -217,8 +217,8 @@ To export a CSV file of your members:
 2. Select **Organizations**, your organization, and then **Members**.
 3. Select the **Action** icon and then select **Export users as CSV**.
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -228,5 +228,5 @@ To export a CSV file of your members:
 2. Select **Members**.
 3. Select the **download** icon to export a CSV file of all members.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>

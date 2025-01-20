@@ -106,8 +106,8 @@ $ sudo dnf config-manager --add-repo /docker-ce.repo
 
 1. Install the Docker packages.
 
-   {{< tabs >}}
-   {{< tab name="Latest" >}}
+   <Tabs>
+   <TabItem value="latest" label="Latest">
 
    To install the latest version, run:
 
@@ -121,8 +121,8 @@ $ sudo dnf config-manager --add-repo /docker-ce.repo
    This command installs Docker, but it doesn't start Docker. It also creates a
    `docker` group, however, it doesn't add any users to the group by default.
 
-   {{< /tab >}}
-   {{< tab name="Specific version" >}}
+   </TabItem>
+   <TabItem value="specific-version" label="Specific version">
 
    To install a specific version, start by listing the available versions in
    the repository:
@@ -152,8 +152,8 @@ $ sudo dnf config-manager --add-repo /docker-ce.repo
    This command installs Docker, but it doesn't start Docker. It also creates a
    `docker` group, however, it doesn't add any users to the group by default.
 
-   {{< /tab >}}
-   {{< /tabs >}}
+   </TabItem>
+   </Tabs>
 
 2. Start Docker Engine.
 

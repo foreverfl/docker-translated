@@ -29,8 +29,8 @@ score is not visible to users outside the organization or members without
 
 ## Viewing health scores
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
 To view the health score of an image in Docker Hub:
 
@@ -42,8 +42,8 @@ based on the latest pushed tag.
 
 ![Repository health score](../images/score-badges-repolist.png)
 
-{{< /tab >}}
-{{< tab name="Docker Desktop" >}}
+</TabItem>
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 To view the health score of an image in Docker Desktop:
 
@@ -55,8 +55,8 @@ different tags that have been pushed to Docker Hub.
 
 ![Repository health score](../images/score-badges-dd.png)
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 The health score badge is color-coded to indicate the overall health of the
 repository:

@@ -85,8 +85,8 @@ to load the multi-platform images you build into your Docker Engine image
 store. But you can push them to a container registry directly with `docker
 build --push`.
 
-{{< tabs >}}
-{{< tab name="containerd image store" >}}
+<Tabs>
+<TabItem value="containerd-image-store" label="containerd image store">
 
 The steps for enabling the containerd image store depends on whether you're
 using Docker Desktop or Docker Engine standalone:
@@ -97,8 +97,8 @@ using Docker Desktop or Docker Engine standalone:
 - If you're using Docker Engine standalone, enable the containerd image store
   using the [daemon configuration file](/manuals/engine/storage/containerd.md).
 
-{{< /tab >}}
-{{< tab name="Custom builder" >}}
+</TabItem>
+<TabItem value="custom-builder" label="Custom builder">
 
 To create a custom builder, use the `docker buildx create` command to create a
 builder that uses the `docker-container` driver.
@@ -115,8 +115,8 @@ $ docker buildx create \
 > Docker Engine image store. For more information, see [Build
 > drivers](/manuals/build/builders/drivers/_index.md).
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 If you're using Docker Engine standalone and you need to build multi-platform
 images using emulation, you also need to install QEMU, see [Install QEMU
@@ -437,8 +437,8 @@ Steps:
      `TARGETOS` and `TARGETARCH`. The Go compiler uses these variables to do
      cross-compilation.
 
-   {{< tabs >}}
-   {{< tab name="Updated Dockerfile" >}}
+   <Tabs>
+   <TabItem value="updated-dockerfile" label="Updated Dockerfile">
 
    ```dockerfile
    # syntax=docker/dockerfile:1
@@ -454,8 +454,8 @@ Steps:
    ENTRYPOINT ["/server"]
    ```
 
-   {{< /tab >}}
-   {{< tab name="Old Dockerfile" >}}
+   </TabItem>
+   <TabItem value="old-dockerfile" label="Old Dockerfile">
 
    ```dockerfile
    # syntax=docker/dockerfile:1
@@ -469,8 +469,8 @@ Steps:
    ENTRYPOINT ["/server"]
    ```
 
-   {{< /tab >}}
-   {{< tab name="Diff" >}}
+   </TabItem>
+   <TabItem value="diff" label="Diff">
 
    ```diff
    # syntax=docker/dockerfile:1
@@ -488,8 +488,8 @@ Steps:
    ENTRYPOINT ["/server"]
    ```
 
-   {{< /tab >}}
-   {{< /tabs >}}
+   </TabItem>
+   </Tabs>
 
 4. Build the image for `linux/amd64` and `linux/arm64`:
 

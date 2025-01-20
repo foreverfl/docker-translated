@@ -27,7 +27,7 @@ use the built-in `env` property on the build step.
 The following example sets the `SOURCE_DATE_EPOCH` variable to 0, Unix epoch.
 
 {{< tabs group="action" >}}
-{{< tab name="`docker/build-push-action`" >}}
+<TabItem value="`docker/build-push-action`" label="`docker/build-push-action`">
 
 ```yaml
 name: ci
@@ -50,8 +50,8 @@ jobs:
           SOURCE_DATE_EPOCH: 0
 ```
 
-{{< /tab >}}
-{{< tab name="`docker/bake-action`" >}}
+</TabItem>
+<TabItem value="`docker/bake-action`" label="`docker/bake-action`">
 
 ```yaml
 name: ci
@@ -72,15 +72,15 @@ jobs:
           SOURCE_DATE_EPOCH: 0
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Git commit timestamps
 
 The following example sets `SOURCE_DATE_EPOCH` to the Git commit timestamp.
 
 {{< tabs group="action" >}}
-{{< tab name="`docker/build-push-action`" >}}
+<TabItem value="`docker/build-push-action`" label="`docker/build-push-action`">
 
 ```yaml
 name: ci
@@ -106,8 +106,8 @@ jobs:
           SOURCE_DATE_EPOCH: ${{ env.TIMESTAMP }}
 ```
 
-{{< /tab >}}
-{{< tab name="`docker/bake-action`" >}}
+</TabItem>
+<TabItem value="`docker/bake-action`" label="`docker/bake-action`">
 
 ```yaml
 name: ci
@@ -131,8 +131,8 @@ jobs:
           SOURCE_DATE_EPOCH: ${{ env.TIMESTAMP }}
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Additional information
 

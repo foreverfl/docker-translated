@@ -68,7 +68,7 @@ that are used to populate the extension's card in the Marketplace. Here is an ex
 extension:
 
 {{< tabs group="framework" >}}
-{{< tab name="React" >}}
+<TabItem value="react" label="React">
 
 ```Dockerfile
 # syntax=docker/dockerfile:1
@@ -105,32 +105,32 @@ COPY --from=client-builder /ui/build ui
 >
 > In the example Dockerfile, you can see that the image label `com.docker.desktop.extension.icon` is set to an icon URL. The Extensions Marketplace displays this icon without installing the extension. The Dockerfile also includes `COPY docker.svg .` to copy an icon file inside the image. This second icon file is used to display the extension UI in the Dashboard, once the extension is installed.
 
-{{< /tab >}}
-{{< tab name="Vue" >}}
+</TabItem>
+<TabItem value="vue" label="Vue">
 
 > [!IMPORTANT]
 >
 > We don't have a working Dockerfile for Vue yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Vue)
 > and let us know if you'd like a Dockerfile for Vue.
 
-{{< /tab >}}
-{{< tab name="Angular" >}}
+</TabItem>
+<TabItem value="angular" label="Angular">
 
 > [!IMPORTANT]
 >
 > We don't have a working Dockerfile for Angular yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Angular)
 > and let us know if you'd like a Dockerfile for Angular.
 
-{{< /tab >}}
-{{< tab name="Svelte" >}}
+</TabItem>
+<TabItem value="svelte" label="Svelte">
 
 > [!IMPORTANT]
 >
 > We don't have a working Dockerfile for Svelte yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Svelte)
 > and let us know if you'd like a Dockerfile for Svelte.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Configure the metadata file
 
@@ -205,7 +205,7 @@ For example, you can use the `docker.cli.exec` function to get the list of all t
 command and display the result in a table.
 
 {{< tabs group="framework" >}}
-{{< tab name="React" >}}
+<TabItem value="react" label="React">
 
 Replace the `ui/src/App.tsx` file with the following code:
 
@@ -288,32 +288,32 @@ export function App() {
 
 ![Screenshot of the container list.](images/react-extension.png)
 
-{{< /tab >}}
-{{< tab name="Vue" >}}
+</TabItem>
+<TabItem value="vue" label="Vue">
 
 > [!IMPORTANT]
 >
 > We don't have an example for Vue yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Vue)
 > and let us know if you'd like a sample with Vue.
 
-{{< /tab >}}
-{{< tab name="Angular" >}}
+</TabItem>
+<TabItem value="angular" label="Angular">
 
 > [!IMPORTANT]
 >
 > We don't have an example for Angular yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Angular)
 > and let us know if you'd like a sample with Angular.
 
-{{< /tab >}}
-{{< tab name="Svelte" >}}
+</TabItem>
+<TabItem value="svelte" label="Svelte">
 
 > [!IMPORTANT]
 >
 > We don't have an example for Svelte yet. [Fill out the form](https://docs.google.com/forms/d/e/1FAIpQLSdxJDGFJl5oJ06rG7uqtw1rsSBZpUhv_s9HHtw80cytkh2X-Q/viewform?usp=pp_url&entry.1333218187=Svelte)
 > and let us know if you'd like a sample with Svelte.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Policies enforced for the front-end code
 

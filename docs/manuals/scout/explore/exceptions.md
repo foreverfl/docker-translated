@@ -63,23 +63,23 @@ selecting the action menu lets you edit or remove the exception.
 
 To view all exceptions for a specific image tag:
 
-{{< tabs >}}
-{{< tab name="Docker Scout Dashboard" >}}
+<Tabs>
+<TabItem value="docker-scout-dashboard" label="Docker Scout Dashboard">
 
 1. Go to the [Images page](https://scout.docker.com/reports/images).
 2. Select the tag that you want to inspect.
 3. Open the **Exceptions** tab.
 
-{{< /tab >}}
-{{< tab name="Docker Desktop" >}}
+</TabItem>
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 1. Open the **Images** view in Docker Desktop.
 2. Open the **Hub** tab.
 3. Select the tag you want to inspect.
 4. Open the **Exceptions** tab.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### View exceptions in the CLI
 

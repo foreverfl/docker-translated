@@ -120,8 +120,8 @@ port specifier.
 There are three logging driver messaging formats: `inline` (default), `json`,
 and `raw`.
 
-{{< tabs >}}
-{{< tab name="Inline" >}}
+<Tabs>
+<TabItem value="inline" label="Inline">
 
 The default format is `inline` where each log message is embedded as a string.
 For example:
@@ -150,8 +150,8 @@ For example:
 }
 ```
 
-{{< /tab >}}
-{{< tab name="JSON" >}}
+</TabItem>
+<TabItem value="json" label="JSON">
 
 To format messages as `json` objects, set `--log-opt splunk-format=json`. The
 driver attempts to parse every line as a JSON object and send it as an embedded
@@ -183,8 +183,8 @@ object. If it can't parse the message, it's sent `inline`. For example:
 }
 ```
 
-{{< /tab >}}
-{{< tab name="Raw" >}}
+</TabItem>
+<TabItem value="raw" label="Raw">
 
 To format messages as `raw`, set `--log-opt splunk-format=raw`. Attributes
 (environment variables and labels) and tags are prefixed to the message. For
@@ -195,8 +195,8 @@ MyImage/MyContainer env1=val1 label1=label1 my message
 MyImage/MyContainer env1=val1 label1=label1 {"foo": "bar"}
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Advanced options
 

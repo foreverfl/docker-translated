@@ -31,8 +31,8 @@ Before you start, set the following environment variables in your CI system:
 
 Make sure the variables are accessible to your project.
 
-{{< tabs >}}
-{{< tab name="Circle CI" >}}
+<Tabs>
+<TabItem value="circle-ci" label="Circle CI">
 
 ```yaml
 version: 2.1
@@ -60,8 +60,8 @@ jobs:
           "<ENVIRONMENT>" ${image}:${tag}
 ```
 
-{{< /tab >}}
-{{< tab name="GitLab" >}}
+</TabItem>
+<TabItem value="gitlab" label="GitLab">
 
 The following example uses the [Docker executor](https://docs.gitlab.com/runner/executors/docker.html).
 
@@ -84,8 +84,8 @@ record_environment:
     - environment --org <MY_DOCKER_ORG> "PRODUCTION" ${image}:${tag}
 ```
 
-{{< /tab >}}
-{{< tab name="Azure DevOps" >}}
+</TabItem>
+<TabItem value="azure-devops" label="Azure DevOps">
 
 ```yaml
 trigger:
@@ -116,8 +116,8 @@ stages:
               "<ENVIRONMENT>" $(image):$(tag)
 ```
 
-{{< /tab >}}
-{{< tab name="Jenkins" >}}
+</TabItem>
+<TabItem value="jenkins" label="Jenkins">
 
 ```groovy
 stage('Analyze image') {
@@ -134,5 +134,5 @@ stage('Analyze image') {
 }
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>

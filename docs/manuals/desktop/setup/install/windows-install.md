@@ -58,8 +58,8 @@ _For checksums, see [Release notes](/manuals/desktop/release-notes.md)_
 >
 > Docker Desktop's functionality remains consistent on both WSL and Hyper-V, without a preference for either architecture. Hyper-V and WSL have their own advantages and disadvantages, depending on your specific set up and your planned use case.
 
-{{< tabs >}}
-{{< tab name="WSL 2 backend, x86_64" >}}
+<Tabs>
+<TabItem value="wsl-2-backend,-x86_64" label="WSL 2 backend, x86_64">
 
 - WSL version 1.1.3.0 or later.
 - Windows 11 64-bit: Home or Pro version 22H2 or higher, or Enterprise or Education version 22H2 or higher.
@@ -84,8 +84,8 @@ For more information on setting up WSL 2 with Docker Desktop, see [WSL](/manuals
 > To run Windows containers, you need Windows 10 or Windows 11 Professional or Enterprise edition.
 > Windows Home or Education editions only allow you to run Linux containers.
 
-{{< /tab >}}
-{{< tab name="Hyper-V backend, x86_64" >}}
+</TabItem>
+<TabItem value="hyper-v-backend,-x86_64" label="Hyper-V backend, x86_64">
 
 - Windows 11 64-bit: Home or Pro version 22H2 or higher, or Enterprise or Education version 22H2 or higher.
 - Windows 10 64-bit: Minimum required is Home or Pro 22H2 (build 19045) or higher, or Enterprise or Education 22H2 (build 19045) or higher.
@@ -108,8 +108,8 @@ For more information on setting up WSL 2 with Docker Desktop, see [WSL](/manuals
 > To run Windows containers, you need Windows 10 or Windows 11 Professional or Enterprise edition.
 > Windows Home or Education editions only allow you to run Linux containers.
 
-{{< /tab >}}
-{{< tab name="WSL 2 backend, Arm (Beta)" >}}
+</TabItem>
+<TabItem value="wsl-2-backend,-arm-(beta)" label="WSL 2 backend, Arm (Beta)">
 
 - WSL version 1.1.3.0 or later.
 - Windows 11 64-bit: Home or Pro version 22H2 or higher, or Enterprise or Education version 22H2 or higher.
@@ -127,8 +127,8 @@ For more information on setting up WSL 2 with Docker Desktop, see [WSL](/manuals
 >
 > Windows containers are not supported.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 Containers and images created with Docker Desktop are shared between all
 user accounts on machines where it is installed. This is because all Windows

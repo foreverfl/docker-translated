@@ -50,8 +50,8 @@ Windows host. For Linux, refer to the documentation for your distribution.
 Choose whether you want to install the certificate using the Microsoft
 Management Console (MMC) or your web browser.
 
-{{< tabs >}}
-{{< tab name="MMC" >}}
+<Tabs>
+<TabItem value="mmc" label="MMC">
 
 1. Download CA certificate for the MITM proxy software.
 2. Open the Microsoft Management Console (`mmc.exe`).
@@ -72,8 +72,8 @@ Management Console (MMC) or your web browser.
 > required beyond adding the CA certificate to the operating system's trust
 > store.
 
-{{< /tab >}}
-{{< tab name="Web browser" >}}
+</TabItem>
+<TabItem value="web-browser" label="Web browser">
 
 1. Download the CA certificate for your MITM proxy software.
 2. Open your web browser, go to **Settings** and open **Manage certificates**
@@ -84,8 +84,8 @@ Management Console (MMC) or your web browser.
 7. Select **Finish** and then **Close**.
 8. Start Docker Desktop and verify that `docker pull` succeeds (assuming Docker Desktop is already configured to use the MITM proxy server).
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Add CA certificates to Linux images and containers
 

@@ -170,8 +170,8 @@ The following `--mount` and `-v` examples produce the same result. You can't
 run them both unless you remove the `devtest` container after running the first
 one.
 
-{{< tabs >}}
-{{< tab name="`--mount`" >}}
+<Tabs>
+<TabItem value="`--mount`" label="`--mount`">
 
 ```console
 $ docker run -d \
@@ -181,8 +181,8 @@ $ docker run -d \
   nginx:latest
 ```
 
-{{< /tab >}}
-{{< tab name="`-v`" >}}
+</TabItem>
+<TabItem value="`-v`" label="`-v`">
 
 ```console
 $ docker run -d \
@@ -192,8 +192,8 @@ $ docker run -d \
   nginx:latest
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 Use `docker inspect devtest` to verify that the bind mount was created
 correctly. Look for the `Mounts` section:
@@ -235,8 +235,8 @@ most cases, this would result in a non-functioning container.
 
 The `--mount` and `-v` examples have the same end result.
 
-{{< tabs >}}
-{{< tab name="`--mount`" >}}
+<Tabs>
+<TabItem value="`--mount`" label="`--mount`">
 
 ```console
 $ docker run -d \
@@ -249,8 +249,8 @@ docker: Error response from daemon: oci runtime error: container_linux.go:262:
 starting container process caused "exec: \"nginx\": executable file not found in $PATH".
 ```
 
-{{< /tab >}}
-{{< tab name="`-v`" >}}
+</TabItem>
+<TabItem value="`-v`" label="`-v`">
 
 ```console
 $ docker run -d \
@@ -263,8 +263,8 @@ docker: Error response from daemon: oci runtime error: container_linux.go:262:
 starting container process caused "exec: \"nginx\": executable file not found in $PATH".
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 The container is created but does not start. Remove it:
 
@@ -285,8 +285,8 @@ them by commas.
 
 The `--mount` and `-v` examples have the same result.
 
-{{< tabs >}}
-{{< tab name="`--mount`" >}}
+<Tabs>
+<TabItem value="`--mount`" label="`--mount`">
 
 ```console
 $ docker run -d \
@@ -296,8 +296,8 @@ $ docker run -d \
   nginx:latest
 ```
 
-{{< /tab >}}
-{{< tab name="`-v`" >}}
+</TabItem>
+<TabItem value="`-v`" label="`-v`">
 
 ```console
 $ docker run -d \
@@ -307,8 +307,8 @@ $ docker run -d \
   nginx:latest
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 Use `docker inspect devtest` to verify that the bind mount was created
 correctly. Look for the `Mounts` section:
@@ -394,8 +394,8 @@ option.
 
 The `--mount` and `-v` examples have the same result.
 
-{{< tabs >}}
-{{< tab name="`--mount`" >}}
+<Tabs>
+<TabItem value="`--mount`" label="`--mount`">
 
 ```console
 $ docker run -d \
@@ -406,8 +406,8 @@ $ docker run -d \
   nginx:latest
 ```
 
-{{< /tab >}}
-{{< tab name="`-v`" >}}
+</TabItem>
+<TabItem value="`-v`" label="`-v`">
 
 ```console
 $ docker run -d \
@@ -418,8 +418,8 @@ $ docker run -d \
   nginx:latest
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 Now if you create `/app/foo/`, `/app2/foo/` also exists.
 

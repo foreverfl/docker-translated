@@ -42,28 +42,28 @@ Docker Extensions' private marketplace is designed specifically for organization
 2. Initialize the configuration files for your marketplace:
 
    {{< tabs group="os_version" >}}
-   {{< tab name="Mac" >}}
+   <TabItem value="mac" label="Mac">
 
    ```console
    $ /Applications/Docker.app/Contents/Resources/bin/extension-admin init
    ```
 
-   {{< /tab >}}
-   {{< tab name="Windows" >}}
+   </TabItem>
+   <TabItem value="windows" label="Windows">
 
    ```console
    $ C:\Program Files\Docker\Docker\resources\bin\extension-admin init
    ```
 
-   {{< /tab >}}
-   {{< tab name="Linux" >}}
+   </TabItem>
+   <TabItem value="linux" label="Linux">
 
    ```console
    $ /opt/docker-desktop/extension-admin init
    ```
 
-   {{< /tab >}}
-   {{< /tabs >}}
+   </TabItem>
+   </Tabs>
 
 This creates 2 files:
 
@@ -119,28 +119,28 @@ This list can include different types of extension images:
 Once the list in `extensions.txt` is ready, you can generate the marketplace:
 
 {{< tabs group="os_version" >}}
-{{< tab name="Mac" >}}
+<TabItem value="mac" label="Mac">
 
 ```console
 $ /Applications/Docker.app/Contents/Resources/bin/extension-admin generate
 ```
 
-{{< /tab >}}
-{{< tab name="Windows" >}}
+</TabItem>
+<TabItem value="windows" label="Windows">
 
 ```console
 $ C:\Program Files\Docker\Docker\resources\bin\extension-admin generate
 ```
 
-{{< /tab >}}
-{{< tab name="Linux" >}}
+</TabItem>
+<TabItem value="linux" label="Linux">
 
 ```console
 $ /opt/docker-desktop/extension-admin generate
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 This creates an `extension-marketplace` directory and downloads the marketplace metadata for all the allowed extensions.
 
@@ -157,28 +157,28 @@ It's recommended that you try the private marketplace on your Docker Desktop ins
     - Linux: `/usr/share/docker-desktop`
 
    {{< tabs group="os_version" >}}
-   {{< tab name="Mac" >}}
+   <TabItem value="mac" label="Mac">
 
    ```console
    $ sudo /Applications/Docker.app/Contents/Resources/bin/extension-admin apply
    ```
 
-   {{< /tab >}}
-   {{< tab name="Windows (run as admin)" >}}
+   </TabItem>
+   <TabItem value="windows-(run-as-admin)" label="Windows (run as admin)">
 
    ```console
    $ C:\Program Files\Docker\Docker\resources\bin\extension-admin apply
    ```
 
-   {{< /tab >}}
-   {{< tab name="Linux" >}}
+   </TabItem>
+   <TabItem value="linux" label="Linux">
 
    ```console
    $ sudo /opt/docker-desktop/extension-admin apply
    ```
 
-   {{< /tab >}}
-   {{< /tabs >}}
+   </TabItem>
+   </Tabs>
 
 2. Quit and re-open Docker Desktop. 
 3. Sign in with a Docker account.

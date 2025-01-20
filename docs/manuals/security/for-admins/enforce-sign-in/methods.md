@@ -167,15 +167,15 @@ To enforce sign-in for Docker Desktop on macOS, you can use a `plist` file that 
 
 The following example outlines how to create and distribute the `plist` file to enforce sign-in on Docker Desktop. There are multiple ways to deploy this configuration depending on your organization's infrastructure, security policies, and management tools.
 
-{{< tabs >}}
-{{< tab name="MDM" >}}
+<Tabs>
+<TabItem value="mdm" label="MDM">
 
 1. Follow the steps previously outlined to create the `desktop.plist` file.
 2. Use an MDM tool like Jamf or Fleet to distribute the `desktop.plist` file to `/Library/Application Support/com.docker.docker/` on target macOS devices.
 3. Through the MDM tool, set the file permissions to permit editing by administrators only.
 
-{{< /tab >}}
-{{< tab name="Shell script" >}}
+</TabItem>
+<TabItem value="shell-script" label="Shell script">
 
 1. Create a Bash script that can check for the existence of the `.plist` file in the correct directory, create or modify it as needed, and set the appropriate permissions.
    Include commands in your script to:
@@ -192,8 +192,8 @@ The following example outlines how to create and distribute the `plist` file to 
     - Remote support tool: For organizations using a remote support tool, you can add the script to a task and execute it across all selected machines.
 5. Ensure the script is running as expected on all targeted devices. You may have to check log files or implement logging within the script itself to report its success or failure.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## registry.json method (All)
 
@@ -242,8 +242,8 @@ details, see [Manage members](/admin/organization/members/).
 
 To create a `registry.json` file when installing Docker Desktop, use the following instructions based on your user's operating system.
 
-{{< tabs >}}
-{{< tab name="Windows" >}}
+<Tabs>
+<TabItem value="windows" label="Windows">
 
 To automatically create a `registry.json` file when installing Docker Desktop,
 download `Docker Desktop Installer.exe` and run one of the following commands
@@ -266,8 +266,8 @@ C:\Users\Admin> "Docker Desktop Installer.exe" install --allowed-org=myorg
 >
 > As of Docker Desktop version 4.36 and later, you can add more than one organization to a single `registry.json` file. With Docker Desktop version 4.35 and earlier, if you add more than one organization sign-in enforcement silently fails.
 
-{{< /tab >}}
-{{< tab name="Mac" >}}
+</TabItem>
+<TabItem value="mac" label="Mac">
 
 To automatically create a `registry.json` file when installing Docker Desktop,
 download `Docker.dmg` and run the following commands in a terminal from the
@@ -279,15 +279,15 @@ $ sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --allowed-org=myorg
 $ sudo hdiutil detach /Volumes/Docker
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Option 3: Create a registry.json file using the command line
 
 To create a `registry.json` using the command line, use the following instructions based on your user's operating system.
 
-{{< tabs >}}
-{{< tab name="Windows" >}}
+<Tabs>
+<TabItem value="windows" label="Windows">
 
 To use the CLI to create a `registry.json` file, run the following PowerShell
 command as an administrator and replace `myorg` with your organization's name. The file
@@ -318,8 +318,8 @@ registry.json BUILTIN\Administrators NT AUTHORITY\SYSTEM Allow  FullControl...
 >
 > As of Docker Desktop version 4.36 and later, you can add more than one organization to a single `registry.json` file. With Docker Desktop version 4.35 and earlier, if you add more than one organization sign-in enforcement silently fails.
 
-{{< /tab >}}
-{{< tab name="Mac" >}}
+</TabItem>
+<TabItem value="mac" label="Mac">
 
 To use the CLI to create a `registry.json` file, run the following commands in a
 terminal and replace `myorg` with your organization's name. The file contents
@@ -355,8 +355,8 @@ $ sudo ls -l "/Library/Application Support/com.docker.docker/registry.json"
 >
 > As of Docker Desktop version 4.36 and later, you can add more than one organization to a single `registry.json` file. With Docker Desktop version 4.35 and earlier, if you add more than one organization sign-in enforcement silently fails.
 
-{{< /tab >}}
-{{< tab name="Linux" >}}
+</TabItem>
+<TabItem value="linux" label="Linux">
 
 To use the CLI to create a `registry.json` file, run the following commands in a
 terminal and replace `myorg` with your organization's name. The file contents
@@ -392,8 +392,8 @@ $ sudo ls -l /usr/share/docker-desktop/registry/registry.json
 >
 > As of Docker Desktop version 4.36 and later, you can add more than one organization to a single `registry.json` file. With Docker Desktop version 4.35 and earlier, if you add more than one organization sign-in enforcement silently fails.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## More resources
 

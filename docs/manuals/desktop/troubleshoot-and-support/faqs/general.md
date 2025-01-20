@@ -73,8 +73,8 @@ Docker Desktop does not support direct USB device passthrough. However, you can 
 
 Docker Desktop requires administrator privileges only for installation. Once installed, administrator privileges are not needed to run it. However, for non-admin users to run Docker Desktop, it must be installed using a specific installer flag and meet certain prerequisites, which vary by platform.
 
-{{< tabs >}}
-{{< tab name="Mac" >}}
+<Tabs>
+<TabItem value="mac" label="Mac">
 
 To run Docker Desktop on Mac without requiring administrator privileges, install via the command line and pass the `—user=<userid>` installer flag:
 
@@ -88,8 +88,8 @@ You can then sign in to your machine with the user ID specified, and launch Dock
 > 
 > Before launching Docker Desktop, if a `settings.json` file already exists in the `~/Library/Group Containers/group.com.docker/` directory, you will see a **Finish setting up Docker Desktop** window that prompts for administrator privileges when you select **Finish**. To avoid this, ensure you delete the `settings.json` file left behind from any previous installations before launching the application.
 
-{{< /tab >}}
-{{< tab name="Windows" >}}
+</TabItem>
+<TabItem value="windows" label="Windows">
 
 > [!NOTE]
 >
@@ -101,7 +101,7 @@ To run Docker Desktop on Windows without requiring administrator privileges, ins
 $ "Docker Desktop Installer.exe" install —always-run-service
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 

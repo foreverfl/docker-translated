@@ -39,8 +39,8 @@ All currency, for example the amount listed on your billing invoice, is in Unite
 
 ### Personal account
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To add a payment method:
 
@@ -53,8 +53,8 @@ To add a payment method:
 7. Optional. You can set a new default payment method by selecting the **Set as default** action.
 8. Optional. You can remove non-default payment methods by selecting the **Delete** action.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 To add a payment method:
 
@@ -67,8 +67,8 @@ To add a payment method:
 7. Select the **Actions** icon, then select **Make default** to ensure that your new payment method applies to all purchases and subscriptions.
 8. Optional. You can remove non-default payment methods by selecting the **Actions** icon. Then, select **Delete**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ### Organization
 
@@ -76,8 +76,8 @@ To add a payment method:
 >
 > You must be an organization owner to make changes to the payment information.
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To add a payment method:
 
@@ -91,8 +91,8 @@ To add a payment method:
 8. Optional. You can set a new default payment method by selecting the **Set as default** action.
 9. Optional. You can remove non-default payment methods by selecting the **Delete** action.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 To add a payment method:
 
@@ -106,8 +106,8 @@ To add a payment method:
 8. Select the **Actions** icon, then select **Make default** to ensure that your new payment method applies to all purchases and subscriptions.
 9. Optional. You can remove non-default payment methods by selecting the **Actions** icon. Then, select **Delete**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Failed payments
 

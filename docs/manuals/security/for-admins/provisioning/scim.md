@@ -55,16 +55,16 @@ For additional details about supported attributes and SCIM, see [Docker Hub API 
 
 You must [configure SSO](../single-sign-on/configure/_index.md) before you enable SCIM. Enforcing SSO isn't required to use SCIM.
 
-{{< tabs >}}
-{{< tab name="Admin Console" >}}
+<Tabs>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
-{{< /tab >}}
-{{< tab name="Docker Hub" >}}
+</TabItem>
+<TabItem value="docker-hub" label="Docker Hub">
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Enable SCIM in your IdP
 
@@ -73,8 +73,8 @@ The user interface for your IdP may differ slightly from the following steps. Yo
 - [Okta](https://help.okta.com/en-us/Content/Topics/Apps/Apps_App_Integration_Wizard_SCIM.htm)
 - [Entra ID (formerly Azure AD)](https://learn.microsoft.com/en-us/azure/active-directory/app-provisioning/user-provisioning)
 
-{{< tabs >}}
-{{< tab name="Okta" >}}
+<Tabs>
+<TabItem value="okta" label="Okta">
 
 ### Enable SCIM
 
@@ -104,8 +104,8 @@ The user interface for your IdP may differ slightly from the following steps. Yo
    - Family name
    - Email
 
-{{< /tab >}}
-{{< tab name="Entra ID SAML 2.0" >}}
+</TabItem>
+<TabItem value="entra-id-saml-2.0" label="Entra ID SAML 2.0">
 
 1. In the Azure admin portal, go to **Enterprise Applications**, then select the **Docker** application you created when you set up your SSO connection.
 2. Select **Provisioning**, then **Get Started**.
@@ -119,8 +119,8 @@ The user interface for your IdP may differ slightly from the following steps. Yo
 10. Select **Save**.
 11. Set the provisioning status to **On**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Set up role mapping
 
@@ -142,8 +142,8 @@ After you set the role in the IdP, you must initiate a sync in your IdP to push 
 
 The external namespace to use to set up these attributes is `urn:ietf:params:scim:schemas:extension:docker:2.0:User`.
 
-{{< tabs >}}
-{{< tab name="Okta" >}}
+<Tabs>
+<TabItem value="okta" label="Okta">
 
 ### Set up role mapping in Okta
 
@@ -173,8 +173,8 @@ The external namespace to use to set up these attributes is `urn:ietf:params:sci
 
 If a user doesn't already have attributes set up, users who are added to the group will inherit these attributes upon provisioning.
 
-{{< /tab >}}
-{{< tab name="Entra ID SAML 2.0" >}}
+</TabItem>
+<TabItem value="entra-id-saml-2.0" label="Entra ID SAML 2.0">
 
 ### Set up role mapping in Azure AD
 
@@ -236,8 +236,8 @@ To add a group:
 
 If you used direct mapping in the previous step, go to **Microsoft Graph Explorer** and sign in to your tenant. You need to be a tenant admin to use this feature. Use the Microsoft Graph API to assign the extension attribute to the user with the value that corresponds to what the attribute was mapped to. See the [Microsoft Graph API documentation](https://learn.microsoft.com/en-us/graph/extensibility-overview?tabs=http) on adding or updating data in extension attributes.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 See the documentation for your IdP for additional details:
 
@@ -248,16 +248,16 @@ See the documentation for your IdP for additional details:
 
 If SCIM is disabled, any user provisioned through SCIM will remain in the organization. Future changes for your users will not sync from your IdP. User de-provisioning is only possible when manually removing the user from the organization.
 
-{{< tabs >}}
-{{< tab name="Admin Console" >}}
+<Tabs>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
-{{< /tab >}}
-{{< tab name="Docker Hub" >}}
+</TabItem>
+<TabItem value="docker-hub" label="Docker Hub">
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## More resources
 

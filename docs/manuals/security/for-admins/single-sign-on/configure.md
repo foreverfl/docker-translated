@@ -23,8 +23,8 @@ Get started creating a single sign-on (SSO) connection for your organization or 
 
 ## Step one: Add your domain
 
-{{< tabs >}}
-{{< tab name="Admin Console" >}}
+<Tabs>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -35,8 +35,8 @@ Get started creating a single sign-on (SSO) connection for your organization or 
 5. Enter your domain in the text box and select **Add domain**.
 6. The pop-up modal will prompt you with steps to verify your domain. Copy the **TXT Record Value**.
 
-{{< /tab >}}
-{{< tab name="Docker Hub" >}}
+</TabItem>
+<TabItem value="docker-hub" label="Docker Hub">
 
 1. Sign in to [Docker Hub](https://hub.docker.com/).
 2. Select **Organizations** and then your organization from the list.
@@ -45,29 +45,29 @@ Get started creating a single sign-on (SSO) connection for your organization or 
 5. Enter your domain in the text box and select **Add domain**.
 6. The pop-up modal will prompt you with steps to verify your domain. Copy the **TXT Record Value**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Step two: Verify your domain
 
 Verifying your domain ensures Docker knows you own it. Domain verification is done by adding your Docker TXT Record Value to your domain host. The TXT Record Value proves ownership, which signals the Domain Name System (DNS) to add this record. It can take up to 72 hours for DNS to recognize the change. When the change is reflected in DNS, Docker will automatically check the record to confirm your ownership.
 
-{{< tabs >}}
-{{< tab name="Admin Console" >}}
+<Tabs>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
 1. Navigate to your domain host, create a new TXT record, and paste the **TXT Record Value** from Docker.
 2. TXT record verification can take 72 hours. Once you have waited for TXT record verification, return to the **Domain management** page of the Admin Console and select **Verify** next to your domain name.
 
-{{< /tab >}}
-{{< tab name="Docker Hub" >}}
+</TabItem>
+<TabItem value="docker-hub" label="Docker Hub">
 
 1. Navigate to your domain host, create a new TXT record, and paste the **TXT Record Value** from Docker.
 2. TXT Record Verification can take 72 hours. Once you have waited for TXT record verification, return to the **Security** page of Docker Hub and select **Verify** next to your domain name.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 Once you have added and verified your domain, you are ready to create an SSO connection between Docker and your identity provider (IdP).
 

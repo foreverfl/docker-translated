@@ -26,29 +26,29 @@ aliases:
 
 ## Manage domains
 
-{{< tabs >}}
-{{< tab name="Admin Console" >}}
+<Tabs>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
-{{< /tab >}}
-{{< tab name="Docker Hub" >}}
+</TabItem>
+<TabItem value="docker-hub" label="Docker Hub">
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Manage SSO connections
 
-{{< tabs >}}
-{{< tab name="Admin Console" >}}
+<Tabs>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
-{{< /tab >}}
-{{< tab name="Docker Hub" >}}
+</TabItem>
+<TabItem value="docker-hub" label="Docker Hub">
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Manage users
 

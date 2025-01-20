@@ -42,8 +42,8 @@ subscription plan or legacy Docker subscription plan.
 
 When you upgrade a Docker plan, you immediately have access to all the features and entitlements available in your Docker subscription plan. For detailed information on features available in each subscription, see [Docker Pricing](https://www.docker.com/pricing).
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To upgrade your Docker subscription:
 
@@ -54,15 +54,15 @@ To upgrade your Docker subscription:
 5. Select **Upgrade**.
 6. Follow the on-screen instructions to complete your upgrade.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 You can upgrade a legacy Docker Core, Docker Build Cloud, or Docker Scout subscription plan to a Docker subscription plan that includes access to all tools.
 
 Contact [Docker sales](https://www.docker.com/pricing/contact-sales/) to upgrade your legacy Docker plan.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Downgrade your subscription
 
@@ -78,8 +78,8 @@ When you downgrade your subscription, access to paid features is available until
 > - Team size: You may need to reduce the number of team members and convert any private repositories to public repositories or delete them. For information on features available in each tier, see [Docker Pricing](https://www.docker.com/pricing).
 > - SSO and SCIM: If you want to downgrade a Docker Business subscription and your organization uses single sign-on (SSO) for user authentication, you need to remove your SSO connection and verified domains before downgrading. After removing the SSO connection, any organization members that were auto-provisioned (for example, with SCIM) need to set up a password to sign in without SSO. To do this, users can [reset their password at sign in](/accounts/create-account/#reset-your-password-at-sign-in).
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 If you have a [sales-assisted Docker Business subscription](details.md#sales-assisted), contact your account manager to downgrade your subscription.
 
@@ -92,8 +92,8 @@ To downgrade your Docker subscription:
 5. Review the cancellation warnings, then select **Confirm cancellation**.
 6. Optional. Fill out the feedback survey, or select **Skip**.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 If you have a [sales-assisted Docker Business subscription](details.md#sales-assisted), contact your account manager to downgrade your subscription.
 
@@ -116,8 +116,8 @@ To downgrade your Docker Build Cloud subscription:
 3. To confirm your downgrade, type **DOWNGRADE** in the text field and select **Yes, continue**.
 4. The account settings page will update with a notification bar notifying you of your downgrade date (start of next billing cycle).
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Pause a subscription
 

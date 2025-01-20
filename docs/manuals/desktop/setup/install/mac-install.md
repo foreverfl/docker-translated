@@ -49,8 +49,8 @@ Docker Desktop for Mac with Intel chip
 
 ## System requirements
 
-{{< tabs >}}
-{{< tab name="Mac with Intel chip" >}}
+<Tabs>
+<TabItem value="mac-with-intel-chip" label="Mac with Intel chip">
 
 - A supported version of macOS.
 
@@ -60,8 +60,8 @@ Docker Desktop for Mac with Intel chip
 
 - At least 4 GB of RAM.
 
-{{< /tab >}}
-{{< tab name="Mac with Apple silicon" >}}
+</TabItem>
+<TabItem value="mac-with-apple-silicon" label="Mac with Apple silicon">
 
 - A supported version of macOS.
 
@@ -75,8 +75,8 @@ Docker Desktop for Mac with Intel chip
    ```console
    $ softwareupdate --install-rosetta
    ```
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Install and run Docker Desktop on Mac
 

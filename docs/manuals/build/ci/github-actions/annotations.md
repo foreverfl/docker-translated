@@ -24,8 +24,8 @@ with [build-push-action] and [bake-action].
 [build-push-action]: https://github.com/docker/build-push-action/
 [bake-action]: https://github.com/docker/bake-action/
 
-{{< tabs >}}
-{{< tab name="build-push-action" >}}
+<Tabs>
+<TabItem value="build-push-action" label="build-push-action">
 
 ```yaml {hl_lines=32}
 name: ci
@@ -63,8 +63,8 @@ jobs:
           push: true
 ```
 
-{{< /tab >}}
-{{< tab name="bake-action" >}}
+</TabItem>
+<TabItem value="bake-action" label="bake-action">
 
 ```yaml {hl_lines=37}
 name: ci
@@ -104,8 +104,8 @@ jobs:
           push: true
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Configure annotation level
 

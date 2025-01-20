@@ -34,8 +34,8 @@ The following section contains instructions on how to create a new organization.
 detailed instructions on converting an existing user account to an organization, see
 [Convert an account into an organization](/manuals/admin/organization/convert-account.md).
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
 1. Sign in to [Docker Hub](https://hub.docker.com/) using your Docker ID, your email address, or your social provider.
 2. Select **Organizations** and then **Create Organization** to create a new organization.
@@ -59,8 +59,8 @@ detailed instructions on converting an existing user account to an organization,
 
 You've now created an organization.
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -89,13 +89,13 @@ To create an organization:
 
 You've now created an organization.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## View an organization
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+<TabItem value="docker-hub" label="Docker Hub">
 
 To view an organization:
 
@@ -144,8 +144,8 @@ configure your organization.
 - **Billing**: Displays information about your existing
   [Docker subscription (plan)](../../subscription/_index.md), including the number of seats and next payment due date. For how to access the billing history and payment methods for your organization, see [View billing history](../../billing/history.md).
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+</TabItem>
+<TabItem value="admin-console" label="Admin Console">
 
 <Include file="admin-early-access.md" />
 
@@ -173,8 +173,8 @@ configure your organization.
 
 - **Organization settings**: Update general settings, manage your company settings, or [deactivate your organization](/manuals/admin/deactivate-account.md).
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Merge organizations
 

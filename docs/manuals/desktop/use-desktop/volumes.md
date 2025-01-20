@@ -144,8 +144,8 @@ You can either [export a volume now](#export-a-volume-now) or [schedule a recurr
    cloud storage**, then specify the following additional details depending on
    your selection.
 
-   {{< tabs >}}
-   {{< tab name="Local or Hub storage" >}}
+   <Tabs>
+   <TabItem value="local-or-hub-storage" label="Local or Hub storage">
    
    - **Local file**: Specify a file name and select a folder.
    - **Local image**: Select a local image to export the content to. Any
@@ -153,8 +153,8 @@ You can either [export a volume now](#export-a-volume-now) or [schedule a recurr
    - **New image**: Specify a name for the new image.
    - **Registry**: Specify a Docker Hub repository.
 
-   {{< /tab >}}
-   {{< tab name="External cloud storage" >}}
+   </TabItem>
+   <TabItem value="external-cloud-storage" label="External cloud storage">
 
    You must have a [Docker Business subscription](../../subscription/details.md) to export to an external cloud provider.
 
@@ -166,8 +166,8 @@ You can either [export a volume now](#export-a-volume-now) or [schedule a recurr
    - Microsoft Azure: [Generate a SAS token and URL](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/connection-strings/generate-sas-token)
    - Google Cloud: [Create a signed URL to upload an object](https://cloud.google.com/storage/docs/access-control/signing-urls-with-helpers#upload-object)
 
-   {{< /tab >}}
-   {{< /tabs >}}
+   </TabItem>
+   </Tabs>
 
 6. Select **Save**.
 
@@ -190,8 +190,8 @@ You can either [export a volume now](#export-a-volume-now) or [schedule a recurr
    cloud storage**, then specify the following additional details depending on
    your selection.
    
-   {{< tabs >}}
-   {{< tab name="Local or Hub storage" >}}
+   <Tabs>
+   <TabItem value="local-or-hub-storage" label="Local or Hub storage">
    
    - **Local file**: Specify a file name and select a folder.
    - **Local image**: Select a local image to export the content to. Any
@@ -199,8 +199,8 @@ You can either [export a volume now](#export-a-volume-now) or [schedule a recurr
    - **New image**: Specify a name for the new image.
    - **Registry**: Specify a Docker Hub repository.
 
-   {{< /tab >}}
-   {{< tab name="External cloud storage" >}}
+   </TabItem>
+   <TabItem value="external-cloud-storage" label="External cloud storage">
 
    You must have a [Docker Business subscription](../../subscription/details.md) to export to an external cloud provider.
 
@@ -212,8 +212,8 @@ You can either [export a volume now](#export-a-volume-now) or [schedule a recurr
    - Microsoft Azure: [Generate a SAS token and URL](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/connection-strings/generate-sas-token)
    - Google Cloud: [Create a signed URL to upload an object](https://cloud.google.com/storage/docs/access-control/signing-urls-with-helpers#upload-object)
 
-   {{< /tab >}}
-   {{< /tabs >}}
+   </TabItem>
+   </Tabs>
 
 7. Select **Save**.
 

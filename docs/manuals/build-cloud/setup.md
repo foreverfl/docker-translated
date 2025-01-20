@@ -37,8 +37,8 @@ page of [this repository](https://github.com/docker/compose-desktop).
 You can add a cloud builder using the CLI, with the `docker buildx create`
 command, or using the Docker Desktop settings GUI.
 
-{{< tabs >}}
-{{< tab name="CLI" >}}
+<Tabs>
+<TabItem value="cli" label="CLI">
 
 1. Sign in to your Docker account.
 
@@ -56,8 +56,8 @@ command, or using the Docker Desktop settings GUI.
 
 This creates a builder named `cloud-ORG-BUILDER_NAME`.
 
-{{< /tab >}}
-{{< tab name="Docker Desktop" >}}
+</TabItem>
+<TabItem value="docker-desktop" label="Docker Desktop">
 
 1. Sign in to your Docker account using the **Sign in** button in Docker Desktop.
 
@@ -65,8 +65,8 @@ This creates a builder named `cloud-ORG-BUILDER_NAME`.
 
 3. Under **Available builders**, select **Connect to builder**.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 The builder has native support for the `linux/amd64` and `linux/arm64`
 architectures. This gives you a high-performance build cluster for building

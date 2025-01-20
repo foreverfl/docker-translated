@@ -31,8 +31,8 @@ When you change the billing cycle's duration:
 
 ## Personal account
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To change your billing cycle:
 
@@ -45,8 +45,8 @@ To change your billing cycle:
 
 The billing plans and usage page will now reflect your new annual plan details.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 To change your billing cycle:
 
@@ -56,8 +56,8 @@ To change your billing cycle:
 4. In the bottom-right of the **Plan** tab, select **Switch to annual billing**.
 5. Review the information displayed on the **Change to an Annual subscription** page and select **Accept Terms and Purchase** to confirm.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Organization
 
@@ -65,8 +65,8 @@ To change your billing cycle:
 >
 > You must be an organization owner to make changes to the payment information.
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 To change your organization's billing cycle:
 
@@ -77,8 +77,8 @@ To change your organization's billing cycle:
 5. Select **Continue to payment**.
 6. Verify payment information and select **Upgrade subscription**.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 To change your organization's billing cycle:
 
@@ -88,5 +88,5 @@ To change your organization's billing cycle:
 4. In the bottom-right of the **Plan** tab, select **Switch to annual billing**.
 5. Review the information displayed on the **Change to an Annual subscription** page and select **Accept Terms and Purchase** to confirm.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>

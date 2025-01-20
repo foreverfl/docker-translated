@@ -28,45 +28,46 @@ When you add seats to your subscription in the middle of your billing cycle, you
 
 ## Add seats
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+  <TabItem value="docker-plan" label="Docker plan">
 
-> [!IMPORTANT]
->
-> If you have a [sales-assisted Docker Business subscription](details.md#sales-assisted), contact your account manager to add seats to your subscription.
+  > **IMPORTANT**
+  >
+  > If you have a [sales-assisted Docker Business subscription](details.md#sales-assisted), contact your account manager to add seats to your subscription.
 
-To add seats to your subscription:
+  To add seats to your subscription:
 
-1. Sign in to [Docker Home](https://app.docker.com/).
-2. Under Settings and administration, select **Billing**.
-3. Select your account from the drop-down menu in the top-left.
-4. Select **Add seats**.
-5. Follow the on-screen instructions to complete adding seats.
+  1. Sign in to [Docker Home](https://app.docker.com/).
+  2. Under Settings and administration, select **Billing**.
+  3. Select your account from the drop-down menu in the top-left.
+  4. Select **Add seats**.
+  5. Follow the on-screen instructions to complete adding seats.
 
-You can now add more members to your organization. For more information, see [Manage organization members](../admin/organization/members.md).
+  You can now add more members to your organization. For more information, see [Manage organization members](../admin/organization/members.md).
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+  </TabItem>
 
-> [!IMPORTANT]
->
-> If you have a [sales-assisted Docker Business subscription](details.md#sales-assisted), contact your account manager to add seats to your subscription.
+  <TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
-### Add seats to Legacy Docker plan
+  > **IMPORTANT**
+  >
+  > If you have a [sales-assisted Docker Business subscription](details.md#sales-assisted), contact your account manager to add seats to your subscription.
 
-1. Sign in to [Docker Hub](https://hub.docker.com).
-2. Select your avatar in the top-left, and select **Billing** from the drop-down menu.
-3. On the Billing page, select **Add seats**.
-4. Select the number of seats you want to add, then select **Purchase**.
+  ### Add seats to Legacy Docker plan
 
-### Add seats to Docker Build Cloud
+  1. Sign in to [Docker Hub](https://hub.docker.com).
+  2. Select your avatar in the top-left, and select **Billing** from the drop-down menu.
+  3. On the Billing page, select **Add seats**.
+  4. Select the number of seats you want to add, then select **Purchase**.
 
-1. Sign in to Docker Build Cloud.
-2. Select **Account settings**, then **Add seats**.
-3. Select the number of seats you want to add, then select **Add seats**.
+  ### Add seats to Docker Build Cloud
 
-{{< /tab >}}
-{{< /tabs >}}
+  1. Sign in to Docker Build Cloud.
+  2. Select **Account settings**, then **Add seats**.
+  3. Select the number of seats you want to add, then select **Add seats**.
+
+  </TabItem>
+</Tabs>
 
 ### Volume pricing
 
@@ -80,8 +81,8 @@ If you remove seats in the middle of the billing cycle, changes apply in the nex
 
 For example, if you receive your billing on the 8th of every month for 10 seats and you want to remove 2 seats on the 15th of the month, the 2 seats will be removed from your subscription the next month. Your payment for 8 seats begins on the next billing cycle. If you're on the annual subscription, the 2 seats are still available until the next year, and your payment for the 8 seats begins on the next billing cycle.
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 > [!IMPORTANT]
 >
@@ -97,8 +98,8 @@ To remove seats:
 
 You can cancel the removal of seats before your next billing cycle. To do so, select **Cancel change**.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plan" >}}
+</TabItem>
+<TabItem value="legacy-docker-plan" label="Legacy Docker plan">
 
 > [!IMPORTANT]
 >
@@ -117,5 +118,5 @@ You can cancel the removal of seats before your next billing cycle. To do so, se
 2. Select **Account settings**, then **Remove seats**.
 3. Follow the on-screen instructions to complete removing seats.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>

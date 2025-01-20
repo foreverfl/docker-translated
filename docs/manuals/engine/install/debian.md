@@ -148,8 +148,8 @@ Docker from the repository.
 
 2. Install the Docker packages.
 
-   {{< tabs >}}
-   {{< tab name="Latest" >}}
+   <Tabs>
+   <TabItem value="latest" label="Latest">
 
    To install the latest version, run:
 
@@ -157,8 +157,8 @@ Docker from the repository.
    $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
-   {{< /tab >}}
-   {{< tab name="Specific version" >}}
+   </TabItem>
+   <TabItem value="specific-version" label="Specific version">
 
    To install a specific version of Docker Engine, start by listing the
    available versions in the repository:
@@ -179,8 +179,8 @@ Docker from the repository.
    $ sudo apt-get install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
-   {{< /tab >}}
-   {{< /tabs >}}
+   </TabItem>
+   </Tabs>
 
 3. Verify that the installation is successful by running the `hello-world` image:
 

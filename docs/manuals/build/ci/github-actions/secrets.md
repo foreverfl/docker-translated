@@ -163,8 +163,8 @@ adds it to the SSH agent socket file at `SSH_AUTH_SOCK`. The SSH mount in the
 build step assume `SSH_AUTH_SOCK` by default, so there's no need to specify the
 ID or path for the SSH agent socket explicitly.
 
-{{< tabs >}}
-{{< tab name="`docker/build-push-action`" >}}
+<Tabs>
+<TabItem value="`docker/build-push-action`" label="`docker/build-push-action`">
 
 ```yaml
 name: ci
@@ -191,8 +191,8 @@ jobs:
           tags: user/app:latest
 ```
 
-{{< /tab >}}
-{{< tab name="`docker/bake-action`" >}}
+</TabItem>
+<TabItem value="`docker/bake-action`" label="`docker/bake-action`">
 
 ```yaml
 name: ci
@@ -218,5 +218,5 @@ jobs:
             *.ssh=default
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>

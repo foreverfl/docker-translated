@@ -37,8 +37,8 @@ Docker subscription plan or Legacy Docker plan.
 > Legacy Docker plans apply to Docker subscribers who last purchased or renewed their subscription before December 10, 2024. These subscribers will keep their current plan and pricing until their next renewal date that falls on or after December 10, 2024. To see purchase or renewal history, view your [billing history](../billing/history.md). For more details about Docker legacy plans, see [Announcing Upgraded Docker Plans](https://www.docker.com/blog/november-2024-updated-plans-announcement/). In addition to current features, Docker maintains a [public roadmap](https://github.com/docker/roadmap) so subscribers can see what new
 features are in development, as well as request new capabilities.
 
-{{< tabs >}}
-{{< tab name="Docker plan" >}}
+<Tabs>
+<TabItem value="docker-plan" label="Docker plan">
 
 ## Docker Personal
 
@@ -158,8 +158,8 @@ You can:
 A sales-assisted plan refers to a Docker Business or Team subscription where everything is set up and
 managed by a dedicated Docker account manager.
 
-{{< /tab >}}
-{{< tab name="Legacy Docker plans" >}}
+</TabItem>
+<TabItem value="legacy-docker-plans" label="Legacy Docker plans">
 
 > [!IMPORTANT]
 >
@@ -402,8 +402,8 @@ a Docker subscription plan, your plan includes the following changes:
 - Docker Pro: Included minutes are increased from 100/mo to 200/mo with the option to scale more minutes.
 - Docker Personal: You receive a 7-day trial.
 
-{{< /tab >}}
-{{< /tabs >}}
+</TabItem>
+</Tabs>
 
 ## Support for subscriptions
 

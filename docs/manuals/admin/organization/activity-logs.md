@@ -31,16 +31,20 @@ Owners can also see the activity logs for their repository if the repository is 
 
 ## Manage activity logs
 
-{{< tabs >}}
-{{< tab name="Docker Hub" >}}
+<Tabs>
+  <TabItem value="docker-hub" label="Docker Hub">
 
-{{< /tab >}}
-{{< tab name="Admin Console" >}}
+  <!-- Content for Docker Hub tab -->
+  (Content can be added here if needed.)
 
-<Include file="admin-early-access.md" />
+  </TabItem>
 
-{{< /tab >}}
-{{< /tabs >}}
+  <TabItem value="admin-console" label="Admin Console">
+
+  <Include file="admin-early-access.md" />
+
+  </TabItem>
+</Tabs>
 
 ## Event definitions
 
