@@ -6,8 +6,8 @@ keywords:
   - Extensions
   - sdk
   - publish
-aliases: 
- - /desktop/extensions-sdk/extensions/
+aliases:
+  - /desktop/extensions-sdk/extensions/
 weight: 40
 ---
 

@@ -10,7 +10,7 @@ title: Repository information
 toc_max: 3
 weight: 40
 aliases:
-- /docker-hub/repos/categories/
+  - /docker-hub/repos/categories/
 ---
 
 Each repository can include a description, an overview, and categories to help

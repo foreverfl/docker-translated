@@ -7,14 +7,14 @@ keywords:
   - compose file
 title: Include
 aliases:
-- /compose/multiple-compose-files/include/
+  - /compose/multiple-compose-files/include/
 ---
 
 {{< introduced compose 2.20.3 "/manuals/compose/releases/release-notes.md#2203" >}}
 
 {{< include "compose/include.md" >}}
 
-The [`include` top-level element](/reference/compose-file/include.md) helps to reflect the engineering team responsible for the code directly in the config file's organization. It also solves the relative path problem that [`extends`](extends.md) and [merge](merge.md) present. 
+The [`include` top-level element](/reference/compose-file/include.md) helps to reflect the engineering team responsible for the code directly in the config file's organization. It also solves the relative path problem that [`extends`](extends.md) and [merge](merge.md) present.
 
 Each path listed in the `include` section loads as an individual Compose application model, with its own project directory, in order to resolve relative paths.
 
@@ -28,7 +28,7 @@ Once the included Compose application loads, all resources are copied into the c
 
 ```yaml
 include:
-  - my-compose-include.yaml  #with serviceB declared
+  - my-compose-include.yaml #with serviceB declared
 services:
   serviceA:
     build: .
@@ -36,7 +36,7 @@ services:
       - serviceB #use serviceB directly as if it was declared in this Compose file
 ```
 
-`my-compose-include.yaml` manages `serviceB` which details some replicas, web UI to inspect data, isolated networks, volumes for data persistence, etc. The application relying on `serviceB` doesn’t need to know about the infrastructure details, and consumes the Compose file as a building block it can rely on. 
+`my-compose-include.yaml` manages `serviceB` which details some replicas, web UI to inspect data, isolated networks, volumes for data persistence, etc. The application relying on `serviceB` doesn’t need to know about the infrastructure details, and consumes the Compose file as a building block it can rely on.
 
 This means the team managing `serviceB` can refactor its own database component to introduce additional services without impacting any dependent teams. It also means that the dependent teams don't need to include additional flags on each Compose command they run.
 
@@ -45,11 +45,12 @@ This means the team managing `serviceB` can refactor its own database component 
 Compose reports an error if any resource from `include` conflicts with resources from the included Compose file. This rule prevents
 unexpected conflicts with resources defined by the included compose file author. However, there may be some circumstances where you might want to tweak the
 included model. This can be achieved by adding an override file to the include directive:
+
 ```yaml
 include:
-  - path : 
+  - path:
       - third-party/compose.yaml
-      - override.yaml  # local override for third-party model
+      - override.yaml # local override for third-party model
 ```
 
 The main limitation with this approach is that you need to maintain a dedicated override file per include. For complex projects with multiple
@@ -59,6 +60,7 @@ The other option is to use a `compose.override.yaml` file. While conflicts will 
 resource is declared, a global Compose override file can override the resulting merged model, as demonstrated in following example:
 
 Main `compose.yaml` file:
+
 ```yaml
 include:
   - team-1/compose.yaml # declare service-1
@@ -66,6 +68,7 @@ include:
 ```
 
 Override `compose.override.yaml` file:
+
 ```yaml
 services:
   service-1:

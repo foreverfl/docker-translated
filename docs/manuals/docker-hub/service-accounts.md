@@ -30,11 +30,11 @@ A service account is a Docker ID used for automated management of container imag
 Refer to the following table for details on the Enhanced Service Account add-ons:
 
 | Tier | Pull Rates Per Day\* |
-| ------ | ------ |
-| 1 | 5,000-10,000 |
-| 2 | 10,000-25,000 |
-| 3 | 25,000-50,000 |
-| 4 | 50,000-100,000 |
-| 5 | 100,000+ |
+| ---- | -------------------- |
+| 1    | 5,000-10,000         |
+| 2    | 10,000-25,000        |
+| 3    | 25,000-50,000        |
+| 4    | 50,000-100,000       |
+| 5    | 100,000+             |
 
-<sub>*The service account may exceed Pulls by up to 25% for up to 20 days during the year without incurring additional fees. Reports on consumption are available upon request.<sub>
+<sub>\*The service account may exceed Pulls by up to 25% for up to 20 days during the year without incurring additional fees. Reports on consumption are available upon request.<sub>

@@ -12,7 +12,7 @@ title: Networking in Compose
 linkTitle: Networking
 weight: 70
 aliases:
-- /compose/networking/
+  - /compose/networking/
 ---
 
 {{< include "compose-eol.md" >}}
@@ -82,7 +82,6 @@ Links allow you to define extra aliases by which a service is reachable from ano
 
 ```yaml
 services:
-
   web:
     build: .
     links:
@@ -174,6 +173,7 @@ networks:
 ## Use a pre-existing network
 
 If you want your containers to join a pre-existing network, use the [`external` option](/reference/compose-file/networks.md#external)
+
 ```yaml
 services:
   # ...
@@ -185,7 +185,7 @@ networks:
 
 Instead of attempting to create a network called `[projectname]_default`, Compose looks for a network called `my-pre-existing-network` and connects your app's containers to it.
 
-## Further reference information 
+## Further reference information
 
 For full details of the network configuration options available, see the following references:
 

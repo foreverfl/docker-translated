@@ -5,7 +5,7 @@ keywords:
   - owners
 title: Manage company owners
 aliases:
-- /docker-hub/company-owner/
+  - /docker-hub/company-owner/
 ---
 
 A company can have multiple owners. Company owners have company-wide

@@ -28,7 +28,7 @@ Make sure you have completed the following before you begin:
 
 ## Step one: Create an SSO connection in Docker
 
->[!NOTE]
+> [!NOTE]
 >
 > Before creating an SSO connection in Docker, you must verify at least one domain.
 
@@ -43,8 +43,8 @@ Make sure you have completed the following before you begin:
 4. Select **Create Connection** and provide a name for the connection.
 5. Select an authentication method, **SAML** or **Azure AD (OIDC)**.
 6. Copy the following fields to add to your IdP:
-    - Okta SAML: **Entity ID**, **ACS URL**
-    - Azure OIDC: **Redirect URL**
+   - Okta SAML: **Entity ID**, **ACS URL**
+   - Azure OIDC: **Redirect URL**
 7. Keep this window open so you can paste the connection information from your IdP here at the end of this guide.
 
 {{< /tab >}}
@@ -56,8 +56,8 @@ Make sure you have completed the following before you begin:
 4. In the SSO connection table, select **Create Connection** and provide a name for the connection.
 5. Select an authentication method, **SAML** or **Azure AD (OIDC)**.
 6. Copy the following fields to add to your IdP:
-    - Okta SAML: **Entity ID**, **ACS URL**
-    - Azure OIDC: **Redirect URL**
+   - Okta SAML: **Entity ID**, **ACS URL**
+   - Azure OIDC: **Redirect URL**
 7. Keep this window open so you can paste the connection information from your IdP here at the end of this guide.
 
 {{< /tab >}}
@@ -79,8 +79,8 @@ The user interface for your IdP may differ slightly from the following steps. Re
 7. Optional. Upload a logo.
 8. Select **Next**.
 9. Enter the following values from Docker into their corresponding Okta fields:
-    - Docker ACS URL: **Single Sign On URL**
-    - Docker Entity ID: **Audience URI (SP Entity ID)**
+   - Docker ACS URL: **Single Sign On URL**
+   - Docker Entity ID: **Audience URI (SP Entity ID)**
 10. Configure the following settings in Okta:
     - Name ID format: `EmailAddress`
     - Application username: `Email`
@@ -99,8 +99,8 @@ The user interface for your IdP may differ slightly from the following steps. Re
 5. After the application is created, go to **Single Sign-On** and select **SAML**.
 6. Select **Edit** on the **Basic SAML configuration** section.
 7. Enter the following values from Docker into their corresponding Azure fields:
-    - Docker Entity ID: **Identifier**
-    - Docker ACS URL: **Reply URL**
+   - Docker Entity ID: **Identifier**
+   - Docker ACS URL: **Reply URL**
 8. Save configuration.
 9. From the **SAML Signing Certificate** section, download your **Certificate (Base64)**.
 
@@ -149,8 +149,8 @@ After creating your connection in Docker and your IdP, you can cross-connect the
 
 1. Open your app you created in Okta and select **View SAML setup instructions**.
 2. Copy the following values from the Okta SAML setup instruction page:
-    - **SAML Sign-in URL**
-    - **x509 Certificate**
+   - **SAML Sign-in URL**
+   - **x509 Certificate**
 3. Open Docker Hub or the Admin Console. Your SSO configuration page should still be open from Step one of this guide.
 4. Select **Next** to open the **Update single-sign on connection** page.
 5. Paste your Okta **SAML Sign-in URL** and **x509 Certificate** values in Docker.
@@ -164,8 +164,8 @@ After creating your connection in Docker and your IdP, you can cross-connect the
 1. Open your app in Azure AD.
 2. Open your downloaded **Certificate (Base64)** in a text editor.
 3. Copy the following values:
-    - From Azure AD: **Login URL**
-    - Copy your the contents of your **Certificate (Base64)** file from your text editor
+   - From Azure AD: **Login URL**
+   - Copy your the contents of your **Certificate (Base64)** file from your text editor
 4. Open Docker Hub or the Admin Console. Your SSO configuration page should still be open from Step one of this guide.
 5. Paste your **Login URL** and **Certificate (Base64)** values in Docker.
 6. Select **Next**.
@@ -177,9 +177,9 @@ After creating your connection in Docker and your IdP, you can cross-connect the
 
 1. Open Docker Hub or the Admin Console. Your SSO configuration page should still be open from Step one of this guide.
 2. Paste the following values from Azure AD in to Docker:
-    - **Client ID**
-    - **Client Secret**
-    - **Azure AD Domain**
+   - **Client ID**
+   - **Client Secret**
+   - **Azure AD Domain**
 3. Select **Next**.
 4. Optional. Select a default team to provision users to and select **Next**.
 5. Verify your SSO connection details and select **Create Connection**.
@@ -198,10 +198,9 @@ After you've completed the SSO connection process in Docker, we recommend testin
 
 You can also test your SSO connection through the command-line interface (CLI). If you want to test through the CLI, your users must have a personal access token (PAT).
 
-
 ## Optional: Enforce SSO
 
->[!IMPORTANT]
+> [!IMPORTANT]
 >
 > If SSO isn't enforced, users can choose to sign in with either their Docker username and password or SSO.
 
@@ -222,7 +221,6 @@ The following videos demonstrate how to enforce SSO.
 
 - [Video: Enforce SSO with Okta SAML](https://youtu.be/c56YECO4YP4?feature=shared&t=1072)
 - [Video: Enforce SSO with Azure AD (OIDC)](https://youtu.be/bGquA8qR9jU?feature=shared&t=1087)
-
 
 ## What's next
 

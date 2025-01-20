@@ -9,7 +9,7 @@ keywords:
   - invite members
   - manage team members
 aliases:
-- /docker-hub/members/
+  - /docker-hub/members/
 ---
 
 Learn how to manage members for your organization in Docker Hub and the Docker Admin Console.
@@ -38,14 +38,14 @@ a link to Docker Hub where they can accept or decline the invitation.
 To accept an invitation:
 
 1. Navigate to your email inbox and open the Docker email with an invitation to
-join the Docker organization.
+   join the Docker organization.
 2. To open the link to Docker Hub, select the **click here** link.
 3. The Docker create an account page will open. If you already have an account, select **Already have an account? Sign in**.
-If you do not have an account yet, create an account using the same email
-address you received the invitation through.
+   If you do not have an account yet, create an account using the same email
+   address you received the invitation through.
 4. Optional. If you do not have an account and created one, you must navigate
-back to your email inbox and verify your email address using the Docker verification
-email.
+   back to your email inbox and verify your email address using the Docker verification
+   email.
 5. Once you are signed in to Docker Hub, select **Organizations** from the top-level navigation menu.
 6. The organizations page will display your invitation. Select **Accept**.
 
@@ -65,7 +65,7 @@ To resend an invitation from Docker Hub:
 1. Sign in to [Docker Hub](https://hub.docker.com/).
 2. Select **Organizations**, your organization, and then **Members**.
 3. In the table, locate the invitee, select the **Actions** icon, and then select
-**Resend invitation**.
+   **Resend invitation**.
 4. Select **Invite** to confirm.
 
 {{< /tab >}}
@@ -128,6 +128,7 @@ To add a member to a team with Docker Hub:
    > [!NOTE]
    >
    > You can also navigate to **Organizations** > **Your Organization** > **Teams** > **Your Team Name** and select **Add Member**. Select a member from the drop-down list to add them to the team or search by Docker ID or email.
+
 4. Select the team and then select **Add**.
 
    > [!NOTE]
@@ -203,6 +204,7 @@ To update a member role:
 ## Export members CSV file
 
 Owners can export a CSV file containing all members. The CSV file for a company contains the following fields:
+
 - Name: The user's name
 - Username: The user's Docker ID
 - Email: The user's email address

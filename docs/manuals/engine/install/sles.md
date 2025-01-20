@@ -1,5 +1,6 @@
 ---
-description: Learn how to install Docker Engine on SLES. These instructions cover
+description:
+  Learn how to install Docker Engine on SLES. These instructions cover
   the different installation methods, how to uninstall, and next steps.
 keywords:
   - requirements
@@ -20,21 +21,21 @@ linkTitle: SLES (s390x)
 weight: 70
 toc_max: 4
 aliases:
-- /ee/docker-ee/sles/
-- /ee/docker-ee/suse/
-- /engine/installation/linux/docker-ce/sles/
-- /engine/installation/linux/docker-ee/sles/
-- /engine/installation/linux/docker-ee/suse/
-- /engine/installation/linux/sles/
-- /engine/installation/linux/SUSE/
-- /engine/installation/linux/suse/
-- /engine/installation/sles/
-- /engine/installation/SUSE/
-- /install/linux/docker-ce/sles/
-- /install/linux/docker-ee/sles/
-- /install/linux/docker-ee/suse/
-- /install/linux/sles/
-- /installation/sles/
+  - /ee/docker-ee/sles/
+  - /ee/docker-ee/suse/
+  - /engine/installation/linux/docker-ce/sles/
+  - /engine/installation/linux/docker-ee/sles/
+  - /engine/installation/linux/docker-ee/suse/
+  - /engine/installation/linux/sles/
+  - /engine/installation/linux/SUSE/
+  - /engine/installation/linux/suse/
+  - /engine/installation/sles/
+  - /engine/installation/SUSE/
+  - /install/linux/docker-ce/sles/
+  - /install/linux/docker-ee/sles/
+  - /install/linux/docker-ee/suse/
+  - /install/linux/sles/
+  - /installation/sles/
 download-url-base: https://download.docker.com/linux/sles
 ---
 
@@ -151,7 +152,7 @@ $ sudo zypper addrepo {{% param "download-url-base" %}}/docker-ce.repo
 
    ```console
    $ sudo zypper search -s --match-exact docker-ce | sort -r
- 
+
      v  | docker-ce | package | 3:{{% param "docker_ce_version" %}}-1 | s390x | Docker CE Stable - s390x
      v  | docker-ce | package | 3:{{% param "docker_ce_version_prev" %}}-1 | s390x | Docker CE Stable - s390x
    ```
@@ -172,7 +173,7 @@ $ sudo zypper addrepo {{% param "download-url-base" %}}/docker-ce.repo
 
    This command installs Docker, but it doesn't start Docker. It also creates a
    `docker` group, however, it doesn't add any users to the group by default.
-  
+
    {{< /tab >}}
    {{< /tabs >}}
 
@@ -184,7 +185,7 @@ $ sudo zypper addrepo {{% param "download-url-base" %}}/docker-ce.repo
 
    This configures the Docker systemd service to start automatically when you
    boot your system. If you don't want Docker to start automatically, use `sudo
-   systemctl start docker` instead.
+systemctl start docker` instead.
 
 3. Verify that the installation is successful by running the `hello-world` image:
 
@@ -211,6 +212,7 @@ download the `.rpm` file for your release and install it manually. You need to
 download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
+
 1. Go to [{{% param "download-url-base" %}}/]({{% param "download-url-base" %}}/)
    and choose your version of SLES. Then browse to `s390x/stable/Packages/`
    and download the `.rpm` file for the Docker version you want to install.
@@ -233,7 +235,7 @@ download a new file each time you want to upgrade Docker Engine.
 
    This configures the Docker systemd service to start automatically when you
    boot your system. If you don't want Docker to start automatically, use `sudo
-   systemctl start docker` instead.
+systemctl start docker` instead.
 
 4. Verify that the installation is successful by running the `hello-world` image:
 

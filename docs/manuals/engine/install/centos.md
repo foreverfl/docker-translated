@@ -1,5 +1,6 @@
 ---
-description: Learn how to install Docker Engine on CentOS. These instructions cover
+description:
+  Learn how to install Docker Engine on CentOS. These instructions cover
   the different installation methods, how to uninstall, and next steps.
 keywords:
   - requirements
@@ -17,14 +18,14 @@ linkTitle: CentOS
 weight: 60
 toc_max: 4
 aliases:
-- /ee/docker-ee/centos/
-- /engine/installation/centos/
-- /engine/installation/linux/centos/
-- /engine/installation/linux/docker-ce/centos/
-- /engine/installation/linux/docker-ee/centos/
-- /install/linux/centos/
-- /install/linux/docker-ce/centos/
-- /install/linux/docker-ee/centos/
+  - /ee/docker-ee/centos/
+  - /engine/installation/centos/
+  - /engine/installation/linux/centos/
+  - /engine/installation/linux/docker-ce/centos/
+  - /engine/installation/linux/docker-ee/centos/
+  - /install/linux/centos/
+  - /install/linux/docker-ce/centos/
+  - /install/linux/docker-ee/centos/
 download-url-base: https://download.docker.com/linux/centos
 ---
 
@@ -162,7 +163,7 @@ $ sudo dnf config-manager --add-repo {{% param "download-url-base" %}}/docker-ce
 
    This configures the Docker systemd service to start automatically when you
    boot your system. If you don't want Docker to start automatically, use `sudo
-   systemctl start docker` instead.
+systemctl start docker` instead.
 
 3. Verify that the installation is successful by running the `hello-world` image:
 
@@ -189,6 +190,7 @@ download the `.rpm` file for your release and install it manually. You need to
 download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
+
 1. Go to [{{% param "download-url-base" %}}/]({{% param "download-url-base" %}}/)
    and choose your version of CentOS. Then browse to `x86_64/stable/Packages/`
    and download the `.rpm` file for the Docker version you want to install.
@@ -211,7 +213,7 @@ download a new file each time you want to upgrade Docker Engine.
 
    This configures the Docker systemd service to start automatically when you
    boot your system. If you don't want Docker to start automatically, use `sudo
-   systemctl start docker` instead.
+systemctl start docker` instead.
 
 4. Verify that the installation is successful by running the `hello-world` image:
 

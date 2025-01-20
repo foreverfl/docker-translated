@@ -9,17 +9,17 @@ keywords:
 title: Set up a dev environment
 weight: 20
 aliases:
-- /desktop/dev-environments/set-up/
+  - /desktop/dev-environments/set-up/
 ---
 
 {{< include "dev-envs-changing.md" >}}
 
->**Changes to Dev Environments with Docker Desktop 4.13**
+> **Changes to Dev Environments with Docker Desktop 4.13**
 >
->Docker has simplified how you configure your dev environment project. All you need to get started is a `compose-dev.yaml` file. If you have an existing project with a `.docker/` folder this is automatically migrated the next time you launch.
+> Docker has simplified how you configure your dev environment project. All you need to get started is a `compose-dev.yaml` file. If you have an existing project with a `.docker/` folder this is automatically migrated the next time you launch.
 >
 > If you are using `.docker/docker-compose.yaml`, we move it to `../compose-dev.yaml`.
->If you are using `.docker/config.json`, we create a `../compose-dev.yaml` file with a single service named "app”. It is configured to use the image or Dockerfile referenced in the JSON as a starting point.
+> If you are using `.docker/config.json`, we create a `../compose-dev.yaml` file with a single service named "app”. It is configured to use the image or Dockerfile referenced in the JSON as a starting point.
 
 To set up a dev environment, there are additional configuration steps to tell Docker Desktop how to build, start, and use the right image for your services.
 
@@ -42,7 +42,7 @@ services:
     image: mariadb
     restart: always
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
       interval: 3s
       retries: 5
       start_period: 30s

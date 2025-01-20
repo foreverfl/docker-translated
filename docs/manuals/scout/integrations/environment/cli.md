@@ -124,7 +124,7 @@ stage('Analyze image') {
     steps {
         // Install Docker Scout
         sh 'curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s -- -b /usr/local/bin'
-        
+
         // Log into Docker Hub
         sh 'echo $DOCKER_SCOUT_HUB_PASSWORD | docker login -u $DOCKER_SCOUT_HUB_USER --password-stdin'
 

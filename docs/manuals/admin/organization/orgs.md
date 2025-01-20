@@ -15,7 +15,7 @@ keywords:
   - docs
   - documentation
 aliases:
-- /docker-hub/orgs/
+  - /docker-hub/orgs/
 ---
 
 This section describes how to create an organization. Before you begin:
@@ -26,6 +26,7 @@ This section describes how to create an organization. Before you begin:
 ## Create an organization
 
 There are multiple ways to create an organization. You can either:
+
 - Create a new organization using the **Create Organization** option in Docker Hub
 - Convert an existing user account to an organization
 
@@ -41,17 +42,17 @@ detailed instructions on converting an existing user account to an organization,
 3. Choose a plan for your organization, a billing cycle, and specify how many seats you need. See [Docker Pricing](https://www.docker.com/pricing/) for details on the features offered in the Team and Business plan.
 4. Select **Continue to profile**.
 5. Enter an **Organization namespace**. This is the official, unique name for
-your organization in Docker Hub. It's not possible to change the name of the
-organization after you've created it.
+   your organization in Docker Hub. It's not possible to change the name of the
+   organization after you've created it.
 
    > [!NOTE]
    >
    > You can't use the same name for the organization and your Docker ID. If you want to use your Docker ID as the organization name, then you must first [convert your account into an organization](/manuals/admin/organization/convert-account.md).
 
 6. Enter your **Company name**. This is the full name of your company. Docker
-displays the company name on your organization page and in the details of any
-public images you publish. You can update the company name anytime by navigating
-to your organization's **Settings** page.
+   displays the company name on your organization page and in the details of any
+   public images you publish. You can update the company name anytime by navigating
+   to your organization's **Settings** page.
 7. Select **Continue to billing** to continue.
 8. Enter your organization's billing information and select **Continue to payment** to continue to the billing portal.
 9. Provide your card details and select **Purchase**.
@@ -71,17 +72,17 @@ To create an organization:
 4. Choose a plan for your organization, a billing cycle, and specify how many seats you need. See [Docker Pricing](https://www.docker.com/pricing/) for details on the features offered in the Team and Business plan.
 5. Select **Continue to profile**.
 6. Enter an **Organization namespace**. This is the official, unique name for
-your organization in Docker Hub. It's not possible to change the name of the
-organization after you've created it.
+   your organization in Docker Hub. It's not possible to change the name of the
+   organization after you've created it.
 
    > [!NOTE]
    >
    > You can't use the same name for the organization and your Docker ID. If you want to use your Docker ID as the organization name, then you must first [convert your account into an organization](/manuals/admin/organization/convert-account.md).
 
 7. Enter your **Company name**. This is the full name of your company. Docker
-displays the company name on your organization page and in the details of any
-public images you publish. You can update the company name anytime by navigating
-to your organization's **Settings** page.
+   displays the company name on your organization page and in the details of any
+   public images you publish. You can update the company name anytime by navigating
+   to your organization's **Settings** page.
 8. Select **Continue to billing** to continue.
 9. Enter your organization's billing information and select **Continue to payment** to continue to the billing portal.
 10. Provide your card details and select **Purchase**.
@@ -101,17 +102,17 @@ To view an organization:
 1. Sign in to [Docker Hub](https://hub.docker.com) with a user account that is a member of any team in the
    organization.
 
-      > [!NOTE]
-      >
-      > You can't *directly* sign in to an organization. This is especially
-      > important to note if you create an organization by
-      [converting a user account](/manuals/admin/organization/convert-account.md), as conversion means you lose the ability to log into that
-      > "account", since it no longer exists. To view the organization you
-      > need to sign in with the new owner account assigned during the
-      > conversion or another account that was added as a member. If you
-      > don't see the organization after logging in,
-      > then you are neither a member or an owner of it. An organization
-      > administrator needs to add you as a member of the organization.
+   > [!NOTE]
+   >
+   > You can't _directly_ sign in to an organization. This is especially
+   > important to note if you create an organization by
+   > [converting a user account](/manuals/admin/organization/convert-account.md), as conversion means you lose the ability to log into that
+   > "account", since it no longer exists. To view the organization you
+   > need to sign in with the new owner account assigned during the
+   > conversion or another account that was added as a member. If you
+   > don't see the organization after logging in,
+   > then you are neither a member or an owner of it. An organization
+   > administrator needs to add you as a member of the organization.
 
 2. Select **Organizations** in the top navigation bar, then choose your
    organization from the list.
@@ -138,10 +139,10 @@ configure your organization.
   organization, and you to view and change your repository privacy
   settings, configure org permissions such as
   [Image Access Management](/manuals/security/for-admins/hardened-desktop/image-access-management.md), configure notification settings, and [deactivate](../deactivate-account.md#deactivate-an-organization) You can also update your organization name and company name that appear on your organization landing page. You must be an owner to access the
-   organization's **Settings** page.
+  organization's **Settings** page.
 
 - **Billing**: Displays information about your existing
-[Docker subscription (plan)](../../subscription/_index.md), including the number of seats and next payment due date. For how to access the billing history and payment methods for your organization, see [View billing history](../../billing/history.md).
+  [Docker subscription (plan)](../../subscription/_index.md), including the number of seats and next payment due date. For how to access the billing history and payment methods for your organization, see [View billing history](../../billing/history.md).
 
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
@@ -179,7 +180,7 @@ configure your organization.
 
 > [!WARNING]
 >
-> If you are merging organizations, it is recommended to do so at the *end* of
+> If you are merging organizations, it is recommended to do so at the _end_ of
 > your billing cycle. When you merge an organization and downgrade another, you
 > will lose seats on your downgraded organization. Docker does not offer
 > refunds for downgrades.

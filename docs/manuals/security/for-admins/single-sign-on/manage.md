@@ -12,8 +12,8 @@ keywords:
 title: Manage single sign-on
 linkTitle: Manage
 aliases:
-- /admin/company/settings/sso-management/
-- /single-sign-on/manage/
+  - /admin/company/settings/sso-management/
+  - /single-sign-on/manage/
 ---
 
 ## Manage organizations
@@ -73,7 +73,6 @@ aliases:
 >
 > Alternatively, see the [Provisioning overview](/manuals/security/for-admins/provisioning/_index.md) guide.
 
-
 ### Add guest users when SSO is enabled
 
 To add a guest that isn't verified through your IdP:
@@ -100,4 +99,3 @@ Users are provisioned with Just-in-Time (JIT) provisioning by default. If you en
 
 - [Set up SCIM](../provisioning/scim.md)
 - [Enable Group mapping](../provisioning/group-mapping.md)
-

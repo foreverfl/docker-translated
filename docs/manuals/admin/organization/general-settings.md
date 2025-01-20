@@ -17,11 +17,12 @@ This section describes how to manage organization settings in the Docker Admin C
 General organization information appears on your organization landing page in the Admin Console.
 
 This information includes:
- - Organization Name
- - Company
- - Location
- - Website
- - Avatar
+
+- Organization Name
+- Company
+- Location
+- Website
+- Avatar
 
 To edit this information:
 

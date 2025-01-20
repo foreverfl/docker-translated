@@ -44,7 +44,6 @@ You can’t make changes to a paid or unpaid billing invoice. When you update yo
 
 You receive your invoice when the subscription renews. To verify your renewal date, sign in to the [Docker Home Billing](https://app.docker.com/billing). Your renewal date and amount are displayed on your subscription plan card.
 
-
 {{< /tab >}}
 {{< tab name="Legacy Docker plan" >}}
 
@@ -122,7 +121,7 @@ To view billing history:
 2. Select your avatar in the top-right corner.
 3. From the drop-down menu select **Billing**.
 4. Select the **Payment methods and billing history** link.
-    You can find your past invoices in the **Invoice History** section.
+   You can find your past invoices in the **Invoice History** section.
 
 From here you can download an invoice.
 
@@ -155,7 +154,7 @@ To view billing history:
 2. Select your avatar in the top-right corner.
 3. From the drop-down menu select **Billing**.
 4. Select the **Payment methods and billing history** link.
-    You can find your past invoices in the **Invoice History** section.
+   You can find your past invoices in the **Invoice History** section.
 
 From here you can download an invoice.
 

@@ -9,46 +9,46 @@ keywords:
 title: Swarm mode
 weight: 80
 aliases:
-- /api/swarm-api/
-- /engine/userguide/networking/overlay-standalone-swarm/
-- /network/overlay-standalone.swarm/
-- /release-notes/docker-swarm/
-- /swarm/
-- /swarm/api/
-- /swarm/configure-tls/
-- /swarm/discovery/
-- /swarm/get-swarm/
-- /swarm/install-manual/
-- /swarm/install-w-machine/
-- /swarm/multi-host-networking/
-- /swarm/multi-manager-setup/
-- /swarm/networking/
-- /swarm/overview/
-- /swarm/plan-for-production/
-- /swarm/provision-with-machine/
-- /swarm/reference/
-- /swarm/reference/create/
-- /swarm/reference/help/
-- /swarm/reference/join/
-- /swarm/reference/list/
-- /swarm/reference/manage/
-- /swarm/reference/swarm/
-- /swarm/release-notes/
-- /swarm/scheduler/
-- /swarm/scheduler/filter/
-- /swarm/scheduler/rescheduling/
-- /swarm/scheduler/strategy/
-- /swarm/secure-swarm-tls/
-- /swarm/status-code-comparison-to-docker/
-- /swarm/swarm-api/
-- /swarm/swarm_at_scale/
-- /swarm/swarm_at_scale/02-deploy-infra/
-- /swarm/swarm_at_scale/03-create-cluster/
-- /swarm/swarm_at_scale/04-deploy-app/
-- /swarm/swarm_at_scale/about/
-- /swarm/swarm_at_scale/deploy-app/
-- /swarm/swarm_at_scale/deploy-infra/
-- /swarm/swarm_at_scale/troubleshoot/
+  - /api/swarm-api/
+  - /engine/userguide/networking/overlay-standalone-swarm/
+  - /network/overlay-standalone.swarm/
+  - /release-notes/docker-swarm/
+  - /swarm/
+  - /swarm/api/
+  - /swarm/configure-tls/
+  - /swarm/discovery/
+  - /swarm/get-swarm/
+  - /swarm/install-manual/
+  - /swarm/install-w-machine/
+  - /swarm/multi-host-networking/
+  - /swarm/multi-manager-setup/
+  - /swarm/networking/
+  - /swarm/overview/
+  - /swarm/plan-for-production/
+  - /swarm/provision-with-machine/
+  - /swarm/reference/
+  - /swarm/reference/create/
+  - /swarm/reference/help/
+  - /swarm/reference/join/
+  - /swarm/reference/list/
+  - /swarm/reference/manage/
+  - /swarm/reference/swarm/
+  - /swarm/release-notes/
+  - /swarm/scheduler/
+  - /swarm/scheduler/filter/
+  - /swarm/scheduler/rescheduling/
+  - /swarm/scheduler/strategy/
+  - /swarm/secure-swarm-tls/
+  - /swarm/status-code-comparison-to-docker/
+  - /swarm/swarm-api/
+  - /swarm/swarm_at_scale/
+  - /swarm/swarm_at_scale/02-deploy-infra/
+  - /swarm/swarm_at_scale/03-create-cluster/
+  - /swarm/swarm_at_scale/04-deploy-app/
+  - /swarm/swarm_at_scale/about/
+  - /swarm/swarm_at_scale/deploy-app/
+  - /swarm/swarm_at_scale/deploy-infra/
+  - /swarm/swarm_at_scale/troubleshoot/
 ---
 
 {{< include "swarm-mode.md" >}}
@@ -82,7 +82,7 @@ let you define the desired state of the various services in your application
 stack. For example, you might describe an application comprised of a web front
 end service with message queueing services and a database backend.
 
-### Scaling 
+### Scaling
 
 For each service, you can declare the number of tasks you want to
 run. When you scale up or down, the swarm manager automatically adapts by
@@ -132,15 +132,15 @@ roll back to a previous version of the service.
 
 ## What's next?
 
-* Learn Swarm mode [key concepts](key-concepts.md).
-* Get started with the [Swarm mode tutorial](swarm-tutorial/_index.md).
-* Explore Swarm mode CLI commands
-  * [swarm init](/reference/cli/docker/swarm/init.md)
-  * [swarm join](/reference/cli/docker/swarm/join.md)
-  * [service create](/reference/cli/docker/service/create.md)
-  * [service inspect](/reference/cli/docker/service/inspect.md)
-  * [service ls](/reference/cli/docker/service/ls.md)
-  * [service rm](/reference/cli/docker/service/rm.md)
-  * [service scale](/reference/cli/docker/service/scale.md)
-  * [service ps](/reference/cli/docker/service/ps.md)
-  * [service update](/reference/cli/docker/service/update.md)
+- Learn Swarm mode [key concepts](key-concepts.md).
+- Get started with the [Swarm mode tutorial](swarm-tutorial/_index.md).
+- Explore Swarm mode CLI commands
+  - [swarm init](/reference/cli/docker/swarm/init.md)
+  - [swarm join](/reference/cli/docker/swarm/join.md)
+  - [service create](/reference/cli/docker/service/create.md)
+  - [service inspect](/reference/cli/docker/service/inspect.md)
+  - [service ls](/reference/cli/docker/service/ls.md)
+  - [service rm](/reference/cli/docker/service/rm.md)
+  - [service scale](/reference/cli/docker/service/scale.md)
+  - [service ps](/reference/cli/docker/service/ps.md)
+  - [service update](/reference/cli/docker/service/update.md)

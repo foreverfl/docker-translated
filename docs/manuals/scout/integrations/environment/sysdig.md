@@ -87,7 +87,7 @@ image.
 
 8. Assign an environment name for this cluster.
 
-    You can reuse an existing environment or create a new one.
+   You can reuse an existing environment or create a new one.
 
 9. Select **Enable integration**.
 

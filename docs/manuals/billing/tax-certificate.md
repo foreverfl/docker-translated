@@ -40,6 +40,7 @@ Palo Alto, CA 94306
    > [!TIP]
    >
    > You can list multiple namespaces that share the same tax exemption certificate, if applicable.
+
 4. Add the tax certificate from your system by dragging and dropping them onto the file area, or select the **Browse Files** button to open a file dialog.
 5. Select **Submit**.
 

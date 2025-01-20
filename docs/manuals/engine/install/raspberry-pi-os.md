@@ -1,5 +1,6 @@
 ---
-description: Learn how to install Docker Engine on a 32-bit Raspberry Pi OS system. These instructions cover
+description:
+  Learn how to install Docker Engine on a 32-bit Raspberry Pi OS system. These instructions cover
   the different installation methods, how to uninstall, and next steps.
 keywords:
   - requirements
@@ -16,8 +17,8 @@ linkTitle: Raspberry Pi OS (32-bit)
 weight: 50
 toc_max: 4
 aliases:
-- /engine/installation/linux/raspbian/
-- /engine/install/raspbian/
+  - /engine/installation/linux/raspbian/
+  - /engine/install/raspbian/
 download-url-base: https://download.docker.com/linux/raspbian
 ---
 
@@ -140,7 +141,7 @@ Docker from the repository.
    ```console
    $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
    ```
-  
+
    {{< /tab >}}
    {{< tab name="Specific version" >}}
 
@@ -192,6 +193,7 @@ download the `deb` file for your release and install it manually. You need to
 download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
+
 1. Go to [`{{% param "download-url-base" %}}/dists/`]({{% param "download-url-base" %}}/dists/).
 
 2. Select your Raspberry Pi OS version in the list.

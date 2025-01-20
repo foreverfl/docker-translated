@@ -121,7 +121,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
   ],
-  manual: ["manual/intro"],
+  manual: ["manuals/index"],
   reference: ["reference/intro"],
 };
 

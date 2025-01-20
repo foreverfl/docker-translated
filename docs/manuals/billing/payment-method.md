@@ -10,7 +10,7 @@ keywords:
   - failed payments
   - coupons
 billing:
-- /billing/core-billing/payment-method/
+  - /billing/core-billing/payment-method/
 ---
 
 This page describes how to add or update a payment method for your personal account or for an organization.
@@ -126,6 +126,7 @@ Once the grace period is over and the invoice is still not paid, the subscriptio
 You can redeem a coupon for any paid Docker subscription.
 
 A coupon can be used when you:
+
 - Sign up to a new paid subscription from a free subscription
 - Upgrade an existing paid subscription
 

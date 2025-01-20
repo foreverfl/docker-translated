@@ -16,7 +16,7 @@ keywords:
   - documentation
   - repository permissions
 aliases:
-- /docker-hub/manage-a-team/
+  - /docker-hub/manage-a-team/
 ---
 
 You can create teams for your organization in Docker Hub and the Docker Admin Console. You can [configure repository access for a team](#configure-repository-permissions-for-a-team) in Docker Hub.
@@ -95,19 +95,19 @@ Organization owners can also assign members the editor role to grant partial adm
 Permissions are cumulative. For example, if you have "Read & Write" permissions,
 you automatically have "Read-only" permissions:
 
-| Action | Read-only | Read & Write | Admin |
-|:------------------:|:---------:|:------------:|:-----:|
-| Pull a Repository | ✅ | ✅ | ✅ |
-| View a Repository | ✅ | ✅ | ✅ |
-| Push a Repository | ❌ | ✅ | ✅ |
-| Edit a Repository | ❌ | ❌ | ✅ |
-| Delete a Repository | ❌ | ❌ | ✅ |
-| Update a Repository Description | ❌ | ❌ | ✅ |
-| View Builds | ✅ | ✅ | ✅ |
-| Cancel Builds | ❌ | ✅ | ✅ |
-| Retry Builds | ❌ | ✅ | ✅ |
-| Trigger Builds | ❌ | ✅ | ✅ |
-| Edit Build Settings | ❌ | ❌ | ✅ |
+|             Action              | Read-only | Read & Write | Admin |
+| :-----------------------------: | :-------: | :----------: | :---: |
+|        Pull a Repository        |    ✅     |      ✅      |  ✅   |
+|        View a Repository        |    ✅     |      ✅      |  ✅   |
+|        Push a Repository        |    ❌     |      ✅      |  ✅   |
+|        Edit a Repository        |    ❌     |      ❌      |  ✅   |
+|       Delete a Repository       |    ❌     |      ❌      |  ✅   |
+| Update a Repository Description |    ❌     |      ❌      |  ✅   |
+|           View Builds           |    ✅     |      ✅      |  ✅   |
+|          Cancel Builds          |    ❌     |      ✅      |  ✅   |
+|          Retry Builds           |    ❌     |      ✅      |  ✅   |
+|         Trigger Builds          |    ❌     |      ✅      |  ✅   |
+|       Edit Build Settings       |    ❌     |      ❌      |  ✅   |
 
 > [!NOTE]
 >

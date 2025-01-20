@@ -120,21 +120,20 @@ counter whenever you visit it.
 5.  Create a file called `compose.yml` and paste this in:
 
     ```yaml
-      services:
-        web:
-          image: 127.0.0.1:5000/stackdemo
-          build: .
-          ports:
-            - "8000:8000"
-        redis:
-          image: redis:alpine
+    services:
+      web:
+        image: 127.0.0.1:5000/stackdemo
+        build: .
+        ports:
+          - "8000:8000"
+      redis:
+        image: redis:alpine
     ```
 
     The image for the web app is built using the Dockerfile defined
     above. It's also tagged with `127.0.0.1:5000` - the address of the registry
     created earlier. This is important when distributing the app to the
     swarm.
-
 
 ## Test the app with Compose
 
@@ -199,7 +198,6 @@ counter whenever you visit it.
     Removing network stackdemo_default
     ```
 
-
 ## Push the generated image to the registry
 
 To distribute the web app's image across the swarm, it needs to be pushed to the
@@ -219,7 +217,6 @@ latest: digest: sha256:a81840ebf5ac24b42c1c676cbda3b2cb144580ee347c07e1bc80e35e5
 ```
 
 The stack is now ready to be deployed.
-
 
 ## Deploy the stack to the swarm
 

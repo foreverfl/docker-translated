@@ -8,10 +8,10 @@ keywords:
   - Docker Business feature
 title: Registry Access Management
 aliases:
- - /desktop/hardened-desktop/registry-access-management/
- - /admin/organization/registry-access/
- - /docker-hub/registry-access-management/
- - /security/for-admins/registry-access-management/
+  - /desktop/hardened-desktop/registry-access-management/
+  - /admin/organization/registry-access/
+  - /docker-hub/registry-access-management/
+  - /security/for-admins/registry-access-management/
 weight: 30
 ---
 
@@ -25,13 +25,13 @@ Registry Access Management supports both cloud and on-prem registries. This feat
 
 Example registries administrators can allow include:
 
- - Docker Hub. This is enabled by default.
- - Amazon ECR
- - GitHub Container Registry
- - Google Container Registry
- - GitLab Container Registry
- - Nexus
- - Artifactory
+- Docker Hub. This is enabled by default.
+- Amazon ECR
+- GitHub Container Registry
+- Google Container Registry
+- GitLab Container Registry
+- Nexus
+- Artifactory
 
 ## Prerequisites
 

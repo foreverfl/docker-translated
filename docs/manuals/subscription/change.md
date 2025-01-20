@@ -11,15 +11,15 @@ keywords:
   - pricing plan
 title: Change your subscription
 aliases:
-- /docker-hub/upgrade/
-- /docker-hub/billing/upgrade/
-- /subscription/upgrade/
-- /subscription/downgrade/
-- /subscription/core-subscription/upgrade/
-- /subscription/core-subscription/downgrade/
-- /docker-hub/cancel-downgrade/
-- /docker-hub/billing/downgrade/
-- /billing/scout-billing/
+  - /docker-hub/upgrade/
+  - /docker-hub/billing/upgrade/
+  - /subscription/upgrade/
+  - /subscription/downgrade/
+  - /subscription/core-subscription/upgrade/
+  - /subscription/core-subscription/downgrade/
+  - /docker-hub/cancel-downgrade/
+  - /docker-hub/billing/downgrade/
+  - /billing/scout-billing/
 weight: 30
 ---
 
@@ -74,6 +74,7 @@ When you downgrade your subscription, access to paid features is available until
 >
 > If you downgrade your personal account from a Pro subscription to a Personal subscription, note that [Personal subscriptions](details.md#docker-personal) don't include collaborators for private repositories. Only one private repository is included with a Personal subscription. When you downgrade, all collaborators will be removed and additional private repositories are locked.
 > Before you downgrade, consider the following:
+>
 > - Team size: You may need to reduce the number of team members and convert any private repositories to public repositories or delete them. For information on features available in each tier, see [Docker Pricing](https://www.docker.com/pricing).
 > - SSO and SCIM: If you want to downgrade a Docker Business subscription and your organization uses single sign-on (SSO) for user authentication, you need to remove your SSO connection and verified domains before downgrading. After removing the SSO connection, any organization members that were auto-provisioned (for example, with SCIM) need to set up a password to sign in without SSO. To do this, users can [reset their password at sign in](/accounts/create-account/#reset-your-password-at-sign-in).
 

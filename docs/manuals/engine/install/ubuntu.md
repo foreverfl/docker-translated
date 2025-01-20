@@ -1,5 +1,6 @@
 ---
-description: Jumpstart your client-side server applications with Docker Engine on
+description:
+  Jumpstart your client-side server applications with Docker Engine on
   Ubuntu. This guide details prerequisites and multiple methods to install Docker Engine on Ubuntu.
 keywords:
   - docker install script
@@ -16,16 +17,16 @@ linkTitle: Ubuntu
 weight: 10
 toc_max: 4
 aliases:
-- /ee/docker-ee/ubuntu/
-- /engine/installation/linux/docker-ce/ubuntu/
-- /engine/installation/linux/docker-ee/ubuntu/
-- /engine/installation/linux/ubuntu/
-- /engine/installation/linux/ubuntulinux/
-- /engine/installation/ubuntulinux/
-- /install/linux/docker-ce/ubuntu/
-- /install/linux/docker-ee/ubuntu/
-- /install/linux/ubuntu/
-- /installation/ubuntulinux/
+  - /ee/docker-ee/ubuntu/
+  - /engine/installation/linux/docker-ce/ubuntu/
+  - /engine/installation/linux/docker-ee/ubuntu/
+  - /engine/installation/linux/ubuntu/
+  - /engine/installation/linux/ubuntulinux/
+  - /engine/installation/ubuntulinux/
+  - /install/linux/docker-ce/ubuntu/
+  - /install/linux/docker-ee/ubuntu/
+  - /install/linux/ubuntu/
+  - /installation/ubuntulinux/
 download-url-base: https://download.docker.com/linux/ubuntu
 ---
 
@@ -154,7 +155,7 @@ Docker from the repository.
    ```console
    $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
    ```
-  
+
    {{< /tab >}}
    {{< tab name="Specific version" >}}
 
@@ -206,6 +207,7 @@ download the `deb` file for your release and install it manually. You need to
 download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
+
 1. Go to [`{{% param "download-url-base" %}}/dists/`]({{% param "download-url-base" %}}/dists/).
 
 2. Select your Ubuntu version in the list.

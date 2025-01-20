@@ -11,9 +11,9 @@ keywords:
 toc_min: 1
 toc_max: 2
 aliases:
-- /docker-hub/onboard/
-- /docker-hub/onboard-team/
-- /docker-hub/onboard-business/
+  - /docker-hub/onboard/
+  - /docker-hub/onboard-team/
+  - /docker-hub/onboard-business/
 ---
 
 {{< include "admin-early-access.md" >}}
@@ -47,9 +47,9 @@ Identifying your users will ensure that you allocate your subscription seats eff
 
 1. Identify the Docker users in your organization.
    - If your organization uses device management software, like MDM or Jamf, you may use the device management software to help identify Docker users. See your device management software's documentation for details. You can identify Docker users by checking if Docker Desktop is installed at the following location on each user's machine:
-      - Mac: `/Applications/Docker.app`
-      - Windows: `C:\Program Files\Docker\Docker`
-      - Linux: `/opt/docker-desktop`
+     - Mac: `/Applications/Docker.app`
+     - Windows: `C:\Program Files\Docker\Docker`
+     - Linux: `/opt/docker-desktop`
    - If your organization doesn't use device management software or your users haven't installed Docker Desktop yet, you may survey your users.
 2. Instruct all your organization's Docker users to update their existing Docker account's email address to an address that's in your organization's domain, or to create a new account using an email address in your organization's domain.
    - To update an account's email address, instruct your users to sign in to [Docker Hub](https://hub.docker.com), and update the email address to their email address in your organization's domain.
@@ -73,17 +73,18 @@ To add a member, invite a user and assign them the member role. For more details
 Configuring SSO and SCIM is optional and only available to Docker Business subscribers. To upgrade a Docker Team subscription to a Docker Business subscription, see [Upgrade your subscription](/subscription/upgrade/).
 
 You can manage your members in your identity provider and automatically provision them to your Docker organization with SSO and SCIM. See the following for more details.
-   - [Configure SSO](/manuals/security/for-admins/single-sign-on/configure.md) to authenticate and add members when they sign in to Docker through your identity provider.
-   - Optional. [Enforce SSO](/manuals/security/for-admins/single-sign-on/connect.md) to ensure that when users sign in to Docker, they must use SSO.
 
-     > [!NOTE]
-     >
-     > Enforcing single sign-on (SSO) and [Step 5: Enforce sign-in for Docker
-     > Desktop](#step-5-enforce-sign-in-for-docker-desktop) are different
-     > features. For more details, see
-     > [Enforcing sign-in versus enforcing single sign-on (SSO)](/security/for-admins/enforce-sign-in/#enforcing-sign-in-versus-enforcing-single-sign-on-sso).
+- [Configure SSO](/manuals/security/for-admins/single-sign-on/configure.md) to authenticate and add members when they sign in to Docker through your identity provider.
+- Optional. [Enforce SSO](/manuals/security/for-admins/single-sign-on/connect.md) to ensure that when users sign in to Docker, they must use SSO.
 
-   - [Configure SCIM](/security/for-admins/provisioning/scim/) to automatically provision, add, and de-provision members to Docker through your identity provider.
+  > [!NOTE]
+  >
+  > Enforcing single sign-on (SSO) and [Step 5: Enforce sign-in for Docker
+  > Desktop](#step-5-enforce-sign-in-for-docker-desktop) are different
+  > features. For more details, see
+  > [Enforcing sign-in versus enforcing single sign-on (SSO)](/security/for-admins/enforce-sign-in/#enforcing-sign-in-versus-enforcing-single-sign-on-sso).
+
+- [Configure SCIM](/security/for-admins/provisioning/scim/) to automatically provision, add, and de-provision members to Docker through your identity provider.
 
 ## Step 5: Enforce sign-in for Docker Desktop
 
@@ -93,6 +94,7 @@ receive the [benefits of your organization’s subscription](../../subscription/
 
 There are multiple ways you can enforce sign-in, depending on your company's
 set up and preferences:
+
 - [Registry key method (Windows only)](/security/for-admins/enforce-sign-in/methods/#registry-key-method-windows-only)
 - [`.plist` method (Mac only)](/security/for-admins/enforce-sign-in/methods/#plist-method-mac-only)
 - [`registry.json` method (All)](/security/for-admins/enforce-sign-in/methods/#registryjson-method-all)

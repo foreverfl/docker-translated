@@ -16,9 +16,9 @@ linkTitle: Debian
 weight: 20
 toc_max: 4
 aliases:
-- /desktop/linux/install/debian/
-- /desktop/install/debian/
-- /desktop/install/linux/debian/
+  - /desktop/linux/install/debian/
+  - /desktop/install/debian/
+  - /desktop/install/linux/debian/
 ---
 
 > **Docker Desktop terms**
@@ -54,21 +54,21 @@ Recommended approach to install Docker Desktop on Debian:
 
 3. Install the package with apt as follows:
 
-  ```console
-  $ sudo apt-get update
-  $ sudo apt-get install ./docker-desktop-amd64.deb
-  ```
+```console
+$ sudo apt-get update
+$ sudo apt-get install ./docker-desktop-amd64.deb
+```
 
-  > [!NOTE]
-  >
-  > At the end of the installation process, `apt` displays an error due to installing a downloaded package. You
-  > can ignore this error message.
-  >
-  > ```text
-  > N: Download is performed unsandboxed as root, as file '/home/user/Downloads/docker-desktop.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
-  > ```
+> [!NOTE]
+>
+> At the end of the installation process, `apt` displays an error due to installing a downloaded package. You
+> can ignore this error message.
+>
+> ```text
+> N: Download is performed unsandboxed as root, as file '/home/user/Downloads/docker-desktop.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+> ```
 
-   By default, Docker Desktop is installed at `/opt/docker-desktop`.
+By default, Docker Desktop is installed at `/opt/docker-desktop`.
 
 There are a few post-install configuration steps done through the post-install script contained in the deb package.
 
@@ -77,7 +77,7 @@ The post-install script:
 - Sets the capability on the Docker Desktop binary to map privileged ports and set resource limits.
 - Adds a DNS name for Kubernetes to `/etc/hosts`.
 - Creates a symlink from `/usr/local/bin/com.docker.cli` to `/usr/bin/docker`.
-  This is because the classic Docker CLI is installed at `/usr/bin/docker`. The Docker Desktop installer also installs a Docker CLI binary that includes cloud-integration capabilities and is essentially a wrapper for the Compose CLI, at`/usr/local/bin/com.docker.cli`. The symlink ensures that the wrapper can access the classic Docker CLI. 
+  This is because the classic Docker CLI is installed at `/usr/bin/docker`. The Docker Desktop installer also installs a Docker CLI binary that includes cloud-integration capabilities and is essentially a wrapper for the Compose CLI, at`/usr/local/bin/com.docker.cli`. The symlink ensures that the wrapper can access the classic Docker CLI.
 
 ## Launch Docker Desktop
 

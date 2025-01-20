@@ -1,5 +1,6 @@
 ---
-description: Instructions for installing Docker Desktop Arch package. Mostly meant
+description:
+  Instructions for installing Docker Desktop Arch package. Mostly meant
   for hackers who want to try out Docker Desktop on a variety of Arch-based distributions.
 keywords:
   - Arch Linux
@@ -15,9 +16,9 @@ keywords:
 title: Install Docker Desktop on Arch-based distributions
 linkTitle: Arch
 aliases:
-- /desktop/linux/install/archlinux/
-- /desktop/install/archlinux/
-- /desktop/install/linux/archlinux/
+  - /desktop/linux/install/archlinux/
+  - /desktop/install/archlinux/
+  - /desktop/install/linux/archlinux/
 ---
 
 > **Docker Desktop terms**
@@ -26,7 +27,7 @@ aliases:
 > employees OR more than $10 million USD in annual revenue) requires a [paid
 > subscription](https://www.docker.com/pricing/).
 
-This page contains information on how to install, launch and upgrade Docker Desktop on an Arch-based distribution. 
+This page contains information on how to install, launch and upgrade Docker Desktop on an Arch-based distribution.
 
 > [!IMPORTANT]
 >

@@ -11,12 +11,12 @@ keywords:
 title: Configure single sign-on
 linkTitle: Configure
 aliases:
-- /docker-hub/domains/
-- /docker-hub/sso-connection/
-- /docker-hub/enforcing-sso/
-- /single-sign-on/configure/
-- /admin/company/settings/sso-configuration/
-- /admin/organization/security-settings/sso-configuration/
+  - /docker-hub/domains/
+  - /docker-hub/sso-connection/
+  - /docker-hub/enforcing-sso/
+  - /single-sign-on/configure/
+  - /admin/company/settings/sso-configuration/
+  - /admin/organization/security-settings/sso-configuration/
 ---
 
 Get started creating a single sign-on (SSO) connection for your organization or company. This guide walks through the steps to add and verify the domains your members use to sign in to Docker.
@@ -81,4 +81,3 @@ The following videos walk through verifying your domain to create your SSO conne
 ## What's next?
 
 [Connect Docker and your IdP](../single-sign-on/connect.md).
-

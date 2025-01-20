@@ -1,5 +1,6 @@
 ---
-description: Learn how to install Docker Engine on Fedora. These instructions cover
+description:
+  Learn how to install Docker Engine on Fedora. These instructions cover
   the different installation methods, how to uninstall, and next steps.
 keywords:
   - requirements
@@ -18,10 +19,10 @@ linkTitle: Fedora
 weight: 40
 toc_max: 4
 aliases:
-- /engine/installation/fedora/
-- /engine/installation/linux/fedora/
-- /engine/installation/linux/docker-ce/fedora/
-- /install/linux/docker-ce/fedora/
+  - /engine/installation/fedora/
+  - /engine/installation/linux/fedora/
+  - /engine/installation/linux/docker-ce/fedora/
+  - /install/linux/docker-ce/fedora/
 download-url-base: https://download.docker.com/linux/fedora
 ---
 
@@ -159,7 +160,7 @@ $ sudo dnf-3 config-manager --add-repo {{% param "download-url-base" %}}/docker-
 
    This configures the Docker systemd service to start automatically when you
    boot your system. If you don't want Docker to start automatically, use `sudo
-   systemctl start docker` instead.
+systemctl start docker` instead.
 
 3. Verify that the installation is successful by running the `hello-world` image:
 
@@ -186,6 +187,7 @@ download the `.rpm` file for your release and install it manually. You need to
 download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
+
 1. Go to [{{% param "download-url-base" %}}/]({{% param "download-url-base" %}}/)
    and choose your version of Fedora. Then browse to `x86_64/stable/Packages/`
    and download the `.rpm` file for the Docker version you want to install.
@@ -208,7 +210,7 @@ download a new file each time you want to upgrade Docker Engine.
 
    This configures the Docker systemd service to start automatically when you
    boot your system. If you don't want Docker to start automatically, use `sudo
-   systemctl start docker` instead.
+systemctl start docker` instead.
 
 4. Verify that the installation is successful by running the `hello-world` image:
 

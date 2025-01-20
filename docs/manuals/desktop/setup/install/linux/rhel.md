@@ -23,7 +23,7 @@ params:
       color: green
       text: New
 aliases:
-- /desktop/install/linux/rhel/
+  - /desktop/install/linux/rhel/
 ---
 
 > **Docker Desktop terms**
@@ -47,37 +47,41 @@ If you don't have `pass` installed, or it can't be installed, you must enable
 and
 [Extra Packages for Enterprise Linux (EPEL)](https://docs.fedoraproject.org/en-US/epel/).
 
-   {{< tabs group="os_version" >}}
-   {{< tab name="RHEL 9" >}}
+{{< tabs group="os_version" >}}
+{{< tab name="RHEL 9" >}}
+
 ```console
 $ sudo subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
 $ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 $ sudo dnf install pass
 ```
 
-   {{< /tab >}}
-   {{< tab name="RHEL 8" >}}
+{{< /tab >}}
+{{< tab name="RHEL 8" >}}
+
 ```console
 $ sudo subscription-manager repos --enable codeready-builder-for-rhel-8-$(arch)-rpms
 $ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 $ sudo dnf install pass
 ```
 
-   {{< /tab >}}
-   {{< /tabs >}}
+{{< /tab >}}
+{{< /tabs >}}
 
 Additionally, for a GNOME desktop environment you must install AppIndicator and KStatusNotifierItem [GNOME extensions](https://extensions.gnome.org/extension/615/appindicator-support/). You must also enable EPEL.
 
-   {{< tabs group="os_version" >}}
-   {{< tab name="RHEL 9" >}}
+{{< tabs group="os_version" >}}
+{{< tab name="RHEL 9" >}}
+
 ```console
 $ # enable EPEL as described above
 $ sudo dnf install gnome-shell-extension-appindicator
 $ sudo gnome-extensions enable appindicatorsupport@rgcjonas.gmail.com
 ```
 
-   {{< /tab >}}
-   {{< tab name="RHEL 8" >}}
+{{< /tab >}}
+{{< tab name="RHEL 8" >}}
+
 ```console
 $ # enable EPEL as described above
 $ sudo dnf install gnome-shell-extension-appindicator
@@ -85,8 +89,8 @@ $ sudo dnf install gnome-shell-extension-desktop-icons
 $ sudo gnome-shell-extension-tool -e appindicatorsupport@rgcjonas.gmail.com
 ```
 
-   {{< /tab >}}
-   {{< /tabs >}}
+{{< /tab >}}
+{{< /tabs >}}
 
 For non-GNOME desktop environments, `gnome-terminal` must be installed:
 
@@ -119,7 +123,7 @@ The post-install script:
 - Sets the capability on the Docker Desktop binary to map privileged ports and set resource limits.
 - Adds a DNS name for Kubernetes to `/etc/hosts`.
 - Creates a symlink from `/usr/local/bin/com.docker.cli` to `/usr/bin/docker`.
-  This is because the classic Docker CLI is installed at `/usr/bin/docker`. The Docker Desktop installer also installs a Docker CLI binary that includes cloud-integration capabilities and is essentially a wrapper for the Compose CLI, at`/usr/local/bin/com.docker.cli`. The symlink ensures that the wrapper can access the classic Docker CLI. 
+  This is because the classic Docker CLI is installed at `/usr/bin/docker`. The Docker Desktop installer also installs a Docker CLI binary that includes cloud-integration capabilities and is essentially a wrapper for the Compose CLI, at`/usr/local/bin/com.docker.cli`. The symlink ensures that the wrapper can access the classic Docker CLI.
 - Creates a symlink from `/usr/libexec/qemu-kvm` to `/usr/local/bin/qemu-system-x86_64`.
 
 ## Launch Docker Desktop
@@ -135,6 +139,7 @@ The post-install script:
 > To attach Red Hat subscription data to containers, see [Red Hat verified solution](https://access.redhat.com/solutions/5870841).
 >
 > For example:
+>
 > ```console
 > $ docker run --rm -it -v "/etc/pki/entitlement:/etc/pki/entitlement" -v "/etc/rhsm:/etc/rhsm-host" -v "/etc/yum.repos.d/redhat.repo:/etc/yum.repos.d/redhat.repo" registry.access.redhat.com/ubi9
 > ```

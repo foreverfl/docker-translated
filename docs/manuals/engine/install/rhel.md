@@ -1,5 +1,6 @@
 ---
-description: Learn how to install Docker Engine on RHEL. These instructions cover
+description:
+  Learn how to install Docker Engine on RHEL. These instructions cover
   the different installation methods, how to uninstall, and next steps.
 keywords:
   - requirements
@@ -17,13 +18,13 @@ linkTitle: RHEL
 weight: 30
 toc_max: 4
 aliases:
-- /ee/docker-ee/rhel/
-- /engine/installation/linux/docker-ce/rhel/
-- /engine/installation/linux/docker-ee/rhel/
-- /engine/installation/linux/rhel/
-- /engine/installation/rhel/
-- /install/linux/docker-ee/rhel/
-- /installation/rhel/
+  - /ee/docker-ee/rhel/
+  - /engine/installation/linux/docker-ce/rhel/
+  - /engine/installation/linux/docker-ee/rhel/
+  - /engine/installation/linux/rhel/
+  - /engine/installation/rhel/
+  - /install/linux/docker-ee/rhel/
+  - /installation/rhel/
 download-url-base: https://download.docker.com/linux/rhel
 ---
 
@@ -161,7 +162,7 @@ $ sudo dnf config-manager --add-repo {{% param "download-url-base" %}}/docker-ce
 
    This configures the Docker systemd service to start automatically when you
    boot your system. If you don't want Docker to start automatically, use `sudo
-   systemctl start docker` instead.
+systemctl start docker` instead.
 
 3. Verify that the installation is successful by running the `hello-world` image:
 
@@ -188,6 +189,7 @@ download the `.rpm` file for your release and install it manually. You need to
 download a new file each time you want to upgrade Docker Engine.
 
 <!-- markdownlint-disable-next-line -->
+
 1. Go to [{{% param "download-url-base" %}}/]({{% param "download-url-base" %}}/).
 
 2. Select your RHEL version in the list.
@@ -226,7 +228,7 @@ download a new file each time you want to upgrade Docker Engine.
 
    This configures the Docker systemd service to start automatically when you
    boot your system. If you don't want Docker to start automatically, use `sudo
-   systemctl start docker` instead.
+systemctl start docker` instead.
 
 7. Verify that the installation is successful by running the `hello-world` image:
 

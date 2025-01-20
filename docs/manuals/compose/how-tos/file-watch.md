@@ -7,7 +7,7 @@ keywords:
 title: Use Compose Watch
 weight: 50
 aliases:
-- /compose/file-watch/
+  - /compose/file-watch/
 ---
 
 {{< introduced compose 2.22.0 "/manuals/compose/releases/release-notes.md#2220" >}}
@@ -15,13 +15,14 @@ aliases:
 {{< include "compose/watch.md" >}}
 
 `watch` adheres to the following file path rules:
-* All paths are relative to the project directory
-* Directories are watched recursively
-* Glob patterns aren't supported
-* Rules from `.dockerignore` apply
-  * Use `ignore` option to define additional paths to be ignored (same syntax)
-  * Temporary/backup files for common IDEs (Vim, Emacs, JetBrains, & more) are ignored automatically
-  * `.git` directories are ignored automatically
+
+- All paths are relative to the project directory
+- Directories are watched recursively
+- Glob patterns aren't supported
+- Rules from `.dockerignore` apply
+  - Use `ignore` option to define additional paths to be ignored (same syntax)
+  - Temporary/backup files for common IDEs (Vim, Emacs, JetBrains, & more) are ignored automatically
+  - `.git` directories are ignored automatically
 
 You don't need to switch on `watch` for all services in a Compose project. In some instances, only part of the project, for example the Javascript frontend, might be suitable for automatic updates.
 
@@ -34,8 +35,9 @@ Compose supports sharing a host directory inside service containers. Watch mode 
 More importantly, `watch` allows for greater granularity than is practical with a bind mount. Watch rules let you ignore specific files or entire directories within the watched tree.
 
 For example, in a JavaScript project, ignoring the `node_modules/` directory has two benefits:
-* Performance. File trees with many small files can cause high I/O load in some configurations
-* Multi-platform. Compiled artifacts cannot be shared if the host OS or architecture is different to the container
+
+- Performance. File trees with many small files can cause high I/O load in some configurations
+- Multi-platform. Compiled artifacts cannot be shared if the host OS or architecture is different to the container
 
 For example, in a Node.js project, it's not recommended to sync the `node_modules/` directory. Even though JavaScript is interpreted, `npm` packages can contain native code that is not portable across platforms.
 
@@ -44,20 +46,21 @@ For example, in a Node.js project, it's not recommended to sync the `node_module
 The `watch` attribute defines a list of rules that control automatic service updates based on local file changes.
 
 Each rule requires, a `path` pattern and `action` to take when a modification is detected. There are two possible actions for `watch` and depending on
-the `action`, additional fields might be accepted or required. 
+the `action`, additional fields might be accepted or required.
 
 Watch mode can be used with many different languages and frameworks.
-The specific paths and rules will vary from project to project, but the concepts remain the same. 
+The specific paths and rules will vary from project to project, but the concepts remain the same.
 
 ### Prerequisites
 
 In order to work properly, `watch` relies on common executables. Make sure your service image contains the following binaries:
-* stat
-* mkdir
-* rmdir
 
-`watch` also requires that the container's `USER` can write to the target path so it can update files. A common pattern is for 
-initial content to be copied into the container using the `COPY` instruction in a Dockerfile. To ensure such files are owned 
+- stat
+- mkdir
+- rmdir
+
+`watch` also requires that the container's `USER` can write to the target path so it can update files. A common pattern is for
+initial content to be copied into the container using the `COPY` instruction in a Dockerfile. To ensure such files are owned
 by the configured user, use the `COPY --chown` flag:
 
 ```dockerfile
@@ -96,16 +99,16 @@ image rebuild (e.g. `package.json`).
 
 #### Sync + Restart
 
-If `action` is set to `sync+restart`, Compose synchronizes your changes with the service containers and restarts it. 
+If `action` is set to `sync+restart`, Compose synchronizes your changes with the service containers and restarts it.
 
-`sync+restart` is ideal when config file changes, and you don't need to rebuild the image but just restart the main process of the service containers. 
+`sync+restart` is ideal when config file changes, and you don't need to rebuild the image but just restart the main process of the service containers.
 It will work well when you update a database configuration or your `nginx.conf` file for example
 
->[!TIP]
+> [!TIP]
 >
 > Optimize your `Dockerfile` for speedy
-incremental rebuilds with [image layer caching](/build/cache)
-and [multi-stage builds](/build/building/multi-stage/).
+> incremental rebuilds with [image layer caching](/build/cache)
+> and [multi-stage builds](/build/building/multi-stage/).
 
 ### `path` and `target`
 
@@ -113,13 +116,14 @@ The `target` field controls how the path is mapped into the container.
 
 For `path: ./app/html` and a change to `./app/html/index.html`:
 
-* `target: /app/html` -> `/app/html/index.html`
-* `target: /app/static` -> `/app/static/index.html`
-* `target: /assets` -> `/assets/index.html`
+- `target: /app/html` -> `/app/html/index.html`
+- `target: /app/static` -> `/app/static/index.html`
+- `target: /assets` -> `/assets/index.html`
 
 ## Example 1
 
 This minimal example targets a Node.js application with the following structure:
+
 ```text
 myproject/
 ├── web/
@@ -160,7 +164,7 @@ rebuilds the image and recreates the `web` service container.
 
 This pattern can be followed for many languages and frameworks, such as Python with Flask: Python source files can be synced while a change to `requirements.txt` should trigger a rebuild.
 
-## Example 2 
+## Example 2
 
 Adapting the previous example to demonstrate `sync+restart`:
 
@@ -194,7 +198,7 @@ This setup demonstrates how to use the `sync+restart` action in Docker Compose t
 
 > [!NOTE]
 >
-> Watch can also be used with the dedicated `docker compose watch` command if you don't want to 
+> Watch can also be used with the dedicated `docker compose watch` command if you don't want to
 > get the application logs mixed with the (re)build logs and filesystem sync events.
 
 > [!TIP]

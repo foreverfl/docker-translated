@@ -53,7 +53,7 @@ You can pre-purchase Docker Build Cloud minutes in the Docker Build Cloud Dashbo
 1. Sign in to [Docker Home](https://app.docker.com/).
 2. Under Settings and administration, select **Billing**.
 3. On the plans and usage page, select **View build minutes**.
-    This will launch the Docker Build Cloud settings page.
+   This will launch the Docker Build Cloud settings page.
 4. Select **Add minutes**.
 5. Select your additional minute amount, then **Continue to payment**.
 6. Enter your payment details and billing address.
@@ -64,7 +64,7 @@ Your additional minutes will now display on the Build minutes page.
 ## Add Docker Testcontainers Cloud runtime minutes
 
 You can pre-purchase Testcontainers Cloud runtime minutes by [contacting
- sales](https://www.docker.com/pricing/contact-sales/). In addition to
+sales](https://www.docker.com/pricing/contact-sales/). In addition to
 pre-purchase, you are able to use as many minutes as you need on-demand. The
 usage will be billed at the end of each monthly billing cycle. On-demand usage
 is billed at a higher rate than pre-purchased capacity. To avoid on-demand

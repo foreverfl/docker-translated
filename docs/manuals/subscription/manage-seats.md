@@ -11,12 +11,12 @@ keywords:
 title: Manage subscription seats
 linkTitle: Manage seats
 aliases:
-- /docker-hub/billing/add-seats/
-- /subscription/add-seats/
-- /docker-hub/billing/remove-seats/
-- /subscription/remove-seats/
-- /subscription/core-subscription/add-seats/
-- /subscription/core-subscription/remove-seats/
+  - /docker-hub/billing/add-seats/
+  - /subscription/add-seats/
+  - /docker-hub/billing/remove-seats/
+  - /subscription/remove-seats/
+  - /subscription/core-subscription/add-seats/
+  - /subscription/core-subscription/remove-seats/
 weight: 20
 ---
 
