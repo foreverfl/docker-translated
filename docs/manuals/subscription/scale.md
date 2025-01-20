@@ -72,7 +72,7 @@ charges, pre-purchase additional minutes.
 
 ## Add Docker Hub storage or image pulls
 
-{{< include "hub-limits.md" >}}
+<Include file="hub-limits.md" />
 
 You can pre-purchase images pulls and storage by [contacting
 sales](https://www.docker.com/pricing/contact-sales/).

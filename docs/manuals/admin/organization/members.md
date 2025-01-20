@@ -24,7 +24,7 @@ Learn how to manage members for your organization in Docker Hub and the Docker A
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 {{% admin-users product="admin" %}}
 
@@ -71,7 +71,7 @@ To resend an invitation from Docker Hub:
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 To resend an invitation from the Admin Console:
 
@@ -98,7 +98,7 @@ To remove a member's invitation from Docker Hub:
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 To remove an invitation from the Admin Console:
 
@@ -138,7 +138,7 @@ To add a member to a team with Docker Hub:
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 To add a member to a team with the Admin Console:
 
@@ -170,7 +170,7 @@ To remove a member from a specific team with Docker Hub:
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 To remove a member from a specific team with the Admin Console:
 
@@ -224,7 +224,7 @@ To export a CSV file of your members:
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 To export a CSV file of your members:
 

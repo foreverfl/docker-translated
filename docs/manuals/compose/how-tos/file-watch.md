@@ -12,7 +12,7 @@ aliases:
 
 {{< introduced compose 2.22.0 "/manuals/compose/releases/release-notes.md#2220" >}}
 
-{{< include "compose/watch.md" >}}
+<Include file="compose/watch.md" />
 
 `watch` adheres to the following file path rules:
 
@@ -194,7 +194,7 @@ This setup demonstrates how to use the `sync+restart` action in Docker Compose t
 
 ## Use `watch`
 
-{{< include "compose/configure-watch.md" >}}
+<Include file="compose/configure-watch.md" />
 
 > [!NOTE]
 >

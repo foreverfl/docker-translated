@@ -8,7 +8,7 @@ keywords:
   - Admin Console
 ---
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 This section describes how to manage organization settings in the Docker Admin Console.
 

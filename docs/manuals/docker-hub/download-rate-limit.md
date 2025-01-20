@@ -124,7 +124,7 @@ both individuals and organizations:
 
 ## Storage and repository limits
 
-{{< include "hub-limits.md" >}}
+<Include file="hub-limits.md" />
 
 The following storage and repository limits apply based on your subscription, subject to fair use:
 

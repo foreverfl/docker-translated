@@ -14,7 +14,7 @@ keywords:
 
 In this section, learn how you can view your billing history, manage your invoices, and verify your renewal date. All monthly and annual subscriptions are automatically renewed at the end of the term using the original form of payment.
 
-{{< include "tax-compliance.md" >}}
+<Include file="tax-compliance.md" />
 
 ## Invoices
 

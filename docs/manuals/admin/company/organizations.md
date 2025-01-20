@@ -9,7 +9,7 @@ title: Manage company organizations
 
 You can manage the organizations in a company in the Docker Admin Console.
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 ## View all organizations
 

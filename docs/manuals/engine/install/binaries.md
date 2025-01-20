@@ -143,7 +143,7 @@ instructions for enabling and configuring AppArmor or SELinux.
 
 You have now successfully installed and started Docker Engine.
 
-{{< include "root-errors.md" >}}
+<Include file="root-errors.md" />
 
 ## Install client binaries on macOS
 

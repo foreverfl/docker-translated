@@ -11,7 +11,7 @@ keywords:
   - supply chain
 ---
 
-{{< include "scout-early-access.md" >}}
+<Include file="scout-early-access.md" />
 
 The Sysdig integration enables Docker Scout to automatically detect the images
 you're using for your running workloads. Activating this integration gives you

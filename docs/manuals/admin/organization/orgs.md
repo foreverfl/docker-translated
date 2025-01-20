@@ -62,7 +62,7 @@ You've now created an organization.
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 To create an organization:
 
@@ -147,7 +147,7 @@ configure your organization.
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 To view an organization in the Admin Console:
 

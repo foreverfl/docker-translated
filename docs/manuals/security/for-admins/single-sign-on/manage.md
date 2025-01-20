@@ -22,7 +22,7 @@ aliases:
 >
 > You must have a [company](/admin/company/) to manage more than one organization.
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 {{% admin-sso-management-orgs product="admin" %}}
 
@@ -31,7 +31,7 @@ aliases:
 {{< tabs >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 {{% admin-sso-management product="admin" %}}
 
@@ -48,7 +48,7 @@ aliases:
 {{< tabs >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 {{% admin-sso-management-connections product="admin" %}}
 

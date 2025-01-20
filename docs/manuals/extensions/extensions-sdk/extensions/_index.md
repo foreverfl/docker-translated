@@ -48,4 +48,4 @@ Extensions published in the Marketplace benefit from update notifications to all
 
 In addition to providing a description of your extension's features and screenshots, you should also specify additional URLs using [extension labels](labels.md). This direct users to your website for reporting bugs and feedback, and accessing documentation and support.
 
-{{< include "extensions-form.md" >}}
+<Include file="extensions-form.md" />

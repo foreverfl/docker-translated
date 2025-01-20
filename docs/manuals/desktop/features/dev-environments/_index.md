@@ -12,7 +12,7 @@ aliases:
   - /desktop/dev-environments/
 ---
 
-{{< include "dev-envs-changing.md" >}}
+<Include file="dev-envs-changing.md" />
 
 {{% experimental title="Beta" %}}
 The Dev Environments feature is currently in [Beta](/manuals/release-lifecycle.md#beta).

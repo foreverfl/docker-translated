@@ -250,7 +250,7 @@ The following features have graduated from the labs channel to stable:
 
 {{< release-date date="2023-01-10" >}}
 
-{{< include "dockerfile-labs-channel.md" >}}
+<Include file="dockerfile-labs-channel.md" />
 
 ### New
 
@@ -344,7 +344,7 @@ The following features have graduated from the labs channel to stable:
 
 {{< release-date date="2021-07-16" >}}
 
-{{< include "dockerfile-labs-channel.md" >}}
+<Include file="dockerfile-labs-channel.md" />
 
 ### New
 
@@ -375,7 +375,7 @@ The following features have graduated from the labs channel to stable:
 
 {{< release-date date="2020-12-12" >}}
 
-{{< include "dockerfile-labs-channel.md" >}}
+<Include file="dockerfile-labs-channel.md" />
 
 ### Bug fixes and enhancements
 
@@ -396,7 +396,7 @@ The following features have graduated from the labs channel to stable:
 
 {{< release-date date="2020-12-03" >}}
 
-{{< include "dockerfile-labs-channel.md" >}}
+<Include file="dockerfile-labs-channel.md" />
 
 ### Bug fixes and enhancements
 
@@ -433,7 +433,7 @@ The following features have graduated from the labs channel to stable:
 
 {{< release-date date="2019-07-31" >}}
 
-{{< include "dockerfile-labs-channel.md" >}}
+<Include file="dockerfile-labs-channel.md" />
 
 ### Bug fixes and enhancements
 

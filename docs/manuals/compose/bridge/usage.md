@@ -9,7 +9,7 @@ keywords:
   - kubernetes
 ---
 
-{{< include "compose-bridge-experimental.md" >}}
+<Include file="compose-bridge-experimental.md" />
 
 Compose Bridge supplies an out-of-the box transformation for your Compose configuration file. Based on an arbitrary `compose.yaml` file, Compose Bridge produces:
 

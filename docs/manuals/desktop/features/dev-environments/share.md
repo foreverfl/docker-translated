@@ -10,7 +10,7 @@ aliases:
   - /desktop/dev-environments/share/
 ---
 
-{{< include "dev-envs-changing.md" >}}
+<Include file="dev-envs-changing.md" />
 
 The `compose-dev.yaml` config file makes distributing your dev environment easy so everyone can access the same code and any dependencies.
 

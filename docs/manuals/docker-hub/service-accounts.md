@@ -9,7 +9,7 @@ title: Service accounts
 weight: 50
 ---
 
-{{< include "new-plans.md" >}}
+<Include file="new-plans.md" />
 
 > [!IMPORTANT]
 >

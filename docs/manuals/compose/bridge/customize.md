@@ -9,7 +9,7 @@ keywords:
   - templates
 ---
 
-{{< include "compose-bridge-experimental.md" >}}
+<Include file="compose-bridge-experimental.md" />
 
 This page explains how Compose Bridge utilizes templating to efficiently translate Docker Compose files into Kubernetes manifests. It also explain how you can customize these templates for your specific requirements and needs, or how you can build your own transformation.
 

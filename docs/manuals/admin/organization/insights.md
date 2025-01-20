@@ -28,7 +28,7 @@ Key benefits include:
 
 ## View Insights for organization users
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 1. Go to the [Admin Console](https://app.docker.com/admin/) and sign in to an
    account that is an organization owner.

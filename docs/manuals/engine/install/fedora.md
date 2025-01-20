@@ -173,7 +173,7 @@ systemctl start docker` instead.
 
 You have now successfully installed and started Docker Engine.
 
-{{< include "root-errors.md" >}}
+<Include file="root-errors.md" />
 
 #### Upgrade Docker Engine
 
@@ -223,7 +223,7 @@ systemctl start docker` instead.
 
 You have now successfully installed and started Docker Engine.
 
-{{< include "root-errors.md" >}}
+<Include file="root-errors.md" />
 
 #### Upgrade Docker Engine
 
@@ -231,7 +231,7 @@ To upgrade Docker Engine, download the newer package files and repeat the
 [installation procedure](#install-from-a-package), using `dnf upgrade`
 instead of `dnf install`, and point to the new files.
 
-{{< include "install-script.md" >}}
+<Include file="install-script.md" />
 
 ## Uninstall Docker Engine
 

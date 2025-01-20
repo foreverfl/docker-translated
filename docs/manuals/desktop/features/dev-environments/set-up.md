@@ -12,7 +12,7 @@ aliases:
   - /desktop/dev-environments/set-up/
 ---
 
-{{< include "dev-envs-changing.md" >}}
+<Include file="dev-envs-changing.md" />
 
 > **Changes to Dev Environments with Docker Desktop 4.13**
 >

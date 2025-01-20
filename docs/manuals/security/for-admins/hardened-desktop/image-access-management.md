@@ -38,7 +38,7 @@ You first need to [enforce sign-in](/manuals/security/for-admins/enforce-sign-in
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
-{{< include "admin-early-access.md" >}}
+<Include file="admin-early-access.md" />
 
 {{% admin-image-access product="admin" %}}
 

@@ -12,7 +12,7 @@ aliases:
   - /compose/profiles/
 ---
 
-{{< include "compose/profiles.md" >}}
+<Include file="compose/profiles.md" />
 
 ## Assigning profiles to services
 

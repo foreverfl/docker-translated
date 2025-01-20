@@ -13,7 +13,7 @@ aliases:
 weight: 10
 ---
 
-{{< include "dev-envs-changing.md" >}}
+<Include file="dev-envs-changing.md" />
 
 You can launch a dev environment from a:
 
