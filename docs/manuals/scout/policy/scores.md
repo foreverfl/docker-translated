@@ -12,11 +12,9 @@ keywords:
   - docker hub
 ---
 
-{{% restricted title="Beta" %}}
 Health scores is a [Beta](/release-lifecycle/#beta) feature of Docker Scout.
 The feature is only available to organizations selected to participate in the
 early access program.
-{{% /restricted %}}
 
 Docker Scout health scores provide a security assessment, and overall supply
 chain health, of images on Docker Hub, helping you determine whether an image

@@ -9,9 +9,7 @@ keywords:
   - automation
 ---
 
-{{% experimental title="Beta feature" %}}
 Remediation with Docker Scout is currently in [Beta](../../release-lifecycle.md#Beta).
-{{% /experimental %}}
 
 Docker Scout helps you remediate supply chain or security issues by providing
 recommendations based on policy evaluation results. Recommendations are

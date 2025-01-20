@@ -7,9 +7,7 @@ description: |
 weight: 30
 ---
 
-{{% restricted title="Early Access" %}}
 The Docker for GitHub Copilot extension is an [early access](/release-lifecycle#early-access-ea) product.
-{{% /restricted %}}
 
 ## Use cases
 

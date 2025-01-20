@@ -97,9 +97,6 @@ The following example defines the version of `node` and `alpine` using build arg
 ```dockerfile
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION="{{% param example_node_version %}}"
-ARG ALPINE_VERSION="{{% param example_alpine_version %}}"
-
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS base
 WORKDIR /src
 

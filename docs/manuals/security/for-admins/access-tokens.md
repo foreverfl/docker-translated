@@ -10,9 +10,7 @@ keywords:
 linkTitle: Organization access tokens (Beta)
 ---
 
-{{% experimental title="Beta" %}}
 The organization access tokens feature is currently in [Beta](../../release-lifecycle.md#beta).
-{{% /experimental %}}
 
 > [!WARNING]
 >

@@ -9,7 +9,6 @@ params:
       text: Beta
 ---
 
-{{% restricted title=Beta %}}
 Ask Gordon is a [Beta](/manuals/release-lifecycle.md) feature, and only members
 of the Ask Gordon beta program can access it. Features, user interface, and
 behavior are subject to change in future releases.
@@ -17,7 +16,6 @@ behavior are subject to change in future releases.
 <Button href="https://docker.qualtrics.com/jfe/form/SV_dmVHFjQ4fZlrEOy">
 Apply for access
 </Button>
-{{% /restricted %}}
 
 Ask Gordon is your personal AI assistant embedded in Docker Desktop and the
 Docker CLI. It's designed to streamline your workflow and help you make the

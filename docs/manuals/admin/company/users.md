@@ -11,8 +11,6 @@ title: Manage company users
 
 You can manage users at the company-level in the Docker Admin Console.
 
-{{% admin-users product="admin" layer="company" %}}
-
 <Include file="admin-early-access.md" />
 
 ## Manage members on a team

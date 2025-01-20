@@ -14,9 +14,7 @@ aliases:
 - /run-cloud/
 ---
 
-{{% restricted title="Private preview" %}}
 Project Harmonia is in Private preview.
-{{% /restricted %}}
 
 Project Harmonia brings the power of the cloud to your local development workflow. You can now run your applications in the cloud whilst continuing to use your existing tools and workflows and without worrying about local resource limitations. Project Harmonia also lets you share previews of your cloud-based applications for real-time feedback. 
 

@@ -38,9 +38,7 @@ message that caused the build to fail:
 
 {{< introduced desktop 4.31 >}}
 
-{{% experimental title="Beta feature" %}}
 Import builds is currently in [Beta](../../../release-lifecycle.md#Beta).
-{{% /experimental %}}
 
 The job summary includes a link for downloading a build record archive for the
 run. The build record archive is a ZIP file containing the details about a build

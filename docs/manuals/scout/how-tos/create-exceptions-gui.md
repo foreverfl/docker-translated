@@ -42,7 +42,6 @@ Dashboard or Docker Desktop:
    expand the package.
 6. Select the **Create exception** button next to the vulnerability.
 
-{{% create_panel.inline %}}
 Selecting the **Create exception** button opens the **Create exception** side panel.
 In this panel, you can provide the details of the exception:
 
@@ -85,8 +84,6 @@ images that you selected. The exception is also listed on the **Exceptions**
 tab of the [Vulnerabilities page](https://scout.docker.com/reports/vulnerabilities/exceptions)
 in the Docker Scout Dashboard.
 
-{{% /create_panel.inline %}}
-
 {{< /tab >}}
 {{< tab name="Docker Desktop" >}}
 
@@ -99,8 +96,6 @@ in the Docker Scout Dashboard.
 5. In the **Vulnerabilities** tab, find the vulnerability you want to create an
    exception for.
 6. Select the **Create exception** button next to the vulnerability.
-
-{{% create_panel.inline / %}}
 
 {{< /tab >}}
 {{< /tabs >}}

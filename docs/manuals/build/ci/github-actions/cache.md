@@ -90,12 +90,9 @@ jobs:
 
 ### Cache backend API
 
-{{% experimental %}}
 This cache exporter is experimental. Please provide feedback on the
 [BuildKit repository](https://github.com/moby/buildkit)
 if you experience any issues.
-{{% /experimental %}}
-
 The [GitHub Actions cache exporter](../../cache/backends/gha.md)
 backend uses the [GitHub Cache API](https://github.com/tonistiigi/go-actions-cache/blob/master/api.md)
 to fetch and upload cache blobs. That's why you should only use this cache

@@ -33,14 +33,10 @@ You first need to [enforce sign-in](/manuals/security/for-admins/enforce-sign-in
 {{< tabs >}}
 {{< tab name="Docker Hub" >}}
 
-{{% admin-image-access product="hub" %}}
-
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
 <Include file="admin-early-access.md" />
-
-{{% admin-image-access product="admin" %}}
 
 {{< /tab >}}
 {{< /tabs >}}

@@ -50,14 +50,10 @@ Before you audit your domains, review the following required prerequisites:
 {{< tabs >}}
 {{< tab name="Docker Hub" >}}
 
-{{% admin-domain-audit product="hub" %}}
-
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
 <Include file="admin-early-access.md" />
-
-{{% admin-domain-audit product="admin" %}}
 
 {{< /tab >}}
 {{< /tabs >}}

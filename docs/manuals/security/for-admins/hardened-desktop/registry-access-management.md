@@ -47,14 +47,10 @@ feature always takes effect.
 {{< tabs >}}
 {{< tab name="Docker Hub" >}}
 
-{{% admin-registry-access product="hub" %}}
-
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
 <Include file="admin-early-access.md" />
-
-{{% admin-registry-access product="admin" %}}
 
 {{< /tab >}}
 {{< /tabs >}}

@@ -19,14 +19,10 @@ Learn how to manage members for your organization in Docker Hub and the Docker A
 {{< tabs >}}
 {{< tab name="Docker Hub" >}}
 
-{{% admin-users product="hub" %}}
-
 {{< /tab >}}
 {{< tab name="Admin Console" >}}
 
 <Include file="admin-early-access.md" />
-
-{{% admin-users product="admin" %}}
 
 {{< /tab >}}
 {{< /tabs >}}

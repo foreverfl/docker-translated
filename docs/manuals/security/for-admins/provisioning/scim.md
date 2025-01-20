@@ -60,12 +60,8 @@ You must [configure SSO](../single-sign-on/configure/_index.md) before you enabl
 
 <Include file="admin-early-access.md" />
 
-{{% admin-scim product="admin" %}}
-
 {{< /tab >}}
 {{< tab name="Docker Hub" >}}
-
-{{% admin-scim %}}
 
 {{< /tab >}}
 {{< /tabs >}}
@@ -257,12 +253,8 @@ If SCIM is disabled, any user provisioned through SCIM will remain in the organi
 
 <Include file="admin-early-access.md" />
 
-{{% admin-scim-disable product="admin" %}}
-
 {{< /tab >}}
 {{< tab name="Docker Hub" >}}
-
-{{% admin-scim-disable %}}
 
 {{< /tab >}}
 {{< /tabs >}}

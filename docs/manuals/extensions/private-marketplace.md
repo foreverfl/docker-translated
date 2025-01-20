@@ -16,9 +16,7 @@ aliases:
  - /desktop/extensions/private-marketplace/
 ---
 
-{{% experimental title="Beta" %}}
 This feature is currently in [Beta](/manuals/release-lifecycle.md#beta). It is available to Docker Business customers only.
-{{% /experimental %}}
 
 Learn how to configure and set up a private marketplace with a curated list of extensions for your Docker Desktop users.
 

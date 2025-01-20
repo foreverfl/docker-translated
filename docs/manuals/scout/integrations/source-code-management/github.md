@@ -12,9 +12,7 @@ keywords:
   - source code
 ---
 
-{{% experimental title="Beta feature" %}}
 The GitHub integration is currently in [Beta](../../../release-lifecycle.md#Beta).
-{{% /experimental %}}
 
 The GitHub app integration for Docker Scout grants Docker Scout access to your
 source code repository on GitHub. This improved visibility into how your image

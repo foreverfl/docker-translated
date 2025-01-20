@@ -22,9 +22,7 @@ keywords:
   - containerization
 ---
 
-{{% restricted title="Early Access" %}}
 The Docker for GitHub Copilot extension is an [early access](/release-lifecycle#early-access-ea) product.
-{{% /restricted %}}
 
 The [Docker for GitHub Copilot](https://github.com/marketplace/docker-for-github-copilot)
 extension integrates Docker's capabilities with GitHub Copilot, providing

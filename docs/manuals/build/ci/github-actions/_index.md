@@ -45,7 +45,6 @@ flexibility for customizing build parameters.
 If you're looking for examples on how to use the Docker GitHub Actions,
 refer to the following sections:
 
-{{% sectionlinks %}}
 
 ## Get started with GitHub Actions
 
