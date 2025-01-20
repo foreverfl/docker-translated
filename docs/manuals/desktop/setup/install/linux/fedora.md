@@ -9,8 +9,9 @@ keywords:
   - update
   - linux
   - desktop
-  - 
-  docker desktop, docker desktop for linux, dd4l
+  - docker desktop
+  - docker desktop for linux
+  - dd4l
 title: Install Docker Desktop on Fedora
 linkTitle: Fedora
 weight: 30

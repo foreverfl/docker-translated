@@ -8,7 +8,10 @@ keywords:
   - resources
   - kubernetes
   - Docker
-  Desktop, Linux, Mac, Windows
+  - Desktop
+  - Linux
+  - Mac
+  - Windows
 title: Change your Docker Desktop settings
 linkTitle: Change settings
 aliases:

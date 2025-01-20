@@ -9,8 +9,8 @@ keywords:
   - linux
   - desktop
   - docker desktop
-  - 
-  docker desktop for linux, dd4l
+  - docker desktop for linux
+  - dd4l
 title: Install Docker Desktop on Debian
 linkTitle: Debian
 weight: 20

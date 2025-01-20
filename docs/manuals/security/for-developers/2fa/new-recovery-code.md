@@ -7,8 +7,8 @@ keywords:
   - security
   - Docker Hub
   - authentication
-  - two-factor
-  authentication, account security
+  - two-factor authentication
+  - account security
 title: Generate a new recovery code
 aliases:
 - /docker-hub/2fa/new-recovery-code/

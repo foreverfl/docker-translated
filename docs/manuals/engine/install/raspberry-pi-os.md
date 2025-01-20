@@ -10,8 +10,7 @@ keywords:
   - install
   - uninstall
   - upgrade
-  - 
-  update
+  - update
 title: Install Docker Engine on Raspberry Pi OS (32-bit)
 linkTitle: Raspberry Pi OS (32-bit)
 weight: 50

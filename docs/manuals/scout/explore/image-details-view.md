@@ -9,10 +9,9 @@ keywords:
   - image
   - tag
   - scan
-  - 
-  analysis, analyze
-description: The Docker Scout image detail view analyzes images to show their hierarchy,
-  layers, packages, and vulnerabilities
+  - analysis
+  - analyze
+description: The Docker Scout image detail view analyzes images to show their hierarchy,layers, packages, and vulnerabilities
 aliases:
   - /scout/image-details-view
 ---

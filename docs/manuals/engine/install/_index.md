@@ -8,9 +8,14 @@ keywords:
   - install engine
   - docker engine install
   - install docker engine
-  - docker engine
-  installation, engine install, docker ce installation, docker ce install, engine
-  installer, installing docker engine, docker server install, docker desktop vs docker engine
+  - docker engine installation
+  - engine install
+  - docker ce installation
+  - docker ce install
+  - engine installer
+  - installing docker engine
+  - docker server install
+  - docker desktop vs docker engine
 aliases:
 - /cs-engine/
 - /cs-engine/1.12/

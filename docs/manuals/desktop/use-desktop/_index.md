@@ -8,8 +8,7 @@ keywords:
   - dashboard
   - images
   - user manual
-  - 
-  whale menu
+  - whale menu
 title: Explore Docker Desktop
 weight: 30
 aliases:

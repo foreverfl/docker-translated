@@ -9,8 +9,9 @@ keywords:
   - dashboard
   - images
   - user manual
-  - 
-  learning center, guide, sign in
+  - learning center
+  - guide
+  - sign in
 title: Sign in to Docker Desktop
 linkTitle: Sign in
 weight: 40

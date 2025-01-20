@@ -9,8 +9,13 @@ keywords:
   - docker
   - documentation
   - examples
-  - 
-  names, name, container naming, port, map, network port, network
+  - names
+  - name
+  - container naming
+  - port
+  - map
+  - network port
+  - network
 title: Legacy container links
 aliases:
 - /userguide/dockerlinks/

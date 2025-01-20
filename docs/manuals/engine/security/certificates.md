@@ -9,8 +9,12 @@ keywords:
   - certificate
   - docker
   - apache
-  - 
-  ssl, tls, documentation, examples, articles, tutorials
+  - ssl
+  - tls
+  - documentation
+  - examples
+  - articles
+  - tutorials
 title: Verify repository client with certificates
 aliases:
 - /articles/certificates/

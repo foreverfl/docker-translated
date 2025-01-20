@@ -12,8 +12,7 @@ keywords:
   - install
   - uninstall
   - upgrade
-  - 
-  update
+  - update
 title: Install Docker Engine on Fedora
 linkTitle: Fedora
 weight: 40

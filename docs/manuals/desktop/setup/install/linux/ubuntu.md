@@ -5,10 +5,14 @@ keywords:
   - install docker ubuntu
   - ubuntu install docker
   - install docker on ubuntu
-  - 
-  docker install ubuntu, how to install docker on ubuntu, ubuntu docker install, docker
-  installation on ubuntu, docker ubuntu install, docker installing ubuntu, installing
-  docker on ubuntu, docker desktop for ubuntu
+  - docker install ubuntu
+  - how to install docker on ubuntu
+  - ubuntu docker install
+  - docker installation on ubuntu
+  - docker ubuntu install
+  - docker installing ubuntu
+  - installing docker on ubuntu
+  - docker desktop for ubuntu
 title: Install Docker Desktop on Ubuntu
 linkTitle: Ubuntu
 weight: 10

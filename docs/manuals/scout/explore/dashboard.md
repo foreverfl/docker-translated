@@ -9,8 +9,8 @@ keywords:
   - supply chain
   - security
   - report
-  - 
-  reports, dashboard
+  - reports
+  - dashboard
 title: Dashboard
 aliases:
 - /scout/reports/

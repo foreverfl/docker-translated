@@ -8,8 +8,10 @@ keywords:
   - Windows
   - Dev Environments
   - Extensions
-  - 
-  Community forum, bugs, problems, issues
+  - Community forum
+  - bugs
+  - problems
+  - issues
 title: Give feedback
 weight: 40
 ---

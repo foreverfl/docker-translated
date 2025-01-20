@@ -8,7 +8,7 @@ keywords:
   - Docker Hub
   - authentication
   - two-factor
-  authentication
+  - authentication
 title: Recover your Docker account
 aliases:
 - /docker-hub/2fa/recover-hub-account/

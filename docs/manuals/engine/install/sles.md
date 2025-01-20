@@ -11,8 +11,10 @@ keywords:
   - sles
   - install
   - uninstall
-  - 
-  upgrade, update, s390x, ibm-z
+  - upgrade
+  - update
+  - s390x
+  - ibm-z
 title: Install Docker Engine on SLES (s390x)
 linkTitle: SLES (s390x)
 weight: 70

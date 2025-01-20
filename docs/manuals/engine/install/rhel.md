@@ -11,8 +11,7 @@ keywords:
   - install docker engine
   - uninstall
   - upgrade
-  - 
-  update
+  - update
 title: Install Docker Engine on RHEL
 linkTitle: RHEL
 weight: 30

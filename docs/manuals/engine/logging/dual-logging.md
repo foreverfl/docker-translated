@@ -1,11 +1,14 @@
 ---
-description: >
-  Learn how to read container logs locally when using a third party logging
-  solution.
+description: Learn how to read container logs locally when using a third party logging solution.
 keywords:
-  - >
-  docker, logging, driver, dual logging, dual logging, cache, ring-buffer,
-  configuration
+  - docker
+  - logging
+  - driver
+  - dual logging
+  - dual logging
+  - cache
+  - ring-buffer
+  - configuration
 title: Use docker logs with remote logging drivers
 aliases:
   - /config/containers/logging/dual-logging/

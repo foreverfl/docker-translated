@@ -9,8 +9,8 @@ keywords:
   - distribution
   - mirror
   - Hub
-  - 
-  recipe, advanced
+  - recipe
+  - advanced
 title: Mirror the Docker Hub library
 linkTitle: Mirror
 weight: 80
