@@ -18,8 +18,6 @@ keywords:
   - lint
 ---
 
-{{< introduced buildx 0.15.0 >}}
-
 Build checks are a feature introduced in Dockerfile 1.8. It lets you validate
 your build configuration and conduct a series of checks prior to executing your
 build. Think of it as an advanced form of linting for your Dockerfile and build

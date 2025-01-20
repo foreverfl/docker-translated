@@ -10,8 +10,6 @@ aliases:
   - /compose/multiple-compose-files/include/
 ---
 
-{{< introduced compose 2.20.3 "/manuals/compose/releases/release-notes.md#2203" >}}
-
 <Include file="compose/include.md" />
 
 The [`include` top-level element](/reference/compose-file/include.md) helps to reflect the engineering team responsible for the code directly in the config file's organization. It also solves the relative path problem that [`extends`](extends.md) and [merge](merge.md) present.

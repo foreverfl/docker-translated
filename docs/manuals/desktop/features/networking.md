@@ -10,14 +10,14 @@ keywords:
   - Windows
 title: Explore networking features on Docker Desktop
 aliases:
-- /desktop/linux/networking/
-- /docker-for-mac/networking/
-- /mackit/networking/
-- /desktop/mac/networking/
-- /docker-for-win/networking/
-- /docker-for-windows/networking/
-- /desktop/windows/networking/
-- /desktop/networking/
+  - /desktop/linux/networking/
+  - /docker-for-mac/networking/
+  - /mackit/networking/
+  - /desktop/mac/networking/
+  - /docker-for-win/networking/
+  - /docker-for-windows/networking/
+  - /desktop/windows/networking/
+  - /desktop/networking/
 weight: 50
 ---
 
@@ -56,23 +56,21 @@ syntax for `-p` is `HOST_PORT:CLIENT_PORT`.
 
 See [Proxies](/manuals/desktop/settings-and-maintenance/settings.md#proxies)
 
-### SOCKS5 proxy support 
-
-{{< introduced desktop 4.28.0 "../release-notes.md#4280" >}}
+### SOCKS5 proxy support
 
 > [!NOTE]
 >
 > Requires a Business subscription.
 
-SOCKS (Socket Secure) is a protocol that facilitates the routing of network packets between a client and a server through a proxy server. It provides a way to enhance privacy, security, and network performance for users and applications. 
+SOCKS (Socket Secure) is a protocol that facilitates the routing of network packets between a client and a server through a proxy server. It provides a way to enhance privacy, security, and network performance for users and applications.
 
-You can enable SOCKS proxy support to allow outgoing requests, such as pulling images, and access Linux container backend IPs from the host. 
+You can enable SOCKS proxy support to allow outgoing requests, such as pulling images, and access Linux container backend IPs from the host.
 
 To enable and set up SOCKS proxy support:
 
-1. Navigate to the **Resources** tab in **Settings**. 
+1. Navigate to the **Resources** tab in **Settings**.
 2. From the dropdown menu select **Proxies**.
-3. Switch on the **Manual proxy configuration** toggle. 
+3. Switch on the **Manual proxy configuration** toggle.
 4. In the **Secure Web Server HTTPS** box, paste your `socks5://host:port` URL.
 
 ## Networking features for Mac and Linux
@@ -89,13 +87,13 @@ Docker Desktop on Mac and Linux allows you to use the host’s SSH agent inside 
 
 2. Add the `SSH_AUTH_SOCK` environment variable in your container:
 
-    ```console
-    $ -e SSH_AUTH_SOCK="/run/host-services/ssh-auth.sock"
-    ```
+   ```console
+   $ -e SSH_AUTH_SOCK="/run/host-services/ssh-auth.sock"
+   ```
 
 To enable the SSH agent in Docker Compose, add the following flags to your service:
 
- ```yaml
+```yaml
 services:
   web:
     image: nginx:alpine
@@ -105,7 +103,7 @@ services:
         target: /run/host-services/ssh-auth.sock
     environment:
       - SSH_AUTH_SOCK=/run/host-services/ssh-auth.sock
- ```
+```
 
 ## Known limitations
 
@@ -129,7 +127,7 @@ ping the Windows containers.
 This is because the Docker `bridge` network is not reachable from the host.
 However if you are a Windows user, per-container IP addressing is possible with Windows containers.
 
-## Use cases and workarounds 
+## Use cases and workarounds
 
 ### I want to connect from a container to a service on the host
 
@@ -143,18 +141,18 @@ If you have installed Python on your machine, use the following instructions as 
 
 1. Run the following command to start a simple HTTP server on port 8000.
 
-    `python -m http.server 8000`
+   `python -m http.server 8000`
 
-    If you have installed Python 2.x, run `python -m SimpleHTTPServer 8000`.
+   If you have installed Python 2.x, run `python -m SimpleHTTPServer 8000`.
 
 2. Now, run a container, install `curl`, and try to connect to the host using the following commands:
 
-    ```console
-    $ docker run --rm -it alpine sh
-    # apk add curl
-    # curl http://host.docker.internal:8000
-    # exit
-    ```
+   ```console
+   $ docker run --rm -it alpine sh
+   # apk add curl
+   # curl http://host.docker.internal:8000
+   # exit
+   ```
 
 ### I want to connect to a container from the host
 

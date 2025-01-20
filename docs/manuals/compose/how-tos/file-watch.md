@@ -10,8 +10,6 @@ aliases:
   - /compose/file-watch/
 ---
 
-{{< introduced compose 2.22.0 "/manuals/compose/releases/release-notes.md#2220" >}}
-
 <Include file="compose/watch.md" />
 
 `watch` adheres to the following file path rules:

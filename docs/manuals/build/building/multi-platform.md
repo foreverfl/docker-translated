@@ -56,7 +56,7 @@ configuration and a single set of layers. Multi-platform images contain a
 manifest list, pointing to multiple manifests, each of which points to a
 different configuration and set of layers.
 
-![Multi-platform image structure](/build/images/single-vs-multiplatform-image.svg)
+<!-- ![Multi-platform image structure](/build/images/single-vs-multiplatform-image.svg) -->
 
 When you push a multi-platform image to a registry, the registry stores the
 manifest list and all the individual manifests. When you pull the image, the

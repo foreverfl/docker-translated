@@ -9,11 +9,9 @@ keywords:
   - proxy
   - network
 aliases:
- - /desktop/hardened-desktop/settings-management/air-gapped-containers/
- - /desktop/hardened-desktop/air-gapped-containers/
+  - /desktop/hardened-desktop/settings-management/air-gapped-containers/
+  - /desktop/hardened-desktop/air-gapped-containers/
 ---
-
-{{< introduced desktop 4.29.0 "/manuals/desktop/release-notes.md#4290" >}}
 
 Air-gapped containers let you restrict containers from accessing network resources, limiting where data can be uploaded to or downloaded from.
 
@@ -67,13 +65,13 @@ The following is an example PAC file:
 
 ```javascript
 function FindProxyForURL(url, host) {
-	if (localHostOrDomainIs(host, 'internal.corp')) {
-		return "PROXY 10.0.0.1:3128";
-	}
-	if (isInNet(host, "192.168.0.0", "255.255.255.0")) {
-	    return "DIRECT";
-	}
-    return "PROXY reject.docker.internal:1234";
+  if (localHostOrDomainIs(host, "internal.corp")) {
+    return "PROXY 10.0.0.1:3128";
+  }
+  if (isInNet(host, "192.168.0.0", "255.255.255.0")) {
+    return "DIRECT";
+  }
+  return "PROXY reject.docker.internal:1234";
 }
 ```
 

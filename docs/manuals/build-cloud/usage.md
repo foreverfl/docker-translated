@@ -42,7 +42,7 @@ $ docker buildx use cloud-<ORG>-<BUILDER_NAME> --global
 2. Find the cloud builder under **Available builders**.
 3. Open the drop-down menu and select **Use**.
 
-   ![Selecting the cloud builder as default using the Docker Desktop GUI](/build/images/set-default-builder-gui.webp)
+   <!-- ![Selecting the cloud builder as default using the Docker Desktop GUI](/build/images/set-default-builder-gui.webp) -->
 
 </TabItem>
 </Tabs>
@@ -199,6 +199,6 @@ including OCI registries, must be accessible over the internet.
 
 > **Interested in trying out an experimental feature?**
 >
->We are currently testing an experimental feature which lets cloud builders access internal resources. 
+> We are currently testing an experimental feature which lets cloud builders access internal resources.
 >
 > If you're interested in trying this feature, contact us using the [Support form](https://hub.docker.com/support/contact?topic=Docker+Build+Cloud&subject=Private+registry+access).

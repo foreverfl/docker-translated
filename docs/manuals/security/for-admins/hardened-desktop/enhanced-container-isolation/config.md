@@ -9,7 +9,7 @@ keywords:
   - bind mount
   - configuration
 aliases:
- - /desktop/hardened-desktop/enhanced-container-isolation/config/
+  - /desktop/hardened-desktop/enhanced-container-isolation/config/
 weight: 30
 ---
 
@@ -22,6 +22,7 @@ Docker Engine socket into containers:
 $ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock docker:cli
 docker: Error response from daemon: enhanced container isolation: docker socket mount denied for container with image "docker.io/library/docker"; image is not in the allowed list; if you wish to allow it, configure the docker socket image list in the Docker Desktop settings.
 ```
+
 This prevents malicious containers from gaining access to the Docker Engine, as
 such access could allow them to perform supply chain attacks. For example, build and
 push malicious images into the organization's repositories or similar.
@@ -38,7 +39,6 @@ bind mounting the Docker Engine socket into containers, but in a controlled way.
 
 This can be done via the Docker Socket mount permissions section in the
 [`admin-settings.json`](../settings-management/configure-json-file.md) file. For example:
-
 
 ```json
 {
@@ -79,9 +79,9 @@ Docker socket. By default the list is empty, no containers are allowed to
 bind-mount the Docker socket when ECI is enabled. However, an administrator can add
 images to the list, using either of these formats:
 
-| Image Reference Format  | Description |
-| :---------------------- | :---------- |
-| `<image_name>[:<tag>]`  | Name of the image, with optional tag. If the tag is omitted, the `:latest` tag is used. If the tag is the wildcard `*`, then it means "any tag for that image." |
+| Image Reference Format  | Description                                                                                                                                                                                     |
+| :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<image_name>[:<tag>]`  | Name of the image, with optional tag. If the tag is omitted, the `:latest` tag is used. If the tag is the wildcard `*`, then it means "any tag for that image."                                 |
 | `<image_name>@<digest>` | Name of the image, with a specific repository digest (e.g., as reported by `docker buildx imagetools inspect <image>`). This means only the image that matches that name and digest is allowed. |
 
 The image name follows the standard convention, so it can point to any registry
@@ -141,8 +141,6 @@ ones in the repository.
 
 ### Docker Socket Mount Permissions for derived images
 
-{{< introduced desktop 4.34.0 "../../../../desktop/release-notes.md#4340" >}}
-
 As described in the prior section, administrators can configure the list of container
 images that are allowed to mount the Docker socket via the `imageList`.
 
@@ -185,20 +183,20 @@ you disable this setting unless you know it's required.
 
 A few caveats:
 
-* Setting `"allowedDerivedImages" :true` will impact the startup time of
+- Setting `"allowedDerivedImages" :true` will impact the startup time of
   containers by up to 1 extra second, as Docker Desktop needs to perform
   some more checks on the container image.
 
-* The `allowDerivedImages` setting only applies to local-only images built from
+- The `allowDerivedImages` setting only applies to local-only images built from
   an allowed image. That is, the derived image must not be present in a remote
   repository because if it were, you would just list its name in the `imageList`.
 
-* For derived image checking to work, the parent image (i.e., the image in the
+- For derived image checking to work, the parent image (i.e., the image in the
   `imageList`) must be present locally (i.e., must have been explicitly pulled
   from a repository). This is usually not a problem as the tools that need this
   feature (e.g., Paketo buildpacks) will do the pre-pull of the parent image.
 
-* For Docker Desktop versions 4.34 and 4.35 only: The `allowDerivedImages` setting
+- For Docker Desktop versions 4.34 and 4.35 only: The `allowDerivedImages` setting
   applies to all images in the `imageList` specified with an explicit tag (e.g.,
   `<name>:<tag>`). It does not apply to images specified using the tag wildcard
   (e.g., `<name>:*`) described in the prior section. In Docker Desktop 4.36 and
@@ -256,14 +254,14 @@ Each command in the list is specified by its name, as reported by `docker
 --help` (e.g., "ps", "build", "pull", "push", etc.) In addition, the following
 command wildcards are allowed to block an entire group of commands:
 
-| Command wildcard  | Description |
-| :---------------- | :---------- |
-| "container\*"     | Refers to all "docker container ..." commands |
-| "image\*"         | Refers to all "docker image ..." commands |
-| "volume\*"        | Refers to all "docker volume ..." commands |
-| "network\*"       | Refers to all "docker network ..." commands |
-| "build\*"         | Refers to all "docker build ..." commands |
-| "system\*"        | Refers to all "docker system ..." commands |
+| Command wildcard | Description                                   |
+| :--------------- | :-------------------------------------------- |
+| "container\*"    | Refers to all "docker container ..." commands |
+| "image\*"        | Refers to all "docker image ..." commands     |
+| "volume\*"       | Refers to all "docker volume ..." commands    |
+| "network\*"      | Refers to all "docker network ..." commands   |
+| "build\*"        | Refers to all "docker build ..." commands     |
+| "system\*"       | Refers to all "docker system ..." commands    |
 
 For example, the following configuration blocks the `build` and `push` commands
 on the Docker socket:
@@ -296,15 +294,15 @@ Whether to configure the list as an allow or deny list depends on the use case.
 
 ### Recommendations
 
-* Be restrictive on the list of container images for which you allow bind-mounting
+- Be restrictive on the list of container images for which you allow bind-mounting
   of the Docker socket (i.e., the `imageList`). Generally, only allow this for
   images that are absolutely needed and that you trust.
 
-* Use the tag wildcard format if possible in the `imageList`
+- Use the tag wildcard format if possible in the `imageList`
   (e.g., `<image_name>:*`), as this eliminates the need to update the
   `admin-settings.json` file due to image tag changes.
 
-* In the `commandList`, block commands that you don't expect the container to
+- In the `commandList`, block commands that you don't expect the container to
   execute. For example, for local testing (e.g., Testcontainers), containers
   that bind-mount the Docker socket typically create / run / remove containers,
   volumes, and networks, but don't typically build images or push them into
@@ -318,7 +316,7 @@ Whether to configure the list as an allow or deny list depends on the use case.
 
 ### Caveats and limitations
 
-* When Docker Desktop is restarted, it's possible that an image that is allowed
+- When Docker Desktop is restarted, it's possible that an image that is allowed
   to mount the Docker socket is unexpectedly blocked from doing so. This can
   happen when the image digest changes in the remote repository (e.g., a
   ":latest" image was updated) and the local copy of that image (e.g., from a
@@ -326,7 +324,7 @@ Whether to configure the list as an allow or deny list depends on the use case.
   this case, remove the local image and pull it again (e.g., `docker rm <image>`
   and `docker pull <image>`).
 
-* It's not possible to allow Docker socket bind-mounts on containers using
+- It's not possible to allow Docker socket bind-mounts on containers using
   local-only images (i.e., images that are not on a registry) unless they are
   [derived from an allowed image](#docker-socket-mount-permissions-for-derived-images)
   or you've [allowed all containers to mount the Docker socket](#allowing-all-containers-to-mount-the-docker-socket).
@@ -334,24 +332,24 @@ Whether to configure the list as an allow or deny list depends on the use case.
   the registry, and then uses that to compare against the local copy of the
   image.
 
-* The `commandList` configuration applies to all containers that are allowed to
+- The `commandList` configuration applies to all containers that are allowed to
   bind-mount the Docker socket. Therefore it can't be configured differently per
   container.
 
-* The following commands are not yet supported in the `commandList`:
+- The following commands are not yet supported in the `commandList`:
 
-| Unsupported command  | Description |
-| :------------------- | :---------- |
-| `compose`              | Docker Compose |
-| `dev`                  | Dev environments |
-| `extension`            | Manages Docker Extensions |
-| `feedback`             | Send feedback to Docker |
-| `init`                 | Creates Docker-related starter files |
-| `manifest`             | Manages Docker image manifests |
-| `plugin`              | Manages plugins |
-| `sbom`                 | View Software Bill of Materials (SBOM) |
-| `scout`                | Docker Scout |
-| `trust`                | Manage trust on Docker images |
+| Unsupported command | Description                            |
+| :------------------ | :------------------------------------- |
+| `compose`           | Docker Compose                         |
+| `dev`               | Dev environments                       |
+| `extension`         | Manages Docker Extensions              |
+| `feedback`          | Send feedback to Docker                |
+| `init`              | Creates Docker-related starter files   |
+| `manifest`          | Manages Docker image manifests         |
+| `plugin`            | Manages plugins                        |
+| `sbom`              | View Software Bill of Materials (SBOM) |
+| `scout`             | Docker Scout                           |
+| `trust`             | Manage trust on Docker images          |
 
 > [!NOTE]
 >

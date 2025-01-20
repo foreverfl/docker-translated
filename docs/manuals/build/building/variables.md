@@ -12,9 +12,9 @@ keywords:
   - environment variables
   - config
 aliases:
-- /build/buildkit/color-output-controls/
-- /build/building/env-vars/
-- /build/guide/build-args/
+  - /build/buildkit/color-output-controls/
+  - /build/building/env-vars/
+  - /build/guide/build-args/
 ---
 
 In Docker Build, build arguments (`ARG`) and environment variables (`ENV`)
@@ -228,7 +228,7 @@ RUN echo "hello $NAME!"
 The following diagram further exemplifies how build argument
 and environment variable inheritance works for multi-stage builds.
 
-{{< figure src="../../images/build-variables.svg" class="invertible" >}}
+<!-- {{< figure src="../../images/build-variables.svg" class="invertible" >}} -->
 
 ## Pre-defined build arguments
 
@@ -356,8 +356,6 @@ Setting `NO_COLOR` to anything turns off colorized output, as recommended by
 
 ### BUILDKIT_HOST
 
-{{< introduced buildx 0.9.0 "../release-notes.md#090" >}}
-
 You use the `BUILDKIT_HOST` to specify the address of a BuildKit daemon to use
 as a remote builder. This is the same as specifying the address as a positional
 argument to `docker buildx create`.
@@ -427,7 +425,9 @@ Example:
         "identifier": "https://raw.githubusercontent.com/moby/buildkit/v0.10.1/README.md"
       },
       "updates": {
-        "attrs": {"http.checksum": "sha256:6e4b94fc270e708e1068be28bd3551dc6917a4fc5a61293d51bb36e6b75c4b53"}
+        "attrs": {
+          "http.checksum": "sha256:6e4b94fc270e708e1068be28bd3551dc6917a4fc5a61293d51bb36e6b75c4b53"
+        }
       }
     },
     {
@@ -442,8 +442,6 @@ Example:
 
 ### BUILDX_BAKE_GIT_AUTH_HEADER
 
-{{< introduced buildx 0.14.0 >}}
-
 Sets the HTTP authentication scheme when using a remote Bake definition in a private Git repository.
 This is equivalent to the [`GIT_AUTH_HEADER` secret](./secrets#http-authentication-scheme),
 but facilitates the pre-flight authentication in Bake when loading the remote Bake file.
@@ -457,8 +455,6 @@ $ export BUILDX_BAKE_GIT_AUTH_HEADER=basic
 
 ### BUILDX_BAKE_GIT_AUTH_TOKEN
 
-{{< introduced buildx 0.14.0 >}}
-
 Sets the HTTP authentication token when using a remote Bake definition in a private Git repository.
 This is equivalent to the [`GIT_AUTH_TOKEN` secret](./secrets#git-authentication-for-remote-contexts),
 but facilitates the pre-flight authentication in Bake when loading the remote Bake file.
@@ -470,8 +466,6 @@ $ export BUILDX_BAKE_GIT_AUTH_TOKEN=$(cat git-token.txt)
 ```
 
 ### BUILDX_BAKE_GIT_SSH
-
-{{< introduced buildx 0.14.0 >}}
 
 Lets you specify a list of SSH agent socket filepaths to forward to Bake
 for authenticating to a Git server when using a remote Bake definition in a private repository.
@@ -516,8 +510,6 @@ $ export BUILDX_CONFIG=/usr/local/etc
 
 ### BUILDX_CPU_PROFILE
 
-{{< introduced buildx 0.18.0 >}}
-
 If specified, Buildx generates a `pprof` CPU profile at the specified location.
 
 > [!NOTE]
@@ -542,8 +534,6 @@ $ export BUILDX_EXPERIMENTAL=1
 
 ### BUILDX_GIT_CHECK_DIRTY
 
-{{< introduced buildx 0.10.4 "../release-notes.md#0104" >}}
-
 When set to true, checks for dirty state in source control information for
 [provenance attestations](/manuals/build/metadata/attestations/slsa-provenance.md).
 
@@ -555,8 +545,6 @@ $ export BUILDX_GIT_CHECK_DIRTY=1
 
 ### BUILDX_GIT_INFO
 
-{{< introduced buildx 0.10.0 "../release-notes.md#0100" >}}
-
 When set to false, removes source control information from
 [provenance attestations](/manuals/build/metadata/attestations/slsa-provenance.md).
 
@@ -567,8 +555,6 @@ $ export BUILDX_GIT_INFO=0
 ```
 
 ### BUILDX_GIT_LABELS
-
-{{< introduced buildx 0.10.0 "../release-notes.md#0100" >}}
 
 Adds provenance labels, based on Git information, to images that you build. The
 labels are:
@@ -597,8 +583,6 @@ If the repository is in a dirty state, the `revision` gets a `-dirty` suffix.
 
 ### BUILDX_MEM_PROFILE
 
-{{< introduced buildx 0.18.0 >}}
-
 If specified, Buildx generates a `pprof` memory profile at the specified
 location.
 
@@ -613,8 +597,6 @@ $ export BUILDX_MEM_PROFILE=buildx_mem.prof
 ```
 
 ### BUILDX_NO_DEFAULT_ATTESTATIONS
-
-{{< introduced buildx 0.10.4 "../release-notes.md#0104" >}}
 
 By default, BuildKit v0.11 and later adds
 [provenance attestations](/manuals/build/metadata/attestations/slsa-provenance.md) to images you
