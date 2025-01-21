@@ -26,8 +26,8 @@ use the built-in `env` property on the build step.
 
 The following example sets the `SOURCE_DATE_EPOCH` variable to 0, Unix epoch.
 
-{{< tabs group="action" >}}
-<TabItem value="`docker/build-push-action`" label="`docker/build-push-action`">
+<Tabs>
+<TabItem value="docker/build-push-action" label="docker/build-push-action">
 
 ```yaml
 name: ci
@@ -51,7 +51,7 @@ jobs:
 ```
 
 </TabItem>
-<TabItem value="`docker/bake-action`" label="`docker/bake-action`">
+<TabItem value="docker/bake-action" label="docker/bake-action">
 
 ```yaml
 name: ci
@@ -79,8 +79,8 @@ jobs:
 
 The following example sets `SOURCE_DATE_EPOCH` to the Git commit timestamp.
 
-{{< tabs group="action" >}}
-<TabItem value="`docker/build-push-action`" label="`docker/build-push-action`">
+<Tabs>
+<TabItem value="docker/build-push-action" label="docker/build-push-action">
 
 ```yaml
 name: ci
@@ -107,7 +107,7 @@ jobs:
 ```
 
 </TabItem>
-<TabItem value="`docker/bake-action`" label="`docker/bake-action`">
+<TabItem value="docker/bake-action" label="docker/bake-action">
 
 ```yaml
 name: ci

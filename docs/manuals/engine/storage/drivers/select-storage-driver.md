@@ -47,7 +47,6 @@ The Docker Engine has a prioritized list of which storage driver to use if no
 storage driver is explicitly configured, assuming that the storage driver meets
 the prerequisites, and automatically selects a compatible storage driver. You
 can see the order in the [source code for Docker Engine ](https://github.com/moby/moby/blob/v/daemon/graphdriver/driver_linux.go#L52-L53).
-{ #storage-driver-order }
 
 <!-- markdownlint-enable reference-links-images -->
 

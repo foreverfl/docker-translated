@@ -227,13 +227,9 @@ $ docker run -d -P --name web --link db:db training/webapp python app.py
 This links the new `web` container with the `db` container you created
 earlier. The `--link` flag takes the form:
 
-    --link <name or id>:alias
-
 Where `name` is the name of the container we're linking to and `alias` is an
 alias for the link name. That alias is used shortly.
 The `--link` flag also takes the form:
-
-    --link <name or id>
 
 In this case the alias matches the name. You could write the previous
 example as:

@@ -252,7 +252,7 @@ data. Then, you try and pull it.
         REPOSITORY                            TAG                 IMAGE ID            CREATED             SIZE
         docker/trusttest                      latest              cc7629d1331a        11 months ago       5.025 MB
         sandboxregistry:5000/test/trusttest   latest              cc7629d1331a        11 months ago       5.025 MB
-        sandboxregistry:5000/test/trusttest   <none>              cc7629d1331a        11 months ago       5.025 MB
+        sandboxregistry:5000/test/trusttest   \<none\>              cc7629d1331a        11 months ago       5.025 MB
 
 8.  Remove the `trusttest:latest` image from our local cache.
 
@@ -284,9 +284,9 @@ data. Then, you try and pull it.
 
 ## More play in the sandbox
 
-Now, you have a full Docker content trust sandbox on your local system,
+Now, you have a full Docker content trust sandbox on your local system, 
 feel free to play with it and see how it behaves. If you find any security
-issues with Docker, feel free to send us an email at <security@docker.com>.
+issues with Docker, feel free to send us an email at security@docker.com.
 
 
 ## Clean up your sandbox

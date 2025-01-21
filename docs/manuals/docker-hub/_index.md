@@ -56,4 +56,3 @@ In addition to the graphical interface, you can interact with Docker Hub using
 the [Docker Hub API](../../reference/api/hub/latest.md) or experimental [Docker
 Hub CLI tool](https://github.com/docker/hub-tool#readme).
 
-{{< grid >}}

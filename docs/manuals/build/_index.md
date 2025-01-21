@@ -60,4 +60,3 @@ packaging your code. It's a whole ecosystem of tools and features that support
 not only common workflow tasks but also provides support for more complex and
 advanced scenarios.
 
-{{< grid >}}

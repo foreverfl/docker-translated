@@ -18,8 +18,7 @@ or unsupported images in workflows. Archived repositories can also be unarchived
 if needed.
 
 Docker Hub highlights repositories that haven't been updated in over a year by
-displaying an icon ({{< inline-image src="./images/outdated-icon.webp"
-alt="outdated icon" >}}) next to them on the [**Repositories**
+displaying an icon next to them on the [**Repositories**
 page](https://hub.docker.com/repositories/). Consider reviewing these
 highlighted repositories and archiving them if necessary.
 

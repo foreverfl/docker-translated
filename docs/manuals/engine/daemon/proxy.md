@@ -22,7 +22,7 @@ aliases:
   - /config/daemon/proxy/
 ---
 
-<a name="httphttps-proxy"><!-- included for deep-links to old section --></a>
+<!-- <a name="httphttps-proxy">included for deep-links to old section</a> -->
 
 If your organization uses a proxy server to connect to the internet, you may
 need to configure the Docker daemon to use the proxy server. The daemon uses

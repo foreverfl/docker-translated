@@ -37,4 +37,4 @@ Refer to the following table for details on the Enhanced Service Account add-ons
 | 4    | 50,000-100,000       |
 | 5    | 100,000+             |
 
-<sub>\*The service account may exceed Pulls by up to 25% for up to 20 days during the year without incurring additional fees. Reports on consumption are available upon request.<sub>
+*The service account may exceed Pulls by up to 25% for up to 20 days during the year without incurring additional fees. Reports on consumption are available upon request.

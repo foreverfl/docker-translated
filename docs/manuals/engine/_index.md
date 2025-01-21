@@ -71,8 +71,6 @@ such as images, containers, networks, and volumes.
 For more details, see
 [Docker Architecture](/get-started/docker-overview.md#docker-architecture).
 
-{{< grid >}}
-
 ## Licensing
 
 The Docker Engine is licensed under the Apache License, Version 2.0. See

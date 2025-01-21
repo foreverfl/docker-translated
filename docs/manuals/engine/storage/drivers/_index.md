@@ -471,8 +471,6 @@ examines how much room they take up.
    (7.75MB), but no data was written to the container's filesystem, so no additional
    storage is used for the containers.
 
-   {{< accordion title="Advanced: metadata and logs storage used for containers" >}}
-   
    > [!NOTE]
    >
    > This step requires a Linux machine, and doesn't work on Docker Desktop, as
@@ -496,8 +494,6 @@ examines how much room they take up.
    ```
    
    Each of these containers only takes up 36k of space on the filesystem.
-
-   {{< /accordion >}}
 
 3. Per-container storage
 

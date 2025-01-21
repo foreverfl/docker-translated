@@ -42,8 +42,5 @@ For more advanced concepts and scenarios in Docker, see [Guides](/guides/).
 
 Install Docker and jump into discovering what Docker is. 
 
-{{< grid items="get-started" >}}
-
 Learn the foundational concepts and workflows of Docker.
 
-{{< grid items="get-started2" >}}

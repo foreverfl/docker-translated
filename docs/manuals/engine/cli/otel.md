@@ -153,7 +153,7 @@ With these files in place:
    ```
 
 4. To view telemetry metrics created by the CLI, open the Prometheus expression
-   browser by going to <http://localhost:9091/graph>.
+   browser by going to http://localhost:9091/graph.
 
 5. In the **Query** field, enter `command_time_milliseconds_total`, and execute
    the query to see the telemetry data.

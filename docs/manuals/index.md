@@ -91,17 +91,12 @@ Docker products.
 
 Open source development and containerization technologies.
 
-{{< grid items=open-source >}}
-
 ## Products
 
 End-to-end developer solutions for innovative teams.
-
-{{< grid items=products >}}
 
 ## Platform
 
 Documentation related to the Docker platform, such as administration and
 subscription management for organizations.
 
-{{< grid items=platform >}}
