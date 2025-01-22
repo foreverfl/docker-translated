@@ -128,7 +128,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: "category",
-          label: "Install",
+          label: "설치",
           items: [
             "manuals/engine/install/ubuntu",
             "manuals/engine/install/debian",
@@ -143,14 +143,14 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Storage",
+          label: "스토리지",
           items: [
             "manuals/engine/storage/volumes",
             "manuals/engine/storage/bind-mounts",
             "manuals/engine/storage/tmpfs",
             {
               type: "category",
-              label: "Storage drivers",
+              label: "스토리지 드라이버",
               items: [
                 "manuals/engine/storage/drivers/select-storage-driver",
                 "manuals/engine/storage/drivers/btrfs-driver",
@@ -166,12 +166,12 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Network",
+          label: "네트워크",
           items: [
             "manuals/engine/network/packet-filtering-firewalls",
             {
               type: "category",
-              label: "Network drivers",
+              label: "네트워크 드라이버",
               items: [
                 "manuals/engine/network/drivers/bridge",
                 "manuals/engine/network/drivers/host",
@@ -183,7 +183,7 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: "category",
-              label: "Tutorials",
+              label: "튜토리얼",
               items: [
                 "manuals/engine/network/tutorials/macvlan",
                 "manuals/engine/network/tutorials/host",
@@ -197,7 +197,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Containers",
+          label: "컨테이너",
           items: [
             "manuals/engine/containers/start-containers-automatically",
             "manuals/engine/containers/multi-service_container",
@@ -219,7 +219,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Daemon",
+          label: "데몬",
           items: [
             "manuals/engine/daemon/start",
             "manuals/engine/daemon/ipv6",
@@ -234,7 +234,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Manage resources",
+          label: "리소스 관리",
           items: [
             "manuals/engine/manage-resources/contexts",
             "manuals/engine/manage-resources/labels",
@@ -243,13 +243,13 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Logs and metrics",
+          label: "로그 및 메트릭",
           items: [
             "manuals/engine/logging/configure",
             "manuals/engine/logging/log_tags",
             {
               type: "category",
-              label: "Logging drivers",
+              label: "로깅 드라이버",
               items: [
                 "manuals/engine/logging/drivers/awslogs",
                 "manuals/engine/logging/drivers/etwlogs",
@@ -269,7 +269,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Security",
+          label: "보안",
           items: [
             "manuals/engine/security/rootless",
             "manuals/engine/security/antivirus",
@@ -277,7 +277,7 @@ const sidebars: SidebarsConfig = {
 
             {
               type: "category",
-              label: "Content trust in Docker",
+              label: "Docker 컨텐츠 신뢰",
               items: [
                 "manuals/engine/security/trust/trust_automation",
                 "manuals/engine/security/trust/trust_delegation",
@@ -295,14 +295,14 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Swarm mode",
+          label: "스웜 모드",
           items: [
             "manuals/engine/swarm/admin_guide",
             "manuals/engine/swarm/stack-deploy",
             "manuals/engine/swarm/services",
             {
               type: "category",
-              label: "Getting started with Swarm mode",
+              label: "스웜 모드 시작하기",
               items: [
                 "manuals/engine/swarm/swarm-tutorial/create-swarm",
                 "manuals/engine/swarm/swarm-tutorial/add-nodes",
@@ -316,7 +316,7 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: "category",
-              label: "How swarm works",
+              label: "스웜 작동 방식",
               items: [
                 "manuals/engine/swarm/how-swarm-mode-works/nodes",
                 "manuals/engine/swarm/how-swarm-mode-works/services",
@@ -339,11 +339,11 @@ const sidebars: SidebarsConfig = {
         {
           type: "doc",
           id: "manuals/engine/swarm/deprecated",
-          label: "Deprecated features",
+          label: "지원 중단된 기능",
         },
         {
           type: "category",
-          label: "Docker Engine plugins",
+          label: "Docker Engine 플러그인",
           items: [
             "manuals/engine/extend/plugins_authorization",
             "manuals/engine/extend/plugins_logging",
@@ -362,7 +362,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: "category",
-          label: "Core concepts",
+          label: "핵심 개념",
           items: [
             "manuals/build/concepts/overview",
             "manuals/build/concepts/dockerfile",
@@ -371,7 +371,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Building",
+          label: "빌드",
           items: [
             "manuals/build/building/multi-stage",
             "manuals/build/building/variables",
@@ -385,7 +385,7 @@ const sidebars: SidebarsConfig = {
         {
           type: "doc",
           id: "manuals/build/checks",
-          label: "Build checks",
+          label: "빌드 검사",
         },
         {
           type: "category",
@@ -393,7 +393,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: "category",
-              label: "Build drivers",
+              label: "빌드 드라이버",
               items: [
                 "manuals/build/builders/drivers/docker-container",
                 "manuals/build/builders/drivers/docker",
@@ -406,7 +406,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Bake",
+          label: "베이크",
           items: [
             "manuals/build/bake/introduction",
             "manuals/build/bake/targets",
@@ -424,13 +424,13 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Cache",
+          label: "캐시",
           items: [
             "manuals/build/cache/invalidation",
             "manuals/build/cache/garbage-collection",
             {
               type: "category",
-              label: "Backends",
+              label: "벡엔드",
               items: [
                 "manuals/build/cache/backends/s3",
                 "manuals/build/cache/backends/azblob",
@@ -475,12 +475,12 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Metadata",
+          label: "메타데이터",
           items: [
             "manuals/build/metadata/annotations",
             {
               type: "category",
-              label: "Build attestations",
+              label: "빌드 증명",
               items: [
                 "manuals/build/metadata/attestations/attestation-storage",
                 "manuals/build/metadata/attestations/slsa-provenance",
@@ -492,7 +492,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Exporters",
+          label: "내보내기 도구",
           items: [
             "manuals/build/exporters/image-registry",
             "manuals/build/exporters/local-tar",
@@ -510,7 +510,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Debugging",
+          label: "디버깅",
           items: ["manuals/build/debug/opentelemetry"],
         },
       ],
@@ -521,7 +521,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: "category",
-          label: "Introduction",
+          label: "소개",
           items: [
             "manuals/compose/intro/compose-application-model",
             "manuals/compose/intro/features-uses",
@@ -530,7 +530,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Install",
+          label: "설치",
           items: [
             "manuals/compose/install/linux",
             "manuals/compose/install/standalone",
@@ -540,11 +540,11 @@ const sidebars: SidebarsConfig = {
         {
           type: "doc",
           id: "manuals/compose/gettingstarted",
-          label: "Quickstart",
+          label: "빠른 시작",
         },
         {
           type: "category",
-          label: "How-tos",
+          label: "사용 방법",
           items: [
             "manuals/compose/how-tos/project-name",
             "manuals/compose/how-tos/lifecycle",
@@ -552,7 +552,7 @@ const sidebars: SidebarsConfig = {
             "manuals/compose/how-tos/startup-order",
             {
               type: "category",
-              label: "Use environment variables",
+              label: "환경 변수 사용",
               items: [
                 "manuals/compose/how-tos/environment-variables/set-environment-variables",
                 "manuals/compose/how-tos/environment-variables/envvars-precedence",
@@ -566,7 +566,7 @@ const sidebars: SidebarsConfig = {
             "manuals/compose/how-tos/networking",
             {
               type: "category",
-              label: "Use multiple Compose files",
+              label: "여러 Compose 파일 사용",
               items: [
                 "manuals/compose/how-tos/multiple-compose-files/merge",
                 "manuals/compose/how-tos/multiple-compose-files/extends",
@@ -579,7 +579,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Bridge",
+          label: "브리지",
           items: [
             "manuals/compose/bridge/usage",
             "manuals/compose/bridge/customize",
@@ -589,7 +589,7 @@ const sidebars: SidebarsConfig = {
         "manuals/compose/gettingstarted",
         {
           type: "category",
-          label: "Support and feedback",
+          label: "지원 및 피드백",
           items: [
             "manuals/compose/support-and-feedback/faq",
             "manuals/compose/support-and-feedback/feedback",
