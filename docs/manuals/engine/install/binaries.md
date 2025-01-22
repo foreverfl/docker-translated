@@ -1,13 +1,13 @@
 ---
-description: Learn how to install Docker as a binary. These instructions are most suitable for testing purposes.
+description: Docker를 바이너리로 설치하는 방법을 배웁니다. 이 지침은 테스트 목적으로 가장 적합합니다.
 keywords:
-  - binaries
-  - installation
-  - docker
-  - documentation
-  - linux
-  - install docker engine
-title: Install Docker Engine from binaries
+  - 바이너리
+  - 설치
+  - 도커
+  - 문서
+  - 리눅스
+  - 도커 엔진 설치
+title: 바이너리로 Docker Engine 설치
 linkTitle: Binaries
 weight: 80
 aliases:
@@ -17,242 +17,183 @@ aliases:
   - /installation/binaries/
 ---
 
-> [!IMPORTANT]
->
-> This page contains information on how to install Docker using binaries. These
-> instructions are mostly suitable for testing purposes. We do not recommend
-> installing Docker using binaries in production environments as they don't have automatic security updates. The Linux binaries described on this
-> page are statically linked, which means that vulnerabilities in build-time
-> dependencies are not automatically patched by security updates of your Linux
-> distribution.
->
-> Updating binaries is also slightly more involved when compared to Docker packages
-> installed using a package manager or through Docker Desktop, as it requires
-> (manually) updating the installed version whenever there is a new release of
-> Docker.
->
-> Also, static binaries may not include all functionalities provided by the dynamic
-> packages.
->
-> On Windows and Mac, we recommend that you install [Docker Desktop](/manuals/desktop/_index.md)
-> instead. For Linux, we recommend that you follow the instructions specific for
-> your distribution.
+:::important
+이 페이지에는 바이너리를 사용하여 Docker를 설치하는 방법에 대한 정보가 포함되어 있습니다. 이 지침은 주로 테스트 목적으로 적합합니다. 바이너리를 사용하여 Docker를 설치하는 것은 자동 보안 업데이트가 없기 때문에 프로덕션 환경에서는 권장하지 않습니다. 이 페이지에 설명된 Linux 바이너리는 정적으로 링크되어 있으므로 빌드 시점 종속성의 취약점이 Linux 배포판의 보안 업데이트로 자동으로 패치되지 않습니다.
 
-If you want to try Docker or use it in a testing environment, but you're not on
-a supported platform, you can try installing from static binaries. If possible,
-you should use packages built for your operating system, and use your operating
-system's package management system to manage Docker installation and upgrades.
+바이너리를 업데이트하는 것도 패키지 관리자나 Docker Desktop을 사용하여 설치된 Docker 패키지에 비해 약간 더 복잡합니다. 새로운 Docker 릴리스가 있을 때마다 설치된 버전을 수동으로 업데이트해야 합니다.
 
-Static binaries for the Docker daemon binary are only available for Linux (as
-`dockerd`) and Windows (as `dockerd.exe`).
-Static binaries for the Docker client are available for Linux, Windows, and macOS (as `docker`).
+또한, 정적 바이너리에는 동적 패키지가 제공하는 모든 기능이 포함되지 않을 수 있습니다.
+Windows 및 Mac에서는 [Docker Desktop](/manuals/desktop/_index.md)을 설치하는 것이 좋습니다. Linux에서는 배포판에 맞는 지침을 따르는 것이 좋습니다.
+:::
 
-This topic discusses binary installation for Linux, Windows, and macOS:
+Docker를 시도하거나 테스트 환경에서 사용하고 싶지만 지원되는 플랫폼에 있지 않은 경우, 정적 바이너리를 설치해 볼 수 있습니다. 가능하면 운영 체제용으로 빌드된 패키지를 사용하고 운영 체제의 패키지 관리 시스템을 사용하여 Docker 설치 및 업그레이드를 관리해야 합니다.
 
-- [Install daemon and client binaries on Linux](#install-daemon-and-client-binaries-on-linux)
-- [Install client binaries on macOS](#install-client-binaries-on-macos)
-- [Install server and client binaries on Windows](#install-server-and-client-binaries-on-windows)
+Docker 데몬 바이너리의 정적 바이너리는 Linux( `dockerd`) 및 Windows( `dockerd.exe`)에서만 사용할 수 있습니다.
+Docker 클라이언트의 정적 바이너리는 Linux, Windows 및 macOS( `docker`)에서 사용할 수 있습니다.
 
-## Install daemon and client binaries on Linux
+이 주제에서는 Linux, Windows 및 macOS에 대한 바이너리 설치에 대해 설명합니다:
 
-### Prerequisites
+- [Linux에 데몬 및 클라이언트 바이너리 설치](#install-daemon-and-client-binaries-on-linux)
+- [macOS에 클라이언트 바이너리 설치](#install-client-binaries-on-macos)
+- [Windows에 서버 및 클라이언트 바이너리 설치](#install-server-and-client-binaries-on-windows)
 
-Before attempting to install Docker from binaries, be sure your host machine
-meets the prerequisites:
+## Linux에 데몬 및 클라이언트 바이너리 설치 {#install-daemon-and-client-binaries-on-linux}
 
-- A 64-bit installation
-- Version 3.10 or higher of the Linux kernel. The latest version of the kernel
-  available for your platform is recommended.
-- `iptables` version 1.4 or higher
-- `git` version 1.7 or higher
-- A `ps` executable, usually provided by `procps` or a similar package.
-- [XZ Utils](https://tukaani.org/xz/) 4.9 or higher
-- A [properly mounted](https://github.com/tianon/cgroupfs-mount/blob/master/cgroupfs-mount)
-  `cgroupfs` hierarchy; a single, all-encompassing `cgroup` mount
-  point is not sufficient. See Github issues
+### 사전 요구 사항 {#prerequisites}
+
+바이너리를 사용하여 Docker를 설치하기 전에 호스트 머신이 다음 요구 사항을 충족하는지 확인하십시오:
+
+- 64비트 설치
+- Linux 커널 버전 3.10 이상. 플랫폼에서 사용할 수 있는 최신 커널 버전을 권장합니다.
+- `iptables` 버전 1.4 이상
+- `git` 버전 1.7 이상
+- `ps` 실행 파일, 일반적으로 `procps` 또는 유사한 패키지에서 제공됩니다.
+- [XZ Utils](https://tukaani.org/xz/) 4.9 이상
+- [적절하게 마운트된](https://github.com/tianon/cgroupfs-mount/blob/master/cgroupfs-mount) `cgroupfs` 계층 구조; 단일, 모든 것을 포함하는 `cgroup` 마운트 포인트는 충분하지 않습니다. Github 이슈 참조
   [#2683](https://github.com/moby/moby/issues/2683),
   [#3485](https://github.com/moby/moby/issues/3485),
   [#4568](https://github.com/moby/moby/issues/4568)).
 
-#### Secure your environment as much as possible
+#### 가능한 한 환경을 안전하게 보호하십시오 {#secure-your-environment-as-much-as-possible}
 
-##### OS considerations
+##### OS 고려 사항 {#os-considerations}
 
-Enable SELinux or AppArmor if possible.
+가능하면 SELinux 또는 AppArmor를 활성화하십시오.
 
-It is recommended to use AppArmor or SELinux if your Linux distribution supports
-either of the two. This helps improve security and blocks certain
-types of exploits. Review the documentation for your Linux distribution for
-instructions for enabling and configuring AppArmor or SELinux.
+Linux 배포판이 두 가지 중 하나를 지원하는 경우 AppArmor 또는 SELinux를 사용하는 것이 좋습니다. 이는 보안을 향상시키고 특정 유형의 익스플로잇을 차단하는 데 도움이 됩니다. AppArmor 또는 SELinux를 활성화하고 구성하는 방법에 대한 지침은 Linux 배포판의 문서를 참조하십시오.
 
-> **Security warning**
+> **보안 경고**
 >
-> If either of the security mechanisms is enabled, do not disable it as a
-> work-around to make Docker or its containers run. Instead, configure it
-> correctly to fix any problems.
+> 두 보안 메커니즘 중 하나가 활성화된 경우 Docker 또는 컨테이너를 실행하기 위한 해결 방법으로 비활성화하지 마십시오. 대신, 문제를 해결하기 위해 올바르게 구성하십시오.
 
-##### Docker daemon considerations
+##### Docker 데몬 고려 사항 {#docker-daemon-considerations}
 
-- Enable `seccomp` security profiles if possible. See
-  [Enabling `seccomp` for Docker](../security/seccomp.md).
+- 가능하면 `seccomp` 보안 프로필을 활성화하십시오. 참조
+  [Docker에 대한 `seccomp` 활성화](../security/seccomp.md).
 
-- Enable user namespaces if possible. See the
-  [Daemon user namespace options](/reference/cli/dockerd/#daemon-user-namespace-options).
+- 가능하면 사용자 네임스페이스를 활성화하십시오. 참조
+  [데몬 사용자 네임스페이스 옵션](/reference/cli/dockerd/#daemon-user-namespace-options).
 
-### Install static binaries
+### 정적 바이너리 설치 {#install-static-binaries}
 
-1.  Download the static binary archive. Go to
-    [https://download.docker.com/linux/static/stable/](https://download.docker.com/linux/static/stable/),
-    choose your hardware platform, and download the `.tgz` file relating to the
-    version of Docker Engine you want to install.
+1.  정적 바이너리 아카이브를 다운로드합니다. [https://download.docker.com/linux/static/stable/](https://download.docker.com/linux/static/stable/)로 이동하여 하드웨어 플랫폼을 선택하고 설치하려는 Docker Engine 버전과 관련된 `.tgz` 파일을 다운로드합니다.
 
-2.  Extract the archive using the `tar` utility. The `dockerd` and `docker`
-    binaries are extracted.
+2.  `tar` 유틸리티를 사용하여 아카이브를 추출합니다. `dockerd` 및 `docker` 바이너리가 추출됩니다.
 
     ```console
     $ tar xzvf /path/to/<FILE>.tar.gz
     ```
 
-3.  **Optional**: Move the binaries to a directory on your executable path, such
-    as `/usr/bin/`. If you skip this step, you must provide the path to the
-    executable when you invoke `docker` or `dockerd` commands.
+3.  **선택 사항**: 바이너리를 `/usr/bin/`과 같은 실행 경로의 디렉토리로 이동합니다. 이 단계를 건너뛰면 `docker` 또는 `dockerd` 명령을 실행할 때 실행 파일의 경로를 제공해야 합니다.
 
     ```console
     $ sudo cp docker/* /usr/bin/
     ```
 
-4.  Start the Docker daemon:
+4.  Docker 데몬을 시작합니다:
 
     ```console
     $ sudo dockerd &
     ```
 
-    If you need to start the daemon with additional options, modify the above
-    command accordingly or create and edit the file `/etc/docker/daemon.json`
-    to add the custom configuration options.
+    추가 옵션으로 데몬을 시작해야 하는 경우 위 명령을 수정하거나 `/etc/docker/daemon.json` 파일을 생성 및 편집하여 사용자 정의 구성 옵션을 추가하십시오.
 
-5.  Verify that Docker is installed correctly by running the `hello-world`
-    image.
+5.  `hello-world` 이미지를 실행하여 Docker가 올바르게 설치되었는지 확인합니다.
 
     ```console
     $ sudo docker run hello-world
     ```
 
-    This command downloads a test image and runs it in a container. When the
-    container runs, it prints a message and exits.
+    이 명령은 테스트 이미지를 다운로드하고 컨테이너에서 실행합니다. 컨테이너가 실행되면 메시지를 출력하고 종료합니다.
 
-You have now successfully installed and started Docker Engine.
+이제 Docker Engine을 성공적으로 설치하고 시작했습니다.
 
 <Include file="root-errors.md" />
 
-## Install client binaries on macOS
+## macOS에 클라이언트 바이너리 설치 {#install-client-binaries-on-macos}
 
-> [!NOTE]
->
-> The following instructions are mostly suitable for testing purposes. The macOS
-> binary includes the Docker client only. It does not include the `dockerd` daemon
-> which is required to run containers. Therefore, we recommend that you install
-> [Docker Desktop](/manuals/desktop/_index.md) instead.
+:::note
+다음 지침은 주로 테스트 목적으로 적합합니다. macOS 바이너리에는 Docker 클라이언트만 포함되어 있습니다. 컨테이너를 실행하는 데 필요한 `dockerd` 데몬은 포함되어 있지 않습니다. 따라서 [Docker Desktop](/manuals/desktop/_index.md)을 설치하는 것이 좋습니다.
+:::
 
-The binaries for Mac also do not contain:
+Mac용 바이너리에는 다음이 포함되지 않습니다:
 
-- A runtime environment. You must set up a functional engine either in a Virtual Machine, or on a remote Linux machine.
-- Docker components such as `buildx` and `docker compose`.
+- 런타임 환경. 가상 머신에서 또는 원격 Linux 머신에서 기능적인 엔진을 설정해야 합니다.
+- `buildx` 및 `docker compose`와 같은 Docker 구성 요소.
 
-To install client binaries, perform the following steps:
+클라이언트 바이너리를 설치하려면 다음 단계를 수행하십시오:
 
-1.  Download the static binary archive. Go to
-    [https://download.docker.com/mac/static/stable/](https://download.docker.com/mac/static/stable/) and select `x86_64` (for Mac on Intel chip) or `aarch64` (for Mac on Apple silicon),
-    and then download the `.tgz` file relating to the version of Docker Engine you want
-    to install.
+1.  정적 바이너리 아카이브를 다운로드합니다. [https://download.docker.com/mac/static/stable/](https://download.docker.com/mac/static/stable/)로 이동하여 `x86_64`(Intel 칩용 Mac) 또는 `aarch64`(Apple 실리콘용 Mac)를 선택한 다음 설치하려는 Docker Engine 버전과 관련된 `.tgz` 파일을 다운로드합니다.
 
-2.  Extract the archive using the `tar` utility. The `docker` binary is
-    extracted.
+2.  `tar` 유틸리티를 사용하여 아카이브를 추출합니다. `docker` 바이너리가 추출됩니다.
 
     ```console
     $ tar xzvf /path/to/<FILE>.tar.gz
     ```
 
-3.  Clear the extended attributes to allow it run.
+3.  실행할 수 있도록 확장 속성을 지웁니다.
 
     ```console
     $ sudo xattr -rc docker
     ```
 
-    Now, when you run the following command, you can see the Docker CLI usage instructions:
+    이제 다음 명령을 실행하면 Docker CLI 사용 지침을 볼 수 있습니다:
 
     ```console
     $ docker/docker
     ```
 
-4.  **Optional**: Move the binary to a directory on your executable path, such
-    as `/usr/local/bin/`. If you skip this step, you must provide the path to the
-    executable when you invoke `docker` or `dockerd` commands.
+4.  **선택 사항**: 바이너리를 `/usr/local/bin/`과 같은 실행 경로의 디렉토리로 이동합니다. 이 단계를 건너뛰면 `docker` 또는 `dockerd` 명령을 실행할 때 실행 파일의 경로를 제공해야 합니다.
 
     ```console
     $ sudo cp docker/docker /usr/local/bin/
     ```
 
-5.  Verify that Docker is installed correctly by running the `hello-world`
-    image. The value of `<hostname>` is a hostname or IP address running the
-    Docker daemon and accessible to the client.
+5.  `hello-world` 이미지를 실행하여 Docker가 올바르게 설치되었는지 확인합니다. `<hostname>`의 값은 Docker 데몬을 실행하고 클라이언트에서 액세스할 수 있는 호스트 이름 또는 IP 주소입니다.
 
     ```console
     $ sudo docker -H <hostname> run hello-world
     ```
 
-    This command downloads a test image and runs it in a container. When the
-    container runs, it prints a message and exits.
+    이 명령은 테스트 이미지를 다운로드하고 컨테이너에서 실행합니다. 컨테이너가 실행되면 메시지를 출력하고 종료합니다.
 
-## Install server and client binaries on Windows
+## Windows에 서버 및 클라이언트 바이너리 설치 {#install-server-and-client-binaries-on-windows}
 
 > [!NOTE]
 >
-> The following section describes how to install the Docker daemon on Windows
-> Server which allows you to run Windows containers only. When you install the
-> Docker daemon on Windows Server, the daemon doesn't contain Docker components
-> such as `buildx` and `compose`. If you're running Windows 10 or 11,
-> we recommend that you install [Docker Desktop](/manuals/desktop/_index.md) instead.
+> 다음 섹션에서는 Windows Server에서 Docker 데몬을 설치하는 방법을 설명합니다. 이를 통해 Windows 컨테이너만 실행할 수 있습니다. Windows Server에 Docker 데몬을 설치하면 `buildx` 및 `compose`와 같은 Docker 구성 요소가 포함되지 않습니다. Windows 10 또는 11을 실행 중인 경우 [Docker Desktop](/manuals/desktop/_index.md)을 설치하는 것이 좋습니다.
 
-Binary packages on Windows include both `dockerd.exe` and `docker.exe`. On Windows,
-these binaries only provide the ability to run native Windows containers (not
-Linux containers).
+Windows의 바이너리 패키지에는 `dockerd.exe` 및 `docker.exe`가 모두 포함됩니다. Windows에서는 이러한 바이너리가 네이티브 Windows 컨테이너(리눅스 컨테이너 아님)를 실행할 수 있는 기능만 제공합니다.
 
-To install server and client binaries, perform the following steps:
+서버 및 클라이언트 바이너리를 설치하려면 다음 단계를 수행하십시오:
 
-1. Download the static binary archive. Go to
-   [https://download.docker.com/win/static/stable/x86_64](https://download.docker.com/win/static/stable/x86_64) and select the latest version from the list.
+1. 정적 바이너리 아카이브를 다운로드합니다. [https://download.docker.com/win/static/stable/x86_64](https://download.docker.com/win/static/stable/x86_64)로 이동하여 목록에서 최신 버전을 선택합니다.
 
-2. Run the following PowerShell commands to install and extract the archive to your program files:
+2. PowerShell 명령을 실행하여 아카이브를 프로그램 파일에 설치하고 추출합니다:
 
    ```powershell
    PS C:\> Expand-Archive /path/to/<FILE>.zip -DestinationPath $Env:ProgramFiles
    ```
 
-3. Register the service and start the Docker Engine:
+3. 서비스를 등록하고 Docker Engine을 시작합니다:
 
    ```powershell
    PS C:\> &$Env:ProgramFiles\Docker\dockerd --register-service
    PS C:\> Start-Service docker
    ```
 
-4. Verify that Docker is installed correctly by running the `hello-world`
-   image.
+4. `hello-world` 이미지를 실행하여 Docker가 올바르게 설치되었는지 확인합니다.
 
    ```powershell
    PS C:\> &$Env:ProgramFiles\Docker\docker run hello-world:nanoserver
    ```
 
-   This command downloads a test image and runs it in a container. When the
-   container runs, it prints a message and exits.
+   이 명령은 테스트 이미지를 다운로드하고 컨테이너에서 실행합니다. 컨테이너가 실행되면 메시지를 출력하고 종료합니다.
 
-## Upgrade static binaries
+## 정적 바이너리 업그레이드 {#upgrade-static-binaries}
 
-To upgrade your manual installation of Docker Engine, first stop any
-`dockerd` or `dockerd.exe` processes running locally, then follow the
-regular installation steps to install the new version on top of the existing
-version.
+Docker Engine의 수동 설치를 업그레이드하려면 먼저 로컬에서 실행 중인 모든 `dockerd` 또는 `dockerd.exe` 프로세스를 중지한 다음 기존 버전 위에 새 버전을 설치하는 일반 설치 단계를 따르십시오.
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-- Continue to [Post-installation steps for Linux](linux-postinstall.md).
+- [Linux의 설치 후 단계](linux-postinstall.md)를 계속 진행하십시오.
