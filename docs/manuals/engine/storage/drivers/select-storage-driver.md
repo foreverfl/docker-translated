@@ -1,11 +1,11 @@
 ---
-title: Select a storage driver
+title: 스토리지 드라이버 선택
 weight: 10
-description: Learn how to select the proper storage driver for your container.
+description: 컨테이너에 적합한 스토리지 드라이버를 선택하는 방법을 알아보세요.
 keywords:
-  - container
-  - storage
-  - driver
+  - 컨테이너
+  - 스토리지
+  - 드라이버
   - btrfs
   - zfs
   - overlay
@@ -15,67 +15,45 @@ aliases:
   - /storage/storagedriver/select-storage-driver/
 ---
 
-Ideally, very little data is written to a container's writable layer, and you
-use Docker volumes to write data. However, some workloads require you to be able
-to write to the container's writable layer. This is where storage drivers come
-in.
+이상적으로는 컨테이너의 쓰기 가능한 레이어에 데이터가 거의 쓰이지 않으며,
+데이터를 쓰기 위해 Docker 볼륨을 사용합니다. 그러나 일부 작업은 컨테이너의 쓰기 가능한 레이어에 데이터를 쓸 수 있어야 합니다. 이때 스토리지 드라이버가 필요합니다.
 
-Docker supports several storage drivers, using a pluggable architecture. The
-storage driver controls how images and containers are stored and managed on your
-Docker host. After you have read the [storage driver overview](./_index.md), the
-next step is to choose the best storage driver for your workloads. Use the storage
-driver with the best overall performance and stability in the most usual scenarios.
+Docker는 플러그형 아키텍처를 사용하여 여러 스토리지 드라이버를 지원합니다.
+스토리지 드라이버는 Docker 호스트에서 이미지와 컨테이너가 저장되고 관리되는 방식을 제어합니다. [스토리지 드라이버 개요](./_index.md)를 읽은 후, 다음 단계는 작업에 가장 적합한 스토리지 드라이버를 선택하는 것입니다. 가장 일반적인 시나리오에서 전반적인 성능과 안정성이 가장 좋은 스토리지 드라이버를 사용하세요.
 
-> [!NOTE]
-> This page discusses storage drivers for Docker Engine on Linux. If you're
-> running the Docker daemon with Windows as the host OS, the only supported
-> storage driver is windowsfilter. For more information, see
-> [windowsfilter](windowsfilter-driver.md).
+:::note
+이 페이지는 Linux에서 Docker Engine의 스토리지 드라이버에 대해 설명합니다. Windows를 호스트 OS로 사용하는 경우, 지원되는 유일한 스토리지 드라이버는 windowsfilter입니다. 자세한 내용은 [windowsfilter](windowsfilter-driver.md)를 참조하세요.
+:::
 
-The Docker Engine provides the following storage drivers on Linux:
+Docker Engine은 Linux에서 다음 스토리지 드라이버를 제공합니다:
 
-| Driver            | Description                                                                                                                                                                                                                                                                                                                                                 |
+| 드라이버            | 설명                                                                                                                                                                                                                                                                                                                                                 |
 | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `overlay2`        | `overlay2` is the preferred storage driver for all currently supported Linux distributions, and requires no extra configuration.                                                                                                                                                                                                                            |
-| `fuse-overlayfs`  | `fuse-overlayfs`is preferred only for running Rootless Docker on an old host that does not provide support for rootless `overlay2`. The `fuse-overlayfs` driver does not need to be used since Linux kernel 5.11, and `overlay2` works even in rootless mode. Refer to the [rootless mode documentation](/manuals/engine/security/rootless.md) for details. |
-| `btrfs` and `zfs` | The `btrfs` and `zfs` storage drivers allow for advanced options, such as creating "snapshots", but require more maintenance and setup. Each of these relies on the backing filesystem being configured correctly.                                                                                                                                          |
-| `vfs`             | The `vfs` storage driver is intended for testing purposes, and for situations where no copy-on-write filesystem can be used. Performance of this storage driver is poor, and is not generally recommended for production use.                                                                                                                               |
+| `overlay2`        | `overlay2`는 현재 지원되는 모든 Linux 배포판에서 선호되는 스토리지 드라이버이며 추가 구성 없이 사용할 수 있습니다.                                                                                                                                                                                                                            |
+| `fuse-overlayfs`  | `fuse-overlayfs`는 루트리스 Docker를 지원하지 않는 오래된 호스트에서만 선호됩니다. Linux 커널 5.11 이후로는 `fuse-overlayfs` 드라이버를 사용할 필요가 없으며, 루트리스 모드에서도 `overlay2`가 작동합니다. 자세한 내용은 [루트리스 모드 문서](/manuals/engine/security/rootless.md)를 참조하세요. |
+| `btrfs` 및 `zfs` | `btrfs` 및 `zfs` 스토리지 드라이버는 "스냅샷" 생성과 같은 고급 옵션을 허용하지만, 더 많은 유지 관리와 설정이 필요합니다. 각각의 드라이버는 백업 파일 시스템이 올바르게 구성되어 있어야 합니다.                                                                                                                                          |
+| `vfs`             | `vfs` 스토리지 드라이버는 테스트 목적으로 사용되며, 복사-온-라이트 파일 시스템을 사용할 수 없는 상황에서 사용됩니다. 이 스토리지 드라이버의 성능은 좋지 않으며, 일반적으로 프로덕션 사용에는 권장되지 않습니다.                                                                                                                               |
 
 <!-- markdownlint-disable reference-links-images -->
 
-The Docker Engine has a prioritized list of which storage driver to use if no
-storage driver is explicitly configured, assuming that the storage driver meets
-the prerequisites, and automatically selects a compatible storage driver. You
-can see the order in the [source code for Docker Engine ](https://github.com/moby/moby/blob/v/daemon/graphdriver/driver_linux.go#L52-L53).
+Docker Engine은 명시적으로 스토리지 드라이버가 구성되지 않은 경우 사용할 스토리지 드라이버의 우선 순위 목록을 가지고 있으며, 스토리지 드라이버가 전제 조건을 충족한다고 가정하고 호환 가능한 스토리지 드라이버를 자동으로 선택합니다. 순서는 [Docker Engine 소스 코드](https://github.com/moby/moby/blob/v/daemon/graphdriver/driver_linux.go#L52-L53)에서 확인할 수 있습니다.
 
 <!-- markdownlint-enable reference-links-images -->
 
-Some storage drivers require you to use a specific format for the backing filesystem.
-If you have external requirements to use a specific backing filesystem, this may
-limit your choices. See [Supported backing filesystems](#supported-backing-filesystems).
+일부 스토리지 드라이버는 백업 파일 시스템에 특정 형식을 사용해야 합니다.
+특정 백업 파일 시스템을 사용해야 하는 외부 요구 사항이 있는 경우 선택이 제한될 수 있습니다. [지원되는 백업 파일 시스템](#supported-backing-filesystems)을 참조하세요.
 
-After you have narrowed down which storage drivers you can choose from, your choice
-is determined by the characteristics of your workload and the level of stability
-you need. See [Other considerations](#other-considerations) for help in making
-the final decision.
+사용할 수 있는 스토리지 드라이버를 좁힌 후, 선택은 작업의 특성과 필요한 안정성 수준에 따라 결정됩니다. 최종 결정을 내리는 데 도움이 필요하면 [기타 고려 사항](#other-considerations)을 참조하세요.
 
-## Supported storage drivers per Linux distribution
+## 지원되는 Linux 배포판별 스토리지 드라이버 {#supported-storage-drivers-per-linux-distribution}
 
-> [!NOTE]
->
-> Modifying the storage driver by editing the daemon configuration file isn't
-> supported on Docker Desktop. Only the default `overlay2` driver or the
-> [containerd storage](/manuals/desktop/features/containerd.md) are supported. The
-> following table is also not applicable for the Docker Engine in rootless
-> mode. For the drivers available in rootless mode, see the [Rootless mode
-> documentation](/manuals/engine/security/rootless.md).
+:::note
+데몬 구성 파일을 편집하여 스토리지 드라이버를 수정하는 것은 Docker Desktop에서 지원되지 않습니다. 기본 `overlay2` 드라이버 또는 [containerd 스토리지](/manuals/desktop/features/containerd.md)만 지원됩니다. 아래 표는 루트리스 모드의 Docker Engine에는 적용되지 않습니다. 루트리스 모드에서 사용 가능한 드라이버는 [루트리스 모드 문서](/manuals/engine/security/rootless.md)를 참조하세요.
+:::
 
-Your operating system and kernel may not support every storage driver. For
-example, `btrfs` is only supported if your system uses `btrfs` as storage. In
-general, the following configurations work on recent versions of the Linux
-distribution:
+운영 체제와 커널은 모든 스토리지 드라이버를 지원하지 않을 수 있습니다. 예를 들어, `btrfs`는 시스템이 `btrfs`를 스토리지로 사용하는 경우에만 지원됩니다. 일반적으로 다음 구성은 최신 Linux 배포판에서 작동합니다:
 
-| Linux distribution | Recommended storage drivers | Alternative drivers |
+| Linux 배포판       | 권장 스토리지 드라이버 | 대체 드라이버 |
 | :----------------- | :-------------------------- | :------------------ |
 | Ubuntu             | `overlay2`                  | `zfs`, `vfs`        |
 | Debian             | `overlay2`                  | `vfs`               |
@@ -84,98 +62,58 @@ distribution:
 | SLES 15            | `overlay2`                  | `vfs`               |
 | RHEL               | `overlay2`                  | `vfs`               |
 
-When in doubt, the best all-around configuration is to use a modern Linux
-distribution with a kernel that supports the `overlay2` storage driver, and to
-use Docker volumes for write-heavy workloads instead of relying on writing data
-to the container's writable layer.
+의심스러울 때는 `overlay2` 스토리지 드라이버를 지원하는 커널을 가진 최신 Linux 배포판을 사용하고, 쓰기 작업이 많은 작업에는 Docker 볼륨을 사용하는 것이 가장 좋습니다.
 
-The `vfs` storage driver is usually not the best choice, and primarily intended
-for debugging purposes in situations where no other storage-driver is supported.
-Before using the `vfs` storage driver, be sure to read about
-[its performance and storage characteristics and limitations](vfs-driver.md).
+`vfs` 스토리지 드라이버는 일반적으로 최선의 선택이 아니며, 다른 스토리지 드라이버가 지원되지 않는 상황에서 디버깅 목적으로 주로 사용됩니다. `vfs` 스토리지 드라이버를 사용하기 전에 [성능 및 스토리지 특성 및 제한 사항](vfs-driver.md)에 대해 읽어보세요.
 
-The recommendations in the table above are known to work for a large number of
-users. If you use a recommended configuration and find a reproducible issue,
-it's likely to be fixed very quickly. If the driver that you want to use is
-not recommended according to this table, you can run it at your own risk. You
-can and should still report any issues you run into. However, such issues
-have a lower priority than issues encountered when using a recommended
-configuration.
+위 표의 권장 사항은 많은 사용자에게 잘 작동하는 것으로 알려져 있습니다. 권장 구성을 사용하고 재현 가능한 문제가 발생하면, 해당 문제는 매우 빨리 해결될 가능성이 높습니다. 사용하려는 드라이버가 이 표에 따라 권장되지 않는 경우, 자신의 책임 하에 실행할 수 있습니다. 발생하는 문제를 보고할 수 있으며, 보고해야 합니다. 그러나 권장 구성 사용 시 발생하는 문제보다 우선 순위가 낮습니다.
 
-Depending on your Linux distribution, other storage-drivers, such as `btrfs` may
-be available. These storage drivers can have advantages for specific use-cases,
-but may require additional set-up or maintenance, which make them not recommended
-for common scenarios. Refer to the documentation for those storage drivers for
-details.
+Linux 배포판에 따라 `btrfs`와 같은 다른 스토리지 드라이버가 제공될 수 있습니다. 이러한 스토리지 드라이버는 특정 사용 사례에 유리할 수 있지만, 추가 설정이나 유지 관리가 필요할 수 있어 일반적인 시나리오에는 권장되지 않습니다. 해당 스토리지 드라이버의 문서를 참조하세요.
 
-## Supported backing filesystems
+## 지원되는 백업 파일 시스템 {#supported-backing-filesystems}
 
-With regard to Docker, the backing filesystem is the filesystem where
-`/var/lib/docker/` is located. Some storage drivers only work with specific
-backing filesystems.
+Docker와 관련하여 백업 파일 시스템은 `/var/lib/docker/`가 위치한 파일 시스템입니다. 일부 스토리지 드라이버는 특정 백업 파일 시스템에서만 작동합니다.
 
-| Storage driver   | Supported backing filesystems |
+| 스토리지 드라이버   | 지원되는 백업 파일 시스템 |
 | :--------------- | :---------------------------- |
 | `overlay2`       | `xfs` with ftype=1, `ext4`    |
-| `fuse-overlayfs` | any filesystem                |
+| `fuse-overlayfs` | 모든 파일 시스템                |
 | `btrfs`          | `btrfs`                       |
 | `zfs`            | `zfs`                         |
-| `vfs`            | any filesystem                |
+| `vfs`            | 모든 파일 시스템                |
 
-## Other considerations
+## 기타 고려 사항 {#other-considerations}
 
-### Suitability for your workload
+### 작업에 대한 적합성 {#suitability-for-your-workload}
 
-Among other things, each storage driver has its own performance characteristics
-that make it more or less suitable for different workloads. Consider the
-following generalizations:
+각 스토리지 드라이버는 고유한 성능 특성을 가지고 있어 다양한 작업에 더 적합하거나 덜 적합할 수 있습니다. 다음 일반화를 고려하세요:
 
-- `overlay2` operates at the file level rather than
-  the block level. This uses memory more efficiently, but the container's
-  writable layer may grow quite large in write-heavy workloads.
-- Block-level storage drivers such as `btrfs`, and `zfs` perform
-  better for write-heavy workloads (though not as well as Docker volumes).
-- `btrfs` and `zfs` require a lot of memory.
-- `zfs` is a good choice for high-density workloads such as PaaS.
+- `overlay2`는 블록 레벨이 아닌 파일 레벨에서 작동합니다. 이는 메모리를 더 효율적으로 사용하지만, 쓰기 작업이 많은 작업에서는 컨테이너의 쓰기 가능한 레이어가 매우 커질 수 있습니다.
+- `btrfs` 및 `zfs`와 같은 블록 레벨 스토리지 드라이버는 쓰기 작업이 많은 작업에서 더 나은 성능을 발휘합니다 (Docker 볼륨만큼은 아님).
+- `btrfs` 및 `zfs`는 많은 메모리를 필요로 합니다.
+- `zfs`는 PaaS와 같은 고밀도 작업에 적합합니다.
 
-More information about performance, suitability, and best practices is available
-in the documentation for each storage driver.
+각 스토리지 드라이버의 성능, 적합성 및 모범 사례에 대한 자세한 내용은 해당 스토리지 드라이버의 문서에서 확인할 수 있습니다.
 
-### Shared storage systems and the storage driver
+### 공유 스토리지 시스템 및 스토리지 드라이버 {#shared-storage-systems-and-the-storage-driver}
 
-If you use SAN, NAS, hardware RAID, or other shared storage systems, those
-systems may provide high availability, increased performance, thin
-provisioning, deduplication, and compression. In many cases, Docker can work on
-top of these storage systems, but Docker doesn't closely integrate with them.
+SAN, NAS, 하드웨어 RAID 또는 기타 공유 스토리지 시스템을 사용하는 경우, 이러한 시스템은 고가용성, 성능 향상, 얇은 프로비저닝, 중복 제거 및 압축을 제공할 수 있습니다. 많은 경우 Docker는 이러한 스토리지 시스템 위에서 작동할 수 있지만, Docker는 이들과 밀접하게 통합되지 않습니다.
 
-Each Docker storage driver is based on a Linux filesystem or volume manager. Be
-sure to follow existing best practices for operating your storage driver
-(filesystem or volume manager) on top of your shared storage system. For
-example, if using the ZFS storage driver on top of a shared storage system, be
-sure to follow best practices for operating ZFS filesystems on top of that
-specific shared storage system.
+각 Docker 스토리지 드라이버는 Linux 파일 시스템 또는 볼륨 관리자에 기반합니다. 공유 스토리지 시스템 위에서 스토리지 드라이버(파일 시스템 또는 볼륨 관리자)를 운영하기 위한 기존 모범 사례를 따르세요. 예를 들어, 공유 스토리지 시스템 위에서 ZFS 스토리지 드라이버를 사용하는 경우, 해당 공유 스토리지 시스템 위에서 ZFS 파일 시스템을 운영하기 위한 모범 사례를 따르세요.
 
-### Stability
+### 안정성 {#stability}
 
-For some users, stability is more important than performance. Though Docker
-considers all of the storage drivers mentioned here to be stable, some are newer
-and are still under active development. In general, `overlay2` provides the
-highest stability.
+일부 사용자에게는 성능보다 안정성이 더 중요합니다. Docker는 여기서 언급된 모든 스토리지 드라이버를 안정적이라고 간주하지만, 일부는 더 새롭고 여전히 활발히 개발 중입니다. 일반적으로 `overlay2`는 가장 높은 안정성을 제공합니다.
 
-### Test with your own workloads
+### 자신의 작업으로 테스트 {#test-with-your-own-workloads}
 
-You can test Docker's performance when running your own workloads on different
-storage drivers. Make sure to use equivalent hardware and workloads to match
-production conditions, so you can see which storage driver offers the best
-overall performance.
+다양한 스토리지 드라이버에서 자신의 작업을 실행할 때 Docker의 성능을 테스트할 수 있습니다. 프로덕션 조건과 일치하도록 동등한 하드웨어와 작업을 사용하여, 어떤 스토리지 드라이버가 전반적으로 가장 좋은 성능을 제공하는지 확인하세요.
 
-## Check your current storage driver
+## 현재 스토리지 드라이버 확인 {#check-your-current-storage-driver}
 
-The detailed documentation for each individual storage driver details all of the
-set-up steps to use a given storage driver.
+각 스토리지 드라이버의 자세한 문서에는 주어진 스토리지 드라이버를 사용하는 모든 설정 단계가 자세히 설명되어 있습니다.
 
-To see what storage driver Docker is currently using, use `docker info` and look
-for the `Storage Driver` line:
+Docker가 현재 사용 중인 스토리지 드라이버를 확인하려면 `docker info`를 사용하고 `Storage Driver` 줄을 찾으세요:
 
 ```console
 $ docker info
@@ -187,22 +125,16 @@ Storage Driver: overlay2
 <...>
 ```
 
-To change the storage driver, see the specific instructions for the new storage
-driver. Some drivers require additional configuration, including configuration
-to physical or logical disks on the Docker host.
+스토리지 드라이버를 변경하려면 새 스토리지 드라이버에 대한 특정 지침을 참조하세요. 일부 드라이버는 Docker 호스트의 물리적 또는 논리적 디스크에 대한 구성을 포함한 추가 구성이 필요합니다.
 
-> [!IMPORTANT]
->
-> When you change the storage driver, any existing images and containers become
-> inaccessible. This is because their layers can't be used by the new storage
-> driver. If you revert your changes, you can access the old images and containers
-> again, but any that you pulled or created using the new driver are then
-> inaccessible.
+:::important
+스토리지 드라이버를 변경하면 기존 이미지와 컨테이너에 접근할 수 없게 됩니다. 이는 새로운 스토리지 드라이버가 기존 레이어를 사용할 수 없기 때문입니다. 변경 사항을 되돌리면 이전 이미지와 컨테이너에 다시 접근할 수 있지만, 새 드라이버를 사용하여 가져오거나 생성한 이미지는 접근할 수 없습니다.
+:::
 
-## Related information
+## 관련 정보 {#related-information}
 
-- [Storage drivers](./_index.md)
-- [`overlay2` storage driver](overlayfs-driver.md)
-- [`btrfs` storage driver](btrfs-driver.md)
-- [`zfs` storage driver](zfs-driver.md)
-- [`windowsfilter` storage driver](windowsfilter-driver.md)
+- [스토리지 드라이버](./_index.md)
+- [`overlay2` 스토리지 드라이버](overlayfs-driver.md)
+- [`btrfs` 스토리지 드라이버](btrfs-driver.md)
+- [`zfs` 스토리지 드라이버](zfs-driver.md)
+- [`windowsfilter` 스토리지 드라이버](windowsfilter-driver.md)

@@ -1,261 +1,161 @@
 ---
-title: Resource constraints
+title: 리소스 제약
 weight: 30
-description: Specify the runtime options for a container
+description: 컨테이너의 런타임 옵션 지정
 keywords:
-  - docker
-  - daemon
-  - configuration
-  - runtime
+  - 도커
+  - 데몬
+  - 구성
+  - 런타임
 aliases:
   - /engine/admin/resource_constraints/
   - /config/containers/resource_constraints/
 ---
 
-By default, a container has no resource constraints and can use as much of a
-given resource as the host's kernel scheduler allows. Docker provides ways
-to control how much memory, or CPU a container can use, setting runtime
-configuration flags of the `docker run` command. This section provides details
-on when you should set such limits and the possible implications of setting them.
+기본적으로 컨테이너에는 리소스 제약이 없으며 호스트의 커널 스케줄러가 허용하는 만큼의 리소스를 사용할 수 있습니다. Docker는 `docker run` 명령의 런타임 구성 플래그를 설정하여 컨테이너가 사용할 수 있는 메모리 또는 CPU의 양을 제어하는 방법을 제공합니다. 이 섹션에서는 이러한 제한을 설정해야 하는 경우와 설정 시의 가능한 영향을 설명합니다.
 
-Many of these features require your kernel to support Linux capabilities. To
-check for support, you can use the
-[`docker info`](/reference/cli/docker/system/info.md) command. If a capability
-is disabled in your kernel, you may see a warning at the end of the output like
-the following:
+이러한 기능 중 많은 부분은 Linux 기능을 지원하는 커널이 필요합니다. 지원 여부를 확인하려면 [`docker info`](/reference/cli/docker/system/info.md) 명령을 사용할 수 있습니다. 커널에서 기능이 비활성화된 경우 다음과 같은 경고가 출력될 수 있습니다:
 
 ```console
 WARNING: No swap limit support
 ```
 
-Consult your operating system's documentation for enabling them. See also the
-[Docker Engine troubleshooting guide](../daemon/troubleshoot.md#kernel-cgroup-swap-limit-capabilities)
-for more information.
+기능을 활성화하는 방법은 운영 체제의 문서를 참조하십시오. 자세한 내용은 [Docker Engine 문제 해결 가이드](../daemon/troubleshoot.md#kernel-cgroup-swap-limit-capabilities)를 참조하십시오.
 
-## Memory
+## 메모리 {#memory}
 
-## Understand the risks of running out of memory
+## 메모리 부족의 위험 이해 {#understand-the-risks-of-running-out-of-memory}
 
-It's important not to allow a running container to consume too much of the
-host machine's memory. On Linux hosts, if the kernel detects that there isn't
-enough memory to perform important system functions, it throws an `OOME`, or
-`Out Of Memory Exception`, and starts killing processes to free up
-memory. Any process is subject to killing, including Docker and other important
-applications. This can effectively bring the entire system down if the wrong
-process is killed.
+실행 중인 컨테이너가 호스트 머신의 메모리를 너무 많이 소비하지 않도록 하는 것이 중요합니다. Linux 호스트에서 커널이 중요한 시스템 기능을 수행할 메모리가 부족하다고 감지하면 `OOME` 또는 `Out Of Memory Exception`을 발생시키고 프로세스를 종료하여 메모리를 확보합니다. Docker 및 기타 중요한 애플리케이션을 포함한 모든 프로세스가 종료될 수 있습니다. 잘못된 프로세스가 종료되면 시스템 전체가 다운될 수 있습니다.
 
-Docker attempts to mitigate these risks by adjusting the OOM priority on the
-Docker daemon so that it's less likely to be killed than other processes
-on the system. The OOM priority on containers isn't adjusted. This makes it more
-likely for an individual container to be killed than for the Docker daemon
-or other system processes to be killed. You shouldn't try to circumvent
-these safeguards by manually setting `--oom-score-adj` to an extreme negative
-number on the daemon or a container, or by setting `--oom-kill-disable` on a
-container.
+Docker는 Docker 데몬의 OOM 우선 순위를 조정하여 다른 시스템 프로세스보다 종료될 가능성을 줄여 이러한 위험을 완화하려고 합니다. 컨테이너의 OOM 우선 순위는 조정되지 않습니다. 이는 Docker 데몬이나 다른 시스템 프로세스보다 개별 컨테이너가 종료될 가능성을 높입니다. 데몬이나 컨테이너에서 `--oom-score-adj`를 극단적으로 낮은 값으로 설정하거나 컨테이너에서 `--oom-kill-disable`을 설정하여 이러한 보호 장치를 우회하려고 하지 마십시오.
 
-For more information about the Linux kernel's OOM management, see
-[Out of Memory Management](https://www.kernel.org/doc/gorman/html/understand/understand016.html).
+Linux 커널의 OOM 관리에 대한 자세한 내용은 [Out of Memory Management](https://www.kernel.org/doc/gorman/html/understand/understand016.html)를 참조하십시오.
 
-You can mitigate the risk of system instability due to OOME by:
+다음 방법으로 OOME로 인한 시스템 불안정을 완화할 수 있습니다:
 
-- Perform tests to understand the memory requirements of your application
-  before placing it into production.
-- Ensure that your application runs only on hosts with adequate resources.
-- Limit the amount of memory your container can use, as described below.
-- Be mindful when configuring swap on your Docker hosts. Swap is slower than
-  memory but can provide a buffer against running out of system memory.
-- Consider converting your container to a
-  [service](/manuals/engine/swarm/services.md), and using service-level constraints
-  and node labels to ensure that the application runs only on hosts with enough
-  memory
+- 애플리케이션을 프로덕션에 배포하기 전에 메모리 요구 사항을 이해하기 위해 테스트를 수행하십시오.
+- 애플리케이션이 충분한 리소스를 가진 호스트에서만 실행되도록 하십시오.
+- 아래 설명된 대로 컨테이너가 사용할 수 있는 메모리 양을 제한하십시오.
+- Docker 호스트에서 스왑을 구성할 때 주의하십시오. 스왑은 메모리보다 느리지만 시스템 메모리 부족에 대한 버퍼를 제공할 수 있습니다.
+- 컨테이너를 [서비스](/manuals/engine/swarm/services.md)로 변환하고 서비스 수준 제약 및 노드 레이블을 사용하여 애플리케이션이 충분한 메모리를 가진 호스트에서만 실행되도록 고려하십시오.
 
-### Limit a container's access to memory
+### 컨테이너의 메모리 접근 제한 {#limit-a-containers-access-to-memory}
 
-Docker can enforce hard or soft memory limits.
+Docker는 하드 또는 소프트 메모리 제한을 적용할 수 있습니다.
 
-- Hard limits lets the container use no more than a fixed amount of memory.
-- Soft limits lets the container use as much memory as it needs unless certain
-  conditions are met, such as when the kernel detects low memory or contention on
-  the host machine.
+- 하드 제한은 컨테이너가 고정된 양의 메모리만 사용할 수 있도록 합니다.
+- 소프트 제한은 호스트 머신에서 커널이 메모리 부족 또는 경쟁을 감지하는 경우와 같은 특정 조건이 충족되지 않는 한 컨테이너가 필요한 만큼의 메모리를 사용할 수 있도록 합니다.
 
-Some of these options have different effects when used alone or when more than
-one option is set.
+이 옵션 중 일부는 단독으로 사용하거나 여러 옵션을 설정할 때 다른 효과를 가질 수 있습니다.
 
-Most of these options take a positive integer, followed by a suffix of `b`, `k`,
-`m`, `g`, to indicate bytes, kilobytes, megabytes, or gigabytes.
+대부분의 옵션은 양의 정수 뒤에 `b`, `k`, `m`, `g` 접미사를 붙여 바이트, 킬로바이트, 메가바이트 또는 기가바이트를 나타냅니다.
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                     |
+| 옵션                    | 설명                                                                                                                                                                                                                                                                                                                                                                                     |
 | :--------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-m` or `--memory=`    | The maximum amount of memory the container can use. If you set this option, the minimum allowed value is `6m` (6 megabytes). That is, you must set the value to at least 6 megabytes.                                                                                                                                                                                                           |
-| `--memory-swap`\*      | The amount of memory this container is allowed to swap to disk. See [`--memory-swap` details](#--memory-swap-details).                                                                                                                                                                                                                                                                          |
-| `--memory-swappiness`  | By default, the host kernel can swap out a percentage of anonymous pages used by a container. You can set `--memory-swappiness` to a value between 0 and 100, to tune this percentage. See [`--memory-swappiness` details](#--memory-swappiness-details).                                                                                                                                       |
-| `--memory-reservation` | Allows you to specify a soft limit smaller than `--memory` which is activated when Docker detects contention or low memory on the host machine. If you use `--memory-reservation`, it must be set lower than `--memory` for it to take precedence. Because it is a soft limit, it doesn't guarantee that the container doesn't exceed the limit.                                                |
-| `--kernel-memory`      | The maximum amount of kernel memory the container can use. The minimum allowed value is `6m`. Because kernel memory can't be swapped out, a container which is starved of kernel memory may block host machine resources, which can have side effects on the host machine and on other containers. See [`--kernel-memory` details](#--kernel-memory-details).                                   |
-| `--oom-kill-disable`   | By default, if an out-of-memory (OOM) error occurs, the kernel kills processes in a container. To change this behavior, use the `--oom-kill-disable` option. Only disable the OOM killer on containers where you have also set the `-m/--memory` option. If the `-m` flag isn't set, the host can run out of memory and the kernel may need to kill the host system's processes to free memory. |
+| `-m` 또는 `--memory=`  | 컨테이너가 사용할 수 있는 최대 메모리 양입니다. 이 옵션을 설정하면 최소 허용 값은 `6m`(6 메가바이트)입니다. 즉, 최소 6 메가바이트로 값을 설정해야 합니다.                                                                                                                                                                                                           |
+| `--memory-swap`\*      | 이 컨테이너가 디스크로 스왑할 수 있는 메모리 양입니다. [`--memory-swap` 세부 정보](#--memory-swap-details)를 참조하십시오.                                                                                                                                                                                                                                                                          |
+| `--memory-swappiness`  | 기본적으로 호스트 커널은 컨테이너가 사용하는 익명 페이지의 일부를 스왑할 수 있습니다. 이 비율을 조정하려면 `--memory-swappiness`를 0에서 100 사이의 값으로 설정할 수 있습니다. [`--memory-swappiness` 세부 정보](#--memory-swappiness-details)를 참조하십시오.                                                                                                                                       |
+| `--memory-reservation` | Docker가 호스트 머신에서 경쟁 또는 메모리 부족을 감지할 때 활성화되는 `--memory`보다 작은 소프트 제한을 지정할 수 있습니다. `--memory-reservation`을 사용하는 경우 우선 순위를 가지려면 `--memory`보다 낮게 설정해야 합니다. 소프트 제한이기 때문에 컨테이너가 제한을 초과하지 않는다는 보장은 없습니다.                                                |
+| `--kernel-memory`      | 컨테이너가 사용할 수 있는 최대 커널 메모리 양입니다. 최소 허용 값은 `6m`입니다. 커널 메모리는 스왑할 수 없기 때문에 커널 메모리가 부족한 컨테이너는 호스트 머신 리소스를 차단할 수 있으며, 이는 호스트 머신 및 다른 컨테이너에 부작용을 일으킬 수 있습니다. [`--kernel-memory` 세부 정보](#--kernel-memory-details)를 참조하십시오.                                   |
+| `--oom-kill-disable`   | 기본적으로 메모리 부족(OOM) 오류가 발생하면 커널이 컨테이너의 프로세스를 종료합니다. 이 동작을 변경하려면 `--oom-kill-disable` 옵션을 사용하십시오. OOM 킬러를 비활성화하려면 `-m/--memory` 옵션도 설정해야 합니다. `-m` 플래그가 설정되지 않은 경우 호스트가 메모리를 다 써버릴 수 있으며 커널이 호스트 시스템의 프로세스를 종료해야 할 수 있습니다. |
 
-For more information about cgroups and memory in general, see the documentation
-for [Memory Resource Controller](https://www.kernel.org/doc/Documentation/cgroup-v1/memory.txt).
+cgroups 및 메모리에 대한 자세한 내용은 [Memory Resource Controller](https://www.kernel.org/doc/Documentation/cgroup-v1/memory.txt) 문서를 참조하십시오.
 
-### `--memory-swap` details
+### `--memory-swap` 세부 정보 {#--memory-swap-details}
 
-`--memory-swap` is a modifier flag that only has meaning if `--memory` is also
-set. Using swap allows the container to write excess memory requirements to disk
-when the container has exhausted all the RAM that's available to it. There is a
-performance penalty for applications that swap memory to disk often.
+`--memory-swap`은 `--memory`가 설정된 경우에만 의미가 있는 수정자 플래그입니다. 스왑을 사용하면 컨테이너가 사용할 수 있는 모든 RAM을 소진했을 때 초과 메모리 요구 사항을 디스크에 기록할 수 있습니다. 메모리를 디스크로 자주 스왑하는 애플리케이션에는 성능 페널티가 있습니다.
 
-Its setting can have complicated effects:
+설정은 복잡한 영향을 미칠 수 있습니다:
 
-- If `--memory-swap` is set to a positive integer, then both `--memory` and
-  `--memory-swap` must be set. `--memory-swap` represents the total amount of
-  memory and swap that can be used, and `--memory` controls the amount used by
-  non-swap memory. So if `--memory="300m"` and `--memory-swap="1g"`, the
-  container can use 300m of memory and 700m (`1g - 300m`) swap.
+- `--memory-swap`이 양의 정수로 설정된 경우 `--memory`와 `--memory-swap` 모두 설정해야 합니다. `--memory-swap`은 사용할 수 있는 총 메모리와 스왑을 나타내며, `--memory`는 스왑되지 않은 메모리의 양을 제어합니다. 따라서 `--memory="300m"` 및 `--memory-swap="1g"`로 설정하면 컨테이너는 300m의 메모리와 700m(`1g - 300m`)의 스왑을 사용할 수 있습니다.
 
-- If `--memory-swap` is set to `0`, the setting is ignored, and the value is
-  treated as unset.
+- `--memory-swap`이 `0`으로 설정된 경우 설정이 무시되고 값이 설정되지 않은 것으로 간주됩니다.
 
-- If `--memory-swap` is set to the same value as `--memory`, and `--memory` is
-  set to a positive integer, **the container doesn't have access to swap**.
-  See
-  [Prevent a container from using swap](#prevent-a-container-from-using-swap).
+- `--memory-swap`이 `--memory`와 동일한 값으로 설정되고 `--memory`가 양의 정수로 설정된 경우 **컨테이너는 스왑에 접근할 수 없습니다**. [컨테이너가 스왑을 사용하지 못하게 하기](#prevent-a-container-from-using-swap)를 참조하십시오.
 
-- If `--memory-swap` is unset, and `--memory` is set, the container can use
-  as much swap as the `--memory` setting, if the host container has swap
-  memory configured. For instance, if `--memory="300m"` and `--memory-swap` is
-  not set, the container can use 600m in total of memory and swap.
+- `--memory-swap`이 설정되지 않고 `--memory`가 설정된 경우 호스트 컨테이너에 스왑 메모리가 구성된 경우 컨테이너는 `--memory` 설정만큼의 스왑을 사용할 수 있습니다. 예를 들어 `--memory="300m"` 및 `--memory-swap`이 설정되지 않은 경우 컨테이너는 총 600m의 메모리와 스왑을 사용할 수 있습니다.
 
-- If `--memory-swap` is explicitly set to `-1`, the container is allowed to use
-  unlimited swap, up to the amount available on the host system.
+- `--memory-swap`이 명시적으로 `-1`로 설정된 경우 컨테이너는 호스트 시스템에서 사용할 수 있는 만큼의 무제한 스왑을 사용할 수 있습니다.
 
-- Inside the container, tools like `free` report the host's available swap, not what's available inside the container. Don't rely on the output of `free` or similar tools to determine whether swap is present.
+- 컨테이너 내부에서 `free`와 같은 도구는 컨테이너 내부에서 사용할 수 있는 스왑이 아닌 호스트의 사용 가능한 스왑을 보고합니다. `free` 또는 유사한 도구의 출력을 신뢰하여 스왑이 있는지 여부를 결정하지 마십시오.
 
-#### Prevent a container from using swap
+#### 컨테이너가 스왑을 사용하지 못하게 하기 {#prevent-a-container-from-using-swap}
 
-If `--memory` and `--memory-swap` are set to the same value, this prevents
-containers from using any swap. This is because `--memory-swap` is the amount of
-combined memory and swap that can be used, while `--memory` is only the amount
-of physical memory that can be used.
+`--memory`와 `--memory-swap`이 동일한 값으로 설정된 경우 이는 컨테이너가 스왑을 사용하지 못하게 합니다. 이는 `--memory-swap`이 사용할 수 있는 총 메모리와 스왑의 양을 나타내고 `--memory`는 사용할 수 있는 물리적 메모리의 양을 나타내기 때문입니다.
 
-### `--memory-swappiness` details
+### `--memory-swappiness` 세부 정보 {#--memory-swappiness-details}
 
-- A value of 0 turns off anonymous page swapping.
-- A value of 100 sets all anonymous pages as swappable.
-- By default, if you don't set `--memory-swappiness`, the value is
-  inherited from the host machine.
+- 0의 값은 익명 페이지 스왑을 끕니다.
+- 100의 값은 모든 익명 페이지를 스왑 가능하게 설정합니다.
+- 기본적으로 `--memory-swappiness`를 설정하지 않으면 값은 호스트 머신에서 상속됩니다.
 
-### `--kernel-memory` details
+### `--kernel-memory` 세부 정보 {#--kernel-memory-details}
 
-Kernel memory limits are expressed in terms of the overall memory allocated to
-a container. Consider the following scenarios:
+커널 메모리 제한은 컨테이너에 할당된 전체 메모리 측면에서 표현됩니다. 다음 시나리오를 고려하십시오:
 
-- **Unlimited memory, unlimited kernel memory**: This is the default
-  behavior.
-- **Unlimited memory, limited kernel memory**: This is appropriate when the
-  amount of memory needed by all cgroups is greater than the amount of
-  memory that actually exists on the host machine. You can configure the
-  kernel memory to never go over what's available on the host machine,
-  and containers which need more memory need to wait for it.
-- **Limited memory, unlimited kernel memory**: The overall memory is
-  limited, but the kernel memory isn't.
-- **Limited memory, limited kernel memory**: Limiting both user and kernel
-  memory can be useful for debugging memory-related problems. If a container
-  is using an unexpected amount of either type of memory, it runs out
-  of memory without affecting other containers or the host machine. Within
-  this setting, if the kernel memory limit is lower than the user memory
-  limit, running out of kernel memory causes the container to experience
-  an OOM error. If the kernel memory limit is higher than the user memory
-  limit, the kernel limit doesn't cause the container to experience an OOM.
+- **무제한 메모리, 무제한 커널 메모리**: 이것이 기본 동작입니다.
+- **무제한 메모리, 제한된 커널 메모리**: 모든 cgroup이 필요로 하는 메모리 양이 호스트 머신에 실제로 존재하는 메모리 양보다 클 때 적합합니다. 호스트 머신에서 사용할 수 있는 메모리를 초과하지 않도록 커널 메모리를 구성할 수 있으며, 더 많은 메모리가 필요한 컨테이너는 기다려야 합니다.
+- **제한된 메모리, 무제한 커널 메모리**: 전체 메모리는 제한되지만 커널 메모리는 제한되지 않습니다.
+- **제한된 메모리, 제한된 커널 메모리**: 사용자 및 커널 메모리를 모두 제한하는 것은 메모리 관련 문제를 디버깅하는 데 유용할 수 있습니다. 컨테이너가 예상치 못한 양의 메모리 중 하나를 사용하면 다른 컨테이너나 호스트 머신에 영향을 주지 않고 메모리가 부족해집니다. 이 설정 내에서 커널 메모리 제한이 사용자 메모리 제한보다 낮으면 커널 메모리가 부족하여 컨테이너가 OOM 오류를 경험합니다. 커널 메모리 제한이 사용자 메모리 제한보다 높으면 커널 제한이 컨테이너가 OOM을 경험하게 하지 않습니다.
 
-When you enable kernel memory limits, the host machine tracks "high water mark"
-statistics on a per-process basis, so you can track which processes (in this
-case, containers) are using excess memory. This can be seen per process by
-viewing `/proc/<PID>/status` on the host machine.
+커널 메모리 제한을 활성화하면 호스트 머신은 프로세스별로 "최대 사용량" 통계를 추적하여 어떤 프로세스(이 경우 컨테이너)가 과도한 메모리를 사용하고 있는지 추적할 수 있습니다. 이는 호스트 머신에서 `/proc/<PID>/status`를 확인하여 프로세스별로 볼 수 있습니다.
 
-## CPU
+## CPU {#cpu}
 
-By default, each container's access to the host machine's CPU cycles is unlimited.
-You can set various constraints to limit a given container's access to the host
-machine's CPU cycles. Most users use and configure the
-[default CFS scheduler](#configure-the-default-cfs-scheduler). You can also
-configure the [real-time scheduler](#configure-the-real-time-scheduler).
+기본적으로 각 컨테이너의 호스트 머신의 CPU 사이클 접근은 무제한입니다. 주어진 컨테이너의 호스트 머신의 CPU 사이클 접근을 제한하기 위해 다양한 제약을 설정할 수 있습니다. 대부분의 사용자는 [기본 CFS 스케줄러 구성](#configure-the-default-cfs-scheduler)을 사용하고 구성합니다. 또한 [실시간 스케줄러 구성](#configure-the-real-time-scheduler)을 구성할 수 있습니다.
 
-### Configure the default CFS scheduler
+### 기본 CFS 스케줄러 구성 {#configure-the-default-cfs-scheduler}
 
-The CFS is the Linux kernel CPU scheduler for normal Linux processes. Several
-runtime flags let you configure the amount of access to CPU resources your
-container has. When you use these settings, Docker modifies the settings for
-the container's cgroup on the host machine.
+CFS는 일반 Linux 프로세스를 위한 Linux 커널 CPU 스케줄러입니다. 여러 런타임 플래그를 사용하여 컨테이너가 CPU 리소스에 접근할 수 있는 양을 구성할 수 있습니다. 이러한 설정을 사용할 때 Docker는 호스트 머신의 컨테이너 cgroup 설정을 수정합니다.
 
-| Option                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 옵션                    | 설명                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--cpus=<value>`       | Specify how much of the available CPU resources a container can use. For instance, if the host machine has two CPUs and you set `--cpus="1.5"`, the container is guaranteed at most one and a half of the CPUs. This is the equivalent of setting `--cpu-period="100000"` and `--cpu-quota="150000"`.                                                                                                                                                                                                                                                                                              |
-| `--cpu-period=<value>` | Specify the CPU CFS scheduler period, which is used alongside `--cpu-quota`. Defaults to 100000 microseconds (100 milliseconds). Most users don't change this from the default. For most use-cases, `--cpus` is a more convenient alternative.                                                                                                                                                                                                                                                                                                                                                     |
-| `--cpu-quota=<value>`  | Impose a CPU CFS quota on the container. The number of microseconds per `--cpu-period` that the container is limited to before throttled. As such acting as the effective ceiling. For most use-cases, `--cpus` is a more convenient alternative.                                                                                                                                                                                                                                                                                                                                                  |
-| `--cpuset-cpus`        | Limit the specific CPUs or cores a container can use. A comma-separated list or hyphen-separated range of CPUs a container can use, if you have more than one CPU. The first CPU is numbered 0. A valid value might be `0-3` (to use the first, second, third, and fourth CPU) or `1,3` (to use the second and fourth CPU).                                                                                                                                                                                                                                                                        |
-| `--cpu-shares`         | Set this flag to a value greater or less than the default of 1024 to increase or reduce the container's weight, and give it access to a greater or lesser proportion of the host machine's CPU cycles. This is only enforced when CPU cycles are constrained. When plenty of CPU cycles are available, all containers use as much CPU as they need. In that way, this is a soft limit. `--cpu-shares` doesn't prevent containers from being scheduled in Swarm mode. It prioritizes container CPU resources for the available CPU cycles. It doesn't guarantee or reserve any specific CPU access. |
+| `--cpus=<value>`       | 컨테이너가 사용할 수 있는 가용 CPU 리소스의 양을 지정합니다. 예를 들어 호스트 머신에 두 개의 CPU가 있고 `--cpus="1.5"`를 설정하면 컨테이너는 최대 1.5개의 CPU를 사용할 수 있습니다. 이는 `--cpu-period="100000"` 및 `--cpu-quota="150000"`을 설정하는 것과 동일합니다.                                                                                                                                                                                                                                                                                              |
+| `--cpu-period=<value>` | `--cpu-quota`와 함께 사용되는 CPU CFS 스케줄러 기간을 지정합니다. 기본값은 100000 마이크로초(100 밀리초)입니다. 대부분의 사용자는 기본값에서 변경하지 않습니다. 대부분의 사용 사례에서는 `--cpus`가 더 편리한 대안입니다.                                                                                                                                                                                                                                                                                                                                                     |
+| `--cpu-quota=<value>`  | 컨테이너에 CPU CFS 할당량을 부과합니다. 컨테이너가 제한되기 전에 `--cpu-period`당 마이크로초 수입니다. 따라서 효과적인 상한선으로 작용합니다. 대부분의 사용 사례에서는 `--cpus`가 더 편리한 대안입니다.                                                                                                                                                                                                                                                                                                                                                  |
+| `--cpuset-cpus`        | 컨테이너가 사용할 수 있는 특정 CPU 또는 코어를 제한합니다. 여러 CPU가 있는 경우 컨테이너가 사용할 수 있는 CPU의 쉼표로 구분된 목록 또는 하이픈으로 구분된 범위입니다. 첫 번째 CPU는 0번으로 번호가 매겨집니다. 유효한 값은 `0-3`(첫 번째, 두 번째, 세 번째 및 네 번째 CPU 사용) 또는 `1,3`(두 번째 및 네 번째 CPU 사용)일 수 있습니다.                                                                                                                                                                                                                                                                        |
+| `--cpu-shares`         | 이 플래그를 기본값인 1024보다 크거나 작은 값으로 설정하여 컨테이너의 가중치를 증가 또는 감소시키고 호스트 머신의 CPU 사이클에 대한 접근을 증가 또는 감소시킵니다. 이는 CPU 사이클이 제한될 때만 적용됩니다. 충분한 CPU 사이클이 있는 경우 모든 컨테이너는 필요한 만큼의 CPU를 사용합니다. 이러한 방식으로 이는 소프트 제한입니다. `--cpu-shares`는 Swarm 모드에서 컨테이너가 예약되는 것을 방지하지 않습니다. 이는 사용 가능한 CPU 사이클에 대한 컨테이너 CPU 리소스를 우선시합니다. 특정 CPU 접근을 보장하거나 예약하지 않습니다. |
 
-If you have 1 CPU, each of the following commands guarantees the container at
-most 50% of the CPU every second.
+CPU가 1개인 경우 다음 명령은 컨테이너에 매 초 최대 50%의 CPU를 보장합니다.
 
 ```console
 $ docker run -it --cpus=".5" ubuntu /bin/bash
 ```
 
-Which is the equivalent to manually specifying `--cpu-period` and `--cpu-quota`;
+이는 `--cpu-period` 및 `--cpu-quota`를 수동으로 지정하는 것과 동일합니다:
 
 ```console
 $ docker run -it --cpu-period=100000 --cpu-quota=50000 ubuntu /bin/bash
 ```
 
-### Configure the real-time scheduler
+### 실시간 스케줄러 구성 {#configure-the-real-time-scheduler}
 
-You can configure your container to use the real-time scheduler, for tasks which
-can't use the CFS scheduler. You need to
-[make sure the host machine's kernel is configured correctly](#configure-the-host-machines-kernel)
-before you can [configure the Docker daemon](#configure-the-docker-daemon) or
-[configure individual containers](#configure-individual-containers).
+CFS 스케줄러를 사용할 수 없는 작업을 위해 컨테이너가 실시간 스케줄러를 사용하도록 구성할 수 있습니다. [호스트 머신의 커널이 올바르게 구성되었는지 확인](#configure-the-host-machines-kernel)한 후 [Docker 데몬 구성](#configure-the-docker-daemon) 또는 [개별 컨테이너 구성](#configure-individual-containers)을 수행할 수 있습니다.
 
-> [!WARNING]
->
-> CPU scheduling and prioritization are advanced kernel-level features. Most
-> users don't need to change these values from their defaults. Setting these
-> values incorrectly can cause your host system to become unstable or unusable.
+:::warning
+CPU 스케줄링 및 우선 순위 지정은 고급 커널 수준 기능입니다. 대부분의 사용자는 이러한 값을 기본값에서 변경할 필요가 없습니다. 이러한 값을 잘못 설정하면 호스트 시스템이 불안정하거나 사용 불가능해질 수 있습니다.
+:::
 
-#### Configure the host machine's kernel
+#### 호스트 머신의 커널 구성 {#configure-the-host-machines-kernel}
 
-Verify that `CONFIG_RT_GROUP_SCHED` is enabled in the Linux kernel by running
-`zcat /proc/config.gz | grep CONFIG_RT_GROUP_SCHED` or by checking for the
-existence of the file `/sys/fs/cgroup/cpu.rt_runtime_us`. For guidance on
-configuring the kernel real-time scheduler, consult the documentation for your
-operating system.
+Linux 커널에서 `CONFIG_RT_GROUP_SCHED`가 활성화되어 있는지 `zcat /proc/config.gz | grep CONFIG_RT_GROUP_SCHED`를 실행하거나 `/sys/fs/cgroup/cpu.rt_runtime_us` 파일의 존재 여부를 확인하여 확인하십시오. 커널 실시간 스케줄러 구성에 대한 지침은 운영 체제의 문서를 참조하십시오.
 
-#### Configure the Docker daemon
+#### Docker 데몬 구성 {#configure-the-docker-daemon}
 
-To run containers using the real-time scheduler, run the Docker daemon with
-the `--cpu-rt-runtime` flag set to the maximum number of microseconds reserved
-for real-time tasks per runtime period. For instance, with the default period of
-1000000 microseconds (1 second), setting `--cpu-rt-runtime=950000` ensures that
-containers using the real-time scheduler can run for 950000 microseconds for every
-1000000-microsecond period, leaving at least 50000 microseconds available for
-non-real-time tasks. To make this configuration permanent on systems which use
-`systemd`, create a systemd unit file for the `docker` service. For an example,
-see the instruction on how to configure the daemon to use a proxy with a
-[systemd unit file](../daemon/proxy.md#systemd-unit-file).
+실시간 스케줄러를 사용하는 컨테이너를 실행하려면 Docker 데몬을 `--cpu-rt-runtime` 플래그를 설정하여 런타임 기간당 실시간 작업에 예약된 최대 마이크로초 수로 실행하십시오. 예를 들어 기본 기간인 1000000 마이크로초(1초)로 `--cpu-rt-runtime=950000`을 설정하면 실시간 스케줄러를 사용하는 컨테이너는 1000000 마이크로초 기간 동안 950000 마이크로초 동안 실행될 수 있으며, 최소 50000 마이크로초는 비실시간 작업에 사용할 수 있습니다. `systemd`를 사용하는 시스템에서 이 구성을 영구적으로 만들려면 `docker` 서비스에 대한 systemd 유닛 파일을 만드십시오. 예제는 [systemd 유닛 파일](../daemon/proxy.md#systemd-unit-file)을 사용하여 데몬을 프록시로 구성하는 방법에 대한 지침을 참조하십시오.
 
-#### Configure individual containers
+#### 개별 컨테이너 구성 {#configure-individual-containers}
 
-You can pass several flags to control a container's CPU priority when you
-start the container using `docker run`. Consult your operating system's
-documentation or the `ulimit` command for information on appropriate values.
+`docker run`을 사용하여 컨테이너를 시작할 때 컨테이너의 CPU 우선 순위를 제어하기 위해 여러 플래그를 전달할 수 있습니다. 적절한 값에 대한 정보는 운영 체제의 문서 또는 `ulimit` 명령을 참조하십시오.
 
-| Option                     | Description                                                                                                                                                                               |
+| 옵션                     | 설명                                                                                                                                                                               |
 | :------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--cap-add=sys_nice`       | Grants the container the `CAP_SYS_NICE` capability, which allows the container to raise process `nice` values, set real-time scheduling policies, set CPU affinity, and other operations. |
-| `--cpu-rt-runtime=<value>` | The maximum number of microseconds the container can run at real-time priority within the Docker daemon's real-time scheduler period. You also need the `--cap-add=sys_nice` flag.        |
-| `--ulimit rtprio=<value>`  | The maximum real-time priority allowed for the container. You also need the `--cap-add=sys_nice` flag.                                                                                    |
+| `--cap-add=sys_nice`       | 컨테이너에 `CAP_SYS_NICE` 기능을 부여하여 컨테이너가 프로세스 `nice` 값을 높이고, 실시간 스케줄링 정책을 설정하고, CPU 친화성을 설정하고, 기타 작업을 수행할 수 있습니다. |
+| `--cpu-rt-runtime=<value>` | Docker 데몬의 실시간 스케줄러 기간 내에서 컨테이너가 실시간 우선 순위로 실행할 수 있는 최대 마이크로초 수입니다. `--cap-add=sys_nice` 플래그도 필요합니다.        |
+| `--ulimit rtprio=<value>`  | 컨테이너에 허용되는 최대 실시간 우선 순위입니다. `--cap-add=sys_nice` 플래그도 필요합니다.                                                                                    |
 
-The following example command sets each of these three flags on a `debian:jessie`
-container.
+다음 예제 명령은 `debian:jessie` 컨테이너에 이 세 가지 플래그를 설정합니다.
 
 ```console
 $ docker run -it \
@@ -265,34 +165,31 @@ $ docker run -it \
     debian:jessie
 ```
 
-If the kernel or Docker daemon isn't configured correctly, an error occurs.
+커널 또는 Docker 데몬이 올바르게 구성되지 않은 경우 오류가 발생합니다.
 
-## GPU
+## GPU {#gpu}
 
-### Access an NVIDIA GPU
+### NVIDIA GPU 접근 {#access-an-nvidia-gpu}
 
-#### Prerequisites
+#### 사전 요구 사항 {#prerequisites}
 
-Visit the official [NVIDIA drivers page](https://www.nvidia.com/Download/index.aspx)
-to download and install the proper drivers. Reboot your system once you have
-done so.
+공식 [NVIDIA 드라이버 페이지](https://www.nvidia.com/Download/index.aspx)를 방문하여 적절한 드라이버를 다운로드하고 설치하십시오. 설치 후 시스템을 재부팅하십시오.
 
-Verify that your GPU is running and accessible.
+GPU가 실행 중이고 접근 가능한지 확인하십시오.
 
-#### Install nvidia-container-toolkit
+#### nvidia-container-toolkit 설치 {#install-nvidia-container-toolkit}
 
-Follow the official NVIDIA Container Toolkit [installation instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
+공식 NVIDIA Container Toolkit [설치 지침](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)을 따르십시오.
 
-#### Expose GPUs for use
+#### GPU 사용 노출 {#expose-gpus-for-use}
 
-Include the `--gpus` flag when you start a container to access GPU resources.
-Specify how many GPUs to use. For example:
+컨테이너를 시작할 때 `--gpus` 플래그를 포함하여 GPU 리소스에 접근하십시오. 사용할 GPU 수를 지정하십시오. 예를 들어:
 
 ```console
 $ docker run -it --rm --gpus all ubuntu nvidia-smi
 ```
 
-Exposes all available GPUs and returns a result akin to the following:
+모든 사용 가능한 GPU를 노출하고 다음과 유사한 결과를 반환합니다:
 
 ```bash
 +-------------------------------------------------------------------------------+
@@ -312,41 +209,34 @@ Exposes all available GPUs and returns a result akin to the following:
 +-------------------------------------------------------------------------------+
 ```
 
-Use the `device` option to specify GPUs. For example:
+`device` 옵션을 사용하여 GPU를 지정하십시오. 예를 들어:
 
 ```console
 $ docker run -it --rm --gpus device=GPU-3a23c669-1f69-c64e-cf85-44e9b07e7a2a ubuntu nvidia-smi
 ```
 
-Exposes that specific GPU.
+특정 GPU를 노출합니다.
 
 ```console
 $ docker run -it --rm --gpus '"device=0,2"' ubuntu nvidia-smi
 ```
 
-Exposes the first and third GPUs.
+첫 번째 및 세 번째 GPU를 노출합니다.
 
-> [!NOTE]
->
-> NVIDIA GPUs can only be accessed by systems running a single engine.
+:::note
+NVIDIA GPU는 단일 엔진을 실행하는 시스템에서만 접근할 수 있습니다.
+:::
 
-#### Set NVIDIA capabilities
+#### NVIDIA 기능 설정 {#set-nvidia-capabilities}
 
-You can set capabilities manually. For example, on Ubuntu you can run the
-following:
+기능을 수동으로 설정할 수 있습니다. 예를 들어 Ubuntu에서 다음을 실행할 수 있습니다:
 
 ```console
 $ docker run --gpus 'all,capabilities=utility' --rm ubuntu nvidia-smi
 ```
 
-This enables the `utility` driver capability which adds the `nvidia-smi` tool to
-the container.
+이 명령은 `utility` 드라이버 기능을 활성화하여 `nvidia-smi` 도구를 컨테이너에 추가합니다.
 
-Capabilities as well as other configurations can be set in images via
-environment variables. More information on valid variables can be found in the
-[nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html)
-documentation. These variables can be set in a Dockerfile.
+기능 및 기타 구성은 환경 변수를 통해 이미지에 설정할 수 있습니다. 유효한 변수에 대한 자세한 내용은 [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/docker-specialized.html) 문서를 참조하십시오. 이러한 변수는 Dockerfile에 설정할 수 있습니다.
 
-You can also use CUDA images which sets these variables automatically. See the
-official [CUDA images](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda)
-NGC catalog page.
+이러한 변수를 자동으로 설정하는 CUDA 이미지를 사용할 수도 있습니다. 공식 [CUDA 이미지](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda) NGC 카탈로그 페이지를 참조하십시오.

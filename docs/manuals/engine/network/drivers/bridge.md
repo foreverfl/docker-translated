@@ -1,11 +1,11 @@
 ---
-title: Bridge network driver
-description: All about using user-defined bridge networks and the default bridge
+title: 브리지 네트워크 드라이버
+description: 사용자 정의 브리지 네트워크 및 기본 브리지 사용에 대한 모든 것
 keywords:
-  - network
-  - bridge
-  - user-defined
-  - standalone
+  - 네트워크
+  - 브리지
+  - 사용자 정의
+  - 독립 실행형
 aliases:
 - /config/containers/bridges/
 - /engine/userguide/networking/default_network/build-bridges/
@@ -15,117 +15,70 @@ aliases:
 - /network/drivers/bridge/
 ---
 
-In terms of networking, a bridge network is a Link Layer device
-which forwards traffic between network segments. A bridge can be a hardware
-device or a software device running within a host machine's kernel.
+네트워킹 측면에서 브리지 네트워크는 네트워크 세그먼트 간의 트래픽을 전달하는 링크 계층 장치입니다. 브리지는 하드웨어 장치일 수도 있고 호스트 머신의 커널 내에서 실행되는 소프트웨어 장치일 수도 있습니다.
 
-In terms of Docker, a bridge network uses a software bridge which lets
-containers connected to the same bridge network communicate, while providing
-isolation from containers that aren't connected to that bridge network. The
-Docker bridge driver automatically installs rules in the host machine so that
-containers on different bridge networks can't communicate directly with each
-other.
+Docker 측면에서 브리지 네트워크는 동일한 브리지 네트워크에 연결된 컨테이너가 통신할 수 있도록 하는 소프트웨어 브리지를 사용하며, 해당 브리지 네트워크에 연결되지 않은 컨테이너로부터 격리됩니다. Docker 브리지 드라이버는 서로 다른 브리지 네트워크에 있는 컨테이너가 직접 통신할 수 없도록 호스트 머신에 규칙을 자동으로 설치합니다.
 
-Bridge networks apply to containers running on the same Docker daemon host.
-For communication among containers running on different Docker daemon hosts, you
-can either manage routing at the OS level, or you can use an
-[overlay network](overlay.md).
+브리지 네트워크는 동일한 Docker 데몬 호스트에서 실행되는 컨테이너에 적용됩니다. 서로 다른 Docker 데몬 호스트에서 실행되는 컨테이너 간의 통신을 위해서는 OS 수준에서 라우팅을 관리하거나 [오버레이 네트워크](overlay.md)를 사용할 수 있습니다.
 
-When you start Docker, a [default bridge network](#use-the-default-bridge-network) (also
-called `bridge`) is created automatically, and newly-started containers connect
-to it unless otherwise specified. You can also create user-defined custom bridge
-networks. **User-defined bridge networks are superior to the default `bridge`
-network.**
+Docker를 시작하면 [기본 브리지 네트워크](#use-the-default-bridge-network) (또는 `bridge`라고도 함)가 자동으로 생성되며, 별도로 지정하지 않는 한 새로 시작된 컨테이너는 이 네트워크에 연결됩니다. 또한 사용자 정의 브리지 네트워크를 생성할 수도 있습니다. **사용자 정의 브리지 네트워크는 기본 `bridge` 네트워크보다 우수합니다.**
 
-## Differences between user-defined bridges and the default bridge
+## 사용자 정의 브리지와 기본 브리지의 차이점 {#differences-between-user-defined-bridges-and-the-default-bridge}
 
-- **User-defined bridges provide automatic DNS resolution between containers**.
+- **사용자 정의 브리지는 컨테이너 간 자동으로 도메인 이름을 매핑해줍니다**.
 
-  Containers on the default bridge network can only access each other by IP
-  addresses, unless you use the [`--link` option](../links.md), which is
-  considered legacy. On a user-defined bridge network, containers can resolve
-  each other by name or alias.
+  기본 브리지 네트워크의 컨테이너는 IP 주소로만 서로 접근할 수 있으며, [`--link` 옵션](../links.md)을 사용하지 않는 한 이는 레거시로 간주됩니다. 사용자 정의 브리지 네트워크에서는 컨테이너가 이름이나 별칭으로 서로를 인식하고 접근할 수 있습니다.
 
-  Imagine an application with a web front-end and a database back-end. If you call
-  your containers `web` and `db`, the web container can connect to the db container
-  at `db`, no matter which Docker host the application stack is running on.
+  웹 프론트엔드와 데이터베이스 백엔드가 있는 애플리케이션을 상상해 보십시오. 컨테이너 이름을 `web`과 `db`로 지정하면, 웹 컨테이너는 애플리케이션 스택이 실행되는 Docker 호스트에 상관없이 `db`에서 데이터베이스 컨테이너에 연결할 수 있습니다.
 
-  If you run the same application stack on the default bridge network, you need
-  to manually create links between the containers (using the legacy `--link`
-  flag). These links need to be created in both directions, so you can see this
-  gets complex with more than two containers which need to communicate.
-  Alternatively, you can manipulate the `/etc/hosts` files within the containers,
-  but this creates problems that are difficult to debug.
+  동일한 애플리케이션 스택을 기본 브리지 네트워크에서 실행하는 경우, 컨테이너 간에 링크를 수동으로 생성해야 합니다(레거시 `--link` 플래그 사용). 이러한 링크는 양방향으로 생성해야 하므로 두 개 이상의 컨테이너가 통신해야 하는 경우 복잡해집니다. 또는 컨테이너 내의 `/etc/hosts` 파일을 조작할 수 있지만, 이는 디버그하기 어려운 문제를 일으킵니다.
 
-- **User-defined bridges provide better isolation**.
+- **사용자 정의 브리지는 더 나은 격리를 제공합니다**.
 
-  All containers without a `--network` specified, are attached to the default bridge network. This can be a risk, as unrelated stacks/services/containers are then able to communicate.
+  `--network`를 지정하지 않은 모든 컨테이너는 기본 브리지 네트워크에 연결됩니다. 이는 관련 없는 스택/서비스/컨테이너가 통신할 수 있으므로 위험할 수 있습니다.
 
-  Using a user-defined network provides a scoped network in which only containers attached to that network are able to communicate.
+  사용자 정의 네트워크를 사용하면 해당 네트워크에 연결된 컨테이너만 통신할 수 있는 범위가 지정된 네트워크를 제공합니다.
 
-- **Containers can be attached and detached from user-defined networks on the fly**.
+- **컨테이너는 사용자 정의 네트워크에서 동적으로 연결 및 분리될 수 있습니다**.
 
-  During a container's lifetime, you can connect or disconnect it from
-  user-defined networks on the fly. To remove a container from the default
-  bridge network, you need to stop the container and recreate it with different
-  network options.
+  컨테이너의 수명 동안 사용자 정의 네트워크에서 동적으로 연결하거나 분리할 수 있습니다. 기본 브리지 네트워크에서 컨테이너를 제거하려면 컨테이너를 중지하고 다른 네트워크 옵션으로 다시 생성해야 합니다.
 
-- **Each user-defined network creates a configurable bridge**.
+- **각 사용자 정의 네트워크는 구성 가능한 브리지를 생성합니다**.
 
-  If your containers use the default bridge network, you can configure it, but
-  all the containers use the same settings, such as MTU and `iptables` rules.
-  In addition, configuring the default bridge network happens outside of Docker
-  itself, and requires a restart of Docker.
+  컨테이너가 기본 브리지 네트워크를 사용하는 경우 이를 구성할 수 있지만, 모든 컨테이너는 MTU 및 `iptables` 규칙과 같은 동일한 설정을 사용합니다. 또한 기본 브리지 네트워크를 구성하는 것은 Docker 외부에서 이루어지며 Docker를 재시작해야 합니다.
 
-  User-defined bridge networks are created and configured using
-  `docker network create`. If different groups of applications have different
-  network requirements, you can configure each user-defined bridge separately,
-  as you create it.
+  사용자 정의 브리지 네트워크는 `docker network create`를 사용하여 생성 및 구성됩니다. 애플리케이션 그룹이 서로 다른 네트워크 요구 사항을 가지고 있는 경우, 생성 시 각 사용자 정의 브리지를 별도로 구성할 수 있습니다.
 
-- **Linked containers on the default bridge network share environment variables**.
+- **기본 브리지 네트워크에 연결된 컨테이너는 환경 변수를 공유합니다**.
 
-  Originally, the only way to share environment variables between two containers
-  was to link them using the [`--link` flag](../links.md). This type of
-  variable sharing isn't possible with user-defined networks. However, there
-  are superior ways to share environment variables. A few ideas:
+  원래 두 컨테이너 간에 환경 변수를 공유하는 유일한 방법은 [`--link` 플래그](../links.md)를 사용하여 연결하는 것이었습니다. 이러한 유형의 변수 공유는 사용자 정의 네트워크에서는 불가능합니다. 그러나 환경 변수를 공유하는 더 나은 방법이 있습니다. 몇 가지 아이디어:
 
-  - Multiple containers can mount a file or directory containing the shared
-    information, using a Docker volume.
+  - 여러 컨테이너가 Docker 볼륨을 사용하여 공유 정보를 포함하는 파일이나 디렉터리를 마운트할 수 있습니다.
 
-  - Multiple containers can be started together using `docker-compose` and the
-    compose file can define the shared variables.
+  - 여러 컨테이너를 `docker-compose`를 사용하여 함께 시작하고 compose 파일에서 공유 변수를 정의할 수 있습니다.
 
-  - You can use swarm services instead of standalone containers, and take
-    advantage of shared [secrets](/manuals/engine/swarm/secrets.md) and
-    [configs](/manuals/engine/swarm/configs.md).
+  - 독립 실행형 컨테이너 대신 스웜 서비스를 사용하고 공유 [비밀](/manuals/engine/swarm/secrets.md) 및 [구성](/manuals/engine/swarm/configs.md)을 활용할 수 있습니다.
 
-Containers connected to the same user-defined bridge network effectively expose all ports
-to each other. For a port to be accessible to containers or non-Docker hosts on
-different networks, that port must be _published_ using the `-p` or `--publish`
-flag.
+동일한 사용자 정의 브리지 네트워크에 연결된 컨테이너는 사실상 모든 포트를 서로에게 노출합니다. 다른 네트워크의 컨테이너나 비-Docker 호스트에서 포트에 접근하려면 해당 포트를 `-p` 또는 `--publish` 플래그를 사용하여 _게시_ 해야 합니다.
 
-## Options
+## 옵션 {#options}
 
-The following table describes the driver-specific options that you can pass to
-`--option` when creating a custom network using the `bridge` driver.
+다음 표는 `bridge` 드라이버를 사용하여 사용자 정의 네트워크를 생성할 때 `--option`에 전달할 수 있는 드라이버별 옵션을 설명합니다.
 
-| Option                                                                                          | Default                     | Description                                                                                    |
+| 옵션                                                                                          | 기본값                     | 설명                                                                                    |
 |-------------------------------------------------------------------------------------------------|-----------------------------|------------------------------------------------------------------------------------------------|
-| `com.docker.network.bridge.name`                                                                |                             | Interface name to use when creating the Linux bridge.                                          |
-| `com.docker.network.bridge.enable_ip_masquerade`                                                | `true`                      | Enable IP masquerading.                                                                        |
-| `com.docker.network.bridge.gateway_mode_ipv4`<br/>`com.docker.network.bridge.gateway_mode_ipv6` | `nat`                       | Enable NAT and masquerading (`nat`), or only allow direct routing to the container (`routed`). |
-| `com.docker.network.bridge.enable_icc`                                                          | `true`                      | Enable or Disable inter-container connectivity.                                                |
-| `com.docker.network.bridge.host_binding_ipv4`                                                   | all IPv4 and IPv6 addresses | Default IP when binding container ports.                                                       |
-| `com.docker.network.driver.mtu`                                                                 | `0` (no limit)              | Set the containers network Maximum Transmission Unit (MTU).                                    |
-| `com.docker.network.container_iface_prefix`                                                     | `eth`                       | Set a custom prefix for container interfaces.                                                  |
-| `com.docker.network.bridge.inhibit_ipv4`                                                        | `false`                     | Prevent Docker from [assigning an IP address](#skip-ip-address-configuration) to the network.  |
+| `com.docker.network.bridge.name`                                                                |                             | Linux 브리지를 생성할 때 사용할 인터페이스 이름.                                          |
+| `com.docker.network.bridge.enable_ip_masquerade`                                                | `true`                      | IP 마스커레이딩 활성화.                                                                        |
+| `com.docker.network.bridge.gateway_mode_ipv4`<br/>`com.docker.network.bridge.gateway_mode_ipv6` | `nat`                       | NAT 및 마스커레이딩 활성화 (`nat`), 또는 컨테이너로의 직접 라우팅만 허용 (`routed`). |
+| `com.docker.network.bridge.enable_icc`                                                          | `true`                      | 컨테이너 간 연결 활성화 또는 비활성화.                                                |
+| `com.docker.network.bridge.host_binding_ipv4`                                                   | 모든 IPv4 및 IPv6 주소 | 컨테이너 포트를 바인딩할 때 기본 IP.                                                       |
+| `com.docker.network.driver.mtu`                                                                 | `0` (제한 없음)              | 컨테이너 네트워크 최대 전송 단위 (MTU) 설정.                                    |
+| `com.docker.network.container_iface_prefix`                                                     | `eth`                       | 컨테이너 인터페이스에 대한 사용자 정의 접두사 설정.                                                  |
+| `com.docker.network.bridge.inhibit_ipv4`                                                        | `false`                     | 네트워크에 IP 주소를 [할당하지 않도록](#skip-ip-address-configuration) Docker를 방지.  |
 
-Some of these options are also available as flags to the `dockerd` CLI, and you
-can use them to configure the default `docker0` bridge when starting the Docker
-daemon. The following table shows which options have equivalent flags in the
-`dockerd` CLI.
+이러한 옵션 중 일부는 `dockerd` CLI의 플래그로도 사용할 수 있으며, Docker 데몬을 시작할 때 기본 `docker0` 브리지를 구성하는 데 사용할 수 있습니다. 다음 표는 `dockerd` CLI에서 동등한 플래그가 있는 옵션을 보여줍니다.
 
-| Option                                           | Flag        |
+| 옵션                                           | 플래그        |
 | ------------------------------------------------ | ----------- |
 | `com.docker.network.bridge.name`                 | -           |
 | `com.docker.network.bridge.enable_ip_masquerade` | `--ip-masq` |
@@ -134,71 +87,45 @@ daemon. The following table shows which options have equivalent flags in the
 | `com.docker.network.driver.mtu`                  | `--mtu`     |
 | `com.docker.network.container_iface_prefix`      | -           |
 
-The Docker daemon supports a `--bridge` flag, which you can use to define
-your own `docker0` bridge. Use this option if you want to run multiple daemon
-instances on the same host. For details, see
-[Run multiple daemons](/reference/cli/dockerd.md#run-multiple-daemons).
+Docker 데몬은 `--bridge` 플래그를 지원하며, 이를 사용하여 자체 `docker0` 브리지를 정의할 수 있습니다. 동일한 호스트에서 여러 데몬 인스턴스를 실행하려는 경우 이 옵션을 사용하십시오. 자세한 내용은 [여러 데몬 실행](/reference/cli/dockerd.md#run-multiple-daemons)을 참조하십시오.
 
-### Default host binding address
+### 기본 호스트 바인딩 주소 {#default-host-binding-address}
 
-When no host address is given in port publishing options like `-p 80`
-or `-p 8080:80`, the default is to make the container's port 80 available on all
-host addresses, IPv4 and IPv6.
+포트 게시 옵션에서 `-p 80` 또는 `-p 8080:80`과 같이 호스트 주소를 지정하지 않은 경우, 기본값은 모든 호스트 주소(IPv4 및 IPv6)에서 컨테이너의 포트 80을 사용할 수 있도록 하는 것입니다.
 
-The bridge network driver option `com.docker.network.bridge.host_binding_ipv4`
-can be used to modify the default address for published ports.
+브리지 네트워크 드라이버 옵션 `com.docker.network.bridge.host_binding_ipv4`를 사용하여 게시된 포트의 기본 주소를 수정할 수 있습니다.
 
-Despite the option's name, it is possible to specify an IPv6 address.
+옵션 이름에도 불구하고 IPv6 주소를 지정할 수 있습니다.
 
-When the default binding address is an address assigned to a specific interface,
-the container's port will only be accessible via that address.
+기본 바인딩 주소가 특정 인터페이스에 할당된 주소인 경우, 해당 주소를 통해서만 컨테이너의 포트에 접근할 수 있습니다.
 
-Setting the default binding address to `::` means published ports will only be
-available on the host's IPv6 addresses. However, setting it to `0.0.0.0` means it
-will be available on the host's IPv4 and IPv6 addresses.
+기본 바인딩 주소를 `::`로 설정하면 게시된 포트는 호스트의 IPv6 주소에서만 사용할 수 있습니다. 그러나 이를 `0.0.0.0`으로 설정하면 호스트의 IPv4 및 IPv6 주소에서 사용할 수 있습니다.
 
-To restrict a published port to IPv4 only, the address must be included in the
-container's publishing options. For example, `-p 0.0.0.0:8080:80`.
+게시된 포트를 IPv4에만 제한하려면 컨테이너의 게시 옵션에 주소를 포함해야 합니다. 예를 들어, `-p 0.0.0.0:8080:80`.
 
-## Manage a user-defined bridge
+## 사용자 정의 브리지 관리 {#manage-a-user-defined-bridge}
 
-Use the `docker network create` command to create a user-defined bridge
-network.
+`docker network create` 명령을 사용하여 사용자 정의 브리지 네트워크를 생성합니다.
 
 ```console
 $ docker network create my-net
 ```
 
-You can specify the subnet, the IP address range, the gateway, and other
-options. See the
-[docker network create](/reference/cli/docker/network/create.md#specify-advanced-options)
-reference or the output of `docker network create --help` for details.
+서브넷, IP 주소 범위, 게이트웨이 및 기타 옵션을 지정할 수 있습니다. 자세한 내용은 [docker network create](/reference/cli/docker/network/create.md#specify-advanced-options) 참조 또는 `docker network create --help`의 출력을 참조하십시오.
 
-Use the `docker network rm` command to remove a user-defined bridge
-network. If containers are currently connected to the network,
-[disconnect them](#disconnect-a-container-from-a-user-defined-bridge)
-first.
+`docker network rm` 명령을 사용하여 사용자 정의 브리지 네트워크를 제거할 수 있습니다. 네트워크에 현재 컨테이너가 연결되어 있는 경우, 먼저 [연결을 해제](#disconnect-a-container-from-a-user-defined-bridge)하십시오.
 
 ```console
 $ docker network rm my-net
 ```
 
-> **What's really happening?**
+> **무슨 일이 일어나고 있나요?**
 >
-> When you create or remove a user-defined bridge or connect or disconnect a
-> container from a user-defined bridge, Docker uses tools specific to the
-> operating system to manage the underlying network infrastructure (such as adding
-> or removing bridge devices or configuring `iptables` rules on Linux). These
-> details should be considered implementation details. Let Docker manage your
-> user-defined networks for you.
+> 사용자 정의 브리지를 생성하거나 제거하거나 컨테이너를 사용자 정의 브리지에 연결하거나 연결을 해제할 때, Docker는 운영 체제에 특정한 도구를 사용하여 기본 네트워크 인프라를 관리합니다(예: 브리지 장치 추가 또는 제거 또는 Linux에서 `iptables` 규칙 구성). 이러한 세부 사항은 구현 세부 사항으로 간주되어야 합니다. Docker가 사용자 정의 네트워크를 관리하도록 하십시오.
 
-## Connect a container to a user-defined bridge
+## 컨테이너를 사용자 정의 브리지에 연결 {#connect-a-container-to-a-user-defined-bridge}
 
-When you create a new container, you can specify one or more `--network` flags.
-This example connects an Nginx container to the `my-net` network. It also
-publishes port 80 in the container to port 8080 on the Docker host, so external
-clients can access that port. Any other container connected to the `my-net`
-network has access to all ports on the `my-nginx` container, and vice versa.
+새 컨테이너를 생성할 때 하나 이상의 `--network` 플래그를 지정할 수 있습니다. 이 예제는 Nginx 컨테이너를 `my-net` 네트워크에 연결합니다. 또한 컨테이너의 포트 80을 Docker 호스트의 포트 8080에 게시하여 외부 클라이언트가 해당 포트에 접근할 수 있도록 합니다. `my-net` 네트워크에 연결된 다른 컨테이너는 모두 `my-nginx` 컨테이너의 모든 포트에 접근할 수 있으며, 그 반대도 마찬가지입니다.
 
 ```console
 $ docker create --name my-nginx \
@@ -207,51 +134,39 @@ $ docker create --name my-nginx \
   nginx:latest
 ```
 
-To connect a **running** container to an existing user-defined bridge, use the
-`docker network connect` command. The following command connects an already-running
-`my-nginx` container to an already-existing `my-net` network:
+실행 중인 **컨테이너를** 기존 사용자 정의 브리지에 연결하려면 `docker network connect` 명령을 사용하십시오. 다음 명령은 이미 실행 중인 `my-nginx` 컨테이너를 이미 존재하는 `my-net` 네트워크에 연결합니다:
 
 ```console
 $ docker network connect my-net my-nginx
 ```
 
-## Disconnect a container from a user-defined bridge
+## 컨테이너를 사용자 정의 브리지에서 분리 {#disconnect-a-container-from-a-user-defined-bridge}
 
-To disconnect a running container from a user-defined bridge, use the
-`docker network disconnect` command. The following command disconnects
-the `my-nginx` container from the `my-net` network.
+실행 중인 컨테이너를 사용자 정의 브리지에서 분리하려면 `docker network disconnect` 명령을 사용하십시오. 다음 명령은 `my-nginx` 컨테이너를 `my-net` 네트워크에서 분리합니다.
 
 ```console
 $ docker network disconnect my-net my-nginx
 ```
 
-## Use IPv6 in a user-defined bridge network
+## 사용자 정의 브리지 네트워크에서 IPv6 사용 {#use-ipv6-in-a-user-defined-bridge-network}
 
-When you create your network, you can specify the `--ipv6` flag to enable IPv6.
+네트워크를 생성할 때 `--ipv6` 플래그를 지정하여 IPv6을 활성화할 수 있습니다.
 
 ```console
 $ docker network create --ipv6 --subnet 2001:db8:1234::/64 my-net
 ```
 
-## Use the default bridge network
+## 기본 브리지 네트워크 사용 {#use-the-default-bridge-network}
 
-The default `bridge` network is considered a legacy detail of Docker and is not
-recommended for production use. Configuring it is a manual operation, and it has
-[technical shortcomings](#differences-between-user-defined-bridges-and-the-default-bridge).
+기본 `bridge` 네트워크는 Docker의 레거시 세부 사항으로 간주되며 프로덕션 사용에는 권장되지 않습니다. 이를 구성하는 것은 수동 작업이며, [기술적 단점](#differences-between-user-defined-bridges-and-the-default-bridge)이 있습니다.
 
-### Connect a container to the default bridge network
+### 기본 브리지 네트워크에 컨테이너 연결 {#connect-a-container-to-the-default-bridge-network}
 
-If you do not specify a network using the `--network` flag, and you do specify a
-network driver, your container is connected to the default `bridge` network by
-default. Containers connected to the default `bridge` network can communicate,
-but only by IP address, unless they're linked using the
-[legacy `--link` flag](../links.md).
+`--network` 플래그를 사용하여 네트워크를 지정하지 않고 네트워크 드라이버를 지정한 경우, 컨테이너는 기본 `bridge` 네트워크에 기본적으로 연결됩니다. 기본 `bridge` 네트워크에 연결된 컨테이너는 통신할 수 있지만, [레거시 `--link` 플래그](../links.md)를 사용하지 않는 한 IP 주소로만 통신할 수 있습니다.
 
-### Configure the default bridge network
+### 기본 브리지 네트워크 구성 {#configure-the-default-bridge-network}
 
-To configure the default `bridge` network, you specify options in `daemon.json`.
-Here is an example `daemon.json` with several options specified. Only specify
-the settings you need to customize.
+기본 `bridge` 네트워크를 구성하려면 `daemon.json`에 옵션을 지정합니다. 다음은 여러 옵션이 지정된 예제 `daemon.json`입니다. 필요한 설정만 지정하십시오.
 
 ```json
 {
@@ -263,24 +178,19 @@ the settings you need to customize.
 }
 ```
 
-Restart Docker for the changes to take effect.
+변경 사항을 적용하려면 Docker를 재시작하십시오.
 
-### Use IPv6 with the default bridge network
+### 기본 브리지 네트워크에서 IPv6 사용 {#use-ipv6-with-the-default-bridge-network}
 
-IPv6 can be enabled for the default bridge using the following options in
-`daemon.json`, or their command line equivalents.
+기본 브리지에 대해 IPv6을 활성화하려면 `daemon.json`에 다음 옵션을 지정하거나 해당 명령줄 동등 항목을 사용하십시오.
 
-These three options only affect the default bridge, they are not used by
-user-defined networks. The addresses in below are examples from the
-IPv6 documentation range.
+이 세 가지 옵션은 기본 브리지에만 영향을 미치며, 사용자 정의 네트워크에서는 사용되지 않습니다. 아래의 주소는 IPv6 문서 범위의 예제입니다.
 
-- Option `ipv6` is required
-- Option `fixed-cidr-v6` is required, it specifies the network prefix to be used.
-  - The prefix should normally be `/64` or shorter.
-  - For experimentation on a local network, it is better to use a Unique Local
-    prefix (matching `fd00::/8`) than a Link Local prefix (matching `fe80::/10`).
-- Option `default-gateway-v6` is optional. If unspecified, the default is the first
-  address in the `fixed-cidr-v6` subnet.
+- 옵션 `ipv6`는 필수입니다.
+- 옵션 `fixed-cidr-v6`는 필수이며, 사용될 네트워크 접두사를 지정합니다.
+  - 접두사는 일반적으로 `/64` 또는 더 짧아야 합니다.
+  - 로컬 네트워크에서 실험할 때는 링크 로컬 접두사(`fe80::/10`)보다 고유 로컬 접두사(`fd00::/8`)를 사용하는 것이 좋습니다.
+- 옵션 `default-gateway-v6`는 선택 사항입니다. 지정하지 않으면 기본값은 `fixed-cidr-v6` 서브넷의 첫 번째 주소입니다.
 
 ```json
 {
@@ -290,33 +200,23 @@ IPv6 documentation range.
 }
 ```
 
-## Connection limit for bridge networks
+## 브리지 네트워크의 연결 제한 {#connection-limit-for-bridge-networks}
 
-Due to limitations set by the Linux kernel, bridge networks become unstable and
-inter-container communications may break when 1000 containers or more connect
-to a single network.
+Linux 커널에서 설정한 제한으로 인해, 브리지 네트워크에 1000개 이상의 컨테이너가 연결되면 브리지 네트워크가 불안정해지고 컨테이너 간 통신이 끊길 수 있습니다.
 
-For more information about this limitation, see
-[moby/moby#44973](https://github.com/moby/moby/issues/44973#issuecomment-1543747718).
+이 제한에 대한 자세한 내용은 [moby/moby#44973](https://github.com/moby/moby/issues/44973#issuecomment-1543747718)를 참조하십시오.
 
-## Skip IP address configuration
+## IP 주소 구성 건너뛰기 {#skip-ip-address-configuration}
 
-The `com.docker.network.bridge.inhibit_ipv4` option lets you create a network
-that uses an existing bridge and have Docker skip configuring the IPv4 address
-on the bridge. This is useful if you want to configure the IP address for the
-bridge manually. For instance if you add a physical interface to your bridge,
-and need to move its IP address to the bridge interface.
+`com.docker.network.bridge.inhibit_ipv4` 옵션을 사용하면 기존 브리지를 사용하는 네트워크를 생성하고 Docker가 브리지에 IPv4 주소를 구성하지 않도록 할 수 있습니다. 이는 브리지에 물리적 인터페이스를 추가하고 해당 IP 주소를 브리지 인터페이스로 이동해야 하는 경우와 같이 IP 주소를 수동으로 구성하려는 경우에 유용합니다.
 
-To use this option, you should first configure the Docker daemon to use a
-self-managed bridge, using the `bridge` option in the `daemon.json` or the
-`dockerd --bridge` flag.
+이 옵션을 사용하려면 `daemon.json`의 `bridge` 옵션을 사용하거나 `dockerd --bridge` 플래그를 사용하여 자체 관리 브리지를 사용하도록 Docker 데몬을 먼저 구성해야 합니다.
 
-With this configuration, north-south traffic won't work unless you've manually
-configured the IP address for the bridge.
+이 구성에서는 수동으로 브리지의 IP 주소를 구성하지 않는 한 북-남 트래픽이 작동하지 않습니다.
 
-## Next steps
+## 다음 단계 {#next-steps}
 
-- Go through the [standalone networking tutorial](/manuals/engine/network/tutorials/standalone.md)
-- Learn about [networking from the container's point of view](../_index.md)
-- Learn about [overlay networks](./overlay.md)
-- Learn about [Macvlan networks](./macvlan.md)
+- [독립 실행형 네트워킹 튜토리얼](/manuals/engine/network/tutorials/standalone.md)을 진행하십시오.
+- [컨테이너 관점에서의 네트워킹](../_index.md)에 대해 알아보십시오.
+- [오버레이 네트워크](./overlay.md)에 대해 알아보십시오.
+- [Macvlan 네트워크](./macvlan.md)에 대해 알아보십시오.
