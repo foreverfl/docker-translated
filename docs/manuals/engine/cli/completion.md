@@ -1,7 +1,7 @@
 ---
-title: Completion
+title: 자동 완성
 weight: 10
-description: Set up your shell to get autocomplete for Docker commands and flags
+description: Docker 명령어 및 플래그에 대한 자동 완성을 위해 셸을 설정합니다
 keywords:
   - cli
   - shell
@@ -14,81 +14,72 @@ aliases:
   - /config/completion/
 ---
 
-You can generate a shell completion script for the Docker CLI using the `docker
-completion` command. The completion script gives you word completion for
-commands, flags, and Docker objects (such as container and volume names) when
-you hit `<Tab>` as you type into your terminal.
+Docker CLI에 대한 셸 완성 스크립트를 `docker completion` 명령어를 사용하여 생성할 수 있습니다. 완성 스크립트는 터미널에 입력할 때 `<Tab>` 키를 누르면 명령어, 플래그 및 Docker 객체(예: 컨테이너 및 볼륨 이름)에 대한 단어 완성을 제공합니다.
 
-You can generate completion scripts for the following shells:
+다음 셸에 대한 완성 스크립트를 생성할 수 있습니다:
 
 - [Bash](#bash)
 - [Zsh](#zsh)
 - [fish](#fish)
 
-## Bash
+## Bash {#bash}
 
-To get Docker CLI completion with Bash, you first need to install the
-`bash-completion` package which contains a number of Bash functions for shell
-completion.
+Bash에서 Docker CLI 완성을 사용하려면 먼저 셸 완성을 위한 여러 Bash 함수를 포함하는 `bash-completion` 패키지를 설치해야 합니다.
 
 ```bash
-# Install using APT:
+# APT를 사용하여 설치:
 sudo apt install bash-completion
 
-# Install using Homebrew (Bash version 4 or later):
+# Homebrew를 사용하여 설치 (Bash 버전 4 이상):
 brew install bash-completion@2
-# Homebrew install for older versions of Bash:
+# 이전 버전의 Bash에 대한 Homebrew 설치:
 brew install bash-completion
 
-# With pacman:
+# pacman을 사용하여 설치:
 sudo pacman -S bash-completion
 ```
 
-After installing `bash-completion`, source the script in your shell
-configuration file (in this example, `.bashrc`):
+`bash-completion`을 설치한 후 셸 구성 파일(이 예에서는 `.bashrc`)에서 스크립트를 소스합니다.
 
 ```bash
-# On Linux:
+# Linux에서:
 cat <<EOT >> ~/.bashrc
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 EOT
 
-# On macOS / with Homebrew:
+# macOS / Homebrew에서:
 cat <<EOT >> ~/.bash_profile
 [[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
 EOT
 ```
 
-And reload your shell configuration:
+그리고 셸 구성을 다시 로드합니다:
 
 ```console
 $ source ~/.bashrc
 ```
 
-Now you can generate the Bash completion script using the `docker completion` command:
+이제 `docker completion` 명령어를 사용하여 Bash 완성 스크립트를 생성할 수 있습니다:
 
 ```console
 $ mkdir -p ~/.local/share/bash-completion/completions
 $ docker completion bash > ~/.local/share/bash-completion/completions/docker
 ```
 
-## Zsh
+## Zsh {#zsh}
 
-The Zsh [completion system](http://zsh.sourceforge.net/Doc/Release/Completion-System.html)
-takes care of things as long as the completion can be sourced using `FPATH`.
+Zsh [완성 시스템](http://zsh.sourceforge.net/Doc/Release/Completion-System.html)은 `FPATH`를 사용하여 완성을 소스할 수 있는 한 모든 것을 처리합니다.
 
-If you use Oh My Zsh, you can install completions without modifying `~/.zshrc`
-by storing the completion script in the `~/.oh-my-zsh/completions` directory.
+Oh My Zsh를 사용하는 경우 `~/.zshrc`를 수정하지 않고 `~/.oh-my-zsh/completions` 디렉토리에 완성 스크립트를 저장할 수 있습니다.
 
 ```console
 $ mkdir -p ~/.oh-my-zsh/completions
 $ docker completion zsh > ~/.oh-my-zsh/completions/_docker
 ```
 
-If you're not using Oh My Zsh, store the completion script in a directory of
-your choice and add the directory to `FPATH` in your `.zshrc`.
+Oh My Zsh를 사용하지 않는 경우, 선택한 디렉토리에 완성 스크립트를 저장하고 `.zshrc`에서 `FPATH`에 디렉토리를 추가합니다.
 
 ```console
 $ mkdir -p ~/.docker/completions
@@ -103,10 +94,10 @@ compinit
 EOT
 ```
 
-## Fish
+## Fish {#fish}
 
-fish shell supports a [completion system](https://fishshell.com/docs/current/#tab-completion) natively.
-To activate completion for Docker commands, copy or symlink the completion script to your fish shell `completions/` directory:
+fish 셸은 [완성 시스템](https://fishshell.com/docs/current/#tab-completion)을 기본적으로 지원합니다.
+Docker 명령어에 대한 완성을 활성화하려면 완성 스크립트를 fish 셸 `completions/` 디렉토리에 복사하거나 심볼릭 링크를 만듭니다:
 
 ```console
 $ mkdir -p ~/.config/fish/completions

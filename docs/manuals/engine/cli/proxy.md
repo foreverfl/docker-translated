@@ -1,47 +1,42 @@
 ---
-title: Use a proxy server with the Docker CLI
-linkTitle: Proxy configuration
+title: Docker CLI에서 프록시 서버 사용하기
+linkTitle: 프록시 설정
 weight: 20
-description: How to configure the Docker client CLI to use a proxy server
+description: Docker 클라이언트 CLI에서 프록시 서버를 사용하는 방법
 keywords:
-  - network
-  - networking
-  - proxy
-  - client
+  - 네트워크
+  - 네트워킹
+  - 프록시
+  - 클라이언트
 aliases:
   - /network/proxy/
 ---
 
-This page describes how to configure the Docker CLI to use proxies via
-environment variables in containers.
+이 페이지에서는 컨테이너의 환경 변수를 통해 Docker CLI에서 프록시를 설정하는 방법을 설명합니다.
 
-This page doesn't describe how to configure proxies for Docker Desktop.
-For instructions, see [configuring Docker Desktop to use HTTP/HTTPS proxies](/manuals/desktop/settings-and-maintenance/settings.md#proxies).
+이 페이지는 Docker Desktop에서 프록시를 설정하는 방법을 설명하지 않습니다.
+자세한 내용은 [Docker Desktop에서 HTTP/HTTPS 프록시 설정](/manuals/desktop/settings-and-maintenance/settings.md#proxies)을 참조하십시오.
 
-If you're running Docker Engine without Docker Desktop, refer to
-[Configure the Docker daemon to use a proxy](/manuals/engine/daemon/proxy.md)
-to learn how to configure a proxy server for the Docker daemon (`dockerd`) itself.
+Docker Desktop 없이 Docker Engine을 실행 중인 경우,
+[Docker 데몬에 프록시 서버 설정](/manuals/engine/daemon/proxy.md)을 참조하여 Docker 데몬(`dockerd`) 자체에 프록시 서버를 설정하는 방법을 알아보십시오.
 
-If your container needs to use an HTTP, HTTPS, or FTP proxy server, you can
-configure it in different ways:
+컨테이너에서 HTTP, HTTPS 또는 FTP 프록시 서버를 사용해야 하는 경우,
+다음과 같은 방법으로 설정할 수 있습니다:
 
-- [Configure the Docker client](#configure-the-docker-client)
-- [Set proxy using the CLI](#set-proxy-using-the-cli)
+- [Docker 클라이언트 설정](#configure-the-docker-client)
+- [CLI를 사용하여 프록시 설정](#set-proxy-using-the-cli)
 
-> [!NOTE]
->
-> Unfortunately, there's no standard that defines how web clients should handle proxy 
-> environment variables, or the format for defining them.
->
-> If you're interested in the history of these variables, check out this blog
-> post on the subject, by the GitLab team:
-> [We need to talk: Can we standardize NO_PROXY?](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/).
+:::note
+불행히도, 웹 클라이언트가 프록시 환경 변수를 처리하는 방법이나 이를 정의하는 형식에 대한 표준은 없습니다.
 
-## Configure the Docker client
+이러한 변수의 역사에 관심이 있다면, GitLab 팀의 이 블로그 게시물을 확인하십시오:
+[We need to talk: Can we standardize NO_PROXY?](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/).
+:::
 
-You can add proxy configurations for the Docker client using a JSON
-configuration file, located in `~/.docker/config.json`.
-Builds and containers use the configuration specified in this file.
+## Docker 클라이언트 설정 {#configure-the-docker-client}
+
+프록시 설정을 `~/.docker/config.json`에 위치한 JSON 구성 파일을 사용하여 Docker 클라이언트에 추가할 수 있습니다.
+빌드 및 컨테이너는 이 파일에 지정된 구성을 사용합니다.
 
 ```json
 {
@@ -55,65 +50,52 @@ Builds and containers use the configuration specified in this file.
 }
 ```
 
-> [!WARNING]
->
-> Proxy settings may contain sensitive information. For example, some proxy servers
-> require authentication information to be included in their URL, or their
-> address may expose IP-addresses or hostnames of your company's environment.
->
-> Environment variables are stored as plain text in the container's configuration,
-> and as such can be inspected through the remote API or committed to an image
-> when using `docker commit`.
+:::warning
+프록시 설정에는 민감한 정보가 포함될 수 있습니다. 예를 들어, 일부 프록시 서버는 URL에 인증 정보를 포함해야 하거나,
+주소가 회사 환경의 IP 주소나 호스트 이름을 노출할 수 있습니다.
 
-The configuration becomes active after saving the file, you don't need to
-restart Docker. However, the configuration only applies to new containers and
-builds, and doesn't affect existing containers.
+환경 변수는 컨테이너의 구성에 평문으로 저장되며, 원격 API를 통해 검사되거나 `docker commit`을 사용할 때 이미지에 커밋될 수 있습니다.
+:::
 
-The following table describes the available configuration parameters.
+파일을 저장한 후 구성은 활성화되며, Docker를 재시작할 필요는 없습니다. 그러나 구성은 새 컨테이너와 빌드에만 적용되며, 기존 컨테이너에는 영향을 미치지 않습니다.
 
-| Property     | Description                                                                         |
+다음 표는 사용 가능한 구성 매개변수를 설명합니다.
+
+| 속성          | 설명                                                                                 |
 | :----------- | :---------------------------------------------------------------------------------- |
-| `httpProxy`  | Sets the `HTTP_PROXY` and `http_proxy` environment variables and build arguments.   |
-| `httpsProxy` | Sets the `HTTPS_PROXY` and `https_proxy` environment variables and build arguments. |
-| `ftpProxy`   | Sets the `FTP_PROXY` and `ftp_proxy` environment variables and build arguments.     |
-| `noProxy`    | Sets the `NO_PROXY` and `no_proxy` environment variables and build arguments.       |
-| `allProxy`   | Sets the `ALL_PROXY` and `all_proxy` environment variables and build arguments.     |
+| `httpProxy`  | `HTTP_PROXY` 및 `http_proxy` 환경 변수와 빌드 인수를 설정합니다.                     |
+| `httpsProxy` | `HTTPS_PROXY` 및 `https_proxy` 환경 변수와 빌드 인수를 설정합니다.                   |
+| `ftpProxy`   | `FTP_PROXY` 및 `ftp_proxy` 환경 변수와 빌드 인수를 설정합니다.                       |
+| `noProxy`    | `NO_PROXY` 및 `no_proxy` 환경 변수와 빌드 인수를 설정합니다.                         |
+| `allProxy`   | `ALL_PROXY` 및 `all_proxy` 환경 변수와 빌드 인수를 설정합니다.                       |
 
-These settings are used to configure proxy environment variables for containers
-only, and not used as proxy settings for the Docker CLI or the Docker Engine
-itself.
-Refer to the [environment variables](/reference/cli/docker/#environment-variables)
-and [configure the Docker daemon to use a proxy server](/manuals/engine/daemon/proxy.md)
-sections for configuring proxy settings for the CLI and daemon.
+이 설정은 컨테이너의 프록시 환경 변수를 설정하는 데만 사용되며, Docker CLI나 Docker Engine 자체의 프록시 설정에는 사용되지 않습니다.
+CLI 및 데몬의 프록시 설정을 구성하려면 [환경 변수](/reference/cli/docker/#environment-variables) 및
+[Docker 데몬에 프록시 서버 설정](/manuals/engine/daemon/proxy.md) 섹션을 참조하십시오.
 
-### Run containers with a proxy configuration
+### 프록시 설정으로 컨테이너 실행 {#run-containers-with-a-proxy-configuration}
 
-When you start a container, its proxy-related environment variables are set
-to reflect your proxy configuration in `~/.docker/config.json`.
+컨테이너를 시작할 때, `~/.docker/config.json`에 있는 프록시 설정을 반영하여 프록시 관련 환경 변수가 설정됩니다.
 
-For example, assuming a proxy configuration like the example
-shown in the [earlier section](#configure-the-docker-client), environment
-variables for containers that you run are set as follows:
+예를 들어, [이전 섹션](#configure-the-docker-client)에 표시된 예제와 같은 프록시 설정을 가정하면,
+실행하는 컨테이너의 환경 변수는 다음과 같이 설정됩니다:
 
 ```console
 $ docker run --rm alpine sh -c 'env | grep -i  _PROXY'
-https_proxy=http://proxy.example.com:3129
-HTTPS_PROXY=http://proxy.example.com:3129
-http_proxy=http://proxy.example.com:3128
-HTTP_PROXY=http://proxy.example.com:3128
-no_proxy=*.test.example.com,.example.org,127.0.0.0/8
-NO_PROXY=*.test.example.com,.example.org,127.0.0.0/8
+// https_proxy=http://proxy.example.com:3129
+// HTTPS_PROXY=http://proxy.example.com:3129
+// http_proxy=http://proxy.example.com:3128
+// HTTP_PROXY=http://proxy.example.com:3128
+// no_proxy=*.test.example.com,.example.org,127.0.0.0/8
+// NO_PROXY=*.test.example.com,.example.org,127.0.0.0/8
 ```
 
-### Build with a proxy configuration
+### 프록시 설정으로 빌드 {#build-with-a-proxy-configuration}
 
-When you invoke a build, proxy-related build arguments are pre-populated
-automatically, based on the proxy settings in your Docker client configuration
-file.
+빌드를 호출할 때, Docker 클라이언트 구성 파일의 프록시 설정을 기반으로 프록시 관련 빌드 인수가 자동으로 미리 채워집니다.
 
-Assuming a proxy configuration like the example shown in the
-[earlier section](#configure-the-docker-client), environment
-are set as follows during builds:
+[이전 섹션](#configure-the-docker-client)에 표시된 예제와 같은 프록시 설정을 가정하면,
+빌드 중 환경 변수는 다음과 같이 설정됩니다:
 
 ```console
 $ docker build \
@@ -127,25 +109,21 @@ EOF
 
 ```console
 #5 [2/2] RUN env | grep -i _PROXY
-#5 0.100 HTTPS_PROXY=https://proxy.example.com:3129
-#5 0.100 no_proxy=*.test.example.com,.example.org,127.0.0.0/8
-#5 0.100 NO_PROXY=*.test.example.com,.example.org,127.0.0.0/8
-#5 0.100 https_proxy=https://proxy.example.com:3129
-#5 0.100 http_proxy=http://proxy.example.com:3128
-#5 0.100 HTTP_PROXY=http://proxy.example.com:3128
-#5 DONE 0.1s
+// #5 0.100 HTTPS_PROXY=https://proxy.example.com:3129
+// #5 0.100 no_proxy=*.test.example.com,.example.org,127.0.0.0/8
+// #5 0.100 NO_PROXY=*.test.example.com,.example.org,127.0.0.0/8
+// #5 0.100 https_proxy=https://proxy.example.com:3129
+// #5 0.100 http_proxy=http://proxy.example.com:3128
+// #5 0.100 HTTP_PROXY=http://proxy.example.com:3128
+// #5 DONE 0.1s
 ```
 
-### Configure proxy settings per daemon
+### 데몬별 프록시 설정 {#configure-proxy-settings-per-daemon}
 
-The `default` key under `proxies` in `~/.docker/config.json` configures the proxy
-settings for all daemons that the client connects to.
-To configure the proxies for individual daemons,
-use the address of the daemon instead of the `default` key.
+`~/.docker/config.json`의 `proxies` 아래에 있는 `default` 키는 클라이언트가 연결하는 모든 데몬에 대한 프록시 설정을 구성합니다.
+개별 데몬에 대한 프록시를 구성하려면, `default` 키 대신 데몬의 주소를 사용하십시오.
 
-The following example configures both a default proxy config,
-and a no-proxy override for the Docker daemon on address
-`tcp://docker-daemon1.example.com`:
+다음 예제는 기본 프록시 구성과 주소 `tcp://docker-daemon1.example.com`에 있는 Docker 데몬에 대한 no-proxy 재정의를 모두 구성합니다:
 
 ```json
 {
@@ -162,34 +140,30 @@ and a no-proxy override for the Docker daemon on address
 }
 ```
 
-## Set proxy using the CLI
+## CLI를 사용하여 프록시 설정 {#set-proxy-using-the-cli}
 
-Instead of [configuring the Docker client](#configure-the-docker-client),
-you can specify proxy configurations on the command-line when you invoke the
-`docker build` and `docker run` commands.
+[Docker 클라이언트 설정](#configure-the-docker-client) 대신,
+`docker build` 및 `docker run` 명령을 호출할 때 명령줄에서 프록시 설정을 지정할 수 있습니다.
 
-Proxy configuration on the command-line uses the `--build-arg` flag for builds,
-and the `--env` flag for when you want to run containers with a proxy.
+명령줄에서 프록시 설정은 빌드의 경우 `--build-arg` 플래그를 사용하고,
+컨테이너를 실행할 때는 `--env` 플래그를 사용합니다.
 
 ```console
 $ docker build --build-arg HTTP_PROXY="http://proxy.example.com:3128" .
 $ docker run --env HTTP_PROXY="http://proxy.example.com:3128" redis
 ```
 
-For a list of all the proxy-related build arguments that you can use with the
-`docker build` command, see
-[Predefined ARGs](/reference/dockerfile.md#predefined-args).
-These proxy values are only available in the build container.
-They're not included in the build output.
+`docker build` 명령과 함께 사용할 수 있는 모든 프록시 관련 빌드 인수 목록은
+[미리 정의된 ARGs](/reference/dockerfile.md#predefined-args)를 참조하십시오.
+이 프록시 값은 빌드 컨테이너에서만 사용할 수 있습니다.
+빌드 출력에는 포함되지 않습니다.
 
-## Proxy as environment variable for builds
+## 빌드를 위한 환경 변수로서의 프록시 {#proxy-as-environment-variable-for-builds}
 
-Don't use the `ENV` Dockerfile instruction to specify proxy settings for builds.
-Use build arguments instead.
+빌드에 대한 프록시 설정을 지정하려면 `ENV` Dockerfile 명령을 사용하지 마십시오.
+대신 빌드 인수를 사용하십시오.
 
-Using environment variables for proxies embeds the configuration into the image.
-If the proxy is an internal proxy, it might not be accessible for containers
-created from that image.
+프록시를 위한 환경 변수를 사용하면 구성이 이미지에 포함됩니다.
+프록시가 내부 프록시인 경우, 해당 이미지를 사용하여 생성된 컨테이너에서 접근할 수 없을 수 있습니다.
 
-Embedding proxy settings in images also poses a security risk, as the values
-may include sensitive information.
+이미지에 프록시 설정을 포함하는 것은 보안 위험을 초래할 수 있습니다. 값에 민감한 정보가 포함될 수 있기 때문입니다.
