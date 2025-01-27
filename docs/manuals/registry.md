@@ -1,18 +1,18 @@
 ---
-title: Registry
-description: The Docker Hub registry implementation 
+title: 레지스트리
+description: Docker Hub 레지스트리 구현
 keywords:
-  - registry
-  - distribution
-  - docker hub
-  - spec
-  - schema
-  - api
-  - manifest
-  - auth
+  - 레지스트리
+  - 배포
+  - 도커 허브
+  - 사양
+  - 스키마
+  - API
+  - 매니페스트
+  - 인증
 params:
   sidebar:
-    group: Open source
+    group: 오픈 소스
 aliases:
   - /registry/compatibility/
   - /registry/configuration/
@@ -50,52 +50,46 @@ aliases:
   - /registry/storage-drivers/swift/
 ---
 
-> [!IMPORTANT]
->
-> The ability to push [deprecated Docker image manifest version 2, schema 1](https://distribution.github.io/distribution/spec/deprecated-schema-v1/) images to Docker Hub is deprecated as of November 4th, 2024.
+:::important
+[더 이상 사용되지 않는 Docker 이미지 매니페스트 버전 2, 스키마 1](https://distribution.github.io/distribution/spec/deprecated-schema-v1/) 이미지를 Docker Hub에 푸시하는 기능은 2024년 11월 4일부터 더 이상 지원되지 않습니다.
+:::
 
-Registry, the open source implementation for storing and distributing container
-images and other content, has been donated to the CNCF. Registry now goes under
-the name of Distribution, and the documentation has moved to
-[distribution/distribution].
+레지스트리, 컨테이너 이미지를 저장하고 배포하기 위한 오픈 소스 구현체는 CNCF에 기부되었습니다. 레지스트리는 이제 Distribution이라는 이름으로 불리며, 문서는 [distribution/distribution]으로 이동했습니다.
 
-The Docker Hub registry implementation is based on Distribution. Docker Hub
-implements version 1.0.1 OCI distribution [specification]. For reference
-documentation on the API protocol that Docker Hub implements, refer to the OCI
-distribution specification.
+Docker Hub 레지스트리 구현은 Distribution을 기반으로 합니다. Docker Hub는 버전 1.0.1 OCI 배포 [사양]을 구현합니다. Docker Hub가 구현하는 API 프로토콜에 대한 참조 문서는 OCI 배포 사양을 참조하십시오.
 
-## Supported media types
+## 지원되는 미디어 유형 {#supported-media-types}
 
-Docker Hub supports the following image manifest formats for pulling images:
+Docker Hub는 다음 이미지 매니페스트 형식을 사용하여 이미지를 가져오는 것을 지원합니다:
 
-- [OCI image manifest]
-- [Docker image manifest version 2, schema 2]
-- Docker image manifest version 2, schema 1
-- Docker image manifest version 1
+- [OCI 이미지 매니페스트]
+- [Docker 이미지 매니페스트 버전 2, 스키마 2]
+- Docker 이미지 매니페스트 버전 2, 스키마 1
+- Docker 이미지 매니페스트 버전 1
 
-You can push images with the following formats:
+다음 형식의 이미지를 푸시할 수 있습니다:
 
-- [OCI image manifest]
-- [Docker image manifest version 2, schema 2]
+- [OCI 이미지 매니페스트]
+- [Docker 이미지 매니페스트 버전 2, 스키마 2]
 
-Docker Hub also supports OCI artifacts. See [OCI artifacts].
+Docker Hub는 또한 OCI 아티팩트를 지원합니다. [OCI 아티팩트]를 참조하십시오.
 
-## Authentication
+## 인증 {#authentication}
 
-For documentation related to authentication to the Docker Hub registry, see:
+Docker Hub 레지스트리에 대한 인증 관련 문서는 다음을 참조하십시오:
 
-- [Token authentication specification][token]
-- [OAuth 2.0 token authentication][oauth2]
-- [JWT authentication][jwt]
-- [Token scope and access][scope]
+- [토큰 인증 사양][token]
+- [OAuth 2.0 토큰 인증][oauth2]
+- [JWT 인증][jwt]
+- [토큰 범위 및 접근][scope]
 
 <!-- links -->
 
 [distribution/distribution]: https://distribution.github.io/distribution/
 [specification]: https://github.com/opencontainers/distribution-spec/blob/v1.0.1/spec.md
-[OCI image manifest]: https://github.com/opencontainers/image-spec/blob/main/manifest.md
-[Docker image manifest version 2, schema 2]: https://distribution.github.io/distribution/spec/manifest-v2-2/
-[OCI artifacts]: /docker-hub/repos/manage/hub-images/oci-artifacts/
+[OCI 이미지 매니페스트]: https://github.com/opencontainers/image-spec/blob/main/manifest.md
+[Docker 이미지 매니페스트 버전 2, 스키마 2]: https://distribution.github.io/distribution/spec/manifest-v2-2/
+[OCI 아티팩트]: /docker-hub/repos/manage/hub-images/oci-artifacts/
 [oauth2]: https://distribution.github.io/distribution/spec/auth/oauth/
 [jwt]: https://distribution.github.io/distribution/spec/auth/jwt/
 [token]: https://distribution.github.io/distribution/spec/auth/token/

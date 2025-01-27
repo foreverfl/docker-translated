@@ -144,6 +144,7 @@ const config: Config = {
         "diff",
         "docker",
         "yaml",
+        "toml",
         "json",
         "java",
         "javascript",

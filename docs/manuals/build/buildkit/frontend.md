@@ -1,28 +1,25 @@
 ---
-title: Custom Dockerfile syntax
-description: Dive deep into the Dockerfile frontend, and learn about custom frontends
+title: 사용자 정의 Dockerfile 구문
+description: Dockerfile 프론트엔드에 대해 깊이 알아보고, 사용자 정의 프론트엔드에 대해 배워보세요
 keywords:
-  - build
-  - buildkit
-  - dockerfile
-  - frontend
+  - 빌드
+  - 빌드킷
+  - 도커파일
+  - 프론트엔드
 aliases:
   - /build/buildkit/dockerfile-frontend/
   - /build/dockerfile/frontend/
 ---
 
-## Dockerfile frontend
+## Dockerfile 프론트엔드 {#dockerfile-frontend}
 
-BuildKit supports loading frontends dynamically from container images. To use
-an external Dockerfile frontend, the first line of your [Dockerfile](/reference/dockerfile.md)
-needs to set the [`syntax` directive](/reference/dockerfile.md#syntax)
-pointing to the specific image you want to use:
+BuildKit은 컨테이너 이미지에서 프론트엔드를 동적으로 로드하는 것을 지원합니다. 외부 Dockerfile 프론트엔드를 사용하려면, [Dockerfile](/reference/dockerfile.md)의 첫 번째 줄에 특정 이미지를 가리키는 [`syntax` 지시어](/reference/dockerfile.md#syntax)를 설정해야 합니다:
 
 ```dockerfile
 # syntax=[remote image reference]
 ```
 
-For example:
+예를 들어:
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -30,88 +27,55 @@ For example:
 # syntax=example.com/user/repo:tag@sha256:abcdef...
 ```
 
-You can also use the predefined `BUILDKIT_SYNTAX` build argument to set the
-frontend image reference on the command line:
+명령줄에서 프론트엔드 이미지 참조를 설정하기 위해 미리 정의된 `BUILDKIT_SYNTAX` 빌드 인수를 사용할 수도 있습니다:
 
 ```bash
 $ docker build --build-arg BUILDKIT_SYNTAX=docker/dockerfile:1 .
 ```
 
-This defines the location of the Dockerfile syntax that is used to build the
-Dockerfile. The BuildKit backend allows seamlessly using external
-implementations that are distributed as Docker images and execute inside a
-container sandbox environment.
+이것은 Dockerfile을 빌드하는 데 사용되는 Dockerfile 구문의 위치를 정의합니다. BuildKit 백엔드는 Docker 이미지를 통해 배포되고 컨테이너 샌드박스 환경 내에서 실행되는 외부 구현을 원활하게 사용할 수 있게 합니다.
 
-Custom Dockerfile implementations allow you to:
+사용자 정의 Dockerfile 구현을 통해 다음을 할 수 있습니다:
 
-- Automatically get bug fixes without updating the Docker daemon
-- Make sure all users are using the same implementation to build your Dockerfile
-- Use the latest features without updating the Docker daemon
-- Try out new features or third-party features before they are integrated in the Docker daemon
-- Use [alternative build definitions, or create your own](https://github.com/moby/buildkit#exploring-llb)
-- Build your own Dockerfile frontend with custom features
+- Docker 데몬을 업데이트하지 않고 자동으로 버그 수정 받기
+- 모든 사용자가 동일한 구현을 사용하여 Dockerfile을 빌드하도록 보장
+- Docker 데몬을 업데이트하지 않고 최신 기능 사용
+- Docker 데몬에 통합되기 전에 새로운 기능이나 타사 기능을 시도해보기
+- [대체 빌드 정의 사용 또는 직접 생성](https://github.com/moby/buildkit#exploring-llb)
+- 사용자 정의 기능이 포함된 Dockerfile 프론트엔드 빌드
 
-> [!NOTE]
->
-> BuildKit ships with a built-in Dockerfile frontend, but it's recommended
-> to use an external image to make sure that all users use the same version on
-> the builder and to pick up bug fixes automatically without waiting for a new
-> version of BuildKit or Docker Engine.
+:::note
+BuildKit에는 내장된 Dockerfile 프론트엔드가 포함되어 있지만, 모든 사용자가 빌더에서 동일한 버전을 사용하고 새로운 BuildKit 또는 Docker Engine 버전을 기다리지 않고 자동으로 버그 수정을 받도록 외부 이미지를 사용하는 것이 좋습니다.
+:::
 
-## Official releases
+## 공식 릴리스 {#official-releases}
 
-Docker distributes official versions of the images that can be used for building
-Dockerfiles under `docker/dockerfile` repository on Docker Hub. There are two
-channels where new images are released: `stable` and `labs`.
+Docker는 Docker Hub의 `docker/dockerfile` 리포지토리에서 Dockerfile을 빌드하는 데 사용할 수 있는 공식 버전의 이미지를 배포합니다. 새로운 이미지는 `stable`과 `labs` 두 채널에서 릴리스됩니다.
 
-### Stable channel
+### 안정 채널 {#stable-channel}
 
-The `stable` channel follows [semantic versioning](https://semver.org).
-For example:
+`stable` 채널은 [시맨틱 버전 관리](https://semver.org)를 따릅니다.
+예를 들어:
 
-- `docker/dockerfile:1` - kept updated with the latest `1.x.x` minor _and_ patch
-  release.
-- `docker/dockerfile:1.2` - kept updated with the latest `1.2.x` patch release,
-  and stops receiving updates once version `1.3.0` is released.
-- `docker/dockerfile:1.2.1` - immutable: never updated.
+- `docker/dockerfile:1` - 최신 `1.x.x` 마이너 및 패치 릴리스로 업데이트됨.
+- `docker/dockerfile:1.2` - 최신 `1.2.x` 패치 릴리스로 업데이트되며, 버전 `1.3.0`이 릴리스되면 업데이트 중단.
+- `docker/dockerfile:1.2.1` - 불변: 절대 업데이트되지 않음.
 
-We recommend using `docker/dockerfile:1`, which always points to the latest
-stable release of the version 1 syntax, and receives both "minor" and "patch"
-updates for the version 1 release cycle. BuildKit automatically checks for
-updates of the syntax when performing a build, making sure you are using the
-most current version.
+버전 1 구문의 최신 안정 릴리스를 항상 가리키고, 버전 1 릴리스 주기 동안 "마이너" 및 "패치" 업데이트를 받는 `docker/dockerfile:1`을 사용하는 것이 좋습니다. BuildKit은 빌드를 수행할 때 구문의 업데이트를 자동으로 확인하여 가장 최신 버전을 사용하고 있는지 확인합니다.
 
-If a specific version is used, such as `1.2` or `1.2.1`, the Dockerfile needs
-to be updated manually to continue receiving bugfixes and new features. Old
-versions of the Dockerfile remain compatible with the new versions of the
-builder.
+특정 버전(예: `1.2` 또는 `1.2.1`)을 사용하는 경우, Dockerfile을 계속해서 버그 수정 및 새로운 기능을 받기 위해 수동으로 업데이트해야 합니다. Dockerfile의 이전 버전은 빌더의 새 버전과 호환됩니다.
 
-### Labs channel
+### 실험실 채널 {#labs-channel}
 
-The `labs` channel provides early access to Dockerfile features that are not yet
-available in the `stable` channel. `labs` images are released at the same time
-as stable releases, and follow the same version pattern, but use the `-labs`
-suffix, for example:
+`labs` 채널은 `stable` 채널에서 아직 사용할 수 없는 Dockerfile 기능에 대한 조기 액세스를 제공합니다. `labs` 이미지는 안정 릴리스와 동시에 릴리스되며, 동일한 버전 패턴을 따르지만 `-labs` 접미사를 사용합니다. 예를 들어:
 
-- `docker/dockerfile:labs` - latest release on `labs` channel.
-- `docker/dockerfile:1-labs` - same as `dockerfile:1`, with experimental
-  features enabled.
-- `docker/dockerfile:1.2-labs` - same as `dockerfile:1.2`, with experimental
-  features enabled.
-- `docker/dockerfile:1.2.1-labs` - immutable: never updated. Same as
-  `dockerfile:1.2.1`, with experimental features enabled.
+- `docker/dockerfile:labs` - `labs` 채널의 최신 릴리스.
+- `docker/dockerfile:1-labs` - 실험적 기능이 활성화된 `dockerfile:1`과 동일.
+- `docker/dockerfile:1.2-labs` - 실험적 기능이 활성화된 `dockerfile:1.2`와 동일.
+- `docker/dockerfile:1.2.1-labs` - 불변: 절대 업데이트되지 않음. 실험적 기능이 활성화된 `dockerfile:1.2.1`과 동일.
 
-Choose a channel that best fits your needs. If you want to benefit from
-new features, use the `labs` channel. Images in the `labs` channel contain
-all the features in the `stable` channel, plus early access features.
-Stable features in the `labs` channel follow [semantic versioning](https://semver.org),
-but early access features don't, and newer releases may not be backwards
-compatible. Pin the version to avoid having to deal with breaking changes.
+필요에 가장 적합한 채널을 선택하세요. 새로운 기능을 활용하고 싶다면 `labs` 채널을 사용하세요. `labs` 채널의 이미지는 `stable` 채널의 모든 기능과 조기 액세스 기능을 포함합니다. `labs` 채널의 안정 기능은 [시맨틱 버전 관리](https://semver.org)를 따르지만, 조기 액세스 기능은 따르지 않으며, 새로운 릴리스는 이전 버전과 호환되지 않을 수 있습니다. 버전을 고정하여 호환성 문제를 피하세요.
 
-## Other resources
+## 기타 리소스 {#other-resources}
 
-For documentation on `labs` features, master builds, and nightly feature
-releases, refer to the description in [the BuildKit source repository on GitHub](https://github.com/moby/buildkit/blob/master/README.md).
-For a full list of available images, visit the [`docker/dockerfile` repository on Docker Hub](https://hub.docker.com/r/docker/dockerfile),
-and the [`docker/dockerfile-upstream` repository on Docker Hub](https://hub.docker.com/r/docker/dockerfile-upstream)
-for development builds.
+`labs` 기능, 마스터 빌드 및 야간 기능 릴리스에 대한 문서는 [GitHub의 BuildKit 소스 리포지토리](https://github.com/moby/buildkit/blob/master/README.md) 설명을 참조하세요. 사용 가능한 이미지의 전체 목록은 [`docker/dockerfile` 리포지토리](https://hub.docker.com/r/docker/dockerfile)와 개발 빌드를 위한 [`docker/dockerfile-upstream` 리포지토리](https://hub.docker.com/r/docker/dockerfile-upstream)를 방문하세요.

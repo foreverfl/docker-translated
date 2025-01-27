@@ -2,28 +2,25 @@
 title: buildkitd.toml
 ---
 
-The TOML file used to configure the buildkitd daemon settings has a short
-list of global settings followed by a series of sections for specific areas
-of daemon configuration.
+buildkitd 데몬 설정을 구성하는 데 사용되는 TOML 파일에는 전역 설정의 짧은 목록이 있으며, 그 뒤에 특정 영역의 데몬 구성을 위한 일련의 섹션이 나옵니다.
 
-The file path is `/etc/buildkit/buildkitd.toml` for rootful mode,
-`~/.config/buildkit/buildkitd.toml` for rootless mode.
+파일 경로는 rootful 모드의 경우 `/etc/buildkit/buildkitd.toml`, rootless 모드의 경우 `~/.config/buildkit/buildkitd.toml`입니다.
 
-The following is a complete `buildkitd.toml` configuration example.
-Note that some configuration options are only useful in edge cases.
+다음은 전체 `buildkitd.toml` 구성 예제입니다.
+일부 구성 옵션은 엣지 케이스에서만 유용하다는 점에 유의하세요.
 
 ```toml
-# debug enables additional debug logging
+# debug는 추가 디버그 로깅을 활성화합니다.
 debug = true
-# trace enables additional trace logging (very verbose, with potential performance impacts)
+# trace는 추가 추적 로깅을 활성화합니다 (매우 자세하며 성능에 영향을 미칠 수 있음).
 trace = true
-# root is where all buildkit state is stored.
+# root는 모든 buildkit 상태가 저장되는 위치입니다.
 root = "/var/lib/buildkit"
-# insecure-entitlements allows insecure entitlements, disabled by default.
+# insecure-entitlements는 기본적으로 비활성화된 비보안 권한을 허용합니다.
 insecure-entitlements = [ "network.host", "security.insecure" ]
 
 [log]
-  # log formatter: json or text
+  # 로그 포맷터: json 또는 text
   format = "text"
 
 [dns]
@@ -33,7 +30,7 @@ insecure-entitlements = [ "network.host", "security.insecure" ]
 
 [grpc]
   address = [ "tcp://0.0.0.0:1234" ]
-  # debugAddress is address for attaching go profiles and debuggers.
+  # debugAddress는 go 프로파일 및 디버거를 연결하기 위한 주소입니다.
   debugAddress = "0.0.0.0:6060"
   uid = 0
   gid = 0
@@ -43,75 +40,56 @@ insecure-entitlements = [ "network.host", "security.insecure" ]
     ca = "/etc/buildkit/tlsca.crt"
 
 [otel]
-  # OTEL collector trace socket path
+  # OTEL 수집기 추적 소켓 경로
   socketPath = "/run/buildkit/otel-grpc.sock"
 
-# config for build history API that stores information about completed build commands
+# 완료된 빌드 명령에 대한 정보를 저장하는 빌드 히스토리 API 구성
 [history]
-  # maxAge is the maximum age of history entries to keep, in seconds.
+  # maxAge는 유지할 히스토리 항목의 최대 연령(초)입니다.
   maxAge = 172800
-  # maxEntries is the maximum number of history entries to keep.
+  # maxEntries는 유지할 히스토리 항목의 최대 수입니다.
   maxEntries = 50
 
 [worker.oci]
   enabled = true
-  # platforms is manually configure platforms, detected automatically if unset.
+  # platforms는 수동으로 플랫폼을 구성하며, 설정되지 않은 경우 자동으로 감지됩니다.
   platforms = [ "linux/amd64", "linux/arm64" ]
-  snapshotter = "auto" # overlayfs or native, default value is "auto".
-  rootless = false # see docs/rootless.md for the details on rootless mode.
-  # Whether run subprocesses in main pid namespace or not, this is useful for
-  # running rootless buildkit inside a container.
+  snapshotter = "auto" # overlayfs 또는 native, 기본값은 "auto"입니다.
+  rootless = false # rootless 모드에 대한 자세한 내용은 docs/rootless.md를 참조하세요.
+  # 주 PID 네임스페이스에서 하위 프로세스를 실행할지 여부, 이는 컨테이너 내에서 rootless buildkit을 실행하는 데 유용합니다.
   noProcessSandbox = false
 
-  # gc enables/disables garbage collection
+  # gc는 가비지 수집을 활성화/비활성화합니다.
   gc = true
-  # reservedSpace is the minimum amount of disk space guaranteed to be
-  # retained by this buildkit worker - any usage below this threshold will not
-  # be reclaimed during garbage collection.
-  # all disk space parameters can be an integer number of bytes (e.g.
-  # 512000000), a string with a unit (e.g. "512MB"), or a string percentage
-  # of the total disk space (e.g. "10%")
+  # reservedSpace는 이 buildkit 작업자가 보유할 최소 디스크 공간입니다. 이 임계값 아래의 사용량은 가비지 수집 중에 회수되지 않습니다.
+  # 모든 디스크 공간 매개변수는 바이트 단위의 정수(예: 512000000), 단위가 있는 문자열(예: "512MB") 또는 총 디스크 공간의 백분율(예: "10%")일 수 있습니다.
   reservedSpace = "30%"
-  # maxUsedSpace is the maximum amount of disk space that may be used by
-  # this buildkit worker - any usage above this threshold will be reclaimed
-  # during garbage collection.
+  # maxUsedSpace는 이 buildkit 작업자가 사용할 수 있는 최대 디스크 공간입니다. 이 임계값을 초과하는 사용량은 가비지 수집 중에 회수됩니다.
   maxUsedSpace = "60%"
-  # minFreeSpace is the target amount of free disk space that the garbage
-  # collector will attempt to leave - however, it will never be bought below
-  # reservedSpace.
+  # minFreeSpace는 가비지 수집기가 남기려고 시도하는 목표 여유 디스크 공간입니다. 그러나 reservedSpace 아래로는 내려가지 않습니다.
   minFreeSpace = "20GB"
 
-  # alternate OCI worker binary name(example 'crun'), by default either 
-  # buildkit-runc or runc binary is used
+  # 대체 OCI 작업자 바이너리 이름(예: 'crun'), 기본적으로 buildkit-runc 또는 runc 바이너리가 사용됩니다.
   binary = ""
-  # name of the apparmor profile that should be used to constrain build containers.
-  # the profile should already be loaded (by a higher level system) before creating a worker.
+  # 빌드 컨테이너를 제한하는 데 사용될 apparmor 프로필의 이름입니다. 작업자를 생성하기 전에 상위 시스템에 의해 프로필이 이미 로드되어 있어야 합니다.
   apparmor-profile = ""
-  # limit the number of parallel build steps that can run at the same time
+  # 동시에 실행할 수 있는 병렬 빌드 단계의 수를 제한합니다.
   max-parallelism = 4
-  # maintain a pool of reusable CNI network namespaces to amortize the overhead
-  # of allocating and releasing the namespaces
+  # 네임스페이스 할당 및 해제 오버헤드를 줄이기 위해 재사용 가능한 CNI 네임스페이스 풀을 유지합니다.
   cniPoolSize = 16
 
   [worker.oci.labels]
     "foo" = "bar"
 
   [[worker.oci.gcpolicy]]
-    # reservedSpace is the minimum amount of disk space guaranteed to be
-    # retained by this policy - any usage below this threshold will not be
-    # reclaimed during # garbage collection.
+    # reservedSpace는 이 정책에 의해 보유될 최소 디스크 공간입니다. 이 임계값 아래의 사용량은 가비지 수집 중에 회수되지 않습니다.
     reservedSpace = "512MB"
-    # maxUsedSpace is the maximum amount of disk space that may be used by this
-    # policy - any usage above this threshold will be reclaimed during garbage
-    # collection.
+    # maxUsedSpace는 이 정책에 의해 사용할 수 있는 최대 디스크 공간입니다. 이 임계값을 초과하는 사용량은 가비지 수집 중에 회수됩니다.
     maxUsedSpace = "1GB"
-    # minFreeSpace is the target amount of free disk space that the garbage
-    # collector will attempt to leave - however, it will never be bought below
-    # reservedSpace.
+    # minFreeSpace는 가비지 수집기가 남기려고 시도하는 목표 여유 디스크 공간입니다. 그러나 reservedSpace 아래로는 내려가지 않습니다.
     minFreeSpace = "10GB"
 
-    # keepDuration can be an integer number of seconds (e.g. 172800), or a
-    # string duration (e.g. "48h")
+    # keepDuration은 초 단위의 정수(예: 172800) 또는 문자열 기간(예: "48h")일 수 있습니다.
     keepDuration = "48h"
     filters = [ "type==source.local", "type==exec.cachemount", "type==source.git.checkout"]
   [[worker.oci.gcpolicy]]
@@ -124,34 +102,25 @@ insecure-entitlements = [ "network.host", "security.insecure" ]
   platforms = [ "linux/amd64", "linux/arm64" ]
   namespace = "buildkit"
 
-  # gc enables/disables garbage collection
+  # gc는 가비지 수집을 활성화/비활성화합니다.
   gc = true
-  # reservedSpace is the minimum amount of disk space guaranteed to be
-  # retained by this buildkit worker - any usage below this threshold will not
-  # be reclaimed during garbage collection.
-  # all disk space parameters can be an integer number of bytes (e.g.
-  # 512000000), a string with a unit (e.g. "512MB"), or a string percentage
-  # of the total disk space (e.g. "10%")
+  # reservedSpace는 이 buildkit 작업자가 보유할 최소 디스크 공간입니다. 이 임계값 아래의 사용량은 가비지 수집 중에 회수되지 않습니다.
+  # 모든 디스크 공간 매개변수는 바이트 단위의 정수(예: 512000000), 단위가 있는 문자열(예: "512MB") 또는 총 디스크 공간의 백분율(예: "10%")일 수 있습니다.
   reservedSpace = "30%"
-  # maxUsedSpace is the maximum amount of disk space that may be used by
-  # this buildkit worker - any usage above this threshold will be reclaimed
-  # during garbage collection.
+  # maxUsedSpace는 이 buildkit 작업자가 사용할 수 있는 최대 디스크 공간입니다. 이 임계값을 초과하는 사용량은 가비지 수집 중에 회수됩니다.
   maxUsedSpace = "60%"
-  # minFreeSpace is the target amount of free disk space that the garbage
-  # collector will attempt to leave - however, it will never be bought below
-  # reservedSpace.
+  # minFreeSpace는 가비지 수집기가 남기려고 시도하는 목표 여유 디스크 공간입니다. 그러나 reservedSpace 아래로는 내려가지 않습니다.
   minFreeSpace = "20GB"
 
-  # maintain a pool of reusable CNI network namespaces to amortize the overhead
-  # of allocating and releasing the namespaces
+  # 네임스페이스 할당 및 해제 오버헤드를 줄이기 위해 재사용 가능한 CNI 네임스페이스 풀을 유지합니다.
   cniPoolSize = 16
-  # defaultCgroupParent sets the parent cgroup of all containers.
+  # 모든 컨테이너의 상위 cgroup을 설정합니다.
   defaultCgroupParent = "buildkit"
 
   [worker.containerd.labels]
     "foo" = "bar"
 
-  # configure the containerd runtime
+  # containerd 런타임을 구성합니다.
   [worker.containerd.runtime]
     name = "io.containerd.runc.v2"
     path = "/path/to/containerd/runc/shim"
@@ -165,9 +134,9 @@ insecure-entitlements = [ "network.host", "security.insecure" ]
     all = true
     reservedSpace = 1024000000
 
-# registry configures a new Docker register used for cache import or output.
+# 레지스트리는 캐시 가져오기 또는 출력에 사용되는 새로운 Docker 레지스터를 구성합니다.
 [registry."docker.io"]
-  # mirror configuration to handle path in case a mirror registry requires a /project path rather than just a host:port
+  # 미러 레지스트리가 /project 경로를 요구하는 경우 경로를 처리하기 위한 미러 구성
   mirrors = ["yourmirror.local:5000", "core.harbor.domain/proxy.docker.io"]
   http = true
   insecure = true
@@ -176,28 +145,28 @@ insecure-entitlements = [ "network.host", "security.insecure" ]
     key="/etc/config/key.pem"
     cert="/etc/config/cert.pem"
 
-# optionally mirror configuration can be done by defining it as a registry.
+# 선택적으로 미러 구성은 레지스트리로 정의하여 수행할 수 있습니다.
 [registry."yourmirror.local:5000"]
   http = true
 
-# Frontend control
+# 프론트엔드 제어
 [frontend."dockerfile.v0"]
   enabled = true
 
 [frontend."gateway.v0"]
   enabled = true
 
-  # If allowedRepositories is empty, all gateway sources are allowed.
-  # Otherwise, only the listed repositories are allowed as a gateway source.
+  # allowedRepositories가 비어 있으면 모든 게이트웨이 소스가 허용됩니다.
+  # 그렇지 않으면 나열된 리포지토리만 게이트웨이 소스로 허용됩니다.
   # 
-  # NOTE: Only the repository name (without tag) is compared.
+  # 참고: 태그가 없는 리포지토리 이름만 비교됩니다.
   #
-  # Example:
+  # 예:
   # allowedRepositories = [ "docker-registry.wikimedia.org/repos/releng/blubber/buildkit" ]
   allowedRepositories = []
 
 [system]
-  # how often buildkit scans for changes in the supported emulated platforms
+  # buildkit이 지원되는 에뮬레이트된 플랫폼의 변경 사항을 스캔하는 빈도
   platformsCacheMaxAge = "1h"
 
 ```

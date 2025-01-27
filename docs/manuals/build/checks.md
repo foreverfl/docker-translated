@@ -1,5 +1,5 @@
 ---
-title: Checking your build configuration
+title: 빌드 구성 확인
 linkTitle: Build checks
 params:
   sidebar:
@@ -7,51 +7,40 @@ params:
       color: green
       text: New
 weight: 30
-description: Learn how to use build checks to validate your build configuration.
+description: 빌드 구성을 확인하고 검증하는 방법을 배웁니다.
 keywords:
-  - build
+  - 빌드
   - buildx
   - buildkit
-  - checks
-  - validate
-  - configuration
-  - lint
+  - 체크
+  - 검증
+  - 구성
+  - 린트
 ---
 
-Build checks are a feature introduced in Dockerfile 1.8. It lets you validate
-your build configuration and conduct a series of checks prior to executing your
-build. Think of it as an advanced form of linting for your Dockerfile and build
-options, or a dry-run mode for builds.
+빌드 체크는 Dockerfile 1.8에 도입된 기능입니다. 이를 통해 빌드 구성을 검증하고 빌드를 실행하기 전에 일련의 검사를 수행할 수 있습니다. 이는 마치 Dockerfile과 빌드 옵션을 위한 고급 문법 검사 도구처럼 작동하며, 실제 빌드 없이 시뮬레이션해볼 수 있는 테스트 모드라고 생각하시면 됩니다.
 
-You can find the list of checks available, and a description of each, in the
-[Build checks reference](/reference/build-checks/).
+사용 가능한 체크 목록과 각 체크에 대한 설명은 [빌드 체크 참조](/reference/build-checks/)에서 확인할 수 있습니다.
 
-## How build checks work
+## 빌드 체크 작동 방식 {#how-build-checks-work}
 
-Typically, when you run a build, Docker executes the build steps in your
-Dockerfile and build options as specified. With build checks, rather than
-executing the build steps, Docker checks the Dockerfile and options you provide
-and reports any issues it detects.
+일반적으로 빌드를 실행할 때 Docker는 Dockerfile 및 지정된 빌드 옵션에 따라 빌드 단계를 실행합니다. 빌드 체크를 사용하면 빌드 단계를 실행하는 대신 Docker가 제공한 Dockerfile 및 옵션을 확인하고 감지된 문제를 보고합니다.
 
-Build checks are useful for:
+빌드 체크는 다음과 같은 경우 유용합니다:
 
-- Validating your Dockerfile and build options before running a build.
-- Ensuring that your Dockerfile and build options are up-to-date with the
-  latest best practices.
-- Identifying potential issues or anti-patterns in your Dockerfile and build
-  options.
+- 빌드를 실행하기 전에 Dockerfile 및 빌드 옵션을 검증합니다.
+- Dockerfile 및 빌드 옵션이 최신 모범 사례와 일치하는지 확인합니다.
+- Dockerfile 및 빌드 옵션에서 잠재적인 문제나 안티 패턴을 식별합니다.
 
-## Build with checks
+## 빌드와 함께 체크 실행 {#build-with-checks}
 
-Build checks are supported in:
+빌드 체크는 다음에서 지원됩니다:
 
-- Buildx version 0.15.0 and later
-- [docker/build-push-action](https://github.com/docker/build-push-action) version 6.6.0 and later
-- [docker/bake-action](https://github.com/docker/bake-action) version 5.6.0 and later
+- Buildx 버전 0.15.0 이상
+- [docker/build-push-action](https://github.com/docker/build-push-action) 버전 6.6.0 이상
+- [docker/bake-action](https://github.com/docker/bake-action) 버전 5.6.0 이상
 
-Invoking a build runs the checks by default, and displays any violations in the
-build output. For example, the following command both builds the image and runs
-the checks:
+빌드를 실행하면 기본적으로 체크가 실행되며, 빌드 출력에 위반 사항이 표시됩니다. 예를 들어, 다음 명령은 이미지를 빌드하고 체크를 실행합니다:
 
 ```bash
 $ docker build .
@@ -63,11 +52,9 @@ $ docker build .
 
 ```
 
-In this example, the build ran successfully, but a
-[JSONArgsRecommended](/reference/build-checks/json-args-recommended/) warning
-was reported, because `CMD` instructions should use JSON array syntax.
+이 예에서 빌드는 성공적으로 실행되었지만, `CMD` 명령어는 JSON 배열 구문을 사용해야 한다는 [JSONArgsRecommended](/reference/build-checks/json-args-recommended/) 경고가 보고되었습니다.
 
-With the GitHub Actions, the checks display in the diff view of pull requests.
+GitHub Actions를 사용하면 체크가 풀 리퀘스트의 diff 보기에서 표시됩니다.
 
 ```yaml
 name: Build and push Docker images
@@ -84,12 +71,9 @@ jobs:
 
 ![GitHub Actions build check annotations](./images/gha-check-annotations.png)
 
-### More verbose output
+### 더 자세한 출력 {#more-verbose-output}
 
-Check warnings for a regular `docker build` display a concise message
-containing the rule name, the message, and the line number of where in the
-Dockerfile the issue originated. If you want to see more detailed information
-about the checks, you can use the `--debug` flag. For example:
+일반 `docker build`의 체크 경고는 규칙 이름, 메시지 및 Dockerfile에서 문제가 발생한 줄 번호를 포함하는 간결한 메시지를 표시합니다. 체크에 대한 자세한 정보를 보려면 `--debug` 플래그를 사용할 수 있습니다. 예를 들어:
 
 ```bash
 $ docker --debug build .
@@ -110,22 +94,17 @@ Dockerfile:4
 
 ```
 
-With the `--debug` flag, the output includes a link to the documentation for
-the check, and a snippet of the Dockerfile where the issue was found.
+`--debug` 플래그를 사용하면 출력에 체크에 대한 문서 링크와 문제가 발생한 Dockerfile의 코드 조각이 포함됩니다.
 
-## Check a build without building
+## 빌드 없이 체크 실행 {#check-a-build-without-building}
 
-To run build checks without actually building, you can use the `docker build`
-command as you typically would, but with the addition of the `--check` flag.
-Here's an example:
+실제로 빌드하지 않고 빌드 체크를 실행하려면 일반적으로 사용하는 `docker build` 명령에 `--check` 플래그를 추가하면 됩니다. 예를 들어:
 
 ```bash
 $ docker build --check .
 ```
 
-Instead of executing the build steps, this command only runs the checks and
-reports any issues it finds. If there are any issues, they will be reported in
-the output. For example:
+이 명령은 빌드 단계를 실행하는 대신 체크만 실행하고 발견된 문제를 보고합니다. 문제가 있는 경우 출력에 보고됩니다. 예를 들어:
 
 ```text {title="Output with --check"}
 [+] Building 1.5s (5/5) FINISHED
@@ -147,19 +126,13 @@ Dockerfile:7
 --------------------
 ```
 
-This output with `--check` shows the [verbose message](#more-verbose-output)
-for the check.
+이 `--check` 출력은 체크에 대한 [자세한 메시지](#more-verbose-output)를 보여줍니다.
 
-Unlike a regular build, if any violations are reported when using the `--check`
-flag, the command exits with a non-zero status code.
+일반 빌드와 달리, `--check` 플래그를 사용할 때 위반 사항이 보고되면 명령은 비영 제로 상태 코드로 종료됩니다.
 
-## Fail build on check violations
+## 체크 위반 시 빌드 실패 {#fail-build-on-check-violations}
 
-Check violations for builds are reported as warnings, with exit code 0, by
-default. You can configure Docker to fail the build when violations are
-reported, using a `check=error=true` directive in your Dockerfile. This will
-cause the build to error out when after the build checks are run, before the
-actual build gets executed.
+기본적으로 빌드의 체크 위반은 경고로 보고되며, 종료 코드 0으로 설정됩니다. Dockerfile에 `check=error=true` 지시어를 사용하여 위반 사항이 보고될 때 빌드가 실패하도록 Docker를 구성할 수 있습니다. 이렇게 하면 실제 빌드가 실행되기 전에 빌드 체크가 실행된 후 빌드가 오류로 종료됩니다.
 
 ```dockerfile {title=Dockerfile,linenos=true,hl_lines=2}
 # syntax=docker/dockerfile:1
@@ -169,9 +142,7 @@ FROM alpine
 CMD echo "Hello, world!"
 ```
 
-Without the `# check=error=true` directive, this build would complete with an
-exit code of 0. However, with the directive, build check violation results in
-non-zero exit code:
+`# check=error=true` 지시어가 없으면 이 빌드는 종료 코드 0으로 완료됩니다. 그러나 지시어가 있으면 빌드 체크 위반 결과로 비영 제로 종료 코드가 발생합니다:
 
 ```bash
 $ docker build .
@@ -191,19 +162,15 @@ $ echo $?
 1
 ```
 
-You can also set the error directive on the CLI by passing the
-`BUILDKIT_DOCKERFILE_CHECK` build argument:
+CLI에서 `BUILDKIT_DOCKERFILE_CHECK` 빌드 인수를 전달하여 오류 지시어를 설정할 수도 있습니다:
 
 ```bash
 $ docker build --check --build-arg "BUILDKIT_DOCKERFILE_CHECK=error=true" .
 ```
 
-## Skip checks
+## 체크 건너뛰기 {#skip-checks}
 
-By default, all checks are run when you build an image. If you want to skip
-specific checks, you can use the `check=skip` directive in your Dockerfile.
-The `skip` parameter takes a CSV string of the check IDs you want to skip.
-For example:
+기본적으로 이미지를 빌드할 때 모든 체크가 실행됩니다. 특정 체크를 건너뛰려면 Dockerfile에 `check=skip` 지시어를 사용할 수 있습니다. `skip` 매개변수는 건너뛰려는 체크 ID의 CSV 문자열을 받습니다. 예를 들어:
 
 ```dockerfile {title=Dockerfile}
 # syntax=docker/dockerfile:1
@@ -213,27 +180,24 @@ FROM alpine AS BASE_STAGE
 CMD echo "Hello, world!"
 ```
 
-Building this Dockerfile results in no check violations.
+이 Dockerfile을 빌드하면 체크 위반이 발생하지 않습니다.
 
-You can also skip checks by passing the `BUILDKIT_DOCKERFILE_CHECK` build
-argument with a CSV string of check IDs you want to skip. For example:
+건너뛸 체크 ID의 CSV 문자열을 포함한 `BUILDKIT_DOCKERFILE_CHECK` 빌드 인수를 전달하여 체크를 건너뛸 수도 있습니다. 예를 들어:
 
 ```bash
 $ docker build --check --build-arg "BUILDKIT_DOCKERFILE_CHECK=skip=JSONArgsRecommended,StageNameCasing" .
 ```
 
-To skip all checks, use the `skip=all` parameter:
+모든 체크를 건너뛰려면 `skip=all` 매개변수를 사용하십시오:
 
 ```dockerfile {title=Dockerfile}
 # syntax=docker/dockerfile:1
 # check=skip=all
 ```
 
-## Combine error and skip parameters for check directives
+## 체크 지시어에 대한 오류 및 건너뛰기 매개변수 결합 {#combine-error-and-skip-parameters-for-check-directives}
 
-To both skip specific checks and error on check violations, pass both the
-`skip` and `error` parameters separated by a semi-colon (`;`) to the `check`
-directive in your Dockerfile or in a build argument. For example:
+특정 체크를 건너뛰고 체크 위반 시 오류를 발생시키려면 `skip` 및 `error` 매개변수를 세미콜론(`;`)으로 구분하여 Dockerfile 또는 빌드 인수에 있는 `check` 지시어에 전달하십시오. 예를 들어:
 
 ```dockerfile {title=Dockerfile}
 # syntax=docker/dockerfile:1
@@ -244,49 +208,40 @@ directive in your Dockerfile or in a build argument. For example:
 $ docker build --check --build-arg "BUILDKIT_DOCKERFILE_CHECK=skip=JSONArgsRecommended,StageNameCasing;error=true" .
 ```
 
-## Experimental checks
+## 실험적 체크 {#experimental-checks}
 
-Before checks are promoted to stable, they may be available as experimental
-checks. Experimental checks are disabled by default. To see the list of
-experimental checks available, refer to the [Build checks reference](/reference/build-checks/).
+체크가 안정적으로 승격되기 전에 실험적 체크로 제공될 수 있습니다. 실험적 체크는 기본적으로 비활성화되어 있습니다. 사용 가능한 실험적 체크 목록은 [빌드 체크 참조](/reference/build-checks/)를 참조하십시오.
 
-To enable all experimental checks, set the `BUILDKIT_DOCKERFILE_CHECK` build
-argument to `experimental=all`:
+모든 실험적 체크를 활성화하려면 `BUILDKIT_DOCKERFILE_CHECK` 빌드 인수를 `experimental=all`로 설정하십시오:
 
 ```bash
 $ docker build --check --build-arg "BUILDKIT_DOCKERFILE_CHECK=experimental=all" .
 ```
 
-You can also enable experimental checks in your Dockerfile using the `check`
-directive:
+Dockerfile에서 `check` 지시어를 사용하여 실험적 체크를 활성화할 수도 있습니다:
 
 ```dockerfile {title=Dockerfile}
 # syntax=docker/dockerfile:1
 # check=experimental=all
 ```
 
-To selectively enable experimental checks, you can pass a CSV string of the
-check IDs you want to enable, either to the `check` directive in your Dockerfile
-or as a build argument. For example:
+선택적으로 실험적 체크를 활성화하려면 활성화하려는 체크 ID의 CSV 문자열을 Dockerfile의 `check` 지시어 또는 빌드 인수로 전달할 수 있습니다. 예를 들어:
 
 ```dockerfile {title=Dockerfile}
 # syntax=docker/dockerfile:1
 # check=experimental=JSONArgsRecommended,StageNameCasing
 ```
 
-Note that the `experimental` directive takes precedence over the `skip`
-directive, meaning that experimental checks will run regardless of the `skip`
-directive you have set. For example, if you set `skip=all` and enable
-experimental checks, the experimental checks will still run:
+`experimental` 지시어는 `skip` 지시어보다 우선합니다. 즉, 실험적 체크는 설정된 `skip` 지시어와 상관없이 실행됩니다. 예를 들어, `skip=all`을 설정하고 실험적 체크를 활성화하면 실험적 체크는 여전히 실행됩니다:
 
 ```dockerfile {title=Dockerfile}
 # syntax=docker/dockerfile:1
 # check=skip=all;experimental=all
 ```
 
-## Further reading
+## 추가 읽을거리 {#further-reading}
 
-For more information about using build checks, see:
+빌드 체크 사용에 대한 자세한 내용은 다음을 참조하십시오:
 
-- [Build checks reference](/reference/build-checks/)
-- [Validating build configuration with GitHub Actions](/manuals/build/ci/github-actions/checks.md)
+- [빌드 체크 참조](/reference/build-checks/)
+- [GitHub Actions를 사용한 빌드 구성 검증](/manuals/build/ci/github-actions/checks.md)

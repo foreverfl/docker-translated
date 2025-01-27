@@ -256,9 +256,9 @@ $ GIT_AUTH_TOKEN=<token> docker buildx build \
   https://github.com/user/private.git
 ```
 
-> [!NOTE]
->
-> 비밀 정보에 `--build-arg`를 사용하지 마세요.
+:::note
+비밀 정보에 `--build-arg`를 사용하지 마세요.
+:::
 
 ### stdin에서 Dockerfile을 사용하는 원격 컨텍스트 {#remote-context-with-dockerfile-from-stdin}
 
@@ -441,9 +441,9 @@ temp?
 
 매칭은 Go의 [`filepath.Match` 함수](https://golang.org/pkg/path/filepath#Match) 규칙을 사용하여 수행됩니다. 전처리 단계에서는 Go의 [`filepath.Clean` 함수](https://golang.org/pkg/path/filepath/#Clean)를 사용하여 공백을 제거하고 `.` 및 `..`을 제거합니다. 전처리 후 빈 줄은 무시됩니다.
 
-> [!NOTE]
->
-> 역사적인 이유로, 패턴 `.`은 무시됩니다.
+:::note
+역사적인 이유로, 패턴 `.`은 무시됩니다.
+:::
 
 Go의 `filepath.Match` 규칙 외에도 Docker는 디렉토리 수(0 포함)에 관계없이 일치하는 특수 와일드카드 문자열 `**`를 지원합니다. 예를 들어, `**/*.go`는 빌드 컨텍스트 어디에서나 `.go`로 끝나는 모든 파일을 제외합니다.
 

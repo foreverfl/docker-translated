@@ -389,11 +389,19 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: "category",
-          label: "Builders",
+          label: "빌더",
+          link: {
+            type : "doc",
+            id: "manuals/build/builders/index",
+          },
           items: [
             {
               type: "category",
               label: "빌드 드라이버",
+              link: {
+                type : "doc",
+                id: "manuals/build/builders/drivers/index",
+              },
               items: [
                 "manuals/build/builders/drivers/docker-container",
                 "manuals/build/builders/drivers/docker",
@@ -502,6 +510,10 @@ const sidebars: SidebarsConfig = {
         {
           type: "category",
           label: "BuildKit",
+          link: {
+            type: "doc",
+            id: "manuals/build/buildkit/index",
+          },
           items: [
             "manuals/build/buildkit/buildkitd-toml",
             "manuals/build/buildkit/configure",

@@ -1,30 +1,26 @@
 ---
-title: Multi-stage builds
+title: 다중 단계 빌드
 linkTitle: Multi-stage
 weight: 10
 description: |
-  Learn about multi-stage builds and how you can use
-  them to improve your builds and get smaller images
+  다중 단계 빌드에 대해 배우고 이를 사용하여 빌드를 개선하고 더 작은 이미지를 얻는 방법을 알아보세요.
 keywords:
-  - build
-  - best practices
+  - 빌드
+  - 모범 사례
 aliases:
   - /engine/userguide/eng-image/multistage-build/
   - /develop/develop-images/multistage-build/
 ---
 
-Multi-stage builds are useful to anyone who has struggled to optimize
-Dockerfiles while keeping them easy to read and maintain.
+다중 단계 빌드는 Dockerfile을 최적화하면서 읽기 쉽고 유지 관리하기 쉽게 만드는 데 어려움을 겪은 모든 사람에게 유용합니다.
 
-## Use multi-stage builds
+## 다중 단계 빌드 사용 {#use-multi-stage-builds}
 
-With multi-stage builds, you use multiple `FROM` statements in your Dockerfile.
-Each `FROM` instruction can use a different base, and each of them begins a new
-stage of the build. You can selectively copy artifacts from one stage to
-another, leaving behind everything you don't want in the final image.
+다중 단계 빌드를 사용하면 Dockerfile에서 여러 `FROM` 문을 사용할 수 있습니다.
+각 `FROM` 명령어는 다른 베이스를 사용할 수 있으며, 각 명령어는 빌드의 새로운 단계를 시작합니다.
+한 단계에서 다른 단계로 선택적으로 아티팩트를 복사할 수 있으며, 최종 이미지에 원하지 않는 모든 것을 남겨둘 수 있습니다.
 
-The following Dockerfile has two separate stages: one for building a binary,
-and another where the binary gets copied from the first stage into the next stage.
+다음 Dockerfile에는 바이너리를 빌드하는 단계와 첫 번째 단계에서 다음 단계로 바이너리를 복사하는 두 개의 별도 단계가 있습니다.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -46,30 +42,20 @@ COPY --from=0 /bin/hello /bin/hello
 CMD ["/bin/hello"]
 ```
 
-You only need the single Dockerfile. No need for a separate build script. Just
-run `docker build`.
+단일 Dockerfile만 필요합니다. 별도의 빌드 스크립트가 필요하지 않습니다. 그냥 `docker build`를 실행하세요.
 
 ```bash
 $ docker build -t hello .
 ```
 
-The end result is a tiny production image with nothing but the binary inside.
-None of the build tools required to build the application are included in the
-resulting image.
+최종 결과는 바이너리만 포함된 작은 프로덕션 이미지입니다.
+애플리케이션을 빌드하는 데 필요한 빌드 도구는 최종 이미지에 포함되지 않습니다.
 
-How does it work? The second `FROM` instruction starts a new build stage with
-the `scratch` image as its base. The `COPY --from=0` line copies just the
-built artifact from the previous stage into this new stage. The Go SDK and any
-intermediate artifacts are left behind, and not saved in the final image.
+어떻게 작동하나요? 두 번째 `FROM` 명령어는 `scratch` 이미지를 베이스로 하는 새로운 빌드 단계를 시작합니다. `COPY --from=0` 라인은 이전 단계에서 빌드된 아티팩트만 이 새로운 단계로 복사합니다. Go SDK 및 중간 아티팩트는 남겨두고 최종 이미지에 저장되지 않습니다.
 
-## Name your build stages
+## 빌드 단계 이름 지정 {#name-your-build-stages}
 
-By default, the stages aren't named, and you refer to them by their integer
-number, starting with 0 for the first `FROM` instruction. However, you can
-name your stages, by adding an `AS <NAME>` to the `FROM` instruction. This
-example improves the previous one by naming the stages and using the name in
-the `COPY` instruction. This means that even if the instructions in your
-Dockerfile are re-ordered later, the `COPY` doesn't break.
+기본적으로 단계에는 이름이 지정되지 않으며, 첫 번째 `FROM` 명령어부터 0으로 시작하는 정수 번호로 참조합니다. 그러나 `FROM` 명령어에 `AS <NAME>`을 추가하여 단계를 이름으로 지정할 수 있습니다. 이 예제는 단계를 이름으로 지정하고 `COPY` 명령어에서 이름을 사용하여 이전 예제를 개선합니다. 이렇게 하면 Dockerfile의 명령어가 나중에 재정렬되더라도 `COPY`가 깨지지 않습니다.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -91,41 +77,33 @@ COPY --from=build /bin/hello /bin/hello
 CMD ["/bin/hello"]
 ```
 
-## Stop at a specific build stage
+## 특정 빌드 단계에서 중지 {#stop-at-a-specific-build-stage}
 
-When you build your image, you don't necessarily need to build the entire
-Dockerfile including every stage. You can specify a target build stage. The
-following command assumes you are using the previous `Dockerfile` but stops at
-the stage named `build`:
+이미지를 빌드할 때 모든 단계를 포함하여 전체 Dockerfile을 빌드할 필요는 없습니다.
+대상 빌드 단계를 지정할 수 있습니다. 다음 명령어는 이전 `Dockerfile`을 사용하지만 `build`라는 이름의 단계에서 중지합니다:
 
 ```bash
 $ docker build --target build -t hello .
 ```
 
-A few scenarios where this might be useful are:
+이 기능이 유용할 수 있는 몇 가지 시나리오는 다음과 같습니다:
 
-- Debugging a specific build stage
-- Using a `debug` stage with all debugging symbols or tools enabled, and a
-  lean `production` stage
-- Using a `testing` stage in which your app gets populated with test data, but
-  building for production using a different stage which uses real data
+- 특정 빌드 단계 디버깅
+- 모든 디버깅 심볼 또는 도구가 활성화된 `debug` 단계와 슬림한 `production` 단계 사용
+- 테스트 데이터로 앱을 채우는 `testing` 단계를 사용하지만, 실제 데이터를 사용하는 다른 단계를 사용하여 프로덕션을 위해 빌드
 
-## Use an external image as a stage
+## 외부 이미지를 단계로 사용 {#use-an-external-image-as-a-stage}
 
-When using multi-stage builds, you aren't limited to copying from stages you
-created earlier in your Dockerfile. You can use the `COPY --from` instruction to
-copy from a separate image, either using the local image name, a tag available
-locally or on a Docker registry, or a tag ID. The Docker client pulls the image
-if necessary and copies the artifact from there. The syntax is:
+다중 단계 빌드를 사용할 때 이전에 Dockerfile에서 만든 단계에서만 복사할 필요는 없습니다.
+`COPY --from` 명령어를 사용하여 별도의 이미지에서 복사할 수 있습니다. 로컬 이미지 이름, 로컬 또는 Docker 레지스트리에 있는 태그, 또는 태그 ID를 사용할 수 있습니다. Docker 클라이언트는 필요한 경우 이미지를 가져와서 거기서 아티팩트를 복사합니다. 구문은 다음과 같습니다:
 
 ```dockerfile
 COPY --from=nginx:latest /etc/nginx/nginx.conf /nginx.conf
 ```
 
-## Use a previous stage as a new stage
+## 이전 단계를 새로운 단계로 사용 {#use-a-previous-stage-as-a-new-stage}
 
-You can pick up where a previous stage left off by referring to it when using
-the `FROM` directive. For example:
+`FROM` 지시어를 사용할 때 이전 단계가 중단된 곳에서 다시 시작할 수 있습니다. 예를 들어:
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -142,16 +120,14 @@ COPY source2.cpp source.cpp
 RUN g++ -o /binary source.cpp
 ```
 
-## Differences between legacy builder and BuildKit
+## 레거시 빌더와 BuildKit의 차이점 {#differences-between-legacy-builder-and-buildkit}
 
-The legacy Docker Engine builder processes all stages of a Dockerfile leading
-up to the selected `--target`. It will build a stage even if the selected
-target doesn't depend on that stage.
+레거시 Docker 엔진 빌더는 선택한 `--target`까지 Dockerfile의 모든 단계를 처리합니다.
+선택한 대상이 해당 단계에 의존하지 않더라도 단계를 빌드합니다.
 
-[BuildKit](../buildkit/_index.md) only builds the stages that the target stage
-depends on.
+[BuildKit](../buildkit/_index.md)은 대상 단계가 의존하는 단계만 빌드합니다.
 
-For example, given the following Dockerfile:
+예를 들어, 다음 Dockerfile을 사용하면:
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -165,9 +141,8 @@ FROM base AS stage2
 RUN echo "stage2"
 ```
 
-With [BuildKit enabled](../buildkit/_index.md#getting-started), building the
-`stage2` target in this Dockerfile means only `base` and `stage2` are processed.
-There is no dependency on `stage1`, so it's skipped.
+[BuildKit 활성화](../buildkit/_index.md#getting-started) 상태에서 이 Dockerfile의 `stage2` 대상을 빌드하면 `base`와 `stage2`만 처리됩니다.
+`stage1`에 대한 의존성이 없으므로 건너뜁니다.
 
 ```bash
 $ DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile --target stage2 .
@@ -185,8 +160,7 @@ $ DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile --target stage2 .
  => => writing image sha256:f55003b607cef37614f607f0728e6fd4d113a4bf7ef12210da338c716f2cfd15    0.0s
 ```
 
-On the other hand, building the same target without BuildKit results in all
-stages being processed:
+반면, BuildKit 없이 동일한 대상을 빌드하면 모든 단계가 처리됩니다:
 
 ```bash
 $ DOCKER_BUILDKIT=0 docker build --no-cache -f Dockerfile --target stage2 .
@@ -215,4 +189,4 @@ Removing intermediate container bbc025b93175
 Successfully built 09fc3770a9c4
 ```
 
-The legacy builder processes `stage1`, even if `stage2` doesn't depend on it.
+레거시 빌더는 `stage2`가 `stage1`에 의존하지 않더라도 `stage1`을 처리합니다.
