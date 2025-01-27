@@ -22,7 +22,7 @@ the Docker CLI to see details about the service running in the swarm.
 
     To see the details on the `helloworld` service:
 
-    ```console
+    ```bash
     [manager1]$ docker service inspect --pretty helloworld
 
     ID:		9uk4639qpg7npwf3fn2aasksr
@@ -42,9 +42,9 @@ the Docker CLI to see details about the service running in the swarm.
     > [!TIP]
     >
     > To return the service details in json format, run the same command
-    without the `--pretty` flag.
+    > without the `--pretty` flag.
 
-    ```console
+    ```bash
     [manager1]$ docker service inspect helloworld
     [
     {
@@ -96,7 +96,7 @@ the Docker CLI to see details about the service running in the swarm.
 3.  Run `docker service ps <SERVICE-ID>` to see which nodes are running the
     service:
 
-    ```console
+    ```bash
     [manager1]$ docker service ps helloworld
 
     NAME                                    IMAGE   NODE     DESIRED STATE  CURRENT STATE           ERROR               PORTS
@@ -117,9 +117,9 @@ the Docker CLI to see details about the service running in the swarm.
     > [!TIP]
     >
     > If `helloworld` is running on a node other than your manager node,
-    you must ssh to that node.
+    > you must ssh to that node.
 
-    ```console
+    ```bash
     [worker2]$ docker ps
 
     CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES

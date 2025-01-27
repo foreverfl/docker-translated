@@ -90,7 +90,7 @@ sure to rebuild your image often, with updated dependencies.
 To ensure that you're getting the latest versions of dependencies in your build,
 you can use the `--no-cache` option to avoid cache hits.
 
-```console
+```bash
 $ docker build --no-cache -t my-image:my-tag .
 ```
 
@@ -550,7 +550,7 @@ RUN echo $ADMIN_USER > ./mark
 RUN unset ADMIN_USER
 ```
 
-```console
+```bash
 $ docker run --rm test sh -c 'echo $ADMIN_USER'
 
 mark
@@ -573,7 +573,7 @@ RUN export ADMIN_USER="mark" \
 CMD sh
 ```
 
-```console
+```bash
 $ docker run --rm test sh -c 'echo $ADMIN_USER'
 
 ```
@@ -639,9 +639,9 @@ RUN ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 ```
 
 For more information about `ADD` or `COPY`, see the following:
+
 - [Dockerfile reference for the ADD instruction](/reference/dockerfile.md#add)
 - [Dockerfile reference for the COPY instruction](/reference/dockerfile.md#copy)
-
 
 ### ENTRYPOINT
 
@@ -658,13 +658,13 @@ CMD ["--help"]
 
 You can use the following command to run the image and show the command's help:
 
-```console
+```bash
 $ docker run s3cmd
 ```
 
 Or, you can use the right parameters to execute a command, like in the following example:
 
-```console
+```bash
 $ docker run s3cmd ls s3://mybucket
 ```
 
@@ -695,7 +695,6 @@ fi
 exec "$@"
 ```
 
-
 This script uses [the `exec` Bash command](https://wiki.bash-hackers.org/commands/builtin/exec) so that the final running application becomes the container's PID 1. This allows the application to receive any Unix signals sent to the container. For more information, see the [`ENTRYPOINT` reference](/reference/dockerfile.md#entrypoint).
 
 In the following example, a helper script is copied into the container and run via `ENTRYPOINT` on
@@ -711,19 +710,19 @@ This script lets you interact with Postgres in several ways.
 
 It can simply start Postgres:
 
-```console
+```bash
 $ docker run postgres
 ```
 
 Or, you can use it to run Postgres and pass parameters to the server:
 
-```console
+```bash
 $ docker run postgres postgres --help
 ```
 
 Lastly, you can use it to start a totally different tool, such as Bash:
 
-```console
+```bash
 $ docker run --rm -it postgres bash
 ```
 
@@ -778,7 +777,7 @@ For more information about `USER`, see [Dockerfile reference for the USER instru
 ### WORKDIR
 
 For clarity and reliability, you should always use absolute paths for your
-`WORKDIR`. Also, you should use `WORKDIR` instead of  proliferating instructions
+`WORKDIR`. Also, you should use `WORKDIR` instead of proliferating instructions
 like `RUN cd … && do-something`, which are hard to read, troubleshoot, and
 maintain.
 

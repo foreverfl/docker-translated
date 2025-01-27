@@ -17,7 +17,7 @@ This feature is available only if Docker has been built with `seccomp` and the
 kernel is configured with `CONFIG_SECCOMP` enabled. To check if your kernel
 supports `seccomp`:
 
-```console
+```bash
 $ grep CONFIG_SECCOMP= /boot/config-$(uname -r)
 CONFIG_SECCOMP=y
 ```
@@ -46,7 +46,7 @@ When you run a container, it uses the default profile unless you override it
 with the `--security-opt` option. For example, the following explicitly
 specifies a policy:
 
-```console
+```bash
 $ docker run --rm \
              -it \
              --security-opt seccomp=/path/to/seccomp/profile.json \
@@ -118,7 +118,7 @@ the reason each syscall is blocked rather than white-listed.
 You can pass `unconfined` to run a container without the default seccomp
 profile.
 
-```console
+```bash
 $ docker run --rm -it --security-opt seccomp=unconfined debian:latest \
     unshare --map-root-user --user sh -c whoami
 ```

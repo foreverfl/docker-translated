@@ -24,7 +24,7 @@ Use the
 [`docker buildx create`](/reference/cli/docker/buildx/create.md)
 command to create a builder.
 
-```console
+```bash
 $ docker buildx create --name=<builder-name>
 ```
 
@@ -37,7 +37,7 @@ flag. For more information about available drivers, see
 Use `docker buildx ls` to see builder instances available on your system, and
 the drivers they're using.
 
-```console
+```bash
 $ docker buildx ls
 NAME/NODE       DRIVER/ENDPOINT      STATUS   BUILDKIT PLATFORMS
 default *       docker
@@ -55,9 +55,9 @@ To inspect a builder with the CLI, use `docker buildx inspect <name>`.
 You can only inspect a builder if the builder is active.
 You can add the `--bootstrap` flag to the command to start the builder.
 
-```console
+```bash
 $ docker buildx inspect --bootstrap my_builder
-[+] Building 1.7s (1/1) FINISHED                                                                  
+[+] Building 1.7s (1/1) FINISHED
  => [internal] booting buildkit                                                              1.7s
  => => pulling image moby/buildkit:buildx-stable-1                                           1.3s
  => => creating container buildx_buildkit_my_builder0                                        0.4s
@@ -78,7 +78,7 @@ If you want to see how much disk space a builder is using, use the
 for all available builders. To see usage for a specific builder, use the
 `--builder` flag.
 
-```console
+```bash
 $ docker buildx du --builder my_builder
 ID                                        RECLAIMABLE SIZE        LAST ACCESSED
 olkri5gq6zsh8q2819i69aq6l                 true        797.2MB     37 seconds ago
@@ -108,7 +108,7 @@ Use the
 [`docker buildx remove`](/reference/cli/docker/buildx/create.md)
 command to remove a builder.
 
-```console
+```bash
 $ docker buildx rm <builder-name>
 ```
 
@@ -128,4 +128,4 @@ It only removes your connection to the builder.
 
 If you have turned on the
 [Docker Desktop Builds view](/manuals/desktop/use-desktop/builds.md),
-you can inspect builders in [Docker Desktop settings](/manuals/desktop/settings-and-maintenance/settings.md#builders). 
+you can inspect builders in [Docker Desktop settings](/manuals/desktop/settings-and-maintenance/settings.md#builders).

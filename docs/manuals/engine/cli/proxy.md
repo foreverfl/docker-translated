@@ -40,13 +40,13 @@ Docker Desktop 없이 Docker Engine을 실행 중인 경우,
 
 ```json
 {
- "proxies": {
-   "default": {
-     "httpProxy": "http://proxy.example.com:3128",
-     "httpsProxy": "https://proxy.example.com:3129",
-     "noProxy": "*.test.example.com,.example.org,127.0.0.0/8"
-   }
- }
+  "proxies": {
+    "default": {
+      "httpProxy": "http://proxy.example.com:3128",
+      "httpsProxy": "https://proxy.example.com:3129",
+      "noProxy": "*.test.example.com,.example.org,127.0.0.0/8"
+    }
+  }
 }
 ```
 
@@ -61,13 +61,13 @@ Docker Desktop 없이 Docker Engine을 실행 중인 경우,
 
 다음 표는 사용 가능한 구성 매개변수를 설명합니다.
 
-| 속성          | 설명                                                                                 |
-| :----------- | :---------------------------------------------------------------------------------- |
-| `httpProxy`  | `HTTP_PROXY` 및 `http_proxy` 환경 변수와 빌드 인수를 설정합니다.                     |
-| `httpsProxy` | `HTTPS_PROXY` 및 `https_proxy` 환경 변수와 빌드 인수를 설정합니다.                   |
-| `ftpProxy`   | `FTP_PROXY` 및 `ftp_proxy` 환경 변수와 빌드 인수를 설정합니다.                       |
-| `noProxy`    | `NO_PROXY` 및 `no_proxy` 환경 변수와 빌드 인수를 설정합니다.                         |
-| `allProxy`   | `ALL_PROXY` 및 `all_proxy` 환경 변수와 빌드 인수를 설정합니다.                       |
+| 속성         | 설명                                                               |
+| :----------- | :----------------------------------------------------------------- |
+| `httpProxy`  | `HTTP_PROXY` 및 `http_proxy` 환경 변수와 빌드 인수를 설정합니다.   |
+| `httpsProxy` | `HTTPS_PROXY` 및 `https_proxy` 환경 변수와 빌드 인수를 설정합니다. |
+| `ftpProxy`   | `FTP_PROXY` 및 `ftp_proxy` 환경 변수와 빌드 인수를 설정합니다.     |
+| `noProxy`    | `NO_PROXY` 및 `no_proxy` 환경 변수와 빌드 인수를 설정합니다.       |
+| `allProxy`   | `ALL_PROXY` 및 `all_proxy` 환경 변수와 빌드 인수를 설정합니다.     |
 
 이 설정은 컨테이너의 프록시 환경 변수를 설정하는 데만 사용되며, Docker CLI나 Docker Engine 자체의 프록시 설정에는 사용되지 않습니다.
 CLI 및 데몬의 프록시 설정을 구성하려면 [환경 변수](/reference/cli/docker/#environment-variables) 및
@@ -80,7 +80,7 @@ CLI 및 데몬의 프록시 설정을 구성하려면 [환경 변수](/reference
 예를 들어, [이전 섹션](#configure-the-docker-client)에 표시된 예제와 같은 프록시 설정을 가정하면,
 실행하는 컨테이너의 환경 변수는 다음과 같이 설정됩니다:
 
-```console
+```bash
 $ docker run --rm alpine sh -c 'env | grep -i  _PROXY'
 // https_proxy=http://proxy.example.com:3129
 // HTTPS_PROXY=http://proxy.example.com:3129
@@ -97,7 +97,7 @@ $ docker run --rm alpine sh -c 'env | grep -i  _PROXY'
 [이전 섹션](#configure-the-docker-client)에 표시된 예제와 같은 프록시 설정을 가정하면,
 빌드 중 환경 변수는 다음과 같이 설정됩니다:
 
-```console
+```bash
 $ docker build \
   --no-cache \
   --progress=plain \
@@ -107,7 +107,7 @@ RUN env | grep -i _PROXY
 EOF
 ```
 
-```console
+```bash
 #5 [2/2] RUN env | grep -i _PROXY
 // #5 0.100 HTTPS_PROXY=https://proxy.example.com:3129
 // #5 0.100 no_proxy=*.test.example.com,.example.org,127.0.0.0/8
@@ -127,16 +127,16 @@ EOF
 
 ```json
 {
- "proxies": {
-   "default": {
-     "httpProxy": "http://proxy.example.com:3128",
-     "httpsProxy": "https://proxy.example.com:3129",
-     "noProxy": "*.test.example.com,.example.org,127.0.0.0/8"
-   },
-   "tcp://docker-daemon1.example.com": {
-     "noProxy": "*.internal.example.net"
-   }
- }
+  "proxies": {
+    "default": {
+      "httpProxy": "http://proxy.example.com:3128",
+      "httpsProxy": "https://proxy.example.com:3129",
+      "noProxy": "*.test.example.com,.example.org,127.0.0.0/8"
+    },
+    "tcp://docker-daemon1.example.com": {
+      "noProxy": "*.internal.example.net"
+    }
+  }
 }
 ```
 
@@ -148,7 +148,7 @@ EOF
 명령줄에서 프록시 설정은 빌드의 경우 `--build-arg` 플래그를 사용하고,
 컨테이너를 실행할 때는 `--env` 플래그를 사용합니다.
 
-```console
+```bash
 $ docker build --build-arg HTTP_PROXY="http://proxy.example.com:3128" .
 $ docker run --env HTTP_PROXY="http://proxy.example.com:3128" redis
 ```

@@ -8,7 +8,7 @@ keywords:
   - docker hub
 description: You can use Docker Hub to store software artifacts packaged as OCI artifacts.
 aliases:
-- /docker-hub/oci-artifacts/
+  - /docker-hub/oci-artifacts/
 ---
 
 You can use Docker Hub to store any kind of software artifact, not just
@@ -71,7 +71,7 @@ Steps:
 
 1. Create a new Helm chart
 
-   ```console
+   ```bash
    $ helm create demo
    ```
 
@@ -79,20 +79,20 @@ Steps:
 
 2. Package the Helm chart into a tarball.
 
-   ```console
+   ```bash
    $ helm package demo
    Successfully packaged chart and saved it to: /Users/hubuser/demo-0.1.0.tgz
    ```
 
 3. Sign in to Docker Hub with Helm, using your Docker credentials.
 
-   ```console
+   ```bash
    $ helm registry login registry-1.docker.io -u hubuser
    ```
 
 4. Push the chart to a Docker Hub repository.
 
-   ```console
+   ```bash
    $ helm push demo-0.1.0.tgz oci://registry-1.docker.io/docker
    ```
 
@@ -123,19 +123,19 @@ Steps:
 
 1. Create a dummy file to use as volume content.
 
-   ```console
+   ```bash
    $ touch myvolume.txt
    ```
 
 2. Sign in to Docker Hub using the ORAS CLI.
 
-   ```console
+   ```bash
    $ oras login -u hubuser registry-1.docker.io
    ```
 
 3. Push the file to Docker Hub.
 
-   ```console
+   ```bash
    $ oras push registry-1.docker.io/docker/demo:0.0.1 \
      --artifact-type=application/vnd.docker.volume.v1+tar.gz \
      myvolume.txt:text/plain
@@ -162,19 +162,19 @@ Steps:
 
 1. Create your artifact file.
 
-   ```console
+   ```bash
    $ touch myartifact.txt
    ```
 
 2. Sign in to Docker Hub using the ORAS CLI.
 
-   ```console
+   ```bash
    $ oras login -u hubuser registry-1.docker.io
    ```
 
 3. Push the file to Docker Hub.
 
-   ```console
+   ```bash
    $ oras push registry-1.docker.io/docker/demo:0.0.1 myartifact.txt:text/plain
    ```
 

@@ -1,6 +1,5 @@
 ---
-description:
-  Docker가 생성하고 사용하는 데이터를 지속시키기 위해 바인드 마운트 대신 볼륨을 생성, 관리, 사용하는 방법을 배웁니다.
+description: Docker가 생성하고 사용하는 데이터를 지속시키기 위해 바인드 마운트 대신 볼륨을 생성, 관리, 사용하는 방법을 배웁니다.
 title: 볼륨
 weight: 10
 keywords:
@@ -68,7 +67,7 @@ Docker가 컨테이너의 기존 파일을 비어 있는 볼륨에 복사하지 
 
 `docker run` 명령을 사용하여 볼륨을 마운트하려면 `--mount` 또는 `--volume` 플래그를 사용할 수 있습니다.
 
-```console
+```bash
 $ docker run --mount type=volume,src=<volume-name>,dst=<mount-path>
 $ docker run --volume <volume-name>:<mount-path>
 ```
@@ -85,22 +84,22 @@ $ docker run --volume <volume-name>:<mount-path>
 
 `--mount` 플래그는 쉼표로 구분된 여러 키-값 쌍으로 구성되며 각 쌍은 `<key>=<value>` 튜플로 구성됩니다. 키의 순서는 중요하지 않습니다.
 
-```console
+```bash
 $ docker run --mount type=volume[,src=<volume-name>],dst=<mount-path>[,<key>=<value>...]
 ```
 
 `--mount type=volume`에 대한 유효한 옵션은 다음과 같습니다:
 
-| 옵션                         | 설명                                                                                                                                                                                                                     |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `source`, `src`                | 마운트의 소스입니다. 명명된 볼륨의 경우, 이는 볼륨의 이름입니다. 익명 볼륨의 경우, 이 필드는 생략됩니다.                                                                                                       |
-| `destination`, `dst`, `target` | 파일 또는 디렉토리가 컨테이너에 마운트되는 경로입니다.                                                                                                                                                               |
+| 옵션                           | 설명                                                                                                                                                                                                                              |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`, `src`                | 마운트의 소스입니다. 명명된 볼륨의 경우, 이는 볼륨의 이름입니다. 익명 볼륨의 경우, 이 필드는 생략됩니다.                                                                                                                          |
+| `destination`, `dst`, `target` | 파일 또는 디렉토리가 컨테이너에 마운트되는 경로입니다.                                                                                                                                                                            |
 | `volume-subpath`               | 볼륨 내의 하위 디렉토리에 대한 경로로, 컨테이너에 마운트됩니다. 하위 디렉토리는 볼륨이 컨테이너에 마운트되기 전에 볼륨에 존재해야 합니다. 자세한 내용은 [볼륨 하위 디렉토리 마운트](#mount-a-volume-subdirectory)를 참조하십시오. |
-| `readonly`, `ro`               | 존재하는 경우, 볼륨을 [읽기 전용으로 컨테이너에 마운트](#use-a-read-only-volume)합니다.                                                                                                                         |
-| `volume-nocopy`                | 존재하는 경우, 대상의 데이터가 비어 있는 경우 볼륨에 복사되지 않습니다. 기본적으로, 대상 위치의 내용은 비어 있는 경우 마운트된 볼륨에 복사됩니다.                                              |
-| `volume-opt`                   | 여러 번 지정할 수 있으며, 옵션 이름과 값을 포함하는 키-값 쌍을 받습니다.                                                                                                                            |
+| `readonly`, `ro`               | 존재하는 경우, 볼륨을 [읽기 전용으로 컨테이너에 마운트](#use-a-read-only-volume)합니다.                                                                                                                                           |
+| `volume-nocopy`                | 존재하는 경우, 대상의 데이터가 비어 있는 경우 볼륨에 복사되지 않습니다. 기본적으로, 대상 위치의 내용은 비어 있는 경우 마운트된 볼륨에 복사됩니다.                                                                                 |
+| `volume-opt`                   | 여러 번 지정할 수 있으며, 옵션 이름과 값을 포함하는 키-값 쌍을 받습니다.                                                                                                                                                          |
 
-```console {title="예제"}
+```bash {title="예제"}
 $ docker run --mount type=volume,src=myvolume,dst=/data,ro,volume-subpath=/foo
 ```
 
@@ -108,7 +107,7 @@ $ docker run --mount type=volume,src=myvolume,dst=/data,ro,volume-subpath=/foo
 
 `--volume` 또는 `-v` 플래그는 콜론 문자(`:`)로 구분된 세 개의 필드로 구성됩니다. 필드는 올바른 순서로 있어야 합니다.
 
-```console
+```bash
 $ docker run -v [<volume-name>:]<mount-path>[:opts]
 ```
 
@@ -116,12 +115,12 @@ $ docker run -v [<volume-name>:]<mount-path>[:opts]
 
 세 번째 필드는 선택 사항이며, 옵션의 쉼표로 구분된 목록입니다. 데이터 볼륨에 대한 `--volume`의 유효한 옵션은 다음과 같습니다:
 
-| 옵션           | 설명                                                                                                                                                                        |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `readonly`, `ro` | 존재하는 경우, 볼륨을 [읽기 전용으로 컨테이너에 마운트](#use-a-read-only-volume)합니다.                                                                            |
+| 옵션             | 설명                                                                                                                                              |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `readonly`, `ro` | 존재하는 경우, 볼륨을 [읽기 전용으로 컨테이너에 마운트](#use-a-read-only-volume)합니다.                                                           |
 | `volume-nocopy`  | 존재하는 경우, 대상의 데이터가 비어 있는 경우 볼륨에 복사되지 않습니다. 기본적으로, 대상 위치의 내용은 비어 있는 경우 마운트된 볼륨에 복사됩니다. |
 
-```console {title="예제"}
+```bash {title="예제"}
 $ docker run -v myvolume:/data:ro
 ```
 
@@ -131,13 +130,13 @@ $ docker run -v myvolume:/data:ro
 
 볼륨 생성:
 
-```console
+```bash
 $ docker volume create my-vol
 ```
 
 볼륨 목록:
 
-```console
+```bash
 $ docker volume ls
 
 local               my-vol
@@ -145,7 +144,7 @@ local               my-vol
 
 볼륨 검사:
 
-```console
+```bash
 $ docker volume inspect my-vol
 [
     {
@@ -161,7 +160,7 @@ $ docker volume inspect my-vol
 
 볼륨 제거:
 
-```console
+```bash
 $ docker volume rm my-vol
 ```
 
@@ -174,7 +173,7 @@ $ docker volume rm my-vol
 <Tabs>
 <TabItem value="--mount" label="--mount">
 
-```console
+```bash
 $ docker run -d \
   --name devtest \
   --mount source=myvol2,target=/app \
@@ -184,7 +183,7 @@ $ docker run -d \
 </TabItem>
 <TabItem value="-v" label="-v">
 
-```console
+```bash
 $ docker run -d \
   --name devtest \
   -v myvol2:/app \
@@ -215,7 +214,7 @@ $ docker run -d \
 
 컨테이너를 중지하고 볼륨을 제거하십시오. 볼륨 제거는 별도의 단계입니다.
 
-```console
+```bash
 $ docker container stop devtest
 
 $ docker container rm devtest
@@ -260,7 +259,7 @@ Compose와 함께 볼륨을 사용하는 방법에 대한 자세한 내용은 Co
 
 다음 예제는 로컬 볼륨 `myvol2`를 사용하는 4개의 복제본으로 `nginx` 서비스를 시작합니다.
 
-```console
+```bash
 $ docker service create -d \
   --replicas=4 \
   --name devtest-service \
@@ -270,7 +269,7 @@ $ docker service create -d \
 
 `docker service ps devtest-service`를 사용하여 서비스가 실행 중인지 확인하십시오:
 
-```console
+```bash
 $ docker service ps devtest-service
 
 ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS
@@ -279,7 +278,7 @@ ID                  NAME                IMAGE               NODE                
 
 서비스를 제거하여 실행 중인 작업을 중지할 수 있습니다:
 
-```console
+```bash
 $ docker service rm devtest-service
 ```
 
@@ -296,7 +295,7 @@ $ docker service rm devtest-service
 <Tabs>
 <TabItem value="--mount" label="--mount">
 
-```console
+```bash
 $ docker run -d \
   --name=nginxtest \
   --mount source=nginx-vol,destination=/usr/share/nginx/html \
@@ -306,7 +305,7 @@ $ docker run -d \
 </TabItem>
 <TabItem value="-v" label="-v">
 
-```console
+```bash
 $ docker run -d \
   --name=nginxtest \
   -v nginx-vol:/usr/share/nginx/html \
@@ -318,7 +317,7 @@ $ docker run -d \
 
 실행 후, 다음 명령을 실행하여 컨테이너와 볼륨을 정리하십시오. 볼륨 제거는 별도의 단계입니다.
 
-```console
+```bash
 $ docker container stop nginxtest
 
 $ docker container rm nginxtest
@@ -337,7 +336,7 @@ $ docker volume rm nginx-vol
 <Tabs>
 <TabItem value="--mount" label="--mount">
 
-```console
+```bash
 $ docker run -d \
   --name=nginxtest \
   --mount source=nginx-vol,destination=/usr/share/nginx/html,readonly \
@@ -347,7 +346,7 @@ $ docker run -d \
 </TabItem>
 <TabItem value="-v" label="-v">
 
-```console
+```bash
 $ docker run -d \
   --name=nginxtest \
   -v nginx-vol:/usr/share/nginx/html:ro \
@@ -376,7 +375,7 @@ $ docker run -d \
 
 컨테이너를 중지하고 제거한 후, 볼륨을 제거하십시오. 볼륨 제거는 별도의 단계입니다.
 
-```console
+```bash
 $ docker container stop nginxtest
 
 $ docker container rm nginxtest
@@ -392,7 +391,7 @@ $ docker volume rm nginx-vol
 
 다음 예제는 `logs` 볼륨을 생성하고 볼륨 내에 `app1` 및 `app2` 하위 디렉토리를 초기화합니다. 그런 다음 두 개의 컨테이너를 시작하고 `logs` 볼륨의 하위 디렉토리 중 하나를 각 컨테이너에 마운트합니다. 이 예제는 컨테이너의 프로세스가 `/var/log/app1` 및 `/var/log/app2`에 로그를 기록한다고 가정합니다.
 
-```console
+```bash
 $ docker volume create logs
 $ docker run --rm \
   --mount src=logs,dst=/logs \
@@ -430,12 +429,13 @@ $ docker run -d \
 
 예를 들어, `local` 드라이버는 `o` 매개변수에서 쉼표로 구분된 목록을 옵션으로 허용합니다. 이 예제는 목록을 올바르게 이스케이프하는 방법을 보여줍니다.
 
-```console
+```bash
 $ docker service create \
  --mount 'type=volume,src=<VOLUME-NAME>,dst=<CONTAINER-PATH>,volume-driver=local,volume-opt=type=nfs,volume-opt=device=<nfs-server>:<nfs-path>,"volume-opt=o=addr=<nfs-address>,vers=4,soft,timeo=180,bg,tcp,rw"'
  --name myservice \
  <IMAGE>
 ```
+
 :::
 
 ### 초기 설정 {#initial-setup}
@@ -444,7 +444,7 @@ $ docker service create \
 
 Docker 호스트에서 `vieux/sshfs` 플러그인을 설치하십시오:
 
-```console
+```bash
 $ docker plugin install --grant-all-permissions vieux/sshfs
 ```
 
@@ -452,7 +452,7 @@ $ docker plugin install --grant-all-permissions vieux/sshfs
 
 이 예제는 SSH 비밀번호를 지정하지만, 두 호스트에 공유 키가 구성된 경우 비밀번호를 제외할 수 있습니다. 각 볼륨 드라이버는 0개 이상의 구성 가능한 옵션을 가질 수 있으며, 각 옵션을 `-o` 플래그를 사용하여 지정합니다.
 
-```console
+```bash
 $ docker volume create --driver vieux/sshfs \
   -o sshcmd=test@node2:/home/test \
   -o password=testpassword \
@@ -469,7 +469,7 @@ $ docker volume create --driver vieux/sshfs \
 `-v`가 아닌 `--mount` 플래그를 사용하여 볼륨을 마운트해야 합니다.
 :::
 
-```console
+```bash
 $ docker run -d \
   --name sshfs-container \
   --mount type=volume,volume-driver=vieux/sshfs,src=sshvolume,target=/app,volume-opt=sshcmd=test@node2:/home/test,volume-opt=password=testpassword \
@@ -484,7 +484,7 @@ NFS 서버로 `10.0.0.10`을 사용하고 NFS 서버에서 내보낸 디렉토�
 
 #### NFSv3 {#nfsv3}
 
-```console
+```bash
 $ docker service create -d \
   --name nfs-service \
   --mount 'type=volume,source=nfsvolume,target=/app,volume-driver=local,volume-opt=type=nfs,volume-opt=device=:/var/docker-nfs,volume-opt=o=addr=10.0.0.10' \
@@ -493,7 +493,7 @@ $ docker service create -d \
 
 #### NFSv4 {#nfsv4}
 
-```console
+```bash
 $ docker service create -d \
     --name nfs-service \
     --mount 'type=volume,source=nfsvolume,target=/app,volume-driver=local,volume-opt=type=nfs,volume-opt=device=:/var/docker-nfs,"volume-opt=o=addr=10.0.0.10,rw,nfsvers=4,async"' \
@@ -504,7 +504,7 @@ $ docker service create -d \
 
 호스트의 마운트 포인트를 구성하지 않고 Docker에서 직접 Samba 공유를 마운트할 수 있습니다.
 
-```console
+```bash
 $ docker volume create \
   --driver local \
   --opt type=cifs \
@@ -536,21 +536,21 @@ Docker는 Linux 커널에서 지원하는 기본 마운트 기능 위에 추가 
 [Linux `mount` 명령](https://man7.org/linux/man-pages/man8/mount.8.html)에 익숙한 경우,
 `--mount` 옵션을 다음과 같이 전달된다고 생각할 수 있습니다:
 
-```console
+```bash
 $ mount -t <mount.volume-opt.type> <mount.volume-opt.device> <mount.dst> -o <mount.volume-opts.o>
 ```
 
 이를 더 설명하기 위해, 다음 `mount` 명령 예제를 고려하십시오.
 이 명령은 `/dev/loop5` 장치를 시스템의 `/external-drive` 경로에 마운트합니다.
 
-```console
+```bash
 $ mount -t ext4 /dev/loop5 /external-drive
 ```
 
 다음 `docker run` 명령은 실행되는 컨테이너의 관점에서 유사한 결과를 달성합니다.
 이 `--mount` 옵션을 사용하여 컨테이너를 실행하면 이전 예제의 `mount` 명령을 실행한 것과 동일한 방식으로 마운트가 설정됩니다.
 
-```console
+```bash
 $ docker run \
   --mount='type=volume,dst=/external-drive,volume-driver=local,volume-opt=device=/dev/loop5,volume-opt=type=ext4'
 ```
@@ -566,19 +566,19 @@ $ docker run \
 
 1. 파일을 생성하고 공간을 할당합니다:
 
-   ```console
+   ```bash
    $ fallocate -l 1G disk.raw
    ```
 
 2. `disk.raw` 파일에 파일 시스템을 빌드합니다:
 
-   ```console
+   ```bash
    $ mkfs.ext4 disk.raw
    ```
 
 3. 루프 장치를 생성합니다:
 
-   ```console
+   ```bash
    $ losetup -f --show disk.raw
    /dev/loop5
    ```
@@ -590,7 +590,7 @@ $ docker run \
 
 4. 루프 장치를 볼륨으로 마운트하는 컨테이너를 실행합니다:
 
-   ```console
+   ```bash
    $ docker run -it --rm \
      --mount='type=volume,dst=/external-drive,volume-driver=local,volume-opt=device=/dev/loop5,volume-opt=type=ext4' \
      ubuntu bash
@@ -602,7 +602,7 @@ $ docker run \
 5. 완료되면, 장치가 컨테이너에서 마운트 해제되고,
    루프 장치를 분리하여 호스트 시스템에서 장치를 제거합니다:
 
-   ```console
+   ```bash
    $ losetup -d /dev/loop5
    ```
 
@@ -615,7 +615,7 @@ $ docker run \
 
 예를 들어, `dbstore`라는 새 컨테이너를 생성합니다:
 
-```console
+```bash
 $ docker run -v /dbdata --name dbstore ubuntu /bin/bash
 ```
 
@@ -625,7 +625,7 @@ $ docker run -v /dbdata --name dbstore ubuntu /bin/bash
 - 로컬 호스트 디렉토리를 `/backup`으로 마운트합니다
 - `dbdata` 볼륨의 내용을 `/backup` 디렉토리 내의 `backup.tar` 파일로 tar하는 명령을 전달합니다.
 
-```console
+```bash
 $ docker run --rm --volumes-from dbstore -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /dbdata
 ```
 
@@ -639,13 +639,13 @@ $ docker run --rm --volumes-from dbstore -v $(pwd):/backup ubuntu tar cvf /backu
 
 예를 들어, `dbstore2`라는 새 컨테이너를 생성합니다:
 
-```console
+```bash
 $ docker run -v /dbdata --name dbstore2 ubuntu /bin/bash
 ```
 
 그런 다음, 새 컨테이너의 데이터 볼륨에 백업 파일을 압축 해제합니다:
 
-```console
+```bash
 $ docker run --rm --volumes-from dbstore2 -v $(pwd):/backup ubuntu bash -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
 ```
 
@@ -664,7 +664,7 @@ Docker 데이터 볼륨은 컨테이너를 삭제한 후에도 지속됩니다. 
 이 명령은 익명 `/foo` 볼륨을 생성합니다. 컨테이너를 제거하면,
 Docker 엔진은 `/foo` 볼륨을 제거하지만 `awesome` 볼륨은 제거하지 않습니다.
 
-```console
+```bash
 $ docker run --rm -v /foo -v awesome:/bar busybox top
 ```
 
@@ -677,7 +677,7 @@ $ docker run --rm -v /foo -v awesome:/bar busybox top
 
 사용하지 않는 모든 볼륨을 제거하고 공간을 확보하려면:
 
-```console
+```bash
 $ docker volume prune
 ```
 

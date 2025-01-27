@@ -56,19 +56,19 @@ and the `daemon.json` file causes a conflict that prevents Docker from starting.
 
 4. Reload the `systemctl` configuration.
 
-   ```console
+   ```bash
    $ sudo systemctl daemon-reload
    ```
 
 5. Restart Docker.
 
-   ```console
+   ```bash
    $ sudo systemctl restart docker.service
    ```
 
 6. Verify that the change has gone through.
 
-   ```console
+   ```bash
    $ sudo netstat -lntp | grep dockerd
    tcp        0      0 127.0.0.1:2375          0.0.0.0:*               LISTEN      3758/dockerd
    ```
@@ -88,7 +88,7 @@ and the `daemon.json` file causes a conflict that prevents Docker from starting.
 
 3. Verify that the change has gone through.
 
-   ```console
+   ```bash
    $ sudo netstat -lntp | grep dockerd
    tcp        0      0 127.0.0.1:2375          0.0.0.0:*               LISTEN      3758/dockerd
    ```

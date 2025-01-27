@@ -18,11 +18,11 @@ keywords:
   - Linux
   - macOS
 aliases:
-- /build/buildx/multiplatform-images/
-- /desktop/multi-arch/
-- /docker-for-mac/multi-arch/
-- /mackit/multi-arch/
-- /build/guide/multi-platform/
+  - /build/buildx/multiplatform-images/
+  - /desktop/multi-arch/
+  - /docker-for-mac/multi-arch/
+  - /mackit/multi-arch/
+  - /build/guide/multi-platform/
 ---
 
 A multi-platform build refers to a single build invocation that targets
@@ -103,7 +103,7 @@ using Docker Desktop or Docker Engine standalone:
 To create a custom builder, use the `docker buildx create` command to create a
 builder that uses the `docker-container` driver.
 
-```console
+```bash
 $ docker buildx create \
   --name container-builder \
   --driver docker-container \
@@ -127,7 +127,7 @@ manually](#install-qemu-manually).
 When triggering a build, use the `--platform` flag to define the target
 platforms for the build output, such as `linux/amd64` and `linux/arm64`:
 
-```console
+```bash
 $ docker buildx build --platform linux/amd64,linux/arm64 .
 ```
 
@@ -175,7 +175,7 @@ Use the [`tonistiigi/binfmt`](https://github.com/tonistiigi/binfmt) image to
 install QEMU and register the executable types on the host with a single
 command:
 
-```console
+```bash
 $ docker run --privileged --rm tonistiigi/binfmt --install all
 ```
 
@@ -198,7 +198,7 @@ The following command creates a multi-node builder from Docker contexts named
 `node-amd64` and `node-arm64`. This example assumes that you've already added
 those contexts.
 
-```console
+```bash
 $ docker buildx create --use --name mybuild node-amd64
 mybuild
 $ docker buildx create --append --name mybuild node-arm64
@@ -216,7 +216,7 @@ as a shared build cache.
 After signing up for Docker Build Cloud, add the builder to your local
 environment and start building.
 
-```console
+```bash
 $ docker buildx create --driver cloud <ORG>/<BUILDER_NAME>
 cloud-<ORG>-<BUILDER_NAME>
 $ docker build \
@@ -276,7 +276,7 @@ Steps:
 
 1. Create an empty directory and navigate to it:
 
-   ```console
+   ```bash
    $ mkdir multi-platform
    $ cd multi-platform
    ```
@@ -291,13 +291,13 @@ Steps:
 
 3. Build the image for `linux/amd64` and `linux/arm64`:
 
-   ```console
+   ```bash
    $ docker build --platform linux/amd64,linux/arm64 -t multi-platform .
    ```
 
 4. Run the image and print the architecture:
 
-   ```console
+   ```bash
    $ docker run --rm multi-platform cat /arch
    ```
 
@@ -322,7 +322,7 @@ Steps:
 
 1. Create an empty directory and navigate to it:
 
-   ```console
+   ```bash
    $ mkdir docker-build-neovim
    $ cd docker-build-neovim
    ```
@@ -344,14 +344,14 @@ Steps:
        unzip
    ADD https://github.com/neovim/neovim.git#stable .
    RUN make CMAKE_BUILD_TYPE=RelWithDebInfo
-   
+
    FROM scratch
    COPY --from=build /work/build/bin/nvim /
    ```
 
 3. Build the image for `linux/amd64` and `linux/arm64` using Docker Build Cloud:
 
-   ```console
+   ```bash
    $ docker build \
       --builder <cloud-builder> \
       --platform linux/amd64,linux/arm64 \
@@ -364,14 +364,14 @@ Steps:
 4. Verify that the binaries are built for both platforms. You should see the
    `nvim` binary for both `linux/amd64` and `linux/arm64`.
 
-   ```console
+   ```bash
    $ tree ./bin
    ./bin
    ├── linux_amd64
    │   └── nvim
    └── linux_arm64
        └── nvim
-   
+
    3 directories, 2 files
    ```
 
@@ -399,7 +399,7 @@ Steps:
 
 1. Create an empty directory and navigate to it:
 
-   ```console
+   ```bash
    $ mkdir go-server
    $ cd go-server
    ```
@@ -412,7 +412,7 @@ Steps:
    WORKDIR /app
    ADD https://github.com/dvdksn/buildme.git#eb6279e0ad8a10003718656c6867539bd9426ad8 .
    RUN go build -o server .
-   
+
    FROM alpine
    COPY --from=build /app/server /server
    ENTRYPOINT ["/server"]
@@ -448,7 +448,7 @@ Steps:
    WORKDIR /app
    ADD https://github.com/dvdksn/buildme.git#eb6279e0ad8a10003718656c6867539bd9426ad8 .
    RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o server .
-   
+
    FROM alpine
    COPY --from=build /app/server /server
    ENTRYPOINT ["/server"]
@@ -463,7 +463,7 @@ Steps:
    WORKDIR /app
    ADD https://github.com/dvdksn/buildme.git#eb6279e0ad8a10003718656c6867539bd9426ad8 .
    RUN go build -o server .
-   
+
    FROM alpine
    COPY --from=build /app/server /server
    ENTRYPOINT ["/server"]
@@ -482,7 +482,7 @@ Steps:
    ADD https://github.com/dvdksn/buildme.git#eb6279e0ad8a10003718656c6867539bd9426ad8 .
    -RUN go build -o server .
    RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o server .
-   
+
    FROM alpine
    COPY --from=build /app/server /server
    ENTRYPOINT ["/server"]
@@ -493,7 +493,7 @@ Steps:
 
 4. Build the image for `linux/amd64` and `linux/arm64`:
 
-   ```console
+   ```bash
    $ docker build --platform linux/amd64,linux/arm64 -t go-server .
    ```
 

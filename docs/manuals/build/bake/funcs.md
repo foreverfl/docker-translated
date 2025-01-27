@@ -42,7 +42,7 @@ target "webapp" {
 }
 ```
 
-```console
+```bash
 $ docker buildx bake --print webapp
 ```
 
@@ -90,7 +90,7 @@ target "webapp" {
 }
 ```
 
-```console
+```bash
 $ docker buildx bake --print webapp
 ```
 
@@ -141,7 +141,7 @@ target "webapp" {
 Printing the Bake file with the `--print` flag shows that the `tag` function
 uses the value of `REPO` to set the prefix of the tag.
 
-```console
+```bash
 $ docker buildx bake --print webapp
 ```
 

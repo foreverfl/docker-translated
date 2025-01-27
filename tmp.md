@@ -23,7 +23,7 @@ The build context is the set of files that your build can access.
 The positional argument that you pass to the build command specifies the
 context that you want to use for the build:
 
-```console
+```bash
 $ docker build [OPTIONS] PATH | URL | -
                          ^^^^^^^^^^^^^^
 ```
@@ -66,7 +66,7 @@ To use a local build context, you can specify a relative or absolute filepath
 to the `docker build` command. The following example shows a build command that
 uses the current directory (`.`) as a build context:
 
-```console
+```bash
 $ docker build .
 ...
 #16 [internal] load build context
@@ -107,7 +107,7 @@ RUN npm ci
 COPY index.ts src .
 ```
 
-```console
+```bash
 $ docker build .
 ```
 
@@ -116,7 +116,7 @@ $ docker build .
 Use the following syntax to build an image using files on your local
 filesystem, while using a Dockerfile from stdin.
 
-```console
+```bash
 $ docker build -f- <PATH>
 ```
 
@@ -165,7 +165,7 @@ For example, given the following project directory:
 You can create a tarball of the directory and pipe it to the build for use as
 a context:
 
-```console
+```bash
 $ tar czf foo.tar.gz *
 $ docker build - < foo.tar.gz
 ```
@@ -175,7 +175,7 @@ The build resolves the Dockerfile from the tarball context. You can use the
 the root of the tarball. The following command builds using `test.Dockerfile`
 in the tarball:
 
-```console
+```bash
 $ docker build --file test.Dockerfile - < foo.tar.gz
 ```
 
@@ -203,7 +203,7 @@ the HEAD commit, not the entire history.
 
 The builder recursively clones the repository and any submodules it contains.
 
-```console
+```bash
 $ docker build https://github.com/user/myrepo.git
 ```
 
@@ -223,7 +223,7 @@ The format of the URL fragment is `#ref:dir`, where:
 For example, the following command uses the `container` branch,
 and the `docker` subdirectory in that branch, as the build context:
 
-```console
+```bash
 $ docker build https://github.com/user/myrepo.git#container:docker
 ```
 
@@ -267,7 +267,7 @@ RUN --mount=target=. \
   make REVISION=$(git rev-parse HEAD) build
 ```
 
-```console
+```bash
 $ docker build \
   --build-arg BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
   https://github.com/user/myrepo.git#main
@@ -284,7 +284,7 @@ specify is an SSH or Git address. By default, this uses `$SSH_AUTH_SOCK`.
 You can configure the SSH credentials to use with the
 [`--ssh` flag](/reference/cli/docker/buildx/build.md#ssh).
 
-```console
+```bash
 $ docker buildx build --ssh default git@github.com:user/private.git
 ```
 
@@ -292,7 +292,7 @@ If you want to use token-based authentication instead, you can pass the token
 using the
 [`--secret` flag](/reference/cli/docker/buildx/build.md#secret).
 
-```console
+```bash
 $ GIT_AUTH_TOKEN=<token> docker buildx build \
   --secret id=GIT_AUTH_TOKEN \
   https://github.com/user/private.git
@@ -307,7 +307,7 @@ $ GIT_AUTH_TOKEN=<token> docker buildx build \
 Use the following syntax to build an image using files on your local
 filesystem, while using a Dockerfile from stdin.
 
-```console
+```bash
 $ docker build -f- <URL>
 ```
 
@@ -334,7 +334,7 @@ EOF
 
 If you pass the URL to a remote tarball, the URL itself is sent to the builder.
 
-```console
+```bash
 $ docker build http://server/context.tar.gz
 #1 [internal] load remote build context
 #1 DONE 0.2s
@@ -369,7 +369,7 @@ URL of a remote text file.
 <Tabs>
 <TabItem value="unix-pipe" label="Unix pipe">
 
-```console
+```bash
 $ docker build - < Dockerfile
 ```
 
@@ -393,7 +393,7 @@ EOF
 </TabItem>
 <TabItem value="remote-file" label="Remote file">
 
-```console
+```bash
 $ docker build https://raw.githubusercontent.com/dvdksn/clockbox/main/Dockerfile
 ```
 
@@ -403,7 +403,7 @@ $ docker build https://raw.githubusercontent.com/dvdksn/clockbox/main/Dockerfile
 When you build without a filesystem context, Dockerfile instructions such as
 `COPY` can't refer to local files:
 
-```console
+```bash
 $ ls
 main.c
 $ docker build -<<< $'FROM scratch\nCOPY main.c .'

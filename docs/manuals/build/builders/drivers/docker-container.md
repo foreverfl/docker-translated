@@ -28,7 +28,7 @@ Docker driver. For example:
 Run the following command to create a new builder, named `container`, that uses
 the Docker container driver:
 
-```console
+```bash
 $ docker buildx create \
   --name container \
   --driver=docker-container \
@@ -39,21 +39,21 @@ container
 The following table describes the available driver-specific options that you can
 pass to `--driver-opt`:
 
-| Parameter        | Type    | Default          | Description                                                                                                            |
-| ---------------- | ------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `image`          | String  |                  | Sets the BuildKit image to use for the container.                                                                      |
-| `memory`         | String  |                  | Sets the amount of memory the container can use.                                                                       |
-| `memory-swap`    | String  |                  | Sets the memory swap limit for the container.                                                                          |
-| `cpu-quota`      | String  |                  | Imposes a CPU CFS quota on the container.                                                                              |
-| `cpu-period`     | String  |                  | Sets the CPU CFS scheduler period for the container.                                                                   |
-| `cpu-shares`     | String  |                  | Configures CPU shares (relative weight) of the container.                                                              |
-| `cpuset-cpus`    | String  |                  | Limits the set of CPU cores the container can use.                                                                     |
-| `cpuset-mems`    | String  |                  | Limits the set of CPU memory nodes the container can use.                                                              |
-| `default-load`   | Boolean | `false`          | Automatically load images to the Docker Engine image store.                                                            |
-| `network`        | String  |                  | Sets the network mode for the container.                                                                               |
-| `cgroup-parent`  | String  | `/docker/buildx` | Sets the cgroup parent of the container if Docker is using the "cgroupfs" driver.                                      |
-| `restart-policy` | String  | `unless-stopped` | Sets the container's [restart policy](/manuals/engine/containers/start-containers-automatically.md#use-a-restart-policy).      |
-| `env.<key>`      | String  |                  | Sets the environment variable `key` to the specified `value` in the container.                                         |
+| Parameter        | Type    | Default          | Description                                                                                                               |
+| ---------------- | ------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `image`          | String  |                  | Sets the BuildKit image to use for the container.                                                                         |
+| `memory`         | String  |                  | Sets the amount of memory the container can use.                                                                          |
+| `memory-swap`    | String  |                  | Sets the memory swap limit for the container.                                                                             |
+| `cpu-quota`      | String  |                  | Imposes a CPU CFS quota on the container.                                                                                 |
+| `cpu-period`     | String  |                  | Sets the CPU CFS scheduler period for the container.                                                                      |
+| `cpu-shares`     | String  |                  | Configures CPU shares (relative weight) of the container.                                                                 |
+| `cpuset-cpus`    | String  |                  | Limits the set of CPU cores the container can use.                                                                        |
+| `cpuset-mems`    | String  |                  | Limits the set of CPU memory nodes the container can use.                                                                 |
+| `default-load`   | Boolean | `false`          | Automatically load images to the Docker Engine image store.                                                               |
+| `network`        | String  |                  | Sets the network mode for the container.                                                                                  |
+| `cgroup-parent`  | String  | `/docker/buildx` | Sets the cgroup parent of the container if Docker is using the "cgroupfs" driver.                                         |
+| `restart-policy` | String  | `unless-stopped` | Sets the container's [restart policy](/manuals/engine/containers/start-containers-automatically.md#use-a-restart-policy). |
+| `env.<key>`      | String  |                  | Sets the environment variable `key` to the specified `value` in the container.                                            |
 
 Before you configure the resource limits for the container,
 read about [configuring runtime resource constraints for containers](/engine/containers/resource_constraints/).
@@ -65,7 +65,7 @@ When you run a build, Buildx pulls the specified `image` (by default,
 When the container has started, Buildx submits the build submitted to the
 containerized build server.
 
-```console
+```bash
 $ docker buildx build -t <image> --builder=container .
 WARNING: No output specified with docker-container driver. Build result will only remain in the build cache. To push result image into registry use --push or to load image into docker use --load
 #1 [internal] booting buildkit
@@ -89,7 +89,7 @@ builder using the `--keep-state` flag:
 For example, to create a builder named `container` and then remove it while
 persisting state:
 
-```console
+```bash
 # setup a builder
 $ docker buildx create --name=container --driver=docker-container --use --bootstrap
 container
@@ -120,7 +120,7 @@ which architectures that you want to build for.
 
 For example, to build a Linux image for `amd64` and `arm64`:
 
-```console
+```bash
 $ docker buildx build \
   --builder=container \
   --platform=linux/amd64,linux/arm64 \
@@ -141,14 +141,14 @@ if you need to use a specific network for your builds.
 For example, let's [create a network](/reference/cli/docker/network/create.md)
 named `foonet`:
 
-```console
+```bash
 $ docker network create foonet
 ```
 
 Now create a [`docker-container` builder](/reference/cli/docker/buildx/create.md)
 that will use this network:
 
-```console
+```bash
 $ docker buildx create --use \
   --name mybuilder \
   --driver docker-container \
@@ -157,14 +157,14 @@ $ docker buildx create --use \
 
 Boot and [inspect `mybuilder`](/reference/cli/docker/buildx/inspect.md):
 
-```console
+```bash
 $ docker buildx inspect --bootstrap
 ```
 
 [Inspect the builder container](/reference/cli/docker/inspect.md)
 and see what network is being used:
 
-```console
+```bash
 $ docker inspect buildx_buildkit_mybuilder0 --format={{.NetworkSettings.Networks}}
 map[foonet:0xc00018c0c0]
 ```

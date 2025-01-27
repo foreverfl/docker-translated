@@ -11,8 +11,8 @@ keywords:
   - benefits
 title: Why use Compose?
 weight: 20
-aliases: 
-- /compose/features-uses/
+aliases:
+  - /compose/features-uses/
 ---
 
 ## Key benefits of Docker Compose
@@ -57,7 +57,7 @@ is the automated test suite. Automated end-to-end testing requires an
 environment in which to run tests. Compose provides a convenient way to create
 and destroy isolated testing environments for your test suite. By defining the full environment in a [Compose file](/reference/compose-file/_index.md), you can create and destroy these environments in just a few commands:
 
-```console
+```bash
 $ docker compose up -d
 $ ./run_tests
 $ docker compose down

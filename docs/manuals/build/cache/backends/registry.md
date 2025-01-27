@@ -32,7 +32,7 @@ To use this feature, create a new builder using a different driver. See
 Unlike the simpler `inline` cache, the `registry` cache supports several
 configuration parameters:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=registry,ref=<registry>/<cache-image>[,parameters...] \
   --cache-from type=registry,ref=<registry>/<cache-image> .

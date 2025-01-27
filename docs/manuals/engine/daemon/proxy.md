@@ -63,7 +63,7 @@ or using CLI flags for the `--http-proxy` or `--https-proxy` flags for the
 
 After changing the configuration file, restart the daemon for the proxy configuration to take effect:
 
-```console
+```bash
 $ sudo systemctl restart docker
 ```
 
@@ -99,7 +99,7 @@ systemd drop-in file that sets the variables for the `docker` service.
 
 1. Create a systemd drop-in directory for the `docker` service:
 
-   ```console
+   ```bash
    $ sudo mkdir -p /etc/systemd/system/docker.service.d
    ```
 
@@ -167,7 +167,7 @@ systemd drop-in file that sets the variables for the `docker` service.
 
 4. Flush changes and restart Docker
 
-   ```console
+   ```bash
    $ sudo systemctl daemon-reload
    $ sudo systemctl restart docker
    ```
@@ -175,7 +175,7 @@ systemd drop-in file that sets the variables for the `docker` service.
 5. Verify that the configuration has been loaded and matches the changes you
    made, for example:
 
-   ```console
+   ```bash
    $ sudo systemctl show --property=Environment docker
 
    Environment=HTTP_PROXY=http://proxy.example.com:3128 HTTPS_PROXY=https://proxy.example.com:3129 NO_PROXY=localhost,127.0.0.1,docker-registry.example.com,.corp
@@ -186,7 +186,7 @@ systemd drop-in file that sets the variables for the `docker` service.
 
 1. Create a systemd drop-in directory for the `docker` service:
 
-   ```console
+   ```bash
    $ mkdir -p ~/.config/systemd/user/docker.service.d
    ```
 
@@ -254,7 +254,7 @@ systemd drop-in file that sets the variables for the `docker` service.
 
 4. Flush changes and restart Docker
 
-   ```console
+   ```bash
    $ systemctl --user daemon-reload
    $ systemctl --user restart docker
    ```
@@ -262,7 +262,7 @@ systemd drop-in file that sets the variables for the `docker` service.
 5. Verify that the configuration has been loaded and matches the changes you
    made, for example:
 
-   ```console
+   ```bash
    $ systemctl --user show --property=Environment docker
 
    Environment=HTTP_PROXY=http://proxy.example.com:3128 HTTPS_PROXY=https://proxy.example.com:3129 NO_PROXY=localhost,127.0.0.1,docker-registry.example.com,.corp

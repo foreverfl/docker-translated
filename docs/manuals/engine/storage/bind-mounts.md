@@ -66,7 +66,7 @@ USB 드라이브가 언마운트될 때까지 `/mnt`의 내용이 USB 드라이�
 
 바인드 마운트를 생성하려면 `--mount` 또는 `--volume` 플래그를 사용할 수 있습니다.
 
-```console
+```bash
 $ docker run --mount type=bind,src=<host-path>,dst=<container-path>
 $ docker run --volume <host-path>:<container-path>
 ```
@@ -78,7 +78,7 @@ Docker는 호스트에 디렉토리를 자동으로 생성합니다. 항상 디�
 
 `--mount`는 호스트에 지정된 마운트 경로가 존재하지 않으면 디렉토리를 자동으로 생성하지 않습니다. 대신 오류를 발생시킵니다:
 
-```console
+```bash
 $ docker run --mount type=bind,src=/dev/noexist,dst=/mnt/foo alpine
 docker: Error response from daemon: invalid mount config for type "bind": bind source path does not exist: /dev/noexist.
 ```
@@ -87,7 +87,7 @@ docker: Error response from daemon: invalid mount config for type "bind": bind s
 
 `--mount` 플래그는 쉼표로 구분된 여러 키-값 쌍으로 구성되며 각 쌍은 `<key>=<value>` 튜플로 구성됩니다. 키의 순서는 중요하지 않습니다.
 
-```console
+```bash
 $ docker run --mount type=bind,src=<host-path>,dst=<container-path>[,<key>=<value>...]
 ```
 
@@ -100,7 +100,7 @@ $ docker run --mount type=bind,src=<host-path>,dst=<container-path>[,<key>=<valu
 | `readonly`, `ro`               | 존재하는 경우, 바인드 마운트를 [읽기 전용으로 컨테이너에 마운트](#use-a-read-only-bind-mount)합니다. |
 | `bind-propagation`             | 존재하는 경우, [바인드 전파](#configure-bind-propagation)를 변경합니다.                              |
 
-```console {title="예제"}
+```bash {title="예제"}
 $ docker run --mount type=bind,src=.,dst=/project,ro,bind-propagation=rshared
 ```
 
@@ -108,7 +108,7 @@ $ docker run --mount type=bind,src=.,dst=/project,ro,bind-propagation=rshared
 
 `--volume` 또는 `-v` 플래그는 콜론 문자(`:`)로 구분된 세 개의 필드로 구성됩니다. 필드는 올바른 순서로 있어야 합니다.
 
-```console
+```bash
 $ docker run -v <host-path>:<container-path>[:opts]
 ```
 
@@ -128,7 +128,7 @@ $ docker run -v <host-path>:<container-path>[:opts]
 | `rslave`            | 이 마운트에 대해 바인드 전파를 `rslave`로 설정합니다. [바인드 전파 구성](#configure-bind-propagation) 참조.   |
 | `slave`             | 이 마운트에 대해 바인드 전파를 `slave`로 설정합니다. [바인드 전파 구성](#configure-bind-propagation) 참조.    |
 
-```console {title="예제"}
+```bash {title="예제"}
 $ docker run -v .:/project:ro,rshared
 ```
 
@@ -147,7 +147,7 @@ Windows를 사용하는 경우 [Windows에서 경로 변환](/manuals/desktop/tr
 <Tabs>
 <TabItem value="--mount" label="--mount">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name devtest \
@@ -158,7 +158,7 @@ $ docker run -d \
 </TabItem>
 <TabItem value="-v" label="-v">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name devtest \
@@ -189,7 +189,7 @@ $ docker run -d \
 
 컨테이너를 중지하고 제거합니다:
 
-```console
+```bash
 $ docker container rm -fv devtest
 ```
 
@@ -208,7 +208,7 @@ $ docker container rm -fv devtest
 <Tabs>
 <TabItem value="--mount" label="--mount">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name broken-container \
@@ -222,7 +222,7 @@ starting container process caused "exec: \"nginx\": executable file not found in
 </TabItem>
 <TabItem value="-v" label="-v">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name broken-container \
@@ -238,7 +238,7 @@ starting container process caused "exec: \"nginx\": executable file not found in
 
 컨테이너가 생성되지만 시작되지 않습니다. 제거합니다:
 
-```console
+```bash
 $ docker container rm broken-container
 ```
 
@@ -255,7 +255,7 @@ $ docker container rm broken-container
 <Tabs>
 <TabItem value="--mount" label="--mount">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name devtest \
@@ -266,7 +266,7 @@ $ docker run -d \
 </TabItem>
 <TabItem value="-v" label="-v">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name devtest \
@@ -294,7 +294,7 @@ $ docker run -d \
 
 컨테이너를 중지하고 제거합니다:
 
-```console
+```bash
 $ docker container rm -fv devtest
 ```
 
@@ -352,7 +352,7 @@ $ docker container rm -fv devtest
 <Tabs>
 <TabItem value="`--mount`" label="`--mount`">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name devtest \
@@ -364,7 +364,7 @@ $ docker run -d \
 </TabItem>
 <TabItem value="`-v`" label="`-v`">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name devtest \
@@ -400,7 +400,7 @@ SELinux를 사용하는 경우, `z` 또는 `Z` 옵션을 추가하여
 
 `--mount` 플래그를 사용하여 SELinux 레이블을 수정하는 것은 불가능합니다.
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name devtest \

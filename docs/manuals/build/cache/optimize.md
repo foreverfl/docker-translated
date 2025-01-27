@@ -182,11 +182,11 @@ There are a few things to be aware of when using bind mounts in a build:
   ```plaintext {title="Build log"}
   #8 [stage-0 3/5] RUN touch foo.txt
   #8 DONE 0.1s
-  
+
   #9 [stage-0 4/5] RUN --mount=target=. ls -1
   #9 0.040 Dockerfile
   #9 DONE 0.0s
-  
+
   #10 [stage-0 5/5] RUN ls -1
   #10 0.046 foo.txt
   #10 DONE 0.1s
@@ -276,7 +276,7 @@ RUN --mount=type=cache,target=/root/.nuget/packages \
 ```
 
 </TabItem>
-<TabItem value="php" label="PHP">  
+<TabItem value="php" label="PHP">
 
 ```dockerfile
 RUN --mount=type=cache,target=/tmp/cache \
@@ -352,7 +352,7 @@ overwriting the old cache.
 This cache can be used locally as well. To pull the cache in a local build,
 you can use the `--cache-from` option with the `docker buildx build` command:
 
-```console
+```bash
 $ docker buildx build --cache-from type=registry,ref=user/app:buildcache .
 ```
 

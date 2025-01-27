@@ -82,7 +82,7 @@ Specifies the path to a Compose file. Specifying multiple Compose files is suppo
   - Windows: `;` (semicolon)
     For example:
 
-    ```console
+    ```bash
     COMPOSE_FILE=docker-compose.yml:docker-compose.prod.yml
     ```
 
@@ -103,7 +103,7 @@ If specifying multiple profiles, use a comma as a separator.
 
 This following example enables all services matching both the `frontend` and `debug` profiles and services without a profile.
 
-```console
+```bash
 COMPOSE_PROFILES=frontend,debug
 ```
 
@@ -174,7 +174,7 @@ Lets you specify which environment files Compose should use if `--env-file` isn'
 
 When using multiple environment files, use a comma as a separator. For example:
 
-```console
+```bash
 COMPOSE_ENV_FILES=.env.envfile1, .env.envfile2
 ```
 

@@ -52,7 +52,7 @@ equivalent options for [Bake](../bake/reference.md#targetsecret).
 <Tabs>
 <TabItem value="cli" label="CLI">
 
-```console
+```bash
 $ docker build --secret id=aws,src=$HOME/.aws/credentials .
 ```
 
@@ -101,7 +101,7 @@ also specify it explicitly with `type=file` or `type=env`.
 The following example mounts the environment variable `KUBECONFIG` to secret ID `kube`,
 as a file in the build container at `/run/secrets/kube`.
 
-```console
+```bash
 $ docker build --secret id=kube,env=KUBECONFIG .
 ```
 
@@ -110,7 +110,7 @@ to bind the secret to a file with the same name as the variable.
 In the following example, the value of the `API_TOKEN` variable
 is mounted to `/run/secrets/API_TOKEN` in the build container.
 
-```console
+```bash
 $ docker build --secret id=API_TOKEN .
 ```
 
@@ -171,7 +171,7 @@ To pass an SSH socket the build, you use the [`docker build --ssh`
 flag](/reference/cli/docker/buildx/build.md#ssh), or equivalent
 options for [Bake](../bake/reference.md#targetssh).
 
-```console
+```bash
 $ docker buildx build --ssh default .
 ```
 
@@ -189,7 +189,7 @@ For example, say you have a private GitLab project at
 that repository as the build context. An unauthenticated `docker build` command
 fails because the builder isn't authorized to pull the repository:
 
-```console
+```bash
 $ docker build https://gitlab.com/example/todo-app.git
 [+] Building 0.4s (1/1) FINISHED
  => ERROR [internal] load git source https://gitlab.com/example/todo-app.git
@@ -203,7 +203,7 @@ To authenticate the builder to the Git server, set the `GIT_AUTH_TOKEN`
 environment variable to contain a valid GitLab access token, and pass it as a
 secret to the build:
 
-```console
+```bash
 $ GIT_AUTH_TOKEN=$(cat gitlab-token.txt) docker build \
   --secret id=GIT_AUTH_TOKEN \
   https://gitlab.com/example/todo-app.git
@@ -228,7 +228,7 @@ Authorization: Bearer <GIT_AUTH_TOKEN>
 If you need to use a Basic scheme, with a username and password, you can set
 the `GIT_AUTH_HEADER` build secret:
 
-```console
+```bash
 $ export GIT_AUTH_TOKEN=$(cat gitlab-token.txt)
 $ export GIT_AUTH_HEADER=basic
 $ docker build \
@@ -246,7 +246,7 @@ basis, which lets you use different authentication parameters for different
 hostnames. To specify a hostname, append the hostname as a suffix to the secret
 ID:
 
-```console
+```bash
 $ export GITLAB_TOKEN=$(cat gitlab-token.txt)
 $ export GERRIT_TOKEN=$(cat gerrit-username-password.txt)
 $ export GERRIT_SCHEME=basic

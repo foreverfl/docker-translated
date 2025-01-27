@@ -58,7 +58,7 @@ commands like `ps` or `top`.
 To see which host your client is connecting to, check the value of the
 `DOCKER_HOST` variable in your environment.
 
-```console
+```bash
 $ env | grep DOCKER_HOST
 ```
 
@@ -67,7 +67,7 @@ daemon running on that host. If it's unset, the Docker client is set to connect
 to the Docker daemon running on the local host. If it's set in error, use the
 following command to unset it:
 
-```console
+```bash
 $ unset DOCKER_HOST
 ```
 
@@ -158,7 +158,7 @@ the
 [`check-config.sh`](https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh)
 script.
 
-```console
+```bash
 $ curl https://raw.githubusercontent.com/docker/docker/master/contrib/check-config.sh > check-config.sh
 
 $ bash ./check-config.sh
@@ -195,7 +195,7 @@ Docker isn't running.
 
 3. Update the GRUB boot loader.
 
-   ```console
+   ```bash
    $ sudo update-grub
    ```
 
@@ -233,7 +233,7 @@ This configuration allows IP forwarding from the container as expected.
 
 ### DNS resolver issues
 
-```console
+```bash
 DNS resolver found in resolv.conf and containers can't use it
 ```
 
@@ -256,7 +256,7 @@ can't use it. Using default external servers : [8.8.8.8 8.8.4.4]
 
 If you see this warning, first check to see if you use `dnsmasq`:
 
-```console
+```bash
 $ ps aux | grep dnsmasq
 ```
 
@@ -282,7 +282,7 @@ configuration file is `/etc/docker/daemon.json`.
    `/etc/docker/daemon.json` file, which controls the Docker daemon
    configuration.
 
-   ```console
+   ```bash
    $ sudo nano /etc/docker/daemon.json
    ```
 
@@ -303,21 +303,21 @@ configuration file is `/etc/docker/daemon.json`.
 
 3. Restart the Docker daemon.
 
-   ```console
+   ```bash
    $ sudo service docker restart
    ```
 
 4. Verify that Docker can resolve external IP addresses by trying to pull an
    image:
 
-   ```console
+   ```bash
    $ docker pull hello-world
    ```
 
 5. If necessary, verify that Docker containers can resolve an internal hostname
    by pinging it.
 
-   ```console
+   ```bash
    $ docker run --rm -it alpine ping -c4 <my_internal_host>
 
    PING google.com (192.168.1.2): 56 data bytes
@@ -349,7 +349,7 @@ IP address, follow these instructions to turn off `dnsmasq` in NetworkManager.
 3. Restart both NetworkManager and Docker. As an alternative, you can reboot
    your system.
 
-   ```console
+   ```bash
    $ sudo systemctl restart network-manager
    $ sudo systemctl restart docker
    ```
@@ -361,7 +361,7 @@ To turn off `dnsmasq` on RHEL, CentOS, or Fedora:
 
 1. Turn off the `dnsmasq` service:
 
-   ```console
+   ```bash
    $ sudo systemctl stop dnsmasq
    $ sudo systemctl disable dnsmasq
    ```
@@ -393,7 +393,7 @@ network management tools that exist on the host:
 If `netscript` is installed on your system, you can likely fix this issue by
 uninstalling it. For example, on a Debian-based system:
 
-```console
+```bash
 $ sudo apt-get remove netscript-2.4
 ```
 
@@ -421,13 +421,13 @@ If you're using `NetworkManager`, edit your system network configuration under
 
 2. Restart `NetworkManager` for the configuration change to take effect.
 
-   ```console
+   ```bash
    $ systemctl restart NetworkManager
    ```
 
 3. Verify that the `docker0` interface has the `unmanaged` state.
 
-   ```console
+   ```bash
    $ nmcli device
    ```
 
@@ -453,19 +453,19 @@ files under `/etc/systemd/network`:
 
 2. Reload the configuration.
 
-   ```console
+   ```bash
    $ sudo systemctl restart systemd-networkd
    ```
 
 3. Restart the Docker daemon.
 
-   ```console
+   ```bash
    $ sudo systemctl restart docker
    ```
 
 4. Verify that the Docker interfaces have the `unmanaged` state.
 
-   ```console
+   ```bash
    $ networkctl
    ```
 
@@ -502,19 +502,19 @@ network manager configuration:
 
 3. Apply the new Netplan configuration.
 
-   ```console
+   ```bash
    $ sudo netplan apply
    ```
 
 4. Restart the Docker daemon:
 
-   ```console
+   ```bash
    $ sudo systemctl restart docker
    ```
 
 5. Verify that the Docker interfaces have the `unmanaged` state.
 
-   ```console
+   ```bash
    $ networkctl
    ```
 
@@ -532,7 +532,7 @@ directories, such as `/var/lib/docker/`, into a container. For instance, the
 documentation for `cadvisor` instructs you to run the `cadvisor` container as
 follows:
 
-```console
+```bash
 $ sudo docker run \
   --volume=/:/rootfs:ro \
   --volume=/var/run:/var/run:rw \
@@ -567,7 +567,7 @@ If you are unsure which process is causing the path mentioned in the error to
 be busy and preventing it from being removed, you can use the `lsof` command
 to find its process. For instance, for the error above:
 
-```console
+```bash
 $ sudo lsof /var/lib/docker/containers/74bef250361c7817bee19349c93139621b272bc8f654ae112dd4eb9652af9515/shm
 ```
 

@@ -23,7 +23,7 @@ registry, then you may want to consider the [registry](./registry.md) cache.
 
 ## Synopsis
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=inline \
   --cache-from type=registry,ref=<registry>/<image> .
@@ -34,7 +34,7 @@ No additional parameters are supported for the `inline` cache.
 To export cache using `inline` storage, pass `type=inline` to the `--cache-to`
 option:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=inline .
 ```
@@ -42,7 +42,7 @@ $ docker buildx build --push -t <registry>/<image> \
 Alternatively, you can also export inline cache by setting the build argument
 `BUILDKIT_INLINE_CACHE=1`, instead of using the `--cache-to` flag:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --build-arg BUILDKIT_INLINE_CACHE=1 .
 ```
@@ -51,7 +51,7 @@ To import the resulting cache on a future build, pass `type=registry` to
 `--cache-from` which lets you extract the cache from inside a Docker image in
 the specified registry:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-from type=registry,ref=<registry>/<image> .
 ```

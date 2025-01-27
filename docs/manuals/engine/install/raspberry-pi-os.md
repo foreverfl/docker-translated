@@ -80,7 +80,7 @@ conflicts with the versions bundled with Docker Engine.
 
 Run the following command to uninstall all conflicting packages:
 
-```console
+```bash
 $ for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
 ```
 
@@ -138,7 +138,7 @@ Docker from the repository.
 
    To install the latest version, run:
 
-   ```console
+   ```bash
    $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
@@ -148,7 +148,7 @@ Docker from the repository.
    To install a specific version of Docker Engine, start by listing the
    available versions in the repository:
 
-   ```console
+   ```bash
    # List the available versions:
    $ apt-cache madison docker-ce | awk '{ print $3 }'
 
@@ -159,7 +159,7 @@ Docker from the repository.
 
    Select the desired version and install:
 
-   ```console
+   ```bash
    $ VERSION_STRING=5:-1~raspbian.12~bookworm
    $ sudo apt-get install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
    ```
@@ -169,7 +169,7 @@ Docker from the repository.
 
 3. Verify that the installation is successful by running the `hello-world` image:
 
-   ```console
+   ```bash
    $ sudo docker run hello-world
    ```
 
@@ -213,7 +213,7 @@ download a new file each time you want to upgrade Docker Engine.
 5. Install the `.deb` packages. Update the paths in the following example to
    where you downloaded the Docker packages.
 
-   ```console
+   ```bash
    $ sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
      ./docker-ce_<version>_<arch>.deb \
      ./docker-ce-cli_<version>_<arch>.deb \
@@ -225,7 +225,7 @@ download a new file each time you want to upgrade Docker Engine.
 
 6. Verify that the installation is successful by running the `hello-world` image:
 
-   ```console
+   ```bash
    $ sudo service docker start
    $ sudo docker run hello-world
    ```
@@ -248,21 +248,21 @@ To upgrade Docker Engine, download the newer package files and repeat the
 
 1. Uninstall the Docker Engine, CLI, containerd, and Docker Compose packages:
 
-   ```console
+   ```bash
    $ sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
    ```
 
 2. Images, containers, volumes, or custom configuration files on your host
    aren't automatically removed. To delete all images, containers, and volumes:
 
-   ```console
+   ```bash
    $ sudo rm -rf /var/lib/docker
    $ sudo rm -rf /var/lib/containerd
    ```
 
 3. Remove source list and keyrings
 
-   ```console
+   ```bash
    $ sudo rm /etc/apt/sources.list.d/docker.list
    $ sudo rm /etc/apt/keyrings/docker.asc
    ```

@@ -24,18 +24,19 @@ When consolidating personal repositories, you can pull private images from the i
 2. Sign in to [Docker](https://app.docker.com/login) using your original Docker account
 3. Pull your images:
 
-   ```console
+   ```bash
    $ docker pull namespace1/docker101tutorial
    ```
 
 4. Tag your private images with your newly created Docker username, for example:
 
-   ```console
+   ```bash
    $ docker tag namespace1/docker101tutorial new_namespace/docker101tutorial
    ```
+
 5. Using `docker login` from the CLI, sign in with your newly created Docker account, and push your newly tagged private images to your new Docker account namespace:
 
-   ```console
+   ```bash
    $ docker push new_namespace/docker101tutorial
    ```
 
@@ -50,17 +51,19 @@ personal account and push them to an organization that's owned by you.
 2. Select the applicable organization and verify that your user account is a member of the organization.
 3. Sign in to [Docker Hub](https://hub.docker.com) using your original Docker account, and pull your images:
 
-   ```console
+   ```bash
    $ docker pull namespace1/docker101tutorial
    ```
+
 4. Tag your images with your new organization namespace:
 
-   ```console
+   ```bash
    $ docker tag namespace1/docker101tutorial <new_org>/docker101tutorial
    ```
+
 5. Push your newly tagged images to your new org namespace:
 
-   ```console
+   ```bash
    $ docker push new_org/docker101tutorial
    ```
 

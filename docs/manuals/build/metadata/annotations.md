@@ -7,7 +7,7 @@ keywords:
   - annotations
   - metadata
 aliases:
-- /build/building/annotations/
+  - /build/building/annotations/
 ---
 
 Annotations provide descriptive metadata for images. Use annotations to record
@@ -43,7 +43,7 @@ You can add annotations to an image at build-time, or when creating the image
 manifest or index.
 
 > [!NOTE]
-> 
+>
 > The Docker Engine image store doesn't support loading images with
 > annotations. To build with annotations, make sure to push the image directly
 > to a registry, using the `--push` CLI flag or the
@@ -52,7 +52,7 @@ manifest or index.
 To specify annotations on the command line, use the `--annotation` flag for the
 `docker build` command:
 
-```console
+```bash
 $ docker build --push --annotation "foo=bar" .
 ```
 
@@ -82,7 +82,7 @@ inspect` command. This shows you any annotations for the index and descriptors
 an `org.opencontainers.image.documentation` annotation on a descriptor, and an
 `org.opencontainers.image.authors` annotation on the index.
 
-```console {hl_lines=["10-12","19-21"]}
+```bash {hl_lines=["10-12","19-21"]}
 $ docker buildx imagetools inspect <IMAGE> --raw
 {
   "schemaVersion": 2,
@@ -111,7 +111,7 @@ To inspect annotations on a manifest, use the `docker buildx imagetools
 inspect` command and specify `<IMAGE>@<DIGEST>`, where `<DIGEST>` is the digest
 of the manifest:
 
-```console {hl_lines="22-25"}
+```bash {hl_lines="22-25"}
 $ docker buildx imagetools inspect <IMAGE>@sha256:d20246ef744b1d05a1dd69d0b3fa907db007c07f79fe3e68c17223439be9fefb --raw
 {
   "schemaVersion": 2,
@@ -146,7 +146,7 @@ By default, annotations are added to the image manifest. You can specify which
 level (OCI image component) to attach the annotation to by prefixing the
 annotation string with a special type declaration:
 
-```console
+```bash
 $ docker build --annotation "<TYPE>:<KEY>=<VALUE>" .
 ```
 
@@ -155,12 +155,12 @@ The following types are supported:
 - `manifest`: annotates manifests.
 - `index`: annotates the root index.
 - `manifest-descriptor`: annotates manifest descriptors in the index.
-- `index-descriptor`:  annotates the index descriptor in the image layout.
+- `index-descriptor`: annotates the index descriptor in the image layout.
 
 For example, to build an image with the annotation `foo=bar` attached to the
 image index:
 
-```console
+```bash
 $ docker build --tag <IMAGE> --push --annotation "index:foo=bar" .
 ```
 
@@ -168,7 +168,7 @@ Note that the build must produce the component that you specify, or else the
 build will fail. For example, the following does not work, because the `docker`
 exporter does not produce an index:
 
-```console
+```bash
 $ docker build --output type=docker --annotation "index:foo=bar" .
 ```
 
@@ -176,7 +176,7 @@ Likewise, the following example also does not work, because buildx creates a
 `docker` output by default under some circumstances, such as when provenance
 attestations are explicitly disabled:
 
-```console
+```bash
 $ docker build --provenance=false --annotation "index:foo=bar" .
 ```
 
@@ -184,7 +184,7 @@ It is possible to specify types, separated by a comma, to add the annotation to
 more than one level. The following example creates an image with the annotation
 `foo=bar` on both the image index and the image manifest:
 
-```console
+```bash
 $ docker build --tag <IMAGE> --push --annotation "index,manifest:foo=bar" .
 ```
 
@@ -193,7 +193,7 @@ prefix, to annotate only components matching specific OS and architectures. The
 following example adds the `foo=bar` annotation only to the `linux/amd64`
 manifest:
 
-```console
+```bash
 $ docker build --tag <IMAGE> --push --annotation "manifest[linux/amd64]:foo=bar" .
 ```
 

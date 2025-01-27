@@ -33,7 +33,7 @@ For example:
 You can also use the predefined `BUILDKIT_SYNTAX` build argument to set the
 frontend image reference on the command line:
 
-```console
+```bash
 $ docker build --build-arg BUILDKIT_SYNTAX=docker/dockerfile:1 .
 ```
 

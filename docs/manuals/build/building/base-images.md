@@ -7,10 +7,10 @@ keywords:
   - base image
   - examples
 aliases:
-- /articles/baseimages/
-- /engine/articles/baseimages/
-- /engine/userguide/eng-image/baseimages/
-- /develop/develop-images/baseimages/
+  - /articles/baseimages/
+  - /engine/articles/baseimages/
+  - /engine/userguide/eng-image/baseimages/
+  - /develop/develop-images/baseimages/
 ---
 
 All Dockerfiles start from a base image.
@@ -71,13 +71,13 @@ CMD ["/hello"]
 Assuming an executable binary named `hello` exists at the root of the [build context](/manuals/build/concepts/context.md).
 You can build this Docker image using the following `docker build` command:
 
-```console
+```bash
 $ docker build --tag hello .
 ```
 
 To run your new image, use the `docker run` command:
 
-```console
+```bash
 $ docker run --rm hello
 ```
 
@@ -126,6 +126,6 @@ There are more example scripts for creating base images in
 
 For more information about building images and writing Dockerfiles, see:
 
-* [Dockerfile reference](/reference/dockerfile.md)
-* [Dockerfile best practices](/manuals/build/building/best-practices.md)
-* [Docker Official Images](../../docker-hub/image-library/trusted-content.md#docker-official-images)
+- [Dockerfile reference](/reference/dockerfile.md)
+- [Dockerfile best practices](/manuals/build/building/best-practices.md)
+- [Docker Official Images](../../docker-hub/image-library/trusted-content.md#docker-official-images)

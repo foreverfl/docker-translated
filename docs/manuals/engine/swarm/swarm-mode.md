@@ -14,8 +14,8 @@ services managed through the `docker service` command.
 
 There are two ways to run the engine in Swarm mode:
 
-* Create a new swarm, covered in this article.
-* [Join an existing swarm](join-nodes.md).
+- Create a new swarm, covered in this article.
+- [Join an existing swarm](join-nodes.md).
 
 When you run the engine in Swarm mode on your local machine, you can create and
 test services based upon images you've created or other available images. In
@@ -36,26 +36,26 @@ Run [`docker swarm init`](/reference/cli/docker/swarm/init.md)
 to create a single-node swarm on the current node. The engine sets up the swarm
 as follows:
 
-* Switches the current node into Swarm mode.
-* Creates a swarm named `default`.
-* Designates the current node as a leader manager node for the swarm.
-* Names the node with the machine hostname.
-* Configures the manager to listen on an active network interface on port `2377``.
-* Sets the current node to `Active` availability, meaning it can receive tasks
-from the scheduler.
-* Starts an internal distributed data store for Engines participating in the
-swarm to maintain a consistent view of the swarm and all services running on it.
-* By default, generates a self-signed root CA for the swarm.
-* By default, generates tokens for worker and manager nodes to join the
-swarm.
-* Creates an overlay network named `ingress` for publishing service ports
-external to the swarm.
-* Creates an overlay default IP addresses and subnet mask for your networks
+- Switches the current node into Swarm mode.
+- Creates a swarm named `default`.
+- Designates the current node as a leader manager node for the swarm.
+- Names the node with the machine hostname.
+- Configures the manager to listen on an active network interface on port `2377``.
+- Sets the current node to `Active` availability, meaning it can receive tasks
+  from the scheduler.
+- Starts an internal distributed data store for Engines participating in the
+  swarm to maintain a consistent view of the swarm and all services running on it.
+- By default, generates a self-signed root CA for the swarm.
+- By default, generates tokens for worker and manager nodes to join the
+  swarm.
+- Creates an overlay network named `ingress` for publishing service ports
+  external to the swarm.
+- Creates an overlay default IP addresses and subnet mask for your networks
 
 The output for `docker swarm init` provides the connection command to use when
 you join new worker nodes to the swarm:
 
-```console
+```bash
 $ docker swarm init
 Swarm initialized: current node (dxn1zf6l61qsb1josjja83ngz) is now a manager.
 
@@ -70,15 +70,15 @@ To add a manager to this swarm, run 'docker swarm join-token manager' and follow
 
 ### Configuring default address pools
 
-By default Swarm mode uses a default address pool `10.0.0.0/8` for global scope (overlay) networks. Every 
-network that does not have a subnet specified will have a subnet sequentially allocated from this pool. In 
-some circumstances it may be desirable to use a different default IP address pool for networks. 
+By default Swarm mode uses a default address pool `10.0.0.0/8` for global scope (overlay) networks. Every
+network that does not have a subnet specified will have a subnet sequentially allocated from this pool. In
+some circumstances it may be desirable to use a different default IP address pool for networks.
 
-For example, if the default `10.0.0.0/8` range conflicts with already allocated address space in your network, 
-then it is desirable to ensure that networks use a different range without requiring swarm users to specify 
-each subnet with the `--subnet` command. 
+For example, if the default `10.0.0.0/8` range conflicts with already allocated address space in your network,
+then it is desirable to ensure that networks use a different range without requiring swarm users to specify
+each subnet with the `--subnet` command.
 
-To configure custom default address pools, you must define pools at swarm initialization using the 
+To configure custom default address pools, you must define pools at swarm initialization using the
 `--default-addr-pool` command line option. This command line option uses CIDR notation for defining the subnet mask.
 To create the custom address pool for Swarm, you must define at least one default address pool, and an optional default address pool subnet mask. For example, for the `10.0.0.0/27`, use the value `27`.
 
@@ -88,28 +88,29 @@ The subnet range comes from the `--default-addr-pool`, (such as `10.10.0.0/16`).
 
 The format of the command is:
 
-```console
+```bash
 $ docker swarm init --default-addr-pool <IP range in CIDR> [--default-addr-pool <IP range in CIDR> --default-addr-pool-mask-length <CIDR value>]
 ```
 
 The command to create a default IP address pool with a /16 (class B) for the `10.20.0.0` network looks like this:
 
-```console
+```bash
 $ docker swarm init --default-addr-pool 10.20.0.0/16
 ```
 
-The command to create a default IP address pool with a `/16` (class B) for the `10.20.0.0` and `10.30.0.0` networks, and to 
+The command to create a default IP address pool with a `/16` (class B) for the `10.20.0.0` and `10.30.0.0` networks, and to
 create a subnet mask of `/26` for each network looks like this:
 
-```console
+```bash
 $ docker swarm init --default-addr-pool 10.20.0.0/16 --default-addr-pool 10.30.0.0/16 --default-addr-pool-mask-length 26
 ```
 
-In this example, `docker network create -d overlay net1` will result in `10.20.0.0/26` as the allocated subnet for `net1`, 
-and `docker network create -d overlay net2` will result in `10.20.0.64/26` as the allocated subnet for `net2`. This continues until 
-all the subnets are exhausted. 
+In this example, `docker network create -d overlay net1` will result in `10.20.0.0/26` as the allocated subnet for `net1`,
+and `docker network create -d overlay net2` will result in `10.20.0.64/26` as the allocated subnet for `net2`. This continues until
+all the subnets are exhausted.
 
 Refer to the following pages for more information:
+
 - [Swarm networking](./networking.md) for more information about the default address pool usage
 - `docker swarm init` [CLI reference](/reference/cli/docker/swarm/init.md) for more detail on the `--default-addr-pool` flag.
 
@@ -125,7 +126,7 @@ single IP address. If so, Docker uses the IP address with the listening port
 correct `--advertise-addr` to enable inter-manager communication and overlay
 networking:
 
-```console
+```bash
 $ docker swarm init --advertise-addr <MANAGER-IP>
 ```
 
@@ -151,7 +152,7 @@ swarm.
 
 To retrieve the join command including the join token for worker nodes, run:
 
-```console
+```bash
 $ docker swarm join-token worker
 
 To add a worker to this swarm, run the following command:
@@ -165,7 +166,7 @@ This node joined a swarm as a worker.
 
 To view the join command and token for manager nodes, run:
 
-```console
+```bash
 $ docker swarm join-token manager
 
 To add a manager to this swarm, run the following command:
@@ -177,7 +178,7 @@ To add a manager to this swarm, run the following command:
 
 Pass the `--quiet` flag to print only the token:
 
-```console
+```bash
 $ docker swarm join-token --quiet worker
 
 SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c
@@ -192,10 +193,10 @@ swarm.
 
 We recommend that you rotate the join tokens in the following circumstances:
 
-* If a token was checked-in by accident into a version control system, group
-chat or accidentally printed to your logs.
-* If you suspect a node has been compromised.
-* If you wish to guarantee that no new nodes can join the swarm.
+- If a token was checked-in by accident into a version control system, group
+  chat or accidentally printed to your logs.
+- If you suspect a node has been compromised.
+- If you wish to guarantee that no new nodes can join the swarm.
 
 Additionally, it is a best practice to implement a regular rotation schedule for
 any secret including swarm join tokens. We recommend that you rotate your tokens
@@ -205,7 +206,7 @@ Run `swarm join-token --rotate` to invalidate the old token and generate a new
 token. Specify whether you want to rotate the token for `worker` or `manager`
 nodes:
 
-```console
+```bash
 $ docker swarm join-token  --rotate worker
 
 To add a worker to this swarm, run the following command:
@@ -217,6 +218,6 @@ To add a worker to this swarm, run the following command:
 
 ## Learn more
 
-* [Join nodes to a swarm](join-nodes.md)
-* `swarm init` [command line reference](/reference/cli/docker/swarm/init.md)
-* [Swarm mode tutorial](swarm-tutorial/_index.md)
+- [Join nodes to a swarm](join-nodes.md)
+- `swarm init` [command line reference](/reference/cli/docker/swarm/init.md)
+- [Swarm mode tutorial](swarm-tutorial/_index.md)

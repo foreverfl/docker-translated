@@ -33,14 +33,14 @@ to supply the image name. This command starts an Nginx service with a
 randomly-generated name and no published ports. This is a naive example, since
 you can't interact with the Nginx service.
 
-```console
+```bash
 $ docker service create nginx
 ```
 
 The service is scheduled on an available node. To confirm that the service
 was created and started successfully, use the `docker service ls` command:
 
-```console
+```bash
 $ docker service ls
 
 ID                  NAME                MODE                REPLICAS            IMAGE                                                                                             PORTS
@@ -55,7 +55,7 @@ information.
 
 To provide a name for your service, use the `--name` flag:
 
-```console
+```bash
 $ docker service create --name my_web nginx
 ```
 
@@ -64,14 +64,14 @@ service's containers should run, by adding it after the image name. This example
 starts a service called `helloworld` which uses an `alpine` image and runs the
 command `ping docker.com`:
 
-```console
+```bash
 $ docker service create --name helloworld alpine ping docker.com
 ```
 
 You can also specify an image tag for the service to use. This example modifies
 the previous one to use the `alpine:3.6` tag:
 
-```console
+```bash
 $ docker service create --name helloworld alpine:3.6 ping docker.com
 ```
 
@@ -84,19 +84,19 @@ For more details about image tag resolution, see
 >
 > This example only works for a Windows container.
 
-Swarm now allows using a Docker config as a gMSA credential spec - a requirement for Active Directory-authenticated applications. This reduces the burden of distributing credential specs to the nodes they're used on. 
+Swarm now allows using a Docker config as a gMSA credential spec - a requirement for Active Directory-authenticated applications. This reduces the burden of distributing credential specs to the nodes they're used on.
 
 The following example assumes a gMSA and its credential spec (called credspec.json) already exists, and that the nodes being deployed to are correctly configured for the gMSA.
 
 To use a config as a credential spec, first create the Docker config containing the credential spec:
 
-```console
+```bash
 $ docker config create credspec credspec.json
 ```
 
 Now, you should have a Docker config named credspec, and you can create a service using this credential spec. To do so, use the --credential-spec flag with the config name, like this:
 
-```console
+```bash
 $ docker service create --credential-spec="config://credspec" <your image>
 ```
 
@@ -109,7 +109,7 @@ If your image is available on a private registry which requires login, use the
 your image is stored on `registry.example.com`, which is a private registry, use
 a command like the following:
 
-```console
+```bash
 $ docker login registry.example.com
 
 $ docker service  create \
@@ -124,24 +124,24 @@ nodes are able to log into the registry and pull the image.
 
 ### Provide credential specs for managed service accounts
 
- In Enterprise Edition 3.0, security is improved through the centralized distribution and management of Group Managed Service Account(gMSA) credentials using Docker config functionality. Swarm now allows using a Docker config as a gMSA credential spec, which reduces the burden of distributing credential specs to the nodes on which they are used. 
+In Enterprise Edition 3.0, security is improved through the centralized distribution and management of Group Managed Service Account(gMSA) credentials using Docker config functionality. Swarm now allows using a Docker config as a gMSA credential spec, which reduces the burden of distributing credential specs to the nodes on which they are used.
 
 > [!NOTE]
 >
 > This option is only applicable to services using Windows containers.
 
- Credential spec files are applied at runtime, eliminating the need for host-based credential spec files or registry entries - no gMSA credentials are written to disk on worker nodes. You can make credential specs available to Docker Engine running swarm kit worker nodes before a container starts. When deploying a service using a gMSA-based config, the credential spec is passed directly to the runtime of containers in that service.
+Credential spec files are applied at runtime, eliminating the need for host-based credential spec files or registry entries - no gMSA credentials are written to disk on worker nodes. You can make credential specs available to Docker Engine running swarm kit worker nodes before a container starts. When deploying a service using a gMSA-based config, the credential spec is passed directly to the runtime of containers in that service.
 
- The `--credential-spec` must be in one of the following formats:
+The `--credential-spec` must be in one of the following formats:
 
- - `file://<filename>`: The referenced file must be present in the `CredentialSpecs` subdirectory in the docker data directory, which defaults to `C:\ProgramData\Docker\` on Windows. For example, specifying `file://spec.json` loads `C:\ProgramData\Docker\CredentialSpecs\spec.json`.
-- `registry://<value-name>`: The credential spec is read from the Windows registry on the daemon’s host. 
-- `config://<config-name>`: The config name is automatically converted to the config ID in the CLI. 
-The credential spec contained in the specified `config` is used.
+- `file://<filename>`: The referenced file must be present in the `CredentialSpecs` subdirectory in the docker data directory, which defaults to `C:\ProgramData\Docker\` on Windows. For example, specifying `file://spec.json` loads `C:\ProgramData\Docker\CredentialSpecs\spec.json`.
+- `registry://<value-name>`: The credential spec is read from the Windows registry on the daemon’s host.
+- `config://<config-name>`: The config name is automatically converted to the config ID in the CLI.
+  The credential spec contained in the specified `config` is used.
 
- The following simple example retrieves the gMSA name and JSON contents from your Active Directory (AD) instance:
+The following simple example retrieves the gMSA name and JSON contents from your Active Directory (AD) instance:
 
- ```console
+```bash
 $ name="mygmsa"
 $ contents="{...}"
 $ echo $contents > contents.json
@@ -149,20 +149,20 @@ $ echo $contents > contents.json
 
 Make sure that the nodes to which you are deploying are correctly configured for the gMSA.
 
- To use a config as a credential spec, create a Docker config in a credential spec file named `credpspec.json`. 
- You can specify any name for the name of the `config`. 
+To use a config as a credential spec, create a Docker config in a credential spec file named `credpspec.json`.
+You can specify any name for the name of the `config`.
 
-```console
+```bash
 $ docker config create --label com.docker.gmsa.name=mygmsa credspec credspec.json
 ```
 
 Now you can create a service using this credential spec. Specify the `--credential-spec` flag with the config name:
 
-```console
+```bash
 $ docker service create --credential-spec="config://credspec" <your image>
 ```
 
- Your service uses the gMSA credential spec when it starts, but unlike a typical Docker config (used by passing the --config flag), the credential spec is not mounted into the container.
+Your service uses the gMSA credential spec when it starts, but unlike a typical Docker config (used by passing the --config flag), the credential spec is not mounted into the container.
 
 ## Update a service
 
@@ -179,13 +179,13 @@ was previously published.
 Assuming that the `my_web` service from the previous section still exists, use
 the following command to update it to publish port 80.
 
-```console
+```bash
 $ docker service update --publish-add 80 my_web
 ```
 
 To verify that it worked, use `docker service ls`:
 
-```console
+```bash
 $ docker service ls
 
 ID                  NAME                MODE                REPLICAS            IMAGE                                                                                             PORTS
@@ -205,7 +205,7 @@ To remove a service, use the `docker service remove` command. You can remove a
 service by its ID or name, as shown in the output of the `docker service ls`
 command. The following command removes the `my_web` service.
 
-```console
+```bash
 $ docker service remove my_web
 ```
 
@@ -226,15 +226,15 @@ one of those commands with the `--help` flag.
 You can configure the following options for the runtime environment in the
 container:
 
-* Environment variables using the `--env` flag
-* The working directory inside the container using the `--workdir` flag
-* The username or UID using the `--user` flag
+- Environment variables using the `--env` flag
+- The working directory inside the container using the `--workdir` flag
+- The username or UID using the `--user` flag
 
 The following service's containers have an environment variable `$MYVAR`
 set to `myvalue`, run from the `/tmp/` directory, and run as the
 `my_user` user.
 
-```console
+```bash
 $ docker service create --name helloworld \
   --env MYVAR=myvalue \
   --workdir /tmp \
@@ -249,7 +249,7 @@ The following example updates an existing service called `helloworld` so that
 it runs the command `ping docker.com` instead of whatever command it was running
 before:
 
-```console
+```bash
 $ docker service update --args "ping docker.com" helloworld
 ```
 
@@ -267,7 +267,7 @@ An image version can be expressed in several different ways:
   When the request to create a container task is received on a worker node, the
   worker node only sees the digest, not the tag.
 
-  ```console
+  ```bash
   $ docker service create --name="myservice" ubuntu:16.04
   ```
 
@@ -286,7 +286,7 @@ An image version can be expressed in several different ways:
 
   Thus, the following two commands are equivalent:
 
-  ```console
+  ```bash
   $ docker service create --name="myservice" ubuntu
 
   $ docker service create --name="myservice" ubuntu:latest
@@ -295,7 +295,7 @@ An image version can be expressed in several different ways:
 - If you specify a digest directly, that exact version of the image is always
   used when creating service tasks.
 
-  ```console
+  ```bash
   $ docker service create \
       --name="myservice" \
       ubuntu:16.04@sha256:35bc48a1ca97c3971611dc4662d08d131869daa692acb281c7e9e052924e38b1
@@ -331,7 +331,7 @@ To see an image's current digest, issue the command
 following is the current digest for `ubuntu:latest` at the time this content
 was written. The output is truncated for clarity.
 
-```console
+```bash
 $ docker inspect ubuntu:latest
 ```
 
@@ -364,7 +364,7 @@ points to and updates the service tasks to use that digest.
 >
 > If you use [content trust](../security/trust/_index.md), the Docker
 > client resolves image and the swarm manager receives the image and digest,
->  rather than a tag.
+> rather than a tag.
 
 Usually, the manager can resolve the tag to a new digest and the service
 updates, redeploying each task to use the new image. If the manager can't
@@ -441,7 +441,7 @@ more details about swarm service networking, see
 Imagine that you have a 10-node swarm, and you deploy an Nginx service running
 three tasks on a 10-node swarm:
 
-```console
+```bash
 $ docker service create --name my_web \
                         --replicas 3 \
                         --publish published=8080,target=80 \
@@ -457,7 +457,7 @@ host, substitute the host's IP address or resolvable host name.
 
 The HTML output is truncated:
 
-```console
+```bash
 $ curl localhost:8080
 
 <!DOCTYPE html>
@@ -500,7 +500,7 @@ web page for (effectively) a random swarm node running the service.
 The following example runs nginx as a service on each node in your swarm and
 exposes nginx port locally on each swarm node.
 
-```console
+```bash
 $ docker service create \
   --mode global \
   --publish mode=host,target=80,published=8080 \
@@ -525,7 +525,7 @@ You can use overlay networks to connect one or more services within the swarm.
 First, create overlay network on a manager node using the `docker network create`
 command with the `--driver overlay` flag.
 
-```console
+```bash
 $ docker network create --driver overlay my-network
 ```
 
@@ -535,7 +535,7 @@ to the network.
 You can create a new service and pass the `--network` flag to attach the service
 to the overlay network:
 
-```console
+```bash
 $ docker service create \
   --replicas 3 \
   --network my-network \
@@ -548,13 +548,13 @@ The swarm extends `my-network` to each node running the service.
 You can also connect an existing service to an overlay network using the
 `--network-add` flag.
 
-```console
+```bash
 $ docker service update --network-add my-network my-web
 ```
 
 To disconnect a running service from a network, use the `--network-rm` flag.
 
-```console
+```bash
 $ docker service update --network-rm my-network my-web
 ```
 
@@ -636,7 +636,6 @@ placement of services on different nodes.
   node that doesn't already have the service on it if there is one, regardless
   of whether that node has the `rack` label or not.
 
-
 #### Replicated or global services
 
 Swarm mode has two types of services: replicated and global. For replicated
@@ -651,7 +650,7 @@ mode, the service defaults to `replicated`. For replicated services, you specify
 the number of replica tasks you want to start using the `--replicas` flag. For
 example, to start a replicated nginx service with 3 replica tasks:
 
-```console
+```bash
 $ docker service create \
   --name my_web \
   --replicas 3 \
@@ -663,7 +662,7 @@ To start a global service on each available node, pass `--mode global` to
 places a task for the global service on the new node. For example to start a
 service that runs alpine on every node in the swarm:
 
-```console
+```bash
 $ docker service create \
   --name myservice \
   --mode global \
@@ -708,7 +707,7 @@ services run on the same node, or each node only runs one replica, or that some
 nodes don't run any replicas. For global services, the service runs on every
 node that meets the placement constraint and any [resource requirements](#reserve-memory-or-cpus-for-a-service).
 
-```console
+```bash
 $ docker service create \
   --name my-nginx \
   --replicas 5 \
@@ -723,7 +722,7 @@ If you specify multiple placement constraints, the service only deploys onto
 nodes where they are all met. The following example limits the service to run on
 all nodes where `region` is set to `east` and `type` is not set to `devel`:
 
-```console
+```bash
 $ docker service create \
   --name my-nginx \
   --mode global \
@@ -761,7 +760,7 @@ based on the value of the `datacenter` label. If some nodes have
 `datacenter=us-east` and others have `datacenter=us-west`, the service is
 deployed as evenly as possible across the two sets of nodes.
 
-```console
+```bash
 $ docker service create \
   --replicas 9 \
   --name redis_2 \
@@ -784,7 +783,7 @@ order they are encountered. The following example sets up a service with
 multiple placement preferences. Tasks are spread first over the various
 datacenters, and then over racks (as indicated by the respective labels):
 
-```console
+```bash
 $ docker service create \
   --replicas 9 \
   --name redis_2 \
@@ -805,7 +804,6 @@ When updating a service with `docker service update`, `--placement-pref-add`
 appends a new placement preference after all existing placement preferences.
 `--placement-pref-rm` removes an existing placement preference that matches the
 argument.
-
 
 ### Configure a service's update behavior
 
@@ -833,7 +831,7 @@ In the example service below, the scheduler applies updates to a maximum of 2
 replicas at a time. When an updated task returns either `RUNNING` or `FAILED`,
 the scheduler waits 10 seconds before stopping the next task to update:
 
-```console
+```bash
 $ docker service create \
   --replicas 10 \
   --name my_web \
@@ -866,7 +864,7 @@ to the configuration that was in place before the most recent
 Other options can be combined with `--rollback`; for example,
 `--update-delay 0s`, to execute the rollback without a delay between tasks:
 
-```console
+```bash
 $ docker service update \
   --rollback \
   --update-delay 0s
@@ -889,7 +887,7 @@ one or more of the following flags at service creation or update. If you do not
 set a value, the default is used.
 
 | Flag                           | Default | Description                                                                                                                                                                                                                                                                                                             |
-|:-------------------------------|:--------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :----------------------------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--rollback-delay`             | `0s`    | Amount of time to wait after rolling back a task before rolling back the next one. A value of `0` means to roll back the second task immediately after the first rolled-back task deploys.                                                                                                                              |
 | `--rollback-failure-action`    | `pause` | When a task fails to roll back, whether to `pause` or `continue` trying to roll back other tasks.                                                                                                                                                                                                                       |
 | `--rollback-max-failure-ratio` | `0`     | The failure rate to tolerate during a rollback, specified as a floating-point number between 0 and 1. For instance, given 5 tasks, a failure ratio of `.2` would tolerate one task failing to roll back. A value of `0` means no failure are tolerated, while a value of `1` means any number of failure are tolerated. |
@@ -902,7 +900,7 @@ parallel. Tasks are monitored for 20 seconds after rollback to be sure they do
 not exit, and a maximum failure ratio of 20% is tolerated. Default values are
 used for `--rollback-delay` and `--rollback-failure-action`.
 
-```console
+```bash
 $ docker service create --name=my_redis \
                         --replicas=5 \
                         --rollback-parallelism=2 \
@@ -934,7 +932,7 @@ created automatically according to the volume specification on the service.
 
 To use existing data volumes with a service use the `--mount` flag:
 
-```console
+```bash
 $ docker service create \
   --mount src=<VOLUME-NAME>,dst=<CONTAINER-PATH> \
   --name myservice \
@@ -943,10 +941,10 @@ $ docker service create \
 
 If a volume with the name `<VOLUME-NAME>` doesn't exist when a task is
 scheduled to a particular host, then one is created. The default volume
-driver is `local`.  To use a different volume driver with this create-on-demand
+driver is `local`. To use a different volume driver with this create-on-demand
 pattern, specify the driver and its options with the `--mount` flag:
 
-```console
+```bash
 $ docker service create \
   --mount type=volume,src=<VOLUME-NAME>,dst=<CONTAINER-PATH>,volume-driver=<DRIVER>,volume-opt=<KEY0>=<VALUE0>,volume-opt=<KEY1>=<VALUE1>
   --name myservice \
@@ -955,7 +953,6 @@ $ docker service create \
 
 For more information on how to create data volumes and the use of volume
 drivers, see [Use volumes](/manuals/engine/storage/volumes.md).
-
 
 #### Bind mounts
 
@@ -968,7 +965,7 @@ The following examples show bind mount syntax:
 
 - To mount a read-write bind:
 
-  ```console
+  ```bash
   $ docker service create \
     --mount type=bind,src=<HOST-PATH>,dst=<CONTAINER-PATH> \
     --name myservice \
@@ -977,7 +974,7 @@ The following examples show bind mount syntax:
 
 - To mount a read-only bind:
 
-  ```console
+  ```bash
   $ docker service create \
     --mount type=bind,src=<HOST-PATH>,dst=<CONTAINER-PATH>,readonly \
     --name myservice \
@@ -1018,7 +1015,7 @@ The following flags are supported:
 Valid placeholders for the Go template are:
 
 | Placeholder       | Description    |
-|:------------------|:---------------|
+| :---------------- | :------------- |
 | `.Service.ID`     | Service ID     |
 | `.Service.Name`   | Service name   |
 | `.Service.Labels` | Service labels |
@@ -1032,32 +1029,28 @@ Valid placeholders for the Go template are:
 This example sets the template of the created containers based on the
 service's name and the ID of the node where the container is running:
 
-
-```console
+```bash
 $ docker service create --name hosttempl \
                         --hostname="{{.Node.ID}}-{{.Service.Name}}"\
                          busybox top
 ```
 
-
 To see the result of using the template, use the `docker service ps` and
 `docker inspect` commands.
 
-```console
+```bash
 $ docker service ps va8ew30grofhjoychbr6iot8c
 
 ID            NAME         IMAGE                                                                                   NODE          DESIRED STATE  CURRENT STATE               ERROR  PORTS
 wo41w8hg8qan  hosttempl.1  busybox:latest@sha256:29f5d56d12684887bdfa50dcd29fc31eea4aaf4ad3bec43daf19026a7ce69912  2e7a8a9c4da2  Running        Running about a minute ago
 ```
 
-
-```console
+```bash
 $ docker inspect --format="{{.Config.Hostname}}" hosttempl.1.wo41w8hg8qanxwjwsg4kxpprj
 ```
 
-
 ## Learn More
 
-* [Swarm administration guide](admin_guide.md)
-* [Docker Engine command line reference](/reference/cli/docker/)
-* [Swarm mode tutorial](swarm-tutorial/_index.md)
+- [Swarm administration guide](admin_guide.md)
+- [Docker Engine command line reference](/reference/cli/docker/)
+- [Swarm mode tutorial](swarm-tutorial/_index.md)

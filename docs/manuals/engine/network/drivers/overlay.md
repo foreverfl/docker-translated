@@ -8,10 +8,10 @@ keywords:
   - swarm
   - service
 aliases:
-- /config/containers/overlay/
-- /engine/userguide/networking/overlay-security-model/
-- /network/overlay/
-- /network/drivers/overlay/
+  - /config/containers/overlay/
+  - /engine/userguide/networking/overlay-security-model/
+  - /network/overlay/
+  - /network/drivers/overlay/
 ---
 
 The `overlay` network driver creates a distributed network among multiple
@@ -39,16 +39,16 @@ containers. For information about overlay for Swarm services, see
 Before you start, you must ensure that participating nodes can communicate over the network.
 The following table lists ports that need to be open to each host participating in an overlay network:
 
-| Ports                  | Description                                                                                                                                                          |
-| :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ports                  | Description                                                                                                                                             |
+| :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `2377/tcp`             | The default Swarm control plane port, is configurable with [`docker swarm join --listen-addr`](/reference/cli/docker/swarm/join.md#--listen-addr-value) |
 | `4789/udp`             | The default overlay traffic port, configurable with [`docker swarm init --data-path-addr`](/reference/cli/docker/swarm/init.md#data-path-port)          |
-| `7946/tcp`, `7946/udp` | Used for communication among nodes, not configurable                                                                                                                 |
+| `7946/tcp`, `7946/udp` | Used for communication among nodes, not configurable                                                                                                    |
 
 To create an overlay network that containers on other Docker hosts can connect to,
 run the following command:
 
-```console
+```bash
 $ docker network create -d overlay --attachable my-attachable-overlay
 ```
 
@@ -64,7 +64,7 @@ You can specify the IP address range, subnet, gateway, and other options. See
 Use the `--opt encrypted` flag to encrypt the application data
 transmitted over the overlay network:
 
-```console
+```bash
 $ docker network create \
   --opt encrypted \
   --driver overlay \
@@ -96,7 +96,7 @@ daemon hosts. A prerequisite for doing this is that the hosts have joined the sa
 
 To join an overlay network named `multi-host-network` with a `busybox` container:
 
-```console
+```bash
 $ docker run --network multi-host-network busybox sh
 ```
 

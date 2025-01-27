@@ -26,7 +26,7 @@ To tag a local image, use one of the following methods:
 
 Then, you can push this image to the repository designated by its name or tag:
 
-```console
+```bash
 $ docker push <org-or-user-namespace>/<repo-name>:<tag>
 ```
 

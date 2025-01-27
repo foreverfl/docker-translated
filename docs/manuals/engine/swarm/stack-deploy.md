@@ -43,13 +43,13 @@ a throwaway registry, which you can discard afterward.
 
 1.  Start the registry as a service on your swarm:
 
-    ```console
+    ```bash
     $ docker service create --name registry --publish published=5000,target=5000 registry:2
     ```
 
 2.  Check its status with `docker service ls`:
 
-    ```console
+    ```bash
     $ docker service ls
 
     ID            NAME      REPLICAS  IMAGE                                                                               COMMAND
@@ -61,7 +61,7 @@ a throwaway registry, which you can discard afterward.
 
 3.  Check that it's working with `curl`:
 
-    ```console
+    ```bash
     $ curl http://localhost:5000/v2/
 
     {}
@@ -76,7 +76,7 @@ counter whenever you visit it.
 
 1.  Create a directory for the project:
 
-    ```console
+    ```bash
     $ mkdir stackdemo
     $ cd stackdemo
     ```
@@ -145,7 +145,7 @@ counter whenever you visit it.
     Compose doesn't take advantage of swarm mode, and deploys everything to a
     single node. You can safely ignore this.
 
-    ```console
+    ```bash
     $ docker compose up -d
 
     WARNING: The Docker Engine you're using is running in swarm mode.
@@ -164,7 +164,7 @@ counter whenever you visit it.
 
 2.  Check that the app is running with `docker compose ps`:
 
-    ```console
+    ```bash
     $ docker compose ps
 
           Name                     Command               State           Ports
@@ -175,7 +175,7 @@ counter whenever you visit it.
 
     You can test the app with `curl`:
 
-    ```console
+    ```bash
     $ curl http://localhost:8000
     Hello World! I have been seen 1 times.
 
@@ -188,7 +188,7 @@ counter whenever you visit it.
 
 3.  Bring the app down:
 
-    ```console
+    ```bash
     $ docker compose down --volumes
 
     Stopping stackdemo_web_1 ... done
@@ -203,7 +203,7 @@ counter whenever you visit it.
 To distribute the web app's image across the swarm, it needs to be pushed to the
 registry you set up earlier. With Compose, this is very simple:
 
-```console
+```bash
 $ docker compose push
 
 Pushing web (127.0.0.1:5000/stackdemo:latest)...
@@ -222,7 +222,7 @@ The stack is now ready to be deployed.
 
 1.  Create the stack with `docker stack deploy`:
 
-    ```console
+    ```bash
     $ docker stack deploy --compose-file compose.yml stackdemo
 
     Ignoring unsupported options: build
@@ -237,7 +237,7 @@ The stack is now ready to be deployed.
 
 2.  Check that it's running with `docker stack services stackdemo`:
 
-    ```console
+    ```bash
     $ docker stack services stackdemo
 
     ID            NAME             MODE        REPLICAS  IMAGE
@@ -251,7 +251,7 @@ The stack is now ready to be deployed.
 
     As before, you can test the app with `curl`:
 
-    ```console
+    ```bash
     $ curl http://localhost:8000
     Hello World! I have been seen 1 times.
 
@@ -265,14 +265,14 @@ The stack is now ready to be deployed.
     With Docker's built-in routing mesh, you can access any node in the
     swarm on port `8000` and get routed to the app:
 
-    ```console
+    ```bash
     $ curl http://address-of-other-node:8000
     Hello World! I have been seen 4 times.
     ```
 
 3.  Bring the stack down with `docker stack rm`:
 
-    ```console
+    ```bash
     $ docker stack rm stackdemo
 
     Removing service stackdemo_web
@@ -282,14 +282,14 @@ The stack is now ready to be deployed.
 
 4.  Bring the registry down with `docker service rm`:
 
-    ```console
+    ```bash
     $ docker service rm registry
     ```
 
 5.  If you're just testing things out on a local machine and want to bring your
     Docker Engine out of Swarm mode, use `docker swarm leave`:
 
-    ```console
+    ```bash
     $ docker swarm leave --force
 
     Node left the swarm.

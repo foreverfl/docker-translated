@@ -43,7 +43,7 @@ logs locally:
 
 - Step 1: Configure Docker daemon
 
-  ```console
+  ```bash
   $ cat /etc/docker/daemon.json
   {
     "log-driver": "splunk",
@@ -56,13 +56,13 @@ logs locally:
 
 - Step 2: Start the container
 
-  ```console
+  ```bash
   $ docker run -d busybox --name testlog top
   ```
 
 - Step 3: Read the container logs
 
-  ```console
+  ```bash
   $ docker logs 7d6ac83a89a0
   Error response from daemon: configured logging driver does not support reading
   ```
@@ -76,7 +76,7 @@ as a default, with dual logging caching enabled:
 
 - Step 1: Configure Docker daemon
 
-  ```console
+  ```bash
   $ cat /etc/docker/daemon.json
   {
     "log-driver": "splunk",
@@ -88,13 +88,13 @@ as a default, with dual logging caching enabled:
 
 - Step 2: Start the container
 
-  ```console
+  ```bash
   $ docker run -d busybox --name testlog top
   ```
 
 - Step 3: Read the container logs
 
-  ```console
+  ```bash
   $ docker logs 7d6ac83a89a0
   2019-02-04T19:48:15.423Z [INFO]  core: marked as sealed
   2019-02-04T19:48:15.423Z [INFO]  core: pre-seal teardown starting
@@ -143,7 +143,7 @@ when using the [daemon configuration file](/reference/cli/dockerd/#daemon-config
 The following example uses the daemon configuration file to use the [`splunk`](drivers/splunk.md)
 logging driver as a default, with caching disabled:
 
-```console
+```bash
 $ cat /etc/docker/daemon.json
 {
   "log-driver": "splunk",

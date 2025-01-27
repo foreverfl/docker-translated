@@ -52,7 +52,7 @@ flags on the `docker container run` command. The `--volume` (or `-v`) flag
 accepts a volume name and path on the host, and the `--volume-driver` flag
 accepts a driver type.
 
-```console
+```bash
 $ docker volume create --driver=flocker volumename
 
 $ docker container run -it --volume volumename:/data busybox sh
@@ -89,7 +89,7 @@ daemon provides these paths to containers to consume. The Docker daemon makes
 the volumes available by bind-mounting the provided paths into the containers.
 
 > [!NOTE]
-> Volume plugins should *not* write data to the `/var/lib/docker/` directory,
+> Volume plugins should _not_ write data to the `/var/lib/docker/` directory,
 > including `/var/lib/docker/volumes`. The `/var/lib/docker/` directory is
 > reserved for Docker.
 
@@ -99,8 +99,8 @@ Request:
 
 ```json
 {
-    "Name": "volume_name",
-    "Opts": {}
+  "Name": "volume_name",
+  "Opts": {}
 }
 ```
 
@@ -113,11 +113,11 @@ Response:
 
 ```json
 {
-    "Err": ""
+  "Err": ""
 }
 ```
 
-  Respond with a string error if an error occurred.
+Respond with a string error if an error occurred.
 
 ### `/VolumeDriver.Remove`
 
@@ -125,7 +125,7 @@ Request:
 
 ```json
 {
-    "Name": "volume_name"
+  "Name": "volume_name"
 }
 ```
 
@@ -136,7 +136,7 @@ Response:
 
 ```json
 {
-    "Err": ""
+  "Err": ""
 }
 ```
 
@@ -148,8 +148,8 @@ Request:
 
 ```json
 {
-    "Name": "volume_name",
-    "ID": "b87d7442095999a92b65b3d9691e697b61713829cc0ffd1bb72e4ccd51aa4d6c"
+  "Name": "volume_name",
+  "ID": "b87d7442095999a92b65b3d9691e697b61713829cc0ffd1bb72e4ccd51aa4d6c"
 }
 ```
 
@@ -166,8 +166,8 @@ Response:
 
   ```json
   {
-      "Mountpoint": "/path/to/directory/on/host",
-      "Err": ""
+    "Mountpoint": "/path/to/directory/on/host",
+    "Err": ""
   }
   ```
 
@@ -175,8 +175,8 @@ Response:
 
   ```json
   {
-      "Mountpoint": "/path/under/PropagatedMount",
-      "Err": ""
+    "Mountpoint": "/path/under/PropagatedMount",
+    "Err": ""
   }
   ```
 
@@ -191,7 +191,7 @@ Request:
 
 ```json
 {
-    "Name": "volume_name"
+  "Name": "volume_name"
 }
 ```
 
@@ -203,8 +203,8 @@ Response:
 
   ```json
   {
-      "Mountpoint": "/path/to/directory/on/host",
-      "Err": ""
+    "Mountpoint": "/path/to/directory/on/host",
+    "Err": ""
   }
   ```
 
@@ -212,8 +212,8 @@ Response:
 
   ```json
   {
-      "Mountpoint": "/path/under/PropagatedMount",
-      "Err": ""
+    "Mountpoint": "/path/under/PropagatedMount",
+    "Err": ""
   }
   ```
 
@@ -229,8 +229,8 @@ Request:
 
 ```json
 {
-    "Name": "volume_name",
-    "ID": "b87d7442095999a92b65b3d9691e697b61713829cc0ffd1bb72e4ccd51aa4d6c"
+  "Name": "volume_name",
+  "ID": "b87d7442095999a92b65b3d9691e697b61713829cc0ffd1bb72e4ccd51aa4d6c"
 }
 ```
 
@@ -244,7 +244,7 @@ Response:
 
 ```json
 {
-    "Err": ""
+  "Err": ""
 }
 ```
 
@@ -256,7 +256,7 @@ Request:
 
 ```json
 {
-    "Name": "volume_name"
+  "Name": "volume_name"
 }
 ```
 
@@ -292,7 +292,6 @@ Response:
 
 Respond with a string error if an error occurred. `Mountpoint` and `Status` are
 optional.
-
 
 ### /VolumeDriver.List
 

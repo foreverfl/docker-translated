@@ -50,7 +50,7 @@ use unless you have substantial experience with ZFS on Linux.
 2.  Copy the contents of `/var/lib/docker/` to `/var/lib/docker.bk` and remove
     the contents of `/var/lib/docker/`.
 
-    ```console
+    ```bash
     $ sudo cp -au /var/lib/docker /var/lib/docker.bk
 
     $ sudo rm -rf /var/lib/docker/*
@@ -61,7 +61,7 @@ use unless you have substantial experience with ZFS on Linux.
     have specified the correct devices, because this is a destructive operation.
     This example adds two devices to the pool.
 
-    ```console
+    ```bash
     $ sudo zpool create -f zpool-docker -m /var/lib/docker /dev/xvdf /dev/xvdg
     ```
 
@@ -69,7 +69,7 @@ use unless you have substantial experience with ZFS on Linux.
     display purposes only, and you can use a different name. Check that the pool
     was created and mounted correctly using `zfs list`.
 
-    ```console
+    ```bash
     $ sudo zfs list
 
     NAME           USED  AVAIL  REFER  MOUNTPOINT
@@ -90,7 +90,7 @@ use unless you have substantial experience with ZFS on Linux.
 
 5.  Start Docker. Use `docker info` to verify that the storage driver is `zfs`.
 
-    ```console
+    ```bash
     $ sudo docker info
       Containers: 0
        Running: 0
@@ -116,7 +116,7 @@ use unless you have substantial experience with ZFS on Linux.
 To increase the size of the `zpool`, you need to add a dedicated block device to
 the Docker host, and then add it to the `zpool` using the `zpool add` command:
 
-```console
+```bash
 $ sudo zpool add zpool-docker /dev/xvdh
 ```
 
@@ -153,7 +153,6 @@ ZFS uses the following objects:
 The process of creating a clone:
 
 ![ZFS snapshots and clones](images/zfs_clones.webp?w=450)
-
 
 1.  A read-only snapshot is created from the filesystem.
 2.  A writable clone is created from the snapshot. This contains any differences
@@ -201,7 +200,6 @@ When you start a container, the following steps happen in order:
     allocated for the blocks that are changed. By default, these blocks are
     128k.
 
-
 ## How container reads and writes work with `zfs`
 
 ### Reading files
@@ -212,7 +210,6 @@ operations are fast, even if the data being read is from a deep layer.
 This diagram illustrates how block sharing works:
 
 ![ZFS block sharing](images/zpool_blocks.webp?w=450)
-
 
 ### Writing files
 
@@ -225,13 +222,13 @@ copy-on-write (CoW) strategy. This minimizes the size of the layer and increases
 write performance.
 
 **Deleting a file or directory**:
-  - When you delete a file or directory that exists in a lower layer, the ZFS
-    driver masks the existence of the file or directory in the container's
-    writable layer, even though the file or directory still exists in the lower
-    read-only layers.
-  - If you create and then delete a file or directory within the container's
-    writable layer, the blocks are reclaimed by the `zpool`.
 
+- When you delete a file or directory that exists in a lower layer, the ZFS
+  driver masks the existence of the file or directory in the container's
+  writable layer, even though the file or directory still exists in the lower
+  read-only layers.
+- If you create and then delete a file or directory within the container's
+  writable layer, the blocks are reclaimed by the `zpool`.
 
 ## ZFS and Docker performance
 
@@ -247,7 +244,7 @@ There are several factors that influence the performance of Docker using the
   are using SAN, NAS, or other hardware RAID technologies.
 
 - **ZFS Caching**: ZFS caches disk blocks in a memory structure called the
-  adaptive replacement cache (ARC). The *Single Copy ARC* feature of ZFS allows
+  adaptive replacement cache (ARC). The _Single Copy ARC_ feature of ZFS allows
   a single cached copy of a block to be shared by multiple clones of a
   With this feature, multiple running containers can share a single copy of a
   cached block. This feature makes ZFS a good option for PaaS and other
@@ -265,7 +262,7 @@ There are several factors that influence the performance of Docker using the
 
 ### Performance best practices
 
-- **Use fast storage**:  Solid-state drives (SSDs) provide faster reads and
+- **Use fast storage**: Solid-state drives (SSDs) provide faster reads and
   writes than spinning disks.
 
 - **Use volumes for write-heavy workloads**: Volumes provide the best and most

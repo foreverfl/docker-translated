@@ -3,12 +3,12 @@ title: Deprecated Docker Engine features
 linkTitle: Deprecated features
 aliases: ["/engine/misc/deprecated/"]
 description: "Deprecated Features."
-keywords: 
- - docker
- - documentation
- - about
- - technology
- - deprecate
+keywords:
+  - docker
+  - documentation
+  - about
+  - technology
+  - deprecate
 ---
 
 <!-- This file is maintained within the docker/cli GitHub
@@ -57,7 +57,7 @@ The following table provides an overview of the current status of deprecated fea
   printed, and users should not rely on this feature.
 
 | Status     | Feature                                                                                                                            | Deprecated | Remove |
-|------------|------------------------------------------------------------------------------------------------------------------------------------|------------|--------|
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------ |
 | Deprecated | [Non-standard fields in image inspect](#non-standard-fields-in-image-inspect)                                                      | v27.0      | v28.0  |
 | Deprecated | [API CORS headers](#api-cors-headers)                                                                                              | v27.0      | v28.0  |
 | Deprecated | [Graphdriver plugins (experimental)](#graphdriver-plugins-experimental)                                                            | v27.0      | v28.0  |
@@ -273,7 +273,7 @@ connecting with a client that uses an API version older than 1.24,
 the daemon returns an error. The following example configures the Docker
 CLI to use API version 1.23, which produces an error:
 
-```console
+```bash
 DOCKER_API_VERSION=1.23 docker version
 Error response from daemon: client version 1.23 is too old. Minimum supported API version is 1.24,
 upgrade your client to a newer version
@@ -676,7 +676,7 @@ The `--log-opt fluentd-async-connect` option for the fluentd logging driver is
 [deprecated in favor of `--log-opt fluentd-async`](https://github.com/moby/moby/pull/39086).
 A deprecation message is logged in the daemon logs if the old option is used:
 
-```console
+```bash
 fluent#New: AsyncConnect is now deprecated, use Async instead
 ```
 
@@ -702,7 +702,7 @@ update images to use current formats, or to upgrade to more current images.
 Starting with Docker v26.0, pulling these images is disabled by default, and
 produces an error when attempting to pull the image:
 
-```console
+```bash
 $ docker pull ubuntu:10.04
 Error response from daemon:
 [DEPRECATION NOTICE] Docker Image Format v1 and Docker Image manifest version 2, schema 1 support is disabled by default and will be removed in an upcoming release.
@@ -848,7 +848,7 @@ but hidden. The flag has been removed in Docker 19.03.
 
 Version 1.8.3 added a flag (`--disable-legacy-registry=false`) which prevents the
 Docker daemon from `pull`, `push`, and `login` operations against v1
-registries.  Though enabled by default, this signals the intent to deprecate
+registries. Though enabled by default, this signals the intent to deprecate
 the v1 protocol.
 
 Support for the v1 protocol to the public registry was removed in 1.13. Any
@@ -1052,7 +1052,7 @@ Log tags are now generated in a standard way across different logging drivers.
 Because of which, the driver specific log tag options `syslog-tag`, `gelf-tag` and
 `fluentd-tag` have been deprecated in favor of the generic `tag` option.
 
-```console
+```bash
 $ docker --log-driver=syslog --log-opt tag="{{.ImageName}}/{{.Name}}/{{.ID}}"
 ```
 

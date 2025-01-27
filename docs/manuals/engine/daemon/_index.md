@@ -79,7 +79,7 @@ This can be useful for troubleshooting problems.
 Here's an example of how to manually start the Docker daemon, using the same
 configurations as shown in the previous JSON configuration:
 
-```console
+```bash
 $ dockerd --debug \
   --tls=true \
   --tlscert=/var/docker/server.pem \
@@ -91,7 +91,7 @@ Learn about the available configuration options in the
 [dockerd reference docs](/reference/cli/dockerd.md), or by
 running:
 
-```console
+```bash
 $ dockerd --help
 ```
 

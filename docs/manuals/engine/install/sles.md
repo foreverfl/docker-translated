@@ -64,7 +64,7 @@ repositories.
 
 You must add the [OpenSUSE `SELinux` repository](https://download.opensuse.org/repositories/security:/SELinux/). This repository is not added by default. Run the following commands to add it:
 
-```console
+```bash
 $ opensuse_repo="https://download.opensuse.org/repositories/security:/SELinux/openSUSE_Factory/security:SELinux.repo"
 $ sudo zypper addrepo $opensuse_repo
 ```
@@ -77,7 +77,7 @@ Your Linux distribution may provide unofficial Docker packages, which may confli
 with the official packages provided by Docker. You must uninstall these packages
 before you install the official version of Docker Engine.
 
-```console
+```bash
 $ sudo zypper remove docker \
                   docker-client \
                   docker-client-latest \
@@ -121,7 +121,7 @@ Docker from the repository.
 
 Set up the repository.
 
-```console
+```bash
 $ sudo zypper addrepo /docker-ce.repo
 ```
 
@@ -134,7 +134,7 @@ $ sudo zypper addrepo /docker-ce.repo
 
    To install the latest version, run:
 
-   ```console
+   ```bash
    $ sudo zypper install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
@@ -150,7 +150,7 @@ $ sudo zypper addrepo /docker-ce.repo
    To install a specific version, start by listing the available versions in
    the repository:
 
-   ```console
+   ```bash
    $ sudo zypper search -s --match-exact docker-ce | sort -r
 
      v  | docker-ce | package | 3:-1 | s390x | Docker CE Stable - s390x
@@ -167,7 +167,7 @@ $ sudo zypper addrepo /docker-ce.repo
    Replace `<VERSION_STRING>` with the desired version and then run the following
    command to install:
 
-   ```console
+   ```bash
    $ sudo zypper install docker-ce-<VERSION_STRING> docker-ce-cli-<VERSION_STRING> containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
@@ -179,7 +179,7 @@ $ sudo zypper addrepo /docker-ce.repo
 
 2. Start Docker Engine.
 
-   ```console
+   ```bash
    $ sudo systemctl enable --now docker
    ```
 
@@ -189,7 +189,7 @@ systemctl start docker` instead.
 
 3. Verify that the installation is successful by running the `hello-world` image:
 
-   ```console
+   ```bash
    $ sudo docker run hello-world
    ```
 
@@ -220,7 +220,7 @@ download a new file each time you want to upgrade Docker Engine.
 2. Install Docker Engine, changing the following path to the path where you downloaded
    the Docker package.
 
-   ```console
+   ```bash
    $ sudo zypper install /path/to/package.rpm
    ```
 
@@ -229,7 +229,7 @@ download a new file each time you want to upgrade Docker Engine.
 
 3. Start Docker Engine.
 
-   ```console
+   ```bash
    $ sudo systemctl enable --now docker
    ```
 
@@ -239,7 +239,7 @@ systemctl start docker` instead.
 
 4. Verify that the installation is successful by running the `hello-world` image:
 
-   ```console
+   ```bash
    $ sudo docker run hello-world
    ```
 
@@ -262,14 +262,14 @@ instead of `zypper -y install`, and point to the new files.
 
 1. Uninstall the Docker Engine, CLI, containerd, and Docker Compose packages:
 
-   ```console
+   ```bash
    $ sudo zypper remove docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
    ```
 
 2. Images, containers, volumes, or custom configuration files on your host
    aren't automatically removed. To delete all images, containers, and volumes:
 
-   ```console
+   ```bash
    $ sudo rm -rf /var/lib/docker
    $ sudo rm -rf /var/lib/containerd
    ```

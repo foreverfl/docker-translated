@@ -112,7 +112,7 @@ value. This value can be the plugin’s socket or a path to a specification file
 Authorization plugins can be loaded without restarting the daemon. Refer
 to the [`dockerd` documentation](https://docs.docker.com/reference/cli/dockerd/#configuration-reload-behavior) for more information.
 
-```console
+```bash
 $ dockerd --authorization-plugin=plugin1 --authorization-plugin=plugin2,...
 ```
 
@@ -120,7 +120,7 @@ Docker's authorization subsystem supports multiple `--authorization-plugin` para
 
 ### Calling authorized command (allow)
 
-```console
+```bash
 $ docker pull centos
 <...>
 f1b10cd84249: Pull complete
@@ -129,7 +129,7 @@ f1b10cd84249: Pull complete
 
 ### Calling unauthorized command (deny)
 
-```console
+```bash
 $ docker pull centos
 <...>
 docker: Error response from daemon: authorization denied by plugin PLUGIN_NAME: volumes are not allowed.
@@ -137,7 +137,7 @@ docker: Error response from daemon: authorization denied by plugin PLUGIN_NAME: 
 
 ### Error from plugins
 
-```console
+```bash
 $ docker pull centos
 <...>
 docker: Error response from daemon: plugin PLUGIN_NAME failed with error: AuthZPlugin.AuthZReq: Cannot connect to the Docker daemon. Is the docker daemon running on this host?.
@@ -148,9 +148,9 @@ docker: Error response from daemon: plugin PLUGIN_NAME failed with error: AuthZP
 In addition to Docker's standard plugin registration method, each plugin
 should implement the following two methods:
 
-* `/AuthZPlugin.AuthZReq` This authorize request method is called before the Docker daemon processes the client request.
+- `/AuthZPlugin.AuthZReq` This authorize request method is called before the Docker daemon processes the client request.
 
-* `/AuthZPlugin.AuthZRes` This authorize response method is called before the response is returned from Docker daemon to the client.
+- `/AuthZPlugin.AuthZRes` This authorize response method is called before the response is returned from Docker daemon to the client.
 
 #### /AuthZPlugin.AuthZReq
 
@@ -158,12 +158,12 @@ Request
 
 ```json
 {
-    "User":              "The user identification",
-    "UserAuthNMethod":   "The authentication method used",
-    "RequestMethod":     "The HTTP method",
-    "RequestURI":        "The HTTP request URI",
-    "RequestBody":       "Byte array containing the raw HTTP request body",
-    "RequestHeader":     "Byte array containing the raw HTTP request header as a map[string][]string "
+  "User": "The user identification",
+  "UserAuthNMethod": "The authentication method used",
+  "RequestMethod": "The HTTP method",
+  "RequestURI": "The HTTP request URI",
+  "RequestBody": "Byte array containing the raw HTTP request body",
+  "RequestHeader": "Byte array containing the raw HTTP request header as a map[string][]string "
 }
 ```
 
@@ -171,9 +171,9 @@ Response
 
 ```json
 {
-    "Allow": "Determined whether the user is allowed or not",
-    "Msg":   "The authorization message",
-    "Err":   "The error message if things go wrong"
+  "Allow": "Determined whether the user is allowed or not",
+  "Msg": "The authorization message",
+  "Err": "The error message if things go wrong"
 }
 ```
 
@@ -183,15 +183,15 @@ Request:
 
 ```json
 {
-    "User":              "The user identification",
-    "UserAuthNMethod":   "The authentication method used",
-    "RequestMethod":     "The HTTP method",
-    "RequestURI":        "The HTTP request URI",
-    "RequestBody":       "Byte array containing the raw HTTP request body",
-    "RequestHeader":     "Byte array containing the raw HTTP request header as a map[string][]string",
-    "ResponseBody":      "Byte array containing the raw HTTP response body",
-    "ResponseHeader":    "Byte array containing the raw HTTP response header as a map[string][]string",
-    "ResponseStatusCode":"Response status code"
+  "User": "The user identification",
+  "UserAuthNMethod": "The authentication method used",
+  "RequestMethod": "The HTTP method",
+  "RequestURI": "The HTTP request URI",
+  "RequestBody": "Byte array containing the raw HTTP request body",
+  "RequestHeader": "Byte array containing the raw HTTP request header as a map[string][]string",
+  "ResponseBody": "Byte array containing the raw HTTP response body",
+  "ResponseHeader": "Byte array containing the raw HTTP response header as a map[string][]string",
+  "ResponseStatusCode": "Response status code"
 }
 ```
 
@@ -199,9 +199,9 @@ Response:
 
 ```json
 {
-   "Allow":              "Determined whether the user is allowed or not",
-   "Msg":                "The authorization message",
-   "Err":                "The error message if things go wrong"
+  "Allow": "Determined whether the user is allowed or not",
+  "Msg": "The authorization message",
+  "Err": "The error message if things go wrong"
 }
 ```
 
@@ -211,22 +211,22 @@ Each plugin must support two request authorization messages formats, one from th
 
 #### Daemon -> Plugin
 
-Name                   | Type              | Description
------------------------|-------------------|-------------------------------------------------------
-User                   | string            | The user identification
-Authentication method  | string            | The authentication method used
-Request method         | enum              | The HTTP method (GET/DELETE/POST)
-Request URI            | string            | The HTTP request URI including API version (e.g., v.1.17/containers/json)
-Request headers        | map[string]string | Request headers as key value pairs (without the authorization header)
-Request body           | []byte            | Raw request body
+| Name                  | Type              | Description                                                               |
+| --------------------- | ----------------- | ------------------------------------------------------------------------- |
+| User                  | string            | The user identification                                                   |
+| Authentication method | string            | The authentication method used                                            |
+| Request method        | enum              | The HTTP method (GET/DELETE/POST)                                         |
+| Request URI           | string            | The HTTP request URI including API version (e.g., v.1.17/containers/json) |
+| Request headers       | map[string]string | Request headers as key value pairs (without the authorization header)     |
+| Request body          | []byte            | Raw request body                                                          |
 
 #### Plugin -> Daemon
 
-Name    | Type   | Description
---------|--------|----------------------------------------------------------------------------------
-Allow   | bool   | Boolean value indicating whether the request is allowed or denied
-Msg     | string | Authorization message (will be returned to the client in case the access is denied)
-Err     | string | Error message (will be returned to the client in case the plugin encounter an error. The string value supplied may appear in logs, so should not include confidential information)
+| Name  | Type   | Description                                                                                                                                                                        |
+| ----- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Allow | bool   | Boolean value indicating whether the request is allowed or denied                                                                                                                  |
+| Msg   | string | Authorization message (will be returned to the client in case the access is denied)                                                                                                |
+| Err   | string | Error message (will be returned to the client in case the plugin encounter an error. The string value supplied may appear in logs, so should not include confidential information) |
 
 ### Response authorization
 
@@ -234,22 +234,22 @@ The plugin must support two authorization messages formats, one from the daemon 
 
 #### Daemon -> Plugin
 
-Name                    | Type              | Description
------------------------ |------------------ |----------------------------------------------------
-User                    | string            | The user identification
-Authentication method   | string            | The authentication method used
-Request method          | string            | The HTTP method (GET/DELETE/POST)
-Request URI             | string            | The HTTP request URI including API version (e.g., v.1.17/containers/json)
-Request headers         | map[string]string | Request headers as key value pairs (without the authorization header)
-Request body            | []byte            | Raw request body
-Response status code    | int               | Status code from the Docker daemon
-Response headers        | map[string]string | Response headers as key value pairs
-Response body           | []byte            | Raw Docker daemon response body
+| Name                  | Type              | Description                                                               |
+| --------------------- | ----------------- | ------------------------------------------------------------------------- |
+| User                  | string            | The user identification                                                   |
+| Authentication method | string            | The authentication method used                                            |
+| Request method        | string            | The HTTP method (GET/DELETE/POST)                                         |
+| Request URI           | string            | The HTTP request URI including API version (e.g., v.1.17/containers/json) |
+| Request headers       | map[string]string | Request headers as key value pairs (without the authorization header)     |
+| Request body          | []byte            | Raw request body                                                          |
+| Response status code  | int               | Status code from the Docker daemon                                        |
+| Response headers      | map[string]string | Response headers as key value pairs                                       |
+| Response body         | []byte            | Raw Docker daemon response body                                           |
 
 #### Plugin -> Daemon
 
-Name    | Type   | Description
---------|--------|----------------------------------------------------------------------------------
-Allow   | bool   | Boolean value indicating whether the response is allowed or denied
-Msg     | string | Authorization message (will be returned to the client in case the access is denied)
-Err     | string | Error message (will be returned to the client in case the plugin encounter an error. The string value supplied may appear in logs, so should not include confidential information)
+| Name  | Type   | Description                                                                                                                                                                        |
+| ----- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Allow | bool   | Boolean value indicating whether the response is allowed or denied                                                                                                                 |
+| Msg   | string | Authorization message (will be returned to the client in case the access is denied)                                                                                                |
+| Err   | string | Error message (will be returned to the client in case the plugin encounter an error. The string value supplied may appear in logs, so should not include confidential information) |

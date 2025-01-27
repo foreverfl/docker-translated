@@ -1,6 +1,7 @@
 ---
 title: Networking with overlay networks
-description: Tutorials for networking with swarm services and standalone containers
+description:
+  Tutorials for networking with swarm services and standalone containers
   on multiple Docker daemons
 keywords:
   - networking
@@ -10,8 +11,8 @@ keywords:
   - swarm
   - overlay
 aliases:
-- /engine/userguide/networking/get-started-overlay/
-- /network/network-tutorial-overlay/
+  - /engine/userguide/networking/get-started-overlay/
+  - /network/network-tutorial-overlay/
 ---
 
 This series of tutorials deals with networking for swarm services.
@@ -78,7 +79,7 @@ and will be connected together using an overlay network called `ingress`.
 1.  On `manager`. initialize the swarm. If the host only has one network
     interface, the `--advertise-addr` flag is optional.
 
-    ```console
+    ```bash
     $ docker swarm init --advertise-addr=<IP-ADDRESS-OF-MANAGER>
     ```
 
@@ -89,7 +90,7 @@ and will be connected together using an overlay network called `ingress`.
 2.  On `worker-1`, join the swarm. If the host only has one network interface,
     the `--advertise-addr` flag is optional.
 
-    ```console
+    ```bash
     $ docker swarm join --token <TOKEN> \
       --advertise-addr <IP-ADDRESS-OF-WORKER-1> \
       <IP-ADDRESS-OF-MANAGER>:2377
@@ -98,7 +99,7 @@ and will be connected together using an overlay network called `ingress`.
 3.  On `worker-2`, join the swarm. If the host only has one network interface,
     the `--advertise-addr` flag is optional.
 
-    ```console
+    ```bash
     $ docker swarm join --token <TOKEN> \
       --advertise-addr <IP-ADDRESS-OF-WORKER-2> \
       <IP-ADDRESS-OF-MANAGER>:2377
@@ -107,7 +108,7 @@ and will be connected together using an overlay network called `ingress`.
 4.  On `manager`, list all the nodes. This command can only be done from a
     manager.
 
-    ```console
+    ```bash
     $ docker node ls
 
     ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
@@ -118,7 +119,7 @@ and will be connected together using an overlay network called `ingress`.
 
     You can also use the `--filter` flag to filter by role:
 
-    ```console
+    ```bash
     $ docker node ls --filter role=manager
 
     ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
@@ -136,7 +137,7 @@ and will be connected together using an overlay network called `ingress`.
     network called `docker_gwbridge`. Only the listing for `manager` is shown
     here:
 
-    ```console
+    ```bash
     $ docker network ls
 
     NETWORK ID          NAME                DRIVER              SCOPE
@@ -159,7 +160,7 @@ connect a service to each of them.
 
 1.  On `manager`, create a new overlay network called `nginx-net`:
 
-    ```console
+    ```bash
     $ docker network create -d overlay nginx-net
     ```
 
@@ -175,23 +176,23 @@ connect a service to each of them.
     >
     > Services can only be created on a manager.
 
-    ```console
+    ```bash
     $ docker service create \
       --name my-nginx \
       --publish target=80,published=80 \
       --replicas=5 \
       --network nginx-net \
       nginx
-      ```
+    ```
 
-      The default publish mode of `ingress`, which is used when you do not
-      specify a `mode` for the `--publish` flag, means that if you browse to
-      port 80 on `manager`, `worker-1`, or `worker-2`, you will be connected to
-      port 80 on one of the 5 service tasks, even if no tasks are currently
-      running on the node you browse to. If you want to publish the port using
-      `host` mode, you can add `mode=host` to the `--publish` output. However,
-      you should also use `--mode global` instead of `--replicas=5` in this case,
-      since only one service task can bind a given port on a given node.
+    The default publish mode of `ingress`, which is used when you do not
+    specify a `mode` for the `--publish` flag, means that if you browse to
+    port 80 on `manager`, `worker-1`, or `worker-2`, you will be connected to
+    port 80 on one of the 5 service tasks, even if no tasks are currently
+    running on the node you browse to. If you want to publish the port using
+    `host` mode, you can add `mode=host` to the `--publish` output. However,
+    you should also use `--mode global` instead of `--replicas=5` in this case,
+    since only one service task can bind a given port on a given node.
 
 3.  Run `docker service ls` to monitor the progress of service bring-up, which
     may take a few seconds.
@@ -210,11 +211,11 @@ connect a service to each of them.
 6.  Create a new network `nginx-net-2`, then update the service to use this
     network instead of `nginx-net`:
 
-    ```console
+    ```bash
     $ docker network create -d overlay nginx-net-2
     ```
 
-    ```console
+    ```bash
     $ docker service update \
       --network-add nginx-net-2 \
       --network-rm nginx-net \
@@ -236,7 +237,7 @@ connect a service to each of them.
     commands. The manager will direct the workers to remove the networks
     automatically.
 
-    ```console
+    ```bash
     $ docker service rm my-nginx
     $ docker network rm nginx-net nginx-net-2
     ```
@@ -251,14 +252,14 @@ This tutorial assumes the swarm is already set up and you are on a manager.
 
 1.  Create the user-defined overlay network.
 
-    ```console
+    ```bash
     $ docker network create -d overlay my-overlay
     ```
 
 2.  Start a service using the overlay network and publishing port 80 to port
     8080 on the Docker host.
 
-    ```console
+    ```bash
     $ docker service create \
       --name my-nginx \
       --network my-overlay \
@@ -272,7 +273,7 @@ This tutorial assumes the swarm is already set up and you are on a manager.
 
 4.  Remove the service and the network.
 
-    ```console
+    ```bash
     $ docker service rm my-nginx
 
     $ docker network rm my-overlay
@@ -314,12 +315,11 @@ example also uses Linux hosts, but the same commands work on Windows.
 
 1.  Set up the swarm.
 
-    a.  On `host1`, initialize a swarm (and if prompted, use `--advertise-addr`
-        to specify the IP address for the interface that communicates with other
-        hosts in the swarm, for instance, the private IP address on AWS):
+    a. On `host1`, initialize a swarm (and if prompted, use `--advertise-addr`
+    to specify the IP address for the interface that communicates with other
+    hosts in the swarm, for instance, the private IP address on AWS):
 
-
-    ```console
+    ```bash
     $ docker swarm init
     Swarm initialized: current node (vz1mm9am11qcmo979tlrlox42) is now a manager.
 
@@ -330,9 +330,9 @@ example also uses Linux hosts, but the same commands work on Windows.
     To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
     ```
 
-    b.  On `host2`, join the swarm as instructed above:
+    b. On `host2`, join the swarm as instructed above:
 
-    ```console
+    ```bash
     $ docker swarm join --token <your_token> <your_ip_address>:2377
     This node joined a swarm as a worker.
     ```
@@ -343,7 +343,7 @@ example also uses Linux hosts, but the same commands work on Windows.
 
 2.  On `host1`, create an attachable overlay network called `test-net`:
 
-    ```console
+    ```bash
     $ docker network create --driver=overlay --attachable test-net
     uqsof8phj3ak0rq9k86zta6ht
     ```
@@ -352,14 +352,14 @@ example also uses Linux hosts, but the same commands work on Windows.
 
 3.  On `host1`, start an interactive (`-it`) container (`alpine1`) that connects to `test-net`:
 
-    ```console
+    ```bash
     $ docker run -it --name alpine1 --network test-net alpine
     / #
     ```
 
 4.  On `host2`, list the available networks -- notice that `test-net` does not yet exist:
 
-    ```console
+    ```bash
     $ docker network ls
     NETWORK ID          NAME                DRIVER              SCOPE
     ec299350b504        bridge              bridge              local
@@ -371,7 +371,7 @@ example also uses Linux hosts, but the same commands work on Windows.
 
 5.  On `host2`, start a detached (`-d`) and interactive (`-it`) container (`alpine2`) that connects to `test-net`:
 
-    ```console
+    ```bash
     $ docker run -dit --name alpine2 --network test-net alpine
     fb635f5ece59563e7b8b99556f816d24e6949a5f6a5b1fbd92ca244db17a4342
     ```
@@ -380,9 +380,9 @@ example also uses Linux hosts, but the same commands work on Windows.
     >
     > Automatic DNS container discovery only works with unique container names.
 
-6. On `host2`, verify that `test-net` was created (and has the same NETWORK ID as `test-net` on `host1`):
+6.  On `host2`, verify that `test-net` was created (and has the same NETWORK ID as `test-net` on `host1`):
 
-    ```console
+    ```bash
     $ docker network ls
     NETWORK ID          NAME                DRIVER              SCOPE
     ...
@@ -391,7 +391,7 @@ example also uses Linux hosts, but the same commands work on Windows.
 
 7.  On `host1`, ping `alpine2` within the interactive terminal of `alpine1`:
 
-    ```console
+    ```bash
     / # ping -c 2 alpine2
     PING alpine2 (10.0.0.5): 56 data bytes
     64 bytes from 10.0.0.5: seq=0 ttl=64 time=0.600 ms
@@ -415,7 +415,7 @@ example also uses Linux hosts, but the same commands work on Windows.
 
 8.  On `host1`, close the `alpine1` session (which also stops the container):
 
-    ```console
+    ```bash
     / # exit
     ```
 
@@ -426,17 +426,17 @@ example also uses Linux hosts, but the same commands work on Windows.
     You only have to remove the network on `host1` because when you stop
     `alpine2` on `host2`, `test-net` disappears.
 
-    a.  On `host2`, stop `alpine2`, check that `test-net` was removed, then remove `alpine2`:
+    a. On `host2`, stop `alpine2`, check that `test-net` was removed, then remove `alpine2`:
 
-    ```console
+    ```bash
     $ docker container stop alpine2
     $ docker network ls
     $ docker container rm alpine2
     ```
 
-    a.  On `host1`, remove `alpine1` and `test-net`:
+    a. On `host1`, remove `alpine1` and `test-net`:
 
-    ```console
+    ```bash
     $ docker container rm alpine1
     $ docker network rm test-net
     ```

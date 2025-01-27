@@ -10,7 +10,6 @@ keywords:
   - buildkit
   - hcl
   - variables
-
 ---
 
 You can define and use variables in a Bake file to set attribute values,
@@ -64,7 +63,7 @@ target "default" {
 Printing the Bake file with the `--print` flag shows the interpolated value in
 the resolved build configuration.
 
-```console
+```bash
 $ docker buildx bake --print
 ```
 
@@ -189,7 +188,7 @@ target "default" {
 }
 ```
 
-```console
+```bash
 $ docker buildx bake --progress=plain
 ...
 #8 [linux/arm64 2/2] RUN echo "Building for arm64"
@@ -233,7 +232,7 @@ When you print the resolved build configuration, using the `-f` flag to specify
 the `vars.hcl` and `docker-bake.hcl` files, you see that the `BASE_LATEST`
 variable is resolved to `docker.io/library/alpine:latest`.
 
-```console
+```bash
 $ docker buildx bake -f vars.hcl -f docker-bake.hcl --print app
 ```
 

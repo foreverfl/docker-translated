@@ -54,7 +54,7 @@ the build context, Dockerfile, and tags.
 
 To invoke a build using the above Bake file, you can run:
 
-```console
+```bash
 $ docker buildx bake
 ```
 

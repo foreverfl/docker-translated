@@ -38,7 +38,7 @@ When you run a container, it uses the `docker-default` policy unless you
 override it with the `security-opt` option. For example, the following
 explicitly specifies the default policy:
 
-```console
+```bash
 $ docker run --rm -it --security-opt apparmor=docker-default hello-world
 ```
 
@@ -46,19 +46,19 @@ $ docker run --rm -it --security-opt apparmor=docker-default hello-world
 
 To load a new profile into AppArmor for use with containers:
 
-```console
+```bash
 $ apparmor_parser -r -W /path/to/your_profile
 ```
 
 Then, run the custom profile with `--security-opt`:
 
-```console
+```bash
 $ docker run --rm -it --security-opt apparmor=your_profile hello-world
 ```
 
 To unload a profile from AppArmor:
 
-```console
+```bash
 # unload the profile
 $ apparmor_parser -R /path/to/profile
 ```
@@ -160,7 +160,7 @@ profile docker-nginx flags=(attach_disconnected,mediate_deleted) {
 
 2. Load the profile.
 
-   ```console
+   ```bash
    $ sudo apparmor_parser -r -W /etc/apparmor.d/containers/docker-nginx
    ```
 
@@ -168,20 +168,20 @@ profile docker-nginx flags=(attach_disconnected,mediate_deleted) {
 
    To run nginx in detached mode:
 
-   ```console
+   ```bash
    $ docker run --security-opt "apparmor=docker-nginx" \
         -p 80:80 -d --name apparmor-nginx nginx
    ```
 
 4. Exec into the running container.
 
-   ```console
+   ```bash
    $ docker container exec -it apparmor-nginx bash
    ```
 
 5. Try some operations to test the profile.
 
-   ```console
+   ```bash
    root@6da5a2a930b9:~# ping 8.8.8.8
    ping: Lacking privilege for raw socket.
 
@@ -198,9 +198,7 @@ profile docker-nginx flags=(attach_disconnected,mediate_deleted) {
    bash: /bin/dash: Permission denied
    ```
 
-
 You just deployed a container secured with a custom apparmor profile.
-
 
 ## Debug AppArmor
 
@@ -233,10 +231,10 @@ default unless in `privileged` mode. This line shows that apparmor has denied
 
 ### Use aa-status
 
-If you need to check which profiles are loaded,  you can use `aa-status`. The
+If you need to check which profiles are loaded, you can use `aa-status`. The
 output looks like:
 
-```console
+```bash
 $ sudo aa-status
 apparmor module is loaded.
 14 profiles are loaded.

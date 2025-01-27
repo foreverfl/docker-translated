@@ -26,14 +26,14 @@ target "webapp" {
 
 To build a target with Bake, pass name of the target to the `bake` command.
 
-```console
+```bash
 $ docker buildx bake webapp
 ```
 
 You can build multiple targets at once by passing multiple target names to the
 `bake` command.
 
-```console
+```bash
 $ docker buildx bake webapp api tests
 ```
 
@@ -52,7 +52,7 @@ target "default" {
 
 To build this target, run `docker buildx bake` without any arguments:
 
-```console
+```bash
 $ docker buildx bake
 ```
 
@@ -99,7 +99,7 @@ target "tests" {
 To build all the targets in a group, pass the name of the group to the `bake`
 command.
 
-```console
+```bash
 $ docker buildx bake all
 ```
 

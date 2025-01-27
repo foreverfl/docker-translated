@@ -52,7 +52,7 @@ When you build an image with `docker buildx build`, you can add attestation
 records to the resulting image using the `--provenance` and `--sbom` options.
 You can opt in to add either the SBOM or provenance attestation type, or both.
 
-```console
+```bash
 $ docker buildx build --sbom=true --provenance=true .
 ```
 

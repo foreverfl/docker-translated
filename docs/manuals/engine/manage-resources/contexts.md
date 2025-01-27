@@ -45,7 +45,7 @@ A context is a combination of several properties. These include:
 
 To list available contexts, use the `docker context ls` command.
 
-```console
+```bash
 $ docker context ls
 NAME        DESCRIPTION                               DOCKER ENDPOINT               ERROR
 default *                                             unix:///var/run/docker.sock
@@ -62,7 +62,7 @@ or on the command-line with the `--context` and `--host` flags.
 Dig a bit deeper with `docker context inspect`.
 The following example shows how to inspect the context called `default`.
 
-```console
+```bash
 $ docker context inspect default
 [
     {
@@ -90,7 +90,7 @@ You can create new contexts with the `docker context create` command.
 The following example creates a new context called `docker-test` and specifies
 the host endpoint of the context to TCP socket `tcp://docker:2375`.
 
-```console
+```bash
 $ docker context create docker-test --docker host=tcp://docker:2375
 docker-test
 Successfully created context "docker-test"
@@ -101,7 +101,7 @@ Each new context you create gets its own `meta.json` stored in a dedicated sub-d
 
 You can view the new context with `docker context ls` and `docker context inspect <context-name>`.
 
-```console
+```bash
 $ docker context ls
 NAME          DESCRIPTION                             DOCKER ENDPOINT               ERROR
 default *                                             unix:///var/run/docker.sock
@@ -116,7 +116,7 @@ You can use `docker context use` to switch between contexts.
 
 The following command will switch the `docker` CLI to use the `docker-test` context.
 
-```console
+```bash
 $ docker context use docker-test
 docker-test
 Current context is now "docker-test"
@@ -124,7 +124,7 @@ Current context is now "docker-test"
 
 Verify the operation by listing all contexts and ensuring the asterisk ("\*") is against the `docker-test` context.
 
-```console
+```bash
 $ docker context ls
 NAME            DESCRIPTION                           DOCKER ENDPOINT               ERROR
 default                                               unix:///var/run/docker.sock
@@ -148,7 +148,7 @@ Use the appropriate command below to set the context to `docker-test` using an e
 </TabItem>
 <TabItem value="bash" label="Bash">
 
-```console
+```bash
 $ export DOCKER_CONTEXT=docker-test
 ```
 
@@ -161,7 +161,7 @@ active context.
 You can also use the global `--context` flag to override the context.
 The following command uses a context called `production`.
 
-```console
+```bash
 $ docker --context production container ls
 ```
 
@@ -178,21 +178,21 @@ The file can be imported on any host that has the `docker` client installed.
 The following example exports an existing context called `docker-test`.
 It will be written to a file called `docker-test.dockercontext`.
 
-```console
+```bash
 $ docker context export docker-test
 Written file "docker-test.dockercontext"
 ```
 
 Check the contents of the export file.
 
-```console
+```bash
 $ cat docker-test.dockercontext
 ```
 
 Import this file on another host using `docker context import`
 to create context with the same configuration.
 
-```console
+```bash
 $ docker context import docker-test docker-test.dockercontext
 docker-test
 Successfully imported context "docker-test"
@@ -208,7 +208,7 @@ You can use `docker context update` to update fields in an existing context.
 
 The following example updates the description field in the existing `docker-test` context.
 
-```console
+```bash
 $ docker context update docker-test --description "Test context"
 docker-test
 Successfully updated context "docker-test"

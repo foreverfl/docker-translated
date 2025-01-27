@@ -37,7 +37,7 @@ defining a mirror for `docker.io` (Docker Hub) to `mirror.gcr.io`.
 
 2. Create a `docker-container` builder that uses this BuildKit configuration:
 
-   ```console
+   ```bash
    $ docker buildx create --use --bootstrap \
      --name mybuilder \
      --driver docker-container \
@@ -57,7 +57,7 @@ The BuildKit logs for this builder now shows that it uses the GCR mirror. You
 can tell by the fact that the response messages include the `x-goog-*` HTTP
 headers.
 
-```console
+```bash
 $ docker logs buildx_buildkit_mybuilder0
 ```
 
@@ -99,7 +99,7 @@ configuration.
 
 2. Create a `docker-container` builder that uses this configuration:
 
-   ```console
+   ```bash
    $ docker buildx create --use --bootstrap \
      --name mybuilder \
      --driver docker-container \
@@ -109,7 +109,7 @@ configuration.
 3. Inspect the builder's configuration file (`/etc/buildkit/buildkitd.toml`), it
    shows that the certificate configuration is now configured in the builder.
 
-   ```console
+   ```bash
    $ docker exec -it buildx_buildkit_mybuilder0 cat /etc/buildkit/buildkitd.toml
    ```
 
@@ -128,7 +128,7 @@ configuration.
 
 4. Verify that the certificates are inside the container:
 
-   ```console
+   ```bash
    $ docker exec -it buildx_buildkit_mybuilder0 ls /etc/buildkit/certs/myregistry.com/
    myregistry.pem    myregistry_cert.pem   myregistry_key.pem
    ```
@@ -136,7 +136,7 @@ configuration.
 Now you can push to the registry using this builder, and it will authenticate
 using the certificates:
 
-```console
+```bash
 $ docker buildx build --push --tag myregistry.com/myimage:latest .
 ```
 
@@ -175,7 +175,7 @@ ADD https://raw.githubusercontent.com/moby/buildkit/${BUILDKIT_VERSION}/hack/fix
 Now you can build this image, and create a builder instance from it using
 [the `--driver-opt image` option](/reference/cli/docker/buildx/create.md#driver-opt):
 
-```console
+```bash
 $ docker buildx build --tag buildkit-cni:local --load .
 $ docker buildx create --use --bootstrap \
   --name mybuilder \
@@ -201,7 +201,7 @@ while creating a builder with the [`--config` flags](/reference/cli/docker/build
 Now you can [create a `docker-container` builder](/manuals/build/builders/drivers/docker-container.md)
 that will use this BuildKit configuration to limit parallelism.
 
-```console
+```bash
 $ docker buildx create --use \
   --name mybuilder \
   --driver docker-container \

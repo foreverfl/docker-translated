@@ -85,7 +85,7 @@ default setting in the daemon configuration.
 To set the BuildKit environment variable when running the `docker build`
 command, run:
 
-```console
+```bash
 $ DOCKER_BUILDKIT=1 docker build .
 ```
 
@@ -141,7 +141,7 @@ We appreciate any feedback you submit by [opening an issue here](https://github.
 
 1. Enable the **Hyper-V** and **Containers** Windows features.
 
-   ```console
+   ```bash
    > Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V, Containers -All
    ```
 
@@ -182,9 +182,10 @@ We appreciate any feedback you submit by [opening an issue here](https://github.
    $Env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + `
        [System.Environment]::GetEnvironmentVariable("Path","User")
    ```
+
 6. Start the BuildKit daemon.
 
-   ```console
+   ```bash
    > buildkitd.exe
    ```
 
@@ -194,14 +195,14 @@ We appreciate any feedback you submit by [opening an issue here](https://github.
    >
    > This requires Docker Desktop version 4.29 or later.
 
-   ```console
+   ```bash
    > docker buildx create --name buildkit-exp --use --driver=remote npipe:////./pipe/buildkitd
    buildkit-exp
    ```
 
 8. Verify the builder connection by running `docker buildx inspect`.
 
-   ```console
+   ```bash
    > docker buildx inspect
    ```
 
@@ -223,7 +224,7 @@ We appreciate any feedback you submit by [opening an issue here](https://github.
 
 9. Create a Dockerfile and build a `hello-buildkit` image.
 
-   ```console
+   ```bash
    > mkdir sample_dockerfile
    > cd sample_dockerfile
    > Set-Content Dockerfile @"
@@ -241,12 +242,12 @@ We appreciate any feedback you submit by [opening an issue here](https://github.
 
 10. Build and push the image to a registry.
 
-    ```console
+    ```bash
     > docker buildx build --push -t <username>/hello-buildkit .
     ```
 
 11. After pushing to the registry, run the image with `docker run`.
 
-    ```console
+    ```bash
     > docker run <username>/hello-buildkit
     ```

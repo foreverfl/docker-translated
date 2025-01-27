@@ -72,7 +72,7 @@ To force a re-execution of the `RUN` instruction, you can:
 The `--no-cache-filter` option lets you specify a specific build stage to
 invalidate the cache for:
 
-```console
+```bash
 $ docker build --no-cache-filter install .
 ```
 
@@ -92,7 +92,7 @@ RUN --mount=type=secret,id=TOKEN,env=TOKEN \
     some-command ...
 ```
 
-```console
+```bash
 $ TOKEN="tkn_pat123456" docker build --secret id=TOKEN --build-arg CACHEBUST=1 .
 ```
 

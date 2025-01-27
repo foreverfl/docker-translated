@@ -53,7 +53,7 @@ Your Linux distribution may provide unofficial Docker packages, which may confli
 with the official packages provided by Docker. You must uninstall these packages
 before you install the official version of Docker Engine.
 
-```console
+```bash
 $ sudo dnf remove docker \
                   docker-client \
                   docker-client-latest \
@@ -97,7 +97,7 @@ Docker from the repository.
 Install the `dnf-plugins-core` package (which provides the commands to manage
 your DNF repositories) and set up the repository.
 
-```console
+```bash
 $ sudo dnf -y install dnf-plugins-core
 $ sudo dnf config-manager --add-repo /docker-ce.repo
 ```
@@ -111,7 +111,7 @@ $ sudo dnf config-manager --add-repo /docker-ce.repo
 
    To install the latest version, run:
 
-   ```console
+   ```bash
    $ sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
@@ -127,7 +127,7 @@ $ sudo dnf config-manager --add-repo /docker-ce.repo
    To install a specific version, start by listing the available versions in
    the repository:
 
-   ```console
+   ```bash
    $ dnf list docker-ce --showduplicates | sort -r
 
    docker-ce.x86_64    3:-1.el9    docker-ce-stable
@@ -145,7 +145,7 @@ $ sudo dnf config-manager --add-repo /docker-ce.repo
    Replace `<VERSION_STRING>` with the desired version and then run the following
    command to install:
 
-   ```console
+   ```bash
    $ sudo dnf install docker-ce-<VERSION_STRING> docker-ce-cli-<VERSION_STRING> containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
@@ -157,7 +157,7 @@ $ sudo dnf config-manager --add-repo /docker-ce.repo
 
 2. Start Docker Engine.
 
-   ```console
+   ```bash
    $ sudo systemctl enable --now docker
    ```
 
@@ -167,7 +167,7 @@ systemctl start docker` instead.
 
 3. Verify that the installation is successful by running the `hello-world` image:
 
-   ```console
+   ```bash
    $ sudo docker run hello-world
    ```
 
@@ -198,7 +198,7 @@ download a new file each time you want to upgrade Docker Engine.
 2. Install Docker Engine, changing the following path to the path where you downloaded
    the Docker package.
 
-   ```console
+   ```bash
    $ sudo dnf install /path/to/package.rpm
    ```
 
@@ -207,7 +207,7 @@ download a new file each time you want to upgrade Docker Engine.
 
 3. Start Docker Engine.
 
-   ```console
+   ```bash
    $ sudo systemctl enable --now docker
    ```
 
@@ -217,7 +217,7 @@ systemctl start docker` instead.
 
 4. Verify that the installation is successful by running the `hello-world` image:
 
-   ```console
+   ```bash
    $ sudo docker run hello-world
    ```
 
@@ -240,14 +240,14 @@ instead of `dnf install`, and point to the new files.
 
 1. Uninstall the Docker Engine, CLI, containerd, and Docker Compose packages:
 
-   ```console
+   ```bash
    $ sudo dnf remove docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
    ```
 
 2. Images, containers, volumes, or custom configuration files on your host
    aren't automatically removed. To delete all images, containers, and volumes:
 
-   ```console
+   ```bash
    $ sudo rm -rf /var/lib/docker
    $ sudo rm -rf /var/lib/containerd
    ```

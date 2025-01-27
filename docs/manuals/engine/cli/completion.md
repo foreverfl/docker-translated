@@ -57,13 +57,13 @@ EOT
 
 그리고 셸 구성을 다시 로드합니다:
 
-```console
+```bash
 $ source ~/.bashrc
 ```
 
 이제 `docker completion` 명령어를 사용하여 Bash 완성 스크립트를 생성할 수 있습니다:
 
-```console
+```bash
 $ mkdir -p ~/.local/share/bash-completion/completions
 $ docker completion bash > ~/.local/share/bash-completion/completions/docker
 ```
@@ -74,19 +74,19 @@ Zsh [완성 시스템](http://zsh.sourceforge.net/Doc/Release/Completion-System.
 
 Oh My Zsh를 사용하는 경우 `~/.zshrc`를 수정하지 않고 `~/.oh-my-zsh/completions` 디렉토리에 완성 스크립트를 저장할 수 있습니다.
 
-```console
+```bash
 $ mkdir -p ~/.oh-my-zsh/completions
 $ docker completion zsh > ~/.oh-my-zsh/completions/_docker
 ```
 
 Oh My Zsh를 사용하지 않는 경우, 선택한 디렉토리에 완성 스크립트를 저장하고 `.zshrc`에서 `FPATH`에 디렉토리를 추가합니다.
 
-```console
+```bash
 $ mkdir -p ~/.docker/completions
 $ docker completion zsh > ~/.docker/completions/_docker
 ```
 
-```console
+```bash
 $ cat <<"EOT" >> ~/.zshrc
 FPATH="$HOME/.docker/completions:$FPATH"
 autoload -Uz compinit
@@ -99,7 +99,7 @@ EOT
 fish 셸은 [완성 시스템](https://fishshell.com/docs/current/#tab-completion)을 기본적으로 지원합니다.
 Docker 명령어에 대한 완성을 활성화하려면 완성 스크립트를 fish 셸 `completions/` 디렉토리에 복사하거나 심볼릭 링크를 만듭니다:
 
-```console
+```bash
 $ mkdir -p ~/.config/fish/completions
 $ docker completion fish > ~/.config/fish/completions/docker.fish
 ```

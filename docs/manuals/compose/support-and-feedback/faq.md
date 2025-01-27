@@ -12,7 +12,7 @@ linkTitle: FAQs
 weight: 10
 tags: [FAQ]
 aliases:
-- /compose/faq/
+  - /compose/faq/
 ---
 
 ### What is the difference between `docker compose` and `docker-compose`
@@ -58,7 +58,7 @@ in containers.
 To fix this problem, try the following:
 
 - Make sure you're using the exec form of `CMD` and `ENTRYPOINT`
-in your Dockerfile.
+  in your Dockerfile.
 
   For example use `["program", "arg1", "arg2"]` not `"program arg1 arg2"`.
   Using the string form causes Docker to run your process using `bash` which
@@ -66,7 +66,7 @@ in your Dockerfile.
   worry if you override the command or entrypoint in your Compose file.
 
 - If you are able, modify the application that you're running to
-add an explicit signal handler for `SIGTERM`.
+  add an explicit signal handler for `SIGTERM`.
 
 - Set the `stop_signal` to a signal which the application knows how to handle:
 
@@ -78,10 +78,10 @@ add an explicit signal handler for `SIGTERM`.
   ```
 
 - If you can't modify the application, wrap the application in a lightweight init
-system (like [s6](https://skarnet.org/software/s6/)) or a signal proxy (like
-[dumb-init](https://github.com/Yelp/dumb-init) or
-[tini](https://github.com/krallin/tini)).  Either of these wrappers takes care of
-handling `SIGTERM` properly.
+  system (like [s6](https://skarnet.org/software/s6/)) or a signal proxy (like
+  [dumb-init](https://github.com/Yelp/dumb-init) or
+  [tini](https://github.com/krallin/tini)). Either of these wrappers takes care of
+  handling `SIGTERM` properly.
 
 ### How do I run multiple copies of a Compose file on the same host?
 
@@ -96,14 +96,14 @@ Yes. [YAML is a superset of JSON](https://stackoverflow.com/a/1729545/444646) so
 any JSON file should be valid YAML. To use a JSON file with Compose,
 specify the filename to use, for example:
 
-```console
+```bash
 $ docker compose -f docker-compose.json up
 ```
 
 ### Should I include my code with `COPY`/`ADD` or a volume?
 
 You can add your code to the image using `COPY` or `ADD` directive in a
-`Dockerfile`.  This is useful if you need to relocate your code along with the
+`Dockerfile`. This is useful if you need to relocate your code along with the
 Docker image, for example when you're sending code to another environment
 (production, CI, etc).
 

@@ -7,8 +7,8 @@ keywords:
   - iptables
   - 방화벽
 aliases:
-- /network/iptables/
-- /network/packet-filtering-firewalls/
+  - /network/iptables/
+  - /network/packet-filtering-firewalls/
 ---
 
 Linux에서 Docker는 네트워크 격리, 포트 게시 및 필터링을 구현하기 위해 `iptables` 및 `ip6tables` 규칙을 생성합니다.
@@ -19,7 +19,7 @@ Linux에서 Docker는 네트워크 격리, 포트 게시 및 필터링을 구현
 
 :::note
 Docker는 브리지 네트워크에 대해 `iptables` 규칙을 생성합니다.
- 
+
 `ipvlan`, `macvlan` 또는 `host` 네트워킹에 대해서는 `iptables` 규칙이 생성되지 않습니다.
 :::
 
@@ -27,12 +27,12 @@ Docker는 브리지 네트워크에 대해 `iptables` 규칙을 생성합니다.
 
 `filter` 테이블에서 Docker는 기본 정책을 `DROP`으로 설정하고 다음과 같은 사용자 정의 `iptables` 체인을 생성합니다:
 
-* `DOCKER-USER`
-  * `DOCKER` 체인의 규칙보다 먼저 처리될 사용자 정의 규칙의 자리 표시자.
-* `DOCKER`
-  * 실행 중인 컨테이너의 포트 포워딩 구성에 따라 연결되지 않은 패킷을 수락할지 여부를 결정하는 규칙.
-* `DOCKER-ISOLATION-STAGE-1` 및 `DOCKER-ISOLATION-STAGE-2`
-  * Docker 네트워크를 서로 격리하는 규칙.
+- `DOCKER-USER`
+  - `DOCKER` 체인의 규칙보다 먼저 처리될 사용자 정의 규칙의 자리 표시자.
+- `DOCKER`
+  - 실행 중인 컨테이너의 포트 포워딩 구성에 따라 연결되지 않은 패킷을 수락할지 여부를 결정하는 규칙.
+- `DOCKER-ISOLATION-STAGE-1` 및 `DOCKER-ISOLATION-STAGE-2`
+  - Docker 네트워크를 서로 격리하는 규칙.
 
 `FORWARD` 체인에서 Docker는 연결되지 않은 패킷을 이러한 사용자 정의 체인으로 전달하는 규칙과 연결된 패킷을 수락하는 규칙을 추가합니다.
 
@@ -48,7 +48,7 @@ Docker는 브리지 네트워크에 대해 `iptables` 규칙을 생성합니다.
 
 네트워크 요청의 원래 IP 및 포트를 기준으로 트래픽을 일치시키려면 [`conntrack` iptables 확장](https://ipset.netfilter.org/iptables-extensions.man.html#lbAO)을 사용해야 합니다. 예를 들어:
 
-```console
+```bash
 $ sudo iptables -I DOCKER-USER -p tcp -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 $ sudo iptables -I DOCKER-USER -p tcp -m conntrack --ctorigdst 198.51.100.2 --ctorigdstport 80 -j ACCEPT
 ```
@@ -69,19 +69,19 @@ $ sudo iptables -I DOCKER-USER -p tcp -m conntrack --ctorigdst 198.51.100.2 --ct
 
 특정 IP 또는 네트워크만 컨테이너에 액세스하도록 허용하려면 `DOCKER-USER` 필터 체인의 맨 위에 규칙을 추가하십시오. 예를 들어, 다음 규칙은 `192.0.2.2`를 제외한 모든 IP 주소에서 오는 패킷을 차단합니다:
 
-```console
+```bash
 $ iptables -I DOCKER-USER -i ext_if ! -s 192.0.2.2 -j DROP
 ```
 
 `ext_if`를 호스트의 실제 외부 인터페이스에 맞게 변경해야 합니다. 대신 소스 서브넷에서 오는 연결을 허용할 수 있습니다. 다음 규칙은 서브넷 `192.0.2.0/24`에서만 액세스를 허용합니다:
 
-```console
+```bash
 $ iptables -I DOCKER-USER -i ext_if ! -s 192.0.2.0/24 -j DROP
 ```
 
 마지막으로, `--src-range`를 사용하여 허용할 IP 주소 범위를 지정할 수 있습니다(`--src-range` 또는 `--dst-range`를 사용할 때 `-m iprange`도 추가해야 함을 기억하십시오):
 
-```console
+```bash
 $ iptables -I DOCKER-USER -m iprange -i ext_if ! --src-range 192.0.2.1-192.0.2.3 -j DROP
 ```
 
@@ -108,28 +108,33 @@ Docker 호스트 외부에서 브리지 네트워크의 컨테이너에 액세�
 #### 예시 {#example}
 
 IPv6에 대해 직접 라우팅에 적합한 네트워크를 생성하고, IPv4에 대해 NAT를 활성화합니다:
-```console
+
+```bash
 $ docker network create --ipv6 --subnet 2001:db8::/64 -o com.docker.network.bridge.gateway_mode_ipv6=routed mynet
 ```
 
 게시된 포트가 있는 컨테이너를 생성합니다:
-```console
+
+```bash
 $ docker run --network=mynet -p 8080:80 myimage
 ```
 
 그런 다음:
+
 - IPv4 및 IPv6 모두에 대해 컨테이너 포트 80만 열립니다. 네트워크에 컨테이너의 주소로 라우팅이 설정되어 있고 호스트의 방화벽에 의해 차단되지 않은 경우 어디서든 액세스할 수 있습니다.
 - IPv6의 경우 `routed` 모드를 사용하여 포트 80이 컨테이너의 IP 주소에서 열립니다. 포트 8080은 호스트의 IP 주소에서 열리지 않으며, 나가는 패킷은 컨테이너의 IP 주소를 사용합니다.
 - IPv4의 경우 기본 `nat` 모드를 사용하여 컨테이너의 포트 80은 호스트의 IP 주소에서 포트 8080을 통해 액세스할 수 있으며, 직접 액세스할 수 있습니다. 컨테이너에서 시작된 연결은 호스트의 IP 주소를 사용하여 마스커레이드됩니다.
 
 `docker inspect`에서 이 포트 매핑은 다음과 같이 표시됩니다. IPv6의 경우 `routed` 모드를 사용하므로 `HostPort`가 없습니다:
-```console
+
+```bash
 $ docker container inspect <id> --format "{{json .NetworkSettings.Ports}}"
 {"80/tcp":[{"HostIp":"0.0.0.0","HostPort":"8080"},{"HostIp":"::","HostPort":""}]}
 ```
 
 대안으로, 매핑을 IPv6 전용으로 만들어 컨테이너의 포트 80에 대한 IPv4 액세스를 비활성화하려면, 지정되지 않은 IPv6 주소 `[::]`를 사용하고 호스트 포트 번호를 포함하지 마십시오:
-```console
+
+```bash
 $ docker run --network mynet -p '[::]::80'
 ```
 
@@ -139,7 +144,7 @@ $ docker run --network mynet -p '[::]::80'
 
 예를 들어, 다음 명령은 호스트의 모든 네트워크 인터페이스에서 포트 8080을 게시하여 IPv4 및 IPv6 주소에서 잠재적으로 외부 세계에 액세스할 수 있도록 합니다.
 
-```console
+```bash
 docker run -p 8080:80 nginx
 ```
 
@@ -152,15 +157,16 @@ docker run -p 8080:80 nginx
 
 사용자 정의 브리지 네트워크에 대해 이 설정을 구성하려면 네트워크를 생성할 때 `com.docker.network.bridge.host_binding_ipv4` [드라이버 옵션](./drivers/bridge.md#options)을 사용하십시오.
 
-```console
+```bash
 $ docker network create mybridge \
   -o "com.docker.network.bridge.host_binding_ipv4=127.0.0.1"
 ```
 
 :::note
+
 - 기본 바인딩 주소를 `::`로 설정하면 호스트 주소가 지정되지 않은 포트 바인딩이 호스트의 모든 IPv6 주소에서 작동합니다. 하지만, `0.0.0.0`은 모든 IPv4 또는 IPv6 주소를 의미합니다.
 - 기본 바인딩 주소를 변경해도 Swarm 서비스에는 영향을 미치지 않습니다. Swarm 서비스는 항상 `0.0.0.0` 네트워크 인터페이스에 노출됩니다.
-:::
+  :::
 
 #### 기본 브리지 {#default-bridge}
 
@@ -182,7 +188,7 @@ Docker는 `FORWARD` 체인의 정책을 `DROP`으로 설정합니다. 이는 Doc
 
 시스템이 라우터로 작동하도록 하려면 `DOCKER-USER` 체인에 명시적인 `ACCEPT` 규칙을 추가해야 합니다. 예를 들어:
 
-```console
+```bash
 $ iptables -I DOCKER-USER -i src_if -o dst_if -j ACCEPT
 ```
 

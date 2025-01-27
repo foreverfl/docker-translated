@@ -28,7 +28,7 @@ and network IO metrics.
 
 The following is a sample output from the `docker stats` command
 
-```console
+```bash
 $ docker stats redis1 redis2
 
 CONTAINER           CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O
@@ -59,7 +59,7 @@ corresponding to existing containers.
 
 To figure out where your control groups are mounted, you can run:
 
-```console
+```bash
 $ grep cgroup /proc/mounts
 ```
 
@@ -103,7 +103,7 @@ To revert the cgroup version to v1, you need to set `systemd.unified_cgroup_hier
 
 If `grubby` command is available on your system (e.g. on Fedora), the command line can be modified as follows:
 
-```console
+```bash
 $ sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=1"
 ```
 
@@ -209,74 +209,74 @@ indicates the number of page faults since the creation of the cgroup.
 
 `cache`
 : The amount of memory used by the processes of this control group that can be
-  associated precisely with a block on a block device. When you read from and
-  write to files on disk, this amount increases. This is the case if you use
-  "conventional" I/O (`open`, `read`, `write` syscalls) as well as mapped files
-  (with `mmap`). It also accounts for the memory used by `tmpfs` mounts, though
-  the reasons are unclear.
+associated precisely with a block on a block device. When you read from and
+write to files on disk, this amount increases. This is the case if you use
+"conventional" I/O (`open`, `read`, `write` syscalls) as well as mapped files
+(with `mmap`). It also accounts for the memory used by `tmpfs` mounts, though
+the reasons are unclear.
 
 `rss`
 : The amount of memory that doesn't correspond to anything on disk: stacks,
-  heaps, and anonymous memory maps.
+heaps, and anonymous memory maps.
 
 `mapped_file`
 : Indicates the amount of memory mapped by the processes in the control group.
-  It doesn't give you information about how much memory is used; it rather
-  tells you how it's used.
+It doesn't give you information about how much memory is used; it rather
+tells you how it's used.
 
 `pgfault`, `pgmajfault`
 : Indicate the number of times that a process of the cgroup triggered a "page
-  fault" and a "major fault", respectively. A page fault happens when a process
-  accesses a part of its virtual memory space which is nonexistent or protected.
-  The former can happen if the process is buggy and tries to access an invalid
-  address (it is sent a `SIGSEGV` signal, typically killing it with the famous
-  `Segmentation fault` message). The latter can happen when the process reads
-  from a memory zone which has been swapped out, or which corresponds to a mapped
-  file: in that case, the kernel loads the page from disk, and let the CPU
-  complete the memory access. It can also happen when the process writes to a
-  copy-on-write memory zone: likewise, the kernel preempts the process, duplicate
-  the memory page, and resume the write operation on the process's own copy of
-  the page. "Major" faults happen when the kernel actually needs to read the data
-  from disk. When it just duplicates an existing page, or allocate an empty page,
-  it's a regular (or "minor") fault.
+fault" and a "major fault", respectively. A page fault happens when a process
+accesses a part of its virtual memory space which is nonexistent or protected.
+The former can happen if the process is buggy and tries to access an invalid
+address (it is sent a `SIGSEGV` signal, typically killing it with the famous
+`Segmentation fault` message). The latter can happen when the process reads
+from a memory zone which has been swapped out, or which corresponds to a mapped
+file: in that case, the kernel loads the page from disk, and let the CPU
+complete the memory access. It can also happen when the process writes to a
+copy-on-write memory zone: likewise, the kernel preempts the process, duplicate
+the memory page, and resume the write operation on the process's own copy of
+the page. "Major" faults happen when the kernel actually needs to read the data
+from disk. When it just duplicates an existing page, or allocate an empty page,
+it's a regular (or "minor") fault.
 
 `swap`
 : The amount of swap currently used by the processes in this cgroup.
 
 `active_anon`, `inactive_anon`
 : The amount of anonymous memory that has been identified has respectively
-  _active_ and _inactive_ by the kernel. "Anonymous" memory is the memory that is
-  _not_ linked to disk pages. In other words, that's the equivalent of the rss
-  counter described above. In fact, the very definition of the rss counter is
-  `active_anon` + `inactive_anon` - `tmpfs` (where tmpfs is the amount of
-  memory used up by `tmpfs` filesystems mounted by this control group). Now,
-  what's the difference between "active" and "inactive"? Pages are initially
-  "active"; and at regular intervals, the kernel sweeps over the memory, and tags
-  some pages as "inactive". Whenever they're accessed again, they're
-  immediately re-tagged "active". When the kernel is almost out of memory, and
-  time comes to swap out to disk, the kernel swaps "inactive" pages.
+_active_ and _inactive_ by the kernel. "Anonymous" memory is the memory that is
+_not_ linked to disk pages. In other words, that's the equivalent of the rss
+counter described above. In fact, the very definition of the rss counter is
+`active_anon` + `inactive_anon` - `tmpfs` (where tmpfs is the amount of
+memory used up by `tmpfs` filesystems mounted by this control group). Now,
+what's the difference between "active" and "inactive"? Pages are initially
+"active"; and at regular intervals, the kernel sweeps over the memory, and tags
+some pages as "inactive". Whenever they're accessed again, they're
+immediately re-tagged "active". When the kernel is almost out of memory, and
+time comes to swap out to disk, the kernel swaps "inactive" pages.
 
 `active_file`, `inactive_file`
 : Cache memory, with _active_ and _inactive_ similar to the _anon_ memory
-  above. The exact formula is `cache` = `active_file` + `inactive_file` +
-  `tmpfs`. The exact rules used by the kernel to move memory pages between
-  active and inactive sets are different from the ones used for anonymous memory,
-  but the general principle is the same. When the kernel needs to reclaim memory,
-  it's cheaper to reclaim a clean (=non modified) page from this pool, since it
-  can be reclaimed immediately (while anonymous pages and dirty/modified pages
-  need to be written to disk first).
+above. The exact formula is `cache` = `active_file` + `inactive_file` +
+`tmpfs`. The exact rules used by the kernel to move memory pages between
+active and inactive sets are different from the ones used for anonymous memory,
+but the general principle is the same. When the kernel needs to reclaim memory,
+it's cheaper to reclaim a clean (=non modified) page from this pool, since it
+can be reclaimed immediately (while anonymous pages and dirty/modified pages
+need to be written to disk first).
 
 `unevictable`
 : The amount of memory that cannot be reclaimed; generally, it accounts for
-  memory that has been "locked" with `mlock`. It's often used by crypto
-  frameworks to make sure that secret keys and other sensitive material never
-  gets swapped out to disk.
+memory that has been "locked" with `mlock`. It's often used by crypto
+frameworks to make sure that secret keys and other sensitive material never
+gets swapped out to disk.
 
 `memory_limit`, `memsw_limit`
 : These aren't really metrics, but a reminder of the limits applied to this
-  cgroup. The first one indicates the maximum amount of physical memory that can
-  be used by the processes of this control group; the second one indicates the
-  maximum amount of RAM+swap.
+cgroup. The first one indicates the maximum amount of physical memory that can
+be used by the processes of this control group; the second one indicates the
+maximum amount of RAM+swap.
 
 Accounting for memory in the page cache is very complex. If two
 processes in different control groups both read the same file
@@ -318,28 +318,28 @@ relevant ones:
 
 `blkio.sectors`
 : Contains the number of 512-bytes sectors read and written by the processes
-  member of the cgroup, device by device. Reads and writes are merged in a single
-  counter.
+member of the cgroup, device by device. Reads and writes are merged in a single
+counter.
 
 `blkio.io_service_bytes`
 : Indicates the number of bytes read and written by the cgroup. It has 4
-  counters per device, because for each device, it differentiates between
-  synchronous vs. asynchronous I/O, and reads vs. writes.
+counters per device, because for each device, it differentiates between
+synchronous vs. asynchronous I/O, and reads vs. writes.
 
 `blkio.io_serviced`
 : The number of I/O operations performed, regardless of their size. It also has
-  4 counters per device.
+4 counters per device.
 
 `blkio.io_queued`
 : Indicates the number of I/O operations currently queued for this cgroup. In
-  other words, if the cgroup isn't doing any I/O, this is zero. The opposite is
-  not true. In other words, if there is no I/O queued, it doesn't mean that the
-  cgroup is idle (I/O-wise). It could be doing purely synchronous reads on an
-  otherwise quiescent device, which can therefore handle them immediately,
-  without queuing. Also, while it's helpful to figure out which cgroup is
-  putting stress on the I/O subsystem, keep in mind that it's a relative
-  quantity. Even if a process group doesn't perform more I/O, its queue size can
-  increase just because the device load increases because of other devices.
+other words, if the cgroup isn't doing any I/O, this is zero. The opposite is
+not true. In other words, if there is no I/O queued, it doesn't mean that the
+cgroup is idle (I/O-wise). It could be doing purely synchronous reads on an
+otherwise quiescent device, which can therefore handle them immediately,
+without queuing. Also, while it's helpful to figure out which cgroup is
+putting stress on the I/O subsystem, keep in mind that it's a relative
+quantity. Even if a process group doesn't perform more I/O, its queue size can
+increase just because the device load increases because of other devices.
 
 ### Network metrics
 
@@ -366,7 +366,7 @@ an interface) can do some serious accounting.
 For instance, you can setup a rule to account for the outbound HTTP
 traffic on a web server:
 
-```console
+```bash
 $ iptables -I OUTPUT -p tcp --sport 80
 ```
 
@@ -376,7 +376,7 @@ rule.
 
 Later, you can check the values of the counters, with:
 
-```console
+```bash
 $ iptables -nxvL OUTPUT
 ```
 
@@ -418,13 +418,13 @@ Containers can interact with their sub-containers, though.
 
 The exact format of the command is:
 
-```console
+```bash
 $ ip netns exec <nsname> <command...>
 ```
 
 For example:
 
-```console
+```bash
 $ ip netns exec mycontainer netstat -i
 ```
 
@@ -456,7 +456,7 @@ cgroup (and thus, in the container). Pick any one of the PIDs.
 Putting everything together, if the "short ID" of a container is held in
 the environment variable `$CID`, then you can do this:
 
-```console
+```bash
 $ TASKS=/sys/fs/cgroup/devices/docker/$CID*/tasks
 $ PID=$(head -n 1 $TASKS)
 $ mkdir -p /var/run/netns

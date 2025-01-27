@@ -1,6 +1,5 @@
 ---
-description:
-  Ubuntu에서 Docker Engine으로 클라이언트 측 서버 애플리케이션을 빠르게 시작하세요. 이 가이드는 Ubuntu에서 Docker Engine을 설치하는 여러 방법과 사전 요구 사항을 자세히 설명합니다.
+description: Ubuntu에서 Docker Engine으로 클라이언트 측 서버 애플리케이션을 빠르게 시작하세요. 이 가이드는 Ubuntu에서 Docker Engine을 설치하는 여러 방법과 사전 요구 사항을 자세히 설명합니다.
 keywords:
   - 도커 설치 스크립트
   - 우분투 도커 서버
@@ -71,7 +70,7 @@ Linux 배포판에서 제공하는 비공식 Docker 패키지는 Docker에서 �
 
 다음 명령을 실행하여 충돌하는 모든 패키지를 제거하세요:
 
-```console
+```bash
 $ for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 ```
 
@@ -124,7 +123,7 @@ Docker를 제거할 때 `/var/lib/docker/`에 저장된 이미지, 컨테이너,
 
    최신 버전을 설치하려면 다음을 실행하세요:
 
-   ```console
+   ```bash
    $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
    ```
 
@@ -133,7 +132,7 @@ Docker를 제거할 때 `/var/lib/docker/`에 저장된 이미지, 컨테이너,
 
    Docker Engine의 특정 버전을 설치하려면 먼저 저장소에서 사용 가능한 버전을 나열하세요:
 
-   ```console
+   ```bash
    # 사용 가능한 버전 나열:
    $ apt-cache madison docker-ce | awk '{ print $3 }'
 
@@ -144,7 +143,7 @@ Docker를 제거할 때 `/var/lib/docker/`에 저장된 이미지, 컨테이너,
 
    원하는 버전을 선택하고 설치하세요:
 
-   ```console
+   ```bash
    $ VERSION_STRING=5:-1~ubuntu.24.04~noble
    $ sudo apt-get install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
    ```
@@ -154,7 +153,7 @@ Docker를 제거할 때 `/var/lib/docker/`에 저장된 이미지, 컨테이너,
 
 3. `hello-world` 이미지를 실행하여 설치가 성공했는지 확인하세요:
 
-   ```console
+   ```bash
    $ sudo docker run hello-world
    ```
 
@@ -190,7 +189,7 @@ Docker의 `apt` 저장소를 사용하여 Docker Engine을 설치할 수 없는 
 
 5. `.deb` 패키지를 설치합니다. 다음 예제에서 Docker 패키지를 다운로드한 경로로 경로를 업데이트합니다.
 
-   ```console
+   ```bash
    $ sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
      ./docker-ce_<version>_<arch>.deb \
      ./docker-ce-cli_<version>_<arch>.deb \
@@ -202,7 +201,7 @@ Docker의 `apt` 저장소를 사용하여 Docker Engine을 설치할 수 없는 
 
 6. `hello-world` 이미지를 실행하여 설치가 성공했는지 확인하세요:
 
-   ```console
+   ```bash
    $ sudo service docker start
    $ sudo docker run hello-world
    ```
@@ -223,20 +222,20 @@ Docker Engine을 업그레이드하려면 새 패키지 파일을 다운로드�
 
 1. Docker Engine, CLI, containerd 및 Docker Compose 패키지를 제거합니다:
 
-   ```console
+   ```bash
    $ sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
    ```
 
 2. 호스트에 있는 이미지, 컨테이너, 볼륨 또는 사용자 정의 구성 파일은 자동으로 제거되지 않습니다. 모든 이미지, 컨테이너 및 볼륨을 삭제하려면:
 
-   ```console
+   ```bash
    $ sudo rm -rf /var/lib/docker
    $ sudo rm -rf /var/lib/containerd
    ```
 
 3. 소스 목록 및 키링 제거
 
-   ```console
+   ```bash
    $ sudo rm /etc/apt/sources.list.d/docker.list
    $ sudo rm /etc/apt/keyrings/docker.asc
    ```

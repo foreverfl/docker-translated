@@ -12,7 +12,6 @@ title: Uninstall Docker Compose
 
 Uninstalling Docker Compose depends on the method you have used to install Docker Compose. On this page you can find specific instructions to uninstall Docker Compose.
 
-
 ## Uninstalling Docker Desktop
 
 If you want to uninstall Docker Compose and you have installed Docker Desktop, see [Uninstall Docker Desktop](/manuals/desktop/uninstall.md).
@@ -27,30 +26,31 @@ To remove the Docker Compose CLI plugin, run:
 
 Ubuntu, Debian:
 
-   ```console
-   $ sudo apt-get remove docker-compose-plugin
-   ```
+```bash
+$ sudo apt-get remove docker-compose-plugin
+```
+
 RPM-based distributions:
 
-   ```console
-   $ sudo yum remove docker-compose-plugin
-   ```
+```bash
+$ sudo yum remove docker-compose-plugin
+```
 
 ### Manually installed
 
 If you used `curl` to install Docker Compose CLI plugin, to uninstall it, run:
 
-   ```console
-   $ rm $DOCKER_CONFIG/cli-plugins/docker-compose
-   ```
+```bash
+$ rm $DOCKER_CONFIG/cli-plugins/docker-compose
+```
 
 ### Remove for all users
 
 Or, if you have installed Docker Compose for all users, run:
 
-   ```console
-   $ rm /usr/local/lib/docker/cli-plugins/docker-compose
-   ```
+```bash
+$ rm /usr/local/lib/docker/cli-plugins/docker-compose
+```
 
 > [!NOTE]
 >
@@ -62,6 +62,6 @@ Or, if you have installed Docker Compose for all users, run:
 
 To check where Compose is installed, use:
 
-```console
+```bash
 $ docker info --format '{{range .ClientInfo.Plugins}}{{if eq .Name "compose"}}{{.Path}}{{end}}{{end}}'
 ```

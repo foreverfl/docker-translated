@@ -63,8 +63,8 @@ The following three network concepts are important to swarm services:
 Docker daemons participating in a swarm need the ability to communicate with
 each other over the following ports:
 
-* Port `7946` TCP/UDP for container network discovery.
-* Port `4789` UDP (configurable) for the overlay network (including ingress) data path.
+- Port `7946` TCP/UDP for container network discovery.
+- Port `4789` UDP (configurable) for the overlay network (including ingress) data path.
 
 When setting up networking in a Swarm, special care should be taken. Consult
 the [tutorial](swarm-tutorial/_index.md#open-protocols-and-ports-between-the-hosts)
@@ -87,7 +87,7 @@ new networks are created on that Docker host:
 To create an overlay network, specify the `overlay` driver when using the
 `docker network create` command:
 
-```console
+```bash
 $ docker network create \
   --driver overlay \
   my-network
@@ -100,7 +100,7 @@ subnet and uses default options. You can see information about the network using
 When no containers are connected to the overlay network, its configuration is
 not very exciting:
 
-```console
+```bash
 $ docker network inspect my-network
 [
     {
@@ -137,7 +137,7 @@ connects to the network for the first time. The following example shows
 the same network as above, but with three containers of a `redis` service
 connected to it.
 
-```console
+```bash
 $ docker network inspect my-network
 [
     {
@@ -211,7 +211,7 @@ the first service is connected to the network. You can configure these when
 creating a network using the `--subnet` and `--gateway` flags. The following
 example extends the previous one by configuring the subnet and gateway.
 
-```console
+```bash
 $ docker network create \
   --driver overlay \
   --subnet 10.0.9.0/24 \
@@ -225,11 +225,11 @@ To customize subnet allocation for your Swarm networks, you can [optionally conf
 
 For example, the following command is used when initializing Swarm:
 
-```console
+```bash
 $ docker swarm init --default-addr-pool 10.20.0.0/16 --default-addr-pool-mask-length 26
 ```
 
-Whenever a user creates a network, but does not use the `--subnet` command line option, the subnet for this network will be allocated sequentially from the next available subnet from the pool. If the specified network is already allocated, that network will not be used for Swarm. 
+Whenever a user creates a network, but does not use the `--subnet` command line option, the subnet for this network will be allocated sequentially from the next available subnet from the pool. If the specified network is already allocated, that network will not be used for Swarm.
 
 Multiple pools can be configured if discontiguous address space is required. However, allocation from specific pools is not supported. Network subnets will be allocated sequentially from the IP pool space and subnets will be reused as they are deallocated from networks that are deleted.
 
@@ -241,11 +241,11 @@ The default mask length can be configured and is the same for all networks. It i
 
 ##### Overlay network size limitations
 
-Docker recommends creating overlay networks with `/24` blocks. The `/24` overlay network blocks limit the network to 256 IP addresses. 
+Docker recommends creating overlay networks with `/24` blocks. The `/24` overlay network blocks limit the network to 256 IP addresses.
 
-This recommendation addresses [limitations with swarm mode](https://github.com/moby/moby/issues/30820). 
-If you need more than 256 IP addresses, do not increase the IP block size. You can either use `dnsrr` 
-endpoint mode with an external load balancer, or use multiple smaller overlay networks. See 
+This recommendation addresses [limitations with swarm mode](https://github.com/moby/moby/issues/30820).
+If you need more than 256 IP addresses, do not increase the IP block size. You can either use `dnsrr`
+endpoint mode with an external load balancer, or use multiple smaller overlay networks. See
 [Configure service discovery](#configure-service-discovery) for more information about different endpoint modes.
 
 #### Configure encryption of application data {#encryption}
@@ -271,7 +271,7 @@ option before using it in production.
 To attach a service to an existing overlay network, pass the `--network` flag to
 `docker service create`, or the `--network-add` flag to `docker service update`.
 
-```console
+```bash
 $ docker service create \
   --replicas 3 \
   --name my-web \
@@ -335,8 +335,7 @@ remove the `ingress` network.
 
 During the time that no `ingress` network exists, existing services which do not
 publish ports continue to function but are not load-balanced. This affects
-services which publish ports, such as a WordPress service which publishes port
-80.
+services which publish ports, such as a WordPress service which publishes port 80.
 
 1.  Inspect the `ingress` network using `docker network inspect ingress`, and
     remove any services whose containers are connected to it. These are services
@@ -345,7 +344,7 @@ services which publish ports, such as a WordPress service which publishes port
 
 2.  Remove the existing `ingress` network:
 
-    ```console
+    ```bash
     $ docker network rm ingress
 
     WARNING! Before removing the routing-mesh network, make sure all the nodes
@@ -355,11 +354,11 @@ services which publish ports, such as a WordPress service which publishes port
     Are you sure you want to continue? [y/N]
     ```
 
-3.  Create a new overlay network using the `--ingress` flag, along  with the
+3.  Create a new overlay network using the `--ingress` flag, along with the
     custom options you want to set. This example sets the MTU to 1200, sets
     the subnet to `10.11.0.0/16`, and sets the gateway to `10.11.0.2`.
 
-    ```console
+    ```bash
     $ docker network create \
       --driver overlay \
       --ingress \
@@ -402,7 +401,7 @@ order to delete an existing bridge. The package name is `bridge-utils`.
     This example uses the subnet `10.11.0.0/16`. For a full list of customizable
     options, see [Bridge driver options](/reference/cli/docker/network/create.md#bridge-driver-options).
 
-    ```console
+    ```bash
     $ docker network create \
     --subnet 10.11.0.0/16 \
     --opt com.docker.network.bridge.name=docker_gwbridge \
@@ -424,7 +423,7 @@ the `--data-path-addr` flag when initializing or joining the swarm. If there are
 multiple interfaces, `--advertise-addr` must be specified explicitly, and
 `--data-path-addr` defaults to `--advertise-addr` if not specified. Traffic about
 joining, leaving, and managing the swarm is sent over the
-`--advertise-addr` interface, and traffic among a service's containers is sent 
+`--advertise-addr` interface, and traffic among a service's containers is sent
 over the `--data-path-addr` interface. These flags can take an IP address or
 a network device name, such as `eth0`.
 
@@ -433,14 +432,14 @@ that your Docker host has two different network interfaces: 10.0.0.1 should be
 used for control and management traffic and 192.168.0.1 should be used for
 traffic relating to services.
 
-```console
+```bash
 $ docker swarm init --advertise-addr 10.0.0.1 --data-path-addr 192.168.0.1
 ```
 
 This example joins the swarm managed by host `192.168.99.100:2377` and sets the
 `--advertise-addr` flag to `eth0` and the `--data-path-addr` flag to `eth1`.
 
-```console
+```bash
 $ docker swarm join \
   --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2d7c \
   --advertise-addr eth0 \
@@ -480,8 +479,8 @@ preferred because it is somewhat self-documenting.
 
 ## Learn more
 
-* [Deploy services to a swarm](services.md)
-* [Swarm administration guide](admin_guide.md)
-* [Swarm mode tutorial](swarm-tutorial/_index.md)
-* [Networking overview](/manuals/engine/network/_index.md)
-* [Docker CLI reference](/reference/cli/docker/)
+- [Deploy services to a swarm](services.md)
+- [Swarm administration guide](admin_guide.md)
+- [Swarm mode tutorial](swarm-tutorial/_index.md)
+- [Networking overview](/manuals/engine/network/_index.md)
+- [Docker CLI reference](/reference/cli/docker/)

@@ -119,19 +119,19 @@ volumes:
 
 1. Docker Compose 서비스를 시작합니다:
 
-   ```console
+   ```bash
    $ docker compose up
    ```
 
 2. Docker CLI가 OpenTelemetry 수집기로 텔레메트리를 내보내도록 구성합니다.
 
-   ```console
+   ```bash
    $ export DOCKER_CLI_OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
    ```
 
 3. `docker` 명령을 실행하여 CLI가 OpenTelemetry 수집기로 메트릭 신호를 보내도록 합니다.
 
-   ```console
+   ```bash
    $ docker version
    ```
 

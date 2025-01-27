@@ -42,7 +42,7 @@ Buildx supports the following exporters:
 
 To specify an exporter, use the following command syntax:
 
-```console
+```bash
 $ docker buildx build --tag <registry>/<image> \
   --output type=<TYPE> .
 ```
@@ -72,7 +72,7 @@ store. That's where the `docker` exporter comes in. The following example shows
 how to build an image using the `docker` exporter, and have that image loaded to
 the local image store, using the `--output` option:
 
-```console
+```bash
 $ docker buildx build \
   --output type=docker,name=<registry>/<image> .
 ```
@@ -80,7 +80,7 @@ $ docker buildx build \
 Buildx CLI will automatically use the `docker` exporter and load it to the image
 store if you supply the `--tag` and `--load` options:
 
-```console
+```bash
 $ docker buildx build --tag <registry>/<image> --load .
 ```
 
@@ -99,7 +99,7 @@ To push a built image to a container registry, you can use the `registry` or
 When you pass the `--push` option to the Buildx CLI, you instruct BuildKit to
 push the built image to the specified registry:
 
-```console
+```bash
 $ docker buildx build --tag <registry>/<image> --push .
 ```
 
@@ -107,14 +107,14 @@ Under the hood, this uses the `image` exporter, and sets the `push` parameter.
 It's the same as using the following long-form command using the `--output`
 option:
 
-```console
+```bash
 $ docker buildx build \
   --output type=image,name=<registry>/<image>,push=true .
 ```
 
 You can also use the `registry` exporter, which does the same thing:
 
-```console
+```bash
 $ docker buildx build \
   --output type=registry,name=<registry>/<image> .
 ```
@@ -126,7 +126,7 @@ image layout on your local filesystem. Both of these exporters generate a tar
 archive file containing the corresponding image layout. The `dest` parameter
 defines the target output path for the tarball.
 
-```console
+```bash
 $ docker buildx build --output type=oci,dest=./image.tar .
 [+] Building 0.8s (7/7) FINISHED
  ...
@@ -158,7 +158,7 @@ the filesystem that was built, you can use the `local` and `tar` exporters.
 The `local` exporter unpacks the filesystem into a directory structure in the
 specified location. The `tar` exporter creates a tarball archive file.
 
-```console
+```bash
 $ docker buildx build --output type=local,dest=<path/to/output> .
 ```
 
@@ -174,7 +174,7 @@ build. Or, if you want to run the build first, and create exports using
 subsequent commands. The `cacheonly` exporter creates a build cache, so any
 successive builds are instant.
 
-```console
+```bash
 $ docker buildx build --output type=cacheonly
 ```
 
@@ -185,7 +185,7 @@ in which case you use the `docker` exporter.
 
 Buildx logs a warning message when using `cacheonly` as a default:
 
-```console
+```bash
 $ docker buildx build .
 WARNING: No output specified with docker-container driver.
          Build result will only remain in the build cache.
@@ -206,7 +206,7 @@ different exporters:
 - The `local` exporter to extract the build results to the local filesystem
 - The `--load` flag (a shorthand for the `image` exporter) to load the results to the local image store.
 
-```console
+```bash
 $ docker buildx build \
   --output type=registry,tag=<registry>/<image> \
   --output type=local,dest=<path/to/output> \
@@ -238,7 +238,7 @@ space required, and improve image download times, but will increase build times.
 To select the compression algorithm, you can use the `compression` option. For
 example, to build an `image` with `compression=zstd`:
 
-```console
+```bash
 $ docker buildx build \
   --output type=image,name=<registry>/<image>,push=true,compression=zstd .
 ```
@@ -268,7 +268,7 @@ These exporters support both Docker media types (default) and OCI media types
 
 To export images with OCI media types set, use the `oci-mediatypes` property.
 
-```console
+```bash
 $ docker buildx build \
   --output type=image,name=<registry>/<image>,push=true,oci-mediatypes=true .
 ```

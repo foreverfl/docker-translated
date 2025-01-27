@@ -50,13 +50,13 @@ The following steps outline how to configure the `overlay2` storage driver.
 
 1. Stop Docker.
 
-   ```console
+   ```bash
    $ sudo systemctl stop docker
    ```
 
 2. Copy the contents of `/var/lib/docker` to a temporary location.
 
-   ```console
+   ```bash
    $ cp -au /var/lib/docker /var/lib/docker.bk
    ```
 
@@ -77,7 +77,7 @@ The following steps outline how to configure the `overlay2` storage driver.
 
 5. Start Docker.
 
-   ```console
+   ```bash
    $ sudo systemctl start docker
    ```
 
@@ -85,7 +85,7 @@ The following steps outline how to configure the `overlay2` storage driver.
    Use the `docker info` command and look for `Storage Driver` and
    `Backing filesystem`.
 
-   ```console
+   ```bash
    $ docker info
 
    Containers: 0
@@ -128,7 +128,7 @@ six directories under `/var/lib/docker/overlay2`.
 > Don't directly manipulate any files or directories within
 > `/var/lib/docker/`. These files and directories are managed by Docker.
 
-```console
+```bash
 $ ls -l /var/lib/docker/overlay2
 
 total 24
@@ -144,7 +144,7 @@ The new `l` (lowercase `L`) directory contains shortened layer identifiers as
 symbolic links. These identifiers are used to avoid hitting the page size
 limitation on arguments to the `mount` command.
 
-```console
+```bash
 $ ls -l /var/lib/docker/overlay2/l
 
 total 20
@@ -159,7 +159,7 @@ The lowest layer contains a file called `link`, which contains the name of the
 shortened identifier, and a directory called `diff` which contains the
 layer's contents.
 
-```console
+```bash
 $ ls /var/lib/docker/overlay2/3a36935c9df35472229c57f4a27105a136f5e4dbef0f87905b2e506e494e348b/
 
 diff  link
@@ -179,7 +179,7 @@ contents. It also contains a `merged` directory, which contains the unified
 contents of its parent layer and itself, and a `work` directory which is used
 internally by OverlayFS.
 
-```console
+```bash
 $ ls /var/lib/docker/overlay2/223c2864175491657d238e2664251df13b63adb8d050924fd1bfcdb278b866f7
 
 diff  link  lower  merged  work
@@ -196,7 +196,7 @@ etc  sbin  usr  var
 To view the mounts which exist when you use the `overlay` storage driver with
 Docker, use the `mount` command. The output below is truncated for readability.
 
-```console
+```bash
 $ mount | grep overlay
 
 overlay on /var/lib/docker/overlay2/9186877cdf386d0a3b016149cf30c208f326dca307529e646afce5b3f83f5304/merged
@@ -230,7 +230,7 @@ the container is the `upperdir` and is writable.
 The following `docker pull` command shows a Docker host downloading a Docker
 image comprising five layers.
 
-```console
+```bash
 $ docker pull ubuntu
 
 Using default tag: latest
@@ -256,7 +256,7 @@ don't correspond to the directory IDs.
 > Don't directly manipulate any files or directories within
 > `/var/lib/docker/`. These files and directories are managed by Docker.
 
-```console
+```bash
 $ ls -l /var/lib/docker/overlay/
 
 total 20
@@ -271,7 +271,7 @@ The image layer directories contain the files unique to that layer as well as
 hard links to the data shared with lower layers. This allows for efficient use
 of disk space.
 
-```console
+```bash
 $ ls -i /var/lib/docker/overlay2/38f3ed2eac129654acef11c32670b534670c3a06e483fce313d72e3e0a15baa8/root/bin/ls
 
 19793696 /var/lib/docker/overlay2/38f3ed2eac129654acef11c32670b534670c3a06e483fce313d72e3e0a15baa8/root/bin/ls
@@ -287,7 +287,7 @@ Containers also exist on-disk in the Docker host's filesystem under
 `/var/lib/docker/overlay/`. If you list a running container's subdirectory
 using the `ls -l` command, three directories and one file exist:
 
-```console
+```bash
 $ ls -l /var/lib/docker/overlay2/<directory-of-running-container>
 
 total 16
@@ -300,7 +300,7 @@ drwx------ 3 root root 4096 Jun 20 16:39 work
 The `lower-id` file contains the ID of the top layer of the image the container
 is based on, which is the OverlayFS `lowerdir`.
 
-```console
+```bash
 $ cat /var/lib/docker/overlay2/ec444863a55a9f1ca2df72223d459c5d940a721b2288ff86a3f27be28b53be6c/lower-id
 
 55f1e14c361b90570df46371b20ce6d480c434981cbda5fd68c6ff61aa0a5358
@@ -318,7 +318,7 @@ To view the mounts which exist when you use the `overlay2` storage driver with
 Docker, use the `mount` command. The following output is truncated for
 readability.
 
-```console
+```bash
 $ mount | grep overlay
 
 overlay on /var/lib/docker/overlay2/l/ec444863a55a.../merged
@@ -443,25 +443,25 @@ filesystems:
 
 [`open(2)`](https://linux.die.net/man/2/open)
 : OverlayFS only implements a subset of the POSIX standards.
-  This can result in certain OverlayFS operations breaking POSIX standards. One
-  such operation is the copy-up operation. Suppose that your application calls
-  `fd1=open("foo", O_RDONLY)` and then `fd2=open("foo", O_RDWR)`. In this case,
-  your application expects `fd1` and `fd2` to refer to the same file. However, due
-  to a copy-up operation that occurs after the second calling to `open(2)`, the
-  descriptors refer to different files. The `fd1` continues to reference the file
-  in the image (`lowerdir`) and the `fd2` references the file in the container
-  (`upperdir`). A workaround for this is to `touch` the files which causes the
-  copy-up operation to happen. All subsequent `open(2)` operations regardless of
-  read-only or read-write access mode reference the file in the
-  container (`upperdir`).
+This can result in certain OverlayFS operations breaking POSIX standards. One
+such operation is the copy-up operation. Suppose that your application calls
+`fd1=open("foo", O_RDONLY)` and then `fd2=open("foo", O_RDWR)`. In this case,
+your application expects `fd1` and `fd2` to refer to the same file. However, due
+to a copy-up operation that occurs after the second calling to `open(2)`, the
+descriptors refer to different files. The `fd1` continues to reference the file
+in the image (`lowerdir`) and the `fd2` references the file in the container
+(`upperdir`). A workaround for this is to `touch` the files which causes the
+copy-up operation to happen. All subsequent `open(2)` operations regardless of
+read-only or read-write access mode reference the file in the
+container (`upperdir`).
 
-  `yum` is known to be affected unless the `yum-plugin-ovl` package is installed.
-  If the `yum-plugin-ovl` package is not available in your distribution such as
-  RHEL/CentOS prior to 6.8 or 7.2, you may need to run `touch /var/lib/rpm/*`
-  before running `yum install`. This package implements the `touch` workaround
-  referenced above for `yum`.
+`yum` is known to be affected unless the `yum-plugin-ovl` package is installed.
+If the `yum-plugin-ovl` package is not available in your distribution such as
+RHEL/CentOS prior to 6.8 or 7.2, you may need to run `touch /var/lib/rpm/*`
+before running `yum install`. This package implements the `touch` workaround
+referenced above for `yum`.
 
 [`rename(2)`](https://linux.die.net/man/2/rename)
 : OverlayFS does not fully support the `rename(2)` system call. Your
-  application needs to detect its failure and fall back to a "copy and unlink"
-  strategy.
+application needs to detect its failure and fall back to a "copy and unlink"
+strategy.

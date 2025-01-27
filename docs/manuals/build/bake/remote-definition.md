@@ -13,7 +13,7 @@ keywords:
 
 You can build Bake files directly from a remote Git repository or HTTPS URL:
 
-```console
+```bash
 $ docker buildx bake "https://github.com/docker/cli.git#v20.10.11" --print
 #1 [internal] load git source https://github.com/docker/cli.git#v20.10.11
 #1 0.745 e8f1871b077b64bcb4a13334b7146492773769f7       refs/tags/v20.10.11
@@ -70,7 +70,7 @@ EOT
 }
 ```
 
-```console
+```bash
 $ touch foo bar
 $ docker buildx bake "https://github.com/dvdksn/buildx.git#bake-remote-example"
 ```
@@ -116,7 +116,7 @@ When loading a Bake file from a remote Git repository, if the repository
 contains more than one Bake file, you can specify which Bake definition to use
 with the `--file` or `-f` flag:
 
-```console
+```bash
 docker buildx bake -f bake.hcl "https://github.com/crazy-max/buildx.git#remote-with-local"
 ```
 
@@ -149,7 +149,7 @@ The following example uses `-f` to specify two Bake definitions:
 - `-f cwd://local.hcl`: this definition is loaded relative to the current
   working directory where the Bake command is executed.
 
-```console
+```bash
 docker buildx bake -f bake.hcl -f cwd://local.hcl "https://github.com/crazy-max/buildx.git#remote-with-local" --print
 ```
 
@@ -163,9 +163,7 @@ docker buildx bake -f bake.hcl -f cwd://local.hcl "https://github.com/crazy-max/
         "HELLO": "foo"
       },
       "target": "build",
-      "output": [
-        "type=cacheonly"
-      ]
+      "output": ["type=cacheonly"]
     }
   }
 }
@@ -180,13 +178,13 @@ remote definition and the local "metadata-only" Bake file, specify both files
 and use the `cwd://` prefix for the metadata Bake file:
 
 ```yml
-      - name: Build
-        uses: docker/bake-action@v6
-        with:
-          files: |
-            ./docker-bake.hcl
-            cwd://${{ steps.meta.outputs.bake-file }}
-          targets: build
+- name: Build
+  uses: docker/bake-action@v6
+  with:
+    files: |
+      ./docker-bake.hcl
+      cwd://${{ steps.meta.outputs.bake-file }}
+    targets: build
 ```
 
 ## Remote definition in a private repository

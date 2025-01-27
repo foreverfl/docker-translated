@@ -8,16 +8,16 @@ keywords:
   - documentation
 title: Content trust in Docker
 aliases:
-- /engine/security/trust/content_trust/
-- /notary/getting_started/
-- /notary/advanced_usage/
-- /notary/service_architecture/
-- /notary/running_a_service/
-- /notary/changelog/
-- /notary/reference/server-config/
-- /notary/reference/signer-config/
-- /notary/reference/client-config/
-- /notary/reference/common-configs/
+  - /engine/security/trust/content_trust/
+  - /notary/getting_started/
+  - /notary/advanced_usage/
+  - /notary/service_architecture/
+  - /notary/running_a_service/
+  - /notary/changelog/
+  - /notary/reference/server-config/
+  - /notary/reference/signer-config/
+  - /notary/reference/client-config/
+  - /notary/reference/common-configs/
 ---
 
 When transferring data among networked systems, trust is a central concern. In
@@ -49,8 +49,8 @@ An individual image record has the following identifier:
 ```
 
 A particular image `REPOSITORY` can have multiple tags. For example, `latest` and
- `3.1.2` are both tags on the `mongo` image. An image publisher can build an image
- and tag combination many times changing the image with each build.
+`3.1.2` are both tags on the `mongo` image. An image publisher can build an image
+and tag combination many times changing the image with each build.
 
 DCT is associated with the `TAG` portion of an image. Each image repository has
 a set of keys that image publishers use to sign an image tag. Image publishers
@@ -94,7 +94,7 @@ of the following classes of keys:
 - An offline key that is the root of DCT for an image tag
 - Repository or tagging keys that sign tags
 - Server-managed keys such as the timestamp key, which provides freshness
-	security guarantees for your repository
+  security guarantees for your repository
 
 The following image depicts the various signing keys and their relationships:
 
@@ -102,8 +102,8 @@ The following image depicts the various signing keys and their relationships:
 
 > [!WARNING]
 >
->The root key once lost is not recoverable. If you lose any other key, send an email to [Docker Hub Support](mailto:hub-support@docker.com). This loss also requires manual intervention from every
-consumer that used a signed tag from this repository prior to the loss.
+> The root key once lost is not recoverable. If you lose any other key, send an email to [Docker Hub Support](mailto:hub-support@docker.com). This loss also requires manual intervention from every
+> consumer that used a signed tag from this repository prior to the loss.
 
 You should back up the root key somewhere safe. Given that it is only required
 to create new repositories, it is a good idea to store it offline in hardware.
@@ -131,7 +131,7 @@ is automatically added to the local trust store. If you are importing a separate
 key, you will need to use the
 `$ docker trust key load` command.
 
-```console
+```bash
 $ docker trust key generate jeff
 Generating key for jeff...
 Enter passphrase for new jeff key with ID 9deed25:
@@ -141,7 +141,7 @@ Successfully generated and loaded private key. Corresponding public key availabl
 
 Or if you have an existing key:
 
-```console
+```bash
 $ docker trust key load key.pem --name jeff
 Loading key from "key.pem"...
 Enter passphrase for new jeff key with ID 8ae710e:
@@ -157,7 +157,7 @@ canonical root key. To understand more about initiating a repository, and the
 role of delegations, head to
 [delegations for content trust](trust_delegation.md).
 
-```console
+```bash
 $ docker trust signer add --key cert.pem jeff registry.example.com/admin/demo
 Adding signer "jeff" to registry.example.com/admin/demo...
 Enter passphrase for new repository key with ID 10b5e94:
@@ -166,7 +166,7 @@ Enter passphrase for new repository key with ID 10b5e94:
 Finally, we will use the delegation private key to sign a particular tag and
 push it up to the registry.
 
-```console
+```bash
 $ docker trust sign registry.example.com/admin/demo:1
 Signing and pushing trust data for local image registry.example.com/admin/demo:1, may overwrite remote trust data
 The push refers to repository [registry.example.com/admin/demo]
@@ -180,7 +180,7 @@ Successfully signed registry.example.com/admin/demo:1
 Alternatively, once the keys have been imported an image can be pushed with the
 `$ docker push` command, by exporting the DCT environmental variable.
 
-```console
+```bash
 $ export DOCKER_CONTENT_TRUST=1
 
 $ docker push registry.example.com/admin/demo:1
@@ -195,7 +195,7 @@ Successfully signed registry.example.com/admin/demo:1
 Remote trust data for a tag or a repository can be viewed by the
 `$ docker trust inspect` command:
 
-```console
+```bash
 $ docker trust inspect --pretty registry.example.com/admin/demo:1
 
 Signatures for registry.example.com/admin/demo:1
@@ -216,7 +216,7 @@ Administrative keys for registry.example.com/admin/demo:1
 
 Remote Trust data for a tag can be removed by the `$ docker trust revoke` command:
 
-```console
+```bash
 $ docker trust revoke registry.example.com/admin/demo:1
 Enter passphrase for signer key with ID 8ae710e:
 Successfully deleted signature for registry.example.com/admin/demo:1
@@ -232,17 +232,17 @@ When DCT is enabled in the Docker client, `docker` CLI commands that operate on
 tagged images must either have content signatures or explicit content hashes.
 The commands that operate with DCT are:
 
-* `push`
-* `build`
-* `create`
-* `pull`
-* `run`
+- `push`
+- `build`
+- `create`
+- `pull`
+- `run`
 
 For example, with DCT enabled a `docker pull someimage:latest` only
 succeeds if `someimage:latest` is signed. However, an operation with an explicit
 content hash always succeeds as long as the hash exists:
 
-```console
+```bash
 $ docker pull registry.example.com/user/image:1
 Error: remote trust data does not exist for registry.example.com/user/image: registry.example.com does not have trust data for registry.example.com/user/image
 
@@ -256,7 +256,7 @@ Status: Downloaded newer image for registry.example.com/user/image@sha256:ee7491
 
 ## Related information
 
-* [Delegations for content trust](trust_delegation.md)
-* [Automation with content trust](trust_automation.md)
-* [Manage keys for content trust](trust_key_mng.md)
-* [Play in a content trust sandbox](trust_sandbox.md)
+- [Delegations for content trust](trust_delegation.md)
+- [Automation with content trust](trust_automation.md)
+- [Manage keys for content trust](trust_key_mng.md)
+- [Play in a content trust sandbox](trust_sandbox.md)

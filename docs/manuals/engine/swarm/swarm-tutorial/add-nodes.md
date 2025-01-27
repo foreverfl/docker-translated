@@ -20,7 +20,7 @@ to add worker nodes.
     [Create a swarm](create-swarm.md) tutorial step to create a worker node
     joined to the existing swarm:
 
-    ```console
+    ```bash
     $ docker swarm join \
       --token  SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
       192.168.99.100:2377
@@ -31,7 +31,7 @@ to add worker nodes.
     If you don't have the command available, you can run the following command
     on a manager node to retrieve the join command for a worker:
 
-    ```console
+    ```bash
     $ docker swarm join-token worker
 
     To add a worker to this swarm, run the following command:
@@ -48,7 +48,7 @@ to add worker nodes.
     [Create a swarm](create-swarm.md) tutorial step to create a second worker
     node joined to the existing swarm:
 
-    ```console
+    ```bash
     $ docker swarm join \
       --token SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
       192.168.99.100:2377
@@ -59,7 +59,7 @@ to add worker nodes.
 5.  Open a terminal and ssh into the machine where the manager node runs and
     run the `docker node ls` command to see the worker nodes:
 
-    ```console
+    ```bash
     $ docker node ls
     ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
     03g1y59jwfg7cf99w4lt0f662    worker2   Ready   Active
@@ -71,7 +71,6 @@ to add worker nodes.
     status in this column for `worker1` and `worker2` identifies them as worker nodes.
 
     Swarm management commands like `docker node ls` only work on manager nodes.
-
 
 ## What's next?
 

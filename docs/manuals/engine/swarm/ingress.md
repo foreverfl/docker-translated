@@ -20,8 +20,8 @@ incoming requests to published ports on available nodes to an active container.
 To use the ingress network in the swarm, you need to have the following
 ports open between the swarm nodes before you enable Swarm mode:
 
-* Port `7946` TCP/UDP for container network discovery.
-* Port `4789` UDP (configurable) for the container ingress network.
+- Port `7946` TCP/UDP for container network discovery.
+- Port `4789` UDP (configurable) for the container ingress network.
 
 When setting up networking in a Swarm, special care should be taken. Consult
 the [tutorial](swarm-tutorial/_index.md#open-protocols-and-ports-between-the-hosts)
@@ -41,7 +41,7 @@ specify the port to bind on the routing mesh. If you leave off the `published`
 port, a random high-numbered port is bound for each service task. You
 need to inspect the task to determine the port.
 
-```console
+```bash
 $ docker service create \
   --name <SERVICE-NAME> \
   --publish published=<PUBLISHED-PORT>,target=<CONTAINER-PORT> \
@@ -63,7 +63,7 @@ is required.
 For example, the following command publishes port 80 in the nginx container to
 port 8080 for any node in the swarm:
 
-```console
+```bash
 $ docker service create \
   --name my-web \
   --publish published=8080,target=80 \
@@ -85,7 +85,7 @@ within the host.
 
 You can publish a port for an existing service using the following command:
 
-```console
+```bash
 $ docker service update \
   --publish-add published=<PUBLISHED-PORT>,target=<CONTAINER-PORT> \
   <SERVICE>
@@ -94,13 +94,11 @@ $ docker service update \
 You can use `docker service inspect` to view the service's published port. For
 instance:
 
-
-```console
+```bash
 $ docker service inspect --format="{{json .Endpoint.Spec.Ports}}" my-web
 
 [{"Protocol":"tcp","TargetPort":80,"PublishedPort":8080}]
 ```
-
 
 The output shows the `<CONTAINER-PORT>` (labeled `TargetPort`) from the containers and the
 `<PUBLISHED-PORT>` (labeled `PublishedPort`) where nodes listen for requests for the service.
@@ -117,7 +115,7 @@ set the `protocol` key to either `tcp` or `udp`.
 
 Long syntax:
 
-```console
+```bash
 $ docker service create --name dns-cache \
   --publish published=53,target=53 \
   dns-cache
@@ -125,7 +123,7 @@ $ docker service create --name dns-cache \
 
 Short syntax:
 
-```console
+```bash
 $ docker service create --name dns-cache \
   -p 53:53 \
   dns-cache
@@ -135,7 +133,7 @@ $ docker service create --name dns-cache \
 
 Long syntax:
 
-```console
+```bash
 $ docker service create --name dns-cache \
   --publish published=53,target=53 \
   --publish published=53,target=53,protocol=udp \
@@ -144,7 +142,7 @@ $ docker service create --name dns-cache \
 
 Short syntax:
 
-```console
+```bash
 $ docker service create --name dns-cache \
   -p 53:53 \
   -p 53:53/udp \
@@ -155,7 +153,7 @@ $ docker service create --name dns-cache \
 
 Long syntax:
 
-```console
+```bash
 $ docker service create --name dns-cache \
   --publish published=53,target=53,protocol=udp \
   dns-cache
@@ -163,7 +161,7 @@ $ docker service create --name dns-cache \
 
 Short syntax:
 
-```console
+```bash
 $ docker service create --name dns-cache \
   -p 53:53/udp \
   dns-cache
@@ -198,7 +196,7 @@ set `mode` to `host`. If you omit the `mode` key or set it to `ingress`, the
 routing mesh is used. The following command creates a global service using
 `host` mode and bypassing the routing mesh.
 
-```console
+```bash
 $ docker service create --name dns-cache \
   --publish published=53,target=53,protocol=udp,mode=host \
   --mode global \
@@ -271,4 +269,4 @@ See [Configure service discovery](networking.md#configure-service-discovery).
 
 ## Learn more
 
-* [Deploy services to a swarm](services.md)
+- [Deploy services to a swarm](services.md)

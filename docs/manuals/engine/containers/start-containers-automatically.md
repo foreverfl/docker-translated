@@ -28,23 +28,23 @@ Docker는 컨테이너가 종료되거나 Docker가 재시작될 때 자동으�
 | `no`                       | 컨테이너를 자동으로 재시작하지 않습니다. (기본값)                                                                                                                                                                                                                                                                             |
 | `on-failure[:max-retries]` | 오류로 인해 종료된 경우 컨테이너를 재시작합니다. 이는 비정상 종료 코드로 나타납니다. 선택적으로, `:max-retries` 옵션을 사용하여 Docker 데몬이 컨테이너를 재시작하려는 시도를 제한할 수 있습니다. `on-failure` 정책은 컨테이너가 실패로 종료된 경우에만 재시작을 유도합니다. 데몬이 재시작되면 컨테이너를 재시작하지 않습니다. |
 | `always`                   | 컨테이너가 중지되면 항상 재시작합니다. 수동으로 중지된 경우, Docker 데몬이 재시작되거나 컨테이너 자체가 수동으로 재시작될 때만 재시작됩니다. (재시작 정책 세부 사항의 두 번째 항목 참조)                                                                                                                                      |
-| `unless-stopped`           | `always`와 유사하지만, 수동 또는 기타 방법으로 컨테이너가 중지된 경우, Docker 데몬이 재시작된 후에도 재시작되지 않습니다.                                                                                                                                                                                                    |
+| `unless-stopped`           | `always`와 유사하지만, 수동 또는 기타 방법으로 컨테이너가 중지된 경우, Docker 데몬이 재시작된 후에도 재시작되지 않습니다.                                                                                                                                                                                                     |
 
 다음 명령은 Redis 컨테이너를 시작하고 컨테이너가 명시적으로 중지되거나 데몬이 재시작되지 않는 한 항상 재시작되도록 구성합니다.
 
-```console
+```bash
 $ docker run -d --restart unless-stopped redis
 ```
 
 다음 명령은 이미 실행 중인 `redis`라는 이름의 컨테이너의 재시작 정책을 변경합니다.
 
-```console
+```bash
 $ docker update --restart unless-stopped redis
 ```
 
 다음 명령은 모든 실행 중인 컨테이너가 재시작되도록 보장합니다.
 
-```console
+```bash
 $ docker update --restart unless-stopped $(docker ps -q)
 ```
 
@@ -80,7 +80,7 @@ $ docker update --restart unless-stopped $(docker ps -q)
 
 2. Dockerfile에서 이미지를 빌드합니다.
 
-   ```console
+   ```bash
    $ docker build -t startstop .
    ```
 
@@ -88,7 +88,7 @@ $ docker update --restart unless-stopped $(docker ps -q)
 
    컨테이너는 숫자 1..5를 stdout에 출력한 후 종료됩니다. 이는 연결된 CLI도 종료시킵니다.
 
-   ```console
+   ```bash
    $ docker run --restart always startstop
    Starting...
    1
@@ -102,7 +102,7 @@ $ docker update --restart unless-stopped $(docker ps -q)
 
 4. `docker ps`를 실행하면 재시작 정책 덕분에 컨테이너가 여전히 실행 중이거나 재시작 중임을 알 수 있습니다. 그러나 CLI 세션은 이미 종료되었습니다. 초기 컨테이너 종료 후에는 생존하지 않습니다.
 
-   ```console
+   ```bash
    $ docker ps
    CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS         PORTS     NAMES
    081991b35afe   startstop   "/bin/sh -c /start.sh"   9 seconds ago   Up 4 seconds             gallant_easley
@@ -110,7 +110,7 @@ $ docker update --restart unless-stopped $(docker ps -q)
 
 5. `docker container attach` 명령을 사용하여 재시작 사이에 터미널을 컨테이너에 다시 연결할 수 있습니다. 컨테이너가 다음에 종료될 때 다시 분리됩니다.
 
-   ```console
+   ```bash
    $ docker container attach 081991b35afe
    4
    5

@@ -24,13 +24,13 @@ This page contains instructions on how to install Docker Compose standalone on L
 
 1. To download and install the Docker Compose standalone, run:
 
-   ```console
+   ```bash
    $ curl -SL https://github.com/docker/compose/releases/download//docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
    ```
 
 2. Apply executable permissions to the standalone binary in the target path for the installation.
 
-   ```console
+   ```bash
    $ chmod +x /usr/local/bin/docker-compose
    ```
 
@@ -42,7 +42,7 @@ This page contains instructions on how to install Docker Compose standalone on L
 > You can also create a symbolic link to `/usr/bin` or any other directory in your path.
 > For example:
 >
-> ```console
+> ```bash
 > $ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 > ```
 
@@ -77,7 +77,7 @@ on Microsoft Windows Server](/manuals/engine/install/binaries.md#install-server-
 
 4.  Test the installation.
 
-    ```console
+    ```bash
     $ docker-compose.exe version
     Docker Compose version
     ```

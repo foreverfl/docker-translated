@@ -102,13 +102,13 @@ It includes a Dockerfile that lets you create your own image to distribute your 
 You are free to edit the existing files, delete them, or [add new ones](#add-your-own-templates) to subsequently generate Kubernetes manifests that meet your needs.  
 You can then use the generated Dockerfile to package your changes into a new transformation image, which you can then use with Compose Bridge:
 
-```console
+```bash
 $ docker build --tag mycompany/transform --push .
 ```
 
 You can then use your transformation as a replacement:
 
-```console
+```bash
 $ compose-bridge convert --transformations mycompany/transform
 ```
 
@@ -154,7 +154,7 @@ Once packaged into a Docker image, you can use this custom template
 when transforming Compose models into Kubernetes in addition to other
 transformations:
 
-```console
+```bash
 $ compose-bridge convert \
     --transformation docker/compose-bridge-kubernetes \
     --transformation mycompany/transform

@@ -90,7 +90,8 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"]
 
-  - job_name: docker
+  - job_name:
+      docker
       # metrics_path defaults to '/metrics'
       # scheme defaults to 'http'.
 
@@ -102,7 +103,7 @@ scrape_configs:
 
 Next, start a Prometheus container using this configuration.
 
-```console
+```bash
 $ docker run --name my-prometheus \
     --mount type=bind,source=/tmp/prometheus.yml,destination=/etc/prometheus/prometheus.yml \
     -p 9090:9090 \
@@ -142,7 +143,7 @@ active workloads on your system.
 To make the graph more interesting, run a container that uses some network
 actions by starting downloading some packages using a package manager:
 
-```console
+```bash
 $ docker run --rm alpine apk add git make musl-dev go
 ```
 

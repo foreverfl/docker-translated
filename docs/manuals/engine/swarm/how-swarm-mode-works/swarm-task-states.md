@@ -6,7 +6,7 @@ keywords:
   - task
   - service
 aliases:
-- /datacenter/ucp/2.2/guides/admin/monitor-and-troubleshoot/troubleshoot-task-state/
+  - /datacenter/ucp/2.2/guides/admin/monitor-and-troubleshoot/troubleshoot-task-state/
 ---
 
 Docker lets you create services, which can start tasks. A service is a
@@ -52,7 +52,7 @@ Run `docker service ps <service-name>` to get the state of a task. The
 `CURRENT STATE` field shows the task's state and how long it's been
 there.
 
-```console
+```bash
 $ docker service ps webserver
 ID             NAME              IMAGE    NODE        DESIRED STATE  CURRENT STATE            ERROR                              PORTS
 owsz0yp6z375   webserver.1       nginx    UbuntuVM    Running        Running 44 seconds ago

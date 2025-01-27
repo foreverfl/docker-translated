@@ -7,12 +7,12 @@ keywords:
   - 사용자 정의
   - 독립 실행형
 aliases:
-- /config/containers/bridges/
-- /engine/userguide/networking/default_network/build-bridges/
-- /engine/userguide/networking/default_network/custom-docker0/
-- /engine/userguide/networking/work-with-networks/
-- /network/bridge/
-- /network/drivers/bridge/
+  - /config/containers/bridges/
+  - /engine/userguide/networking/default_network/build-bridges/
+  - /engine/userguide/networking/default_network/custom-docker0/
+  - /engine/userguide/networking/work-with-networks/
+  - /network/bridge/
+  - /network/drivers/bridge/
 ---
 
 네트워킹 측면에서 브리지 네트워크는 네트워크 세그먼트 간의 트래픽을 전달하는 링크 계층 장치입니다. 브리지는 하드웨어 장치일 수도 있고 호스트 머신의 커널 내에서 실행되는 소프트웨어 장치일 수도 있습니다.
@@ -65,20 +65,20 @@ Docker를 시작하면 [기본 브리지 네트워크](#use-the-default-bridge-n
 
 다음 표는 `bridge` 드라이버를 사용하여 사용자 정의 네트워크를 생성할 때 `--option`에 전달할 수 있는 드라이버별 옵션을 설명합니다.
 
-| 옵션                                                                                          | 기본값                     | 설명                                                                                    |
-|-------------------------------------------------------------------------------------------------|-----------------------------|------------------------------------------------------------------------------------------------|
-| `com.docker.network.bridge.name`                                                                |                             | Linux 브리지를 생성할 때 사용할 인터페이스 이름.                                          |
-| `com.docker.network.bridge.enable_ip_masquerade`                                                | `true`                      | IP 마스커레이딩 활성화.                                                                        |
-| `com.docker.network.bridge.gateway_mode_ipv4`<br/>`com.docker.network.bridge.gateway_mode_ipv6` | `nat`                       | NAT 및 마스커레이딩 활성화 (`nat`), 또는 컨테이너로의 직접 라우팅만 허용 (`routed`). |
-| `com.docker.network.bridge.enable_icc`                                                          | `true`                      | 컨테이너 간 연결 활성화 또는 비활성화.                                                |
-| `com.docker.network.bridge.host_binding_ipv4`                                                   | 모든 IPv4 및 IPv6 주소 | 컨테이너 포트를 바인딩할 때 기본 IP.                                                       |
-| `com.docker.network.driver.mtu`                                                                 | `0` (제한 없음)              | 컨테이너 네트워크 최대 전송 단위 (MTU) 설정.                                    |
-| `com.docker.network.container_iface_prefix`                                                     | `eth`                       | 컨테이너 인터페이스에 대한 사용자 정의 접두사 설정.                                                  |
-| `com.docker.network.bridge.inhibit_ipv4`                                                        | `false`                     | 네트워크에 IP 주소를 [할당하지 않도록](#skip-ip-address-configuration) Docker를 방지.  |
+| 옵션                                                                                            | 기본값                 | 설명                                                                                  |
+| ----------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------- |
+| `com.docker.network.bridge.name`                                                                |                        | Linux 브리지를 생성할 때 사용할 인터페이스 이름.                                      |
+| `com.docker.network.bridge.enable_ip_masquerade`                                                | `true`                 | IP 마스커레이딩 활성화.                                                               |
+| `com.docker.network.bridge.gateway_mode_ipv4`<br/>`com.docker.network.bridge.gateway_mode_ipv6` | `nat`                  | NAT 및 마스커레이딩 활성화 (`nat`), 또는 컨테이너로의 직접 라우팅만 허용 (`routed`).  |
+| `com.docker.network.bridge.enable_icc`                                                          | `true`                 | 컨테이너 간 연결 활성화 또는 비활성화.                                                |
+| `com.docker.network.bridge.host_binding_ipv4`                                                   | 모든 IPv4 및 IPv6 주소 | 컨테이너 포트를 바인딩할 때 기본 IP.                                                  |
+| `com.docker.network.driver.mtu`                                                                 | `0` (제한 없음)        | 컨테이너 네트워크 최대 전송 단위 (MTU) 설정.                                          |
+| `com.docker.network.container_iface_prefix`                                                     | `eth`                  | 컨테이너 인터페이스에 대한 사용자 정의 접두사 설정.                                   |
+| `com.docker.network.bridge.inhibit_ipv4`                                                        | `false`                | 네트워크에 IP 주소를 [할당하지 않도록](#skip-ip-address-configuration) Docker를 방지. |
 
 이러한 옵션 중 일부는 `dockerd` CLI의 플래그로도 사용할 수 있으며, Docker 데몬을 시작할 때 기본 `docker0` 브리지를 구성하는 데 사용할 수 있습니다. 다음 표는 `dockerd` CLI에서 동등한 플래그가 있는 옵션을 보여줍니다.
 
-| 옵션                                           | 플래그        |
+| 옵션                                             | 플래그      |
 | ------------------------------------------------ | ----------- |
 | `com.docker.network.bridge.name`                 | -           |
 | `com.docker.network.bridge.enable_ip_masquerade` | `--ip-masq` |
@@ -107,7 +107,7 @@ Docker 데몬은 `--bridge` 플래그를 지원하며, 이를 사용하여 자�
 
 `docker network create` 명령을 사용하여 사용자 정의 브리지 네트워크를 생성합니다.
 
-```console
+```bash
 $ docker network create my-net
 ```
 
@@ -115,7 +115,7 @@ $ docker network create my-net
 
 `docker network rm` 명령을 사용하여 사용자 정의 브리지 네트워크를 제거할 수 있습니다. 네트워크에 현재 컨테이너가 연결되어 있는 경우, 먼저 [연결을 해제](#disconnect-a-container-from-a-user-defined-bridge)하십시오.
 
-```console
+```bash
 $ docker network rm my-net
 ```
 
@@ -127,7 +127,7 @@ $ docker network rm my-net
 
 새 컨테이너를 생성할 때 하나 이상의 `--network` 플래그를 지정할 수 있습니다. 이 예제는 Nginx 컨테이너를 `my-net` 네트워크에 연결합니다. 또한 컨테이너의 포트 80을 Docker 호스트의 포트 8080에 게시하여 외부 클라이언트가 해당 포트에 접근할 수 있도록 합니다. `my-net` 네트워크에 연결된 다른 컨테이너는 모두 `my-nginx` 컨테이너의 모든 포트에 접근할 수 있으며, 그 반대도 마찬가지입니다.
 
-```console
+```bash
 $ docker create --name my-nginx \
   --network my-net \
   --publish 8080:80 \
@@ -136,7 +136,7 @@ $ docker create --name my-nginx \
 
 실행 중인 **컨테이너를** 기존 사용자 정의 브리지에 연결하려면 `docker network connect` 명령을 사용하십시오. 다음 명령은 이미 실행 중인 `my-nginx` 컨테이너를 이미 존재하는 `my-net` 네트워크에 연결합니다:
 
-```console
+```bash
 $ docker network connect my-net my-nginx
 ```
 
@@ -144,7 +144,7 @@ $ docker network connect my-net my-nginx
 
 실행 중인 컨테이너를 사용자 정의 브리지에서 분리하려면 `docker network disconnect` 명령을 사용하십시오. 다음 명령은 `my-nginx` 컨테이너를 `my-net` 네트워크에서 분리합니다.
 
-```console
+```bash
 $ docker network disconnect my-net my-nginx
 ```
 
@@ -152,7 +152,7 @@ $ docker network disconnect my-net my-nginx
 
 네트워크를 생성할 때 `--ipv6` 플래그를 지정하여 IPv6을 활성화할 수 있습니다.
 
-```console
+```bash
 $ docker network create --ipv6 --subnet 2001:db8:1234::/64 my-net
 ```
 
@@ -174,7 +174,7 @@ $ docker network create --ipv6 --subnet 2001:db8:1234::/64 my-net
   "fixed-cidr": "192.168.1.0/25",
   "mtu": 1500,
   "default-gateway": "192.168.1.254",
-  "dns": ["10.20.1.2","10.20.1.3"]
+  "dns": ["10.20.1.2", "10.20.1.3"]
 }
 ```
 

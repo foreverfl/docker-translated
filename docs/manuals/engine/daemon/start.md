@@ -27,7 +27,7 @@ page under [Install Docker](/manuals/engine/install/_index.md).
 On some operating systems, like Ubuntu and Debian, the Docker daemon service
 starts automatically. Use the following command to start it manually:
 
-```console
+```bash
 $ sudo systemctl start docker
 ```
 
@@ -43,7 +43,7 @@ You may need to use `sudo`, depending on your operating system configuration.
 When you start Docker this way, it runs in the foreground and sends its logs
 directly to your terminal.
 
-```console
+```bash
 $ dockerd
 
 INFO[0000] +job init_networkdriver()

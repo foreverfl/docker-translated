@@ -22,15 +22,17 @@ Docker는 템플릿 요소를 조작하기 위한 기본 함수 세트를 제공
 `--format` 플래그를 사용할 때는 셸 환경을 고려해야 합니다.
 POSIX 셸에서는 다음을 단일 인용부호로 실행할 수 있습니다:
 
-```console
+```bash
 $ docker inspect --format '{{join .Args " , "}}'
 ```
+
 그렇지 않으면 Windows 셸(예: PowerShell)에서는 단일 인용부호를 사용해야 하지만,
 매개변수 내부의 큰따옴표를 다음과 같이 이스케이프해야 합니다:
 
-```console
+```bash
 $ docker inspect --format '{{join .Args \" , \"}}'
 ```
+
 :::
 
 ## join {#join}
@@ -38,7 +40,7 @@ $ docker inspect --format '{{join .Args \" , \"}}'
 `join`은 문자열 목록을 연결하여 단일 문자열을 만듭니다.
 목록의 각 요소 사이에 구분 기호를 넣습니다.
 
-```console
+```bash
 $ docker inspect --format '{{join .Args " , "}}' container
 ```
 
@@ -46,7 +48,7 @@ $ docker inspect --format '{{join .Args " , "}}' container
 
 `table`은 출력에 표시할 필드를 지정합니다.
 
-```console
+```bash
 $ docker image list --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.Size}}"
 ```
 
@@ -54,7 +56,7 @@ $ docker image list --format "table {{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.Size}
 
 `json`은 요소를 json 문자열로 인코딩합니다.
 
-```console
+```bash
 $ docker inspect --format '{{json .Mounts}}' container
 ```
 
@@ -62,7 +64,7 @@ $ docker inspect --format '{{json .Mounts}}' container
 
 `lower`는 문자열을 소문자로 변환합니다.
 
-```console
+```bash
 $ docker inspect --format "{{lower .Name}}" container
 ```
 
@@ -70,7 +72,7 @@ $ docker inspect --format "{{lower .Name}}" container
 
 `split`은 문자열을 구분 기호로 나누어 문자열 목록으로 만듭니다.
 
-```console
+```bash
 $ docker inspect --format '{{split .Image ":"}}' container
 ```
 
@@ -78,7 +80,7 @@ $ docker inspect --format '{{split .Image ":"}}' container
 
 `title`은 문자열의 첫 문자를 대문자로 변환합니다.
 
-```console
+```bash
 $ docker inspect --format "{{title .Name}}" container
 ```
 
@@ -86,7 +88,7 @@ $ docker inspect --format "{{title .Name}}" container
 
 `upper`는 문자열을 대문자로 변환합니다.
 
-```console
+```bash
 $ docker inspect --format "{{upper .Name}}" container
 ```
 
@@ -94,7 +96,7 @@ $ docker inspect --format "{{upper .Name}}" container
 
 `println`은 각 값을 새 줄에 출력합니다.
 
-```console
+```bash
 $ docker inspect --format='{{range .NetworkSettings.Networks}}{{println .IPAddress}}{{end}}' container
 ```
 
@@ -102,6 +104,6 @@ $ docker inspect --format='{{range .NetworkSettings.Networks}}{{println .IPAddre
 
 출력할 수 있는 데이터를 확인하려면 모든 내용을 json으로 표시하십시오:
 
-```console
+```bash
 $ docker container ls --format='{{json .}}'
 ```

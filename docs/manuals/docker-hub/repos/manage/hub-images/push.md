@@ -19,7 +19,7 @@ images with others or use them in different environments.
    The `docker tag` command assigns a tag to your Docker image, which includes
    your Docker Hub namespace and the repository name. The general syntax is:
 
-   ```console
+   ```bash
    $ docker tag [SOURCE_IMAGE[:TAG]] [NAMESPACE/REPOSITORY[:TAG]]
    ```
 
@@ -28,7 +28,7 @@ images with others or use them in different environments.
    If your local image is called `my-app` and you want to tag it for the
    repository `my-namespace/my-repo` with the tag `v1.0`, run:
 
-   ```console
+   ```bash
    $ docker tag my-app my-namespace/my-repo:v1.0
    ```
 
@@ -39,7 +39,7 @@ images with others or use them in different environments.
 
    Example:
 
-   ```console
+   ```bash
    $ docker push my-namespace/my-repo:v1.0
    ```
 

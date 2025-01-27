@@ -38,7 +38,7 @@ final image as a JSON-encoded SPDX document, using the format defined by the
 To create an SBOM attestation, pass the `--attest type=sbom` option to the
 `docker buildx build` command:
 
-```console
+```bash
 $ docker buildx build --tag <namespace>/<image>:<version> \
     --attest type=sbom --push .
 ```
@@ -56,7 +56,7 @@ To validate, you can build the image using the `local` exporter.
 Building with the `local` exporter saves the build result to your local filesystem instead of creating an image.
 Attestations are written to a JSON file in the root directory of your export.
 
-```console
+```bash
 $ docker buildx build \
   --sbom=true \
   --output type=local,dest=out .
@@ -64,7 +64,7 @@ $ docker buildx build \
 
 The SBOM file appears in the root directory of the output, named `sbom.spdx.json`:
 
-```console
+```bash
 $ ls -1 ./out | grep sbom
 sbom.spdx.json
 ```
@@ -120,7 +120,7 @@ FROM alpine AS build
 You can use the `--build-arg` CLI option to override the value specified in the
 Dockerfile.
 
-```console
+```bash
 $ docker buildx build --tag <image>:<version> \
     --attest type=sbom \
     --build-arg BUILDKIT_SBOM_SCAN_CONTEXT=false .
@@ -169,7 +169,7 @@ includes the information that Alpine Linux and Hugo were used to create the webs
 
 Building this image with the `local` exporter creates two JSON files:
 
-```console
+```bash
 $ docker buildx build \
   --sbom=true \
   --output type=local,dest=out .
@@ -187,7 +187,7 @@ Using the `--format` option, you can specify a template for the output. All
 SBOM-related data is available under the `.SBOM` attribute. For example, to get
 the raw contents of an SBOM in SPDX format:
 
-```console
+```bash
 $ docker buildx imagetools inspect <namespace>/<image>:<version> \
     --format "{{ json .SBOM.SPDX }}"
 {
@@ -204,7 +204,7 @@ You can also construct more complex expressions using the full functionality
 of Go templates. For example, you can list all the installed packages and their
 version identifiers:
 
-```console
+```bash
 $ docker buildx imagetools inspect <namespace>/<image>:<version> \
     --format "{{ range .SBOM.SPDX.packages }}{{ .name }}@{{ .versionInfo }}{{ println }}{{ end }}"
 adduser@3.118ubuntu2
@@ -226,7 +226,7 @@ You can select a different plugin to use with the `generator` option, specifying
 an image that implements the
 [BuildKit SBOM scanner protocol](https://github.com/moby/buildkit/blob/master/docs/attestations/sbom-protocol.md).
 
-```console
+```bash
 $ docker buildx build --attest type=sbom,generator=<image> .
 ```
 

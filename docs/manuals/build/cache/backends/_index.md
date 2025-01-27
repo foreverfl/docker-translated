@@ -75,7 +75,7 @@ backends must be explicitly exported to, and explicitly imported from.
 Example `buildx` command using the `registry` backend, using import and export
 cache:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=registry,ref=<registry>/<cache-image>[,parameters...] \
   --cache-from type=registry,ref=<registry>/<cache-image>[,parameters...] .
@@ -97,7 +97,7 @@ is to use the cache of both the current branch and the main branch. The
 following example shows importing cache from multiple locations using the
 registry cache backend:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=registry,ref=<registry>/<cache-image>:<branch> \
   --cache-from type=registry,ref=<registry>/<cache-image>:<branch> \
@@ -127,7 +127,7 @@ supported by all cache backends except for the `inline` cache.
 Mode can be set to either of two options: `mode=min` or `mode=max`. For example,
 to build the cache with `mode=max` with the registry backend:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=registry,ref=<registry>/<cache-image>,mode=max \
   --cache-from type=registry,ref=<registry>/<cache-image> .
@@ -154,7 +154,7 @@ supported by the `local` and `registry` cache backends.
 
 For example, to compress the `registry` cache with `zstd` compression:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=registry,ref=<registry>/<cache-image>,compression=zstd \
   --cache-from type=registry,ref=<registry>/<cache-image> .
@@ -168,7 +168,7 @@ supported by the `local` and `registry` cache backends.
 
 For example, to export OCI media type cache, use the `oci-mediatypes` property:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=registry,ref=<registry>/<cache-image>,oci-mediatypes=true \
   --cache-from type=registry,ref=<registry>/<cache-image> .
@@ -184,7 +184,7 @@ ECR, or any other registry that doesn't support image indices, set the
 `image-manifest` parameter to `true` to generate a single image manifest
 instead of an image index for the cache image:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=registry,ref=<registry>/<cache-image>,oci-mediatypes=true,image-manifest=true \
   --cache-from type=registry,ref=<registry>/<cache-image> .

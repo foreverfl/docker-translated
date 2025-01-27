@@ -10,15 +10,15 @@ keywords:
   - IP address
   - DNS resolution
 aliases:
-- /articles/networking/
-- /config/containers/container-networking/
-- /engine/userguide/networking/
-- /engine/userguide/networking/configure-dns/
-- /engine/userguide/networking/default_network/binding/
-- /engine/userguide/networking/default_network/configure-dns/
-- /engine/userguide/networking/default_network/container-communication/
-- /engine/userguide/networking/dockernetworks/
-- /network/
+  - /articles/networking/
+  - /config/containers/container-networking/
+  - /engine/userguide/networking/
+  - /engine/userguide/networking/configure-dns/
+  - /engine/userguide/networking/default_network/binding/
+  - /engine/userguide/networking/default_network/configure-dns/
+  - /engine/userguide/networking/default_network/container-communication/
+  - /engine/userguide/networking/dockernetworks/
+  - /network/
 ---
 
 Container networking refers to the ability for containers to connect to and
@@ -46,7 +46,7 @@ communicate with each other using container IP addresses or container names.
 The following example creates a network using the `bridge` network driver and
 running a container in the created network:
 
-```console
+```bash
 $ docker network create -d bridge my-net
 $ docker run --network=my-net -itd --name=container3 busybox
 ```
@@ -91,7 +91,7 @@ The following example runs a Redis container, with Redis binding to
 `localhost`, then running the `redis-cli` command and connecting to the Redis
 server over the `localhost` interface.
 
-```console
+```bash
 $ docker run -d --name redis example/redis --bind 127.0.0.1
 $ docker run --rm -it --network container:redis example/redis-cli -h 127.0.0.1
 ```
@@ -123,7 +123,7 @@ Here are some examples:
 > publish flag, only the Docker host and its containers can access the
 > published container port.
 >
-> ```console
+> ```bash
 > $ docker run -p 127.0.0.1:8080:80 -p '[::1]:8080:80' nginx
 > ```
 >
@@ -183,7 +183,7 @@ The following table describes the available `docker run` flags related to DNS
 configuration.
 
 | Flag           | Description                                                                                                                                                                                                                                           |
-| -------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--dns`        | The IP address of a DNS server. To specify multiple DNS servers, use multiple `--dns` flags. DNS requests will be forwarded from the container's network namespace so, for example, `--dns=127.0.0.1` refers to the container's own loopback address. |
 | `--dns-search` | A DNS search domain to search non-fully qualified hostnames. To specify multiple DNS search prefixes, use multiple `--dns-search` flags.                                                                                                              |
 | `--dns-opt`    | A key-value pair representing a DNS option and its value. See your operating system's documentation for `resolv.conf` for valid options.                                                                                                              |

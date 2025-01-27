@@ -24,7 +24,7 @@ container images.
 
 Build a container image using the `local` exporter:
 
-```console
+```bash
 $ docker buildx build --output type=local[,parameters] .
 $ docker buildx build --output type=tar[,parameters] .
 ```

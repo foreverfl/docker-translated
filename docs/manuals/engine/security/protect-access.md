@@ -13,9 +13,9 @@ keywords:
   - certificate
 title: Protect the Docker daemon socket
 aliases:
-- /articles/https/
-- /engine/articles/https/
-- /engine/security/https/
+  - /articles/https/
+  - /engine/articles/https/
+  - /engine/security/https/
 ---
 
 By default, Docker runs through a non-networked UNIX socket. It can also
@@ -33,7 +33,7 @@ The following example creates a [`docker context`](/manuals/engine/manage-resour
 to connect with a remote `dockerd` daemon on `host1.example.com` using SSH, and
 as the `docker-user` user on the remote machine:
 
-```console
+```bash
 $ docker context create \
     --docker host=ssh://docker-user@host1.example.com \
     --description="Remote engine" \
@@ -46,7 +46,7 @@ Successfully created context "my-remote-engine"
 After creating the context, use `docker context use` to switch the `docker` CLI
 to use it, and to connect to the remote engine:
 
-```console
+```bash
 $ docker context use my-remote-engine
 my-remote-engine
 Current context is now "my-remote-engine"
@@ -57,7 +57,7 @@ $ docker info
 
 Use the `default` context to switch back to the default (local) daemon:
 
-```console
+```bash
 $ docker context use default
 default
 Current context is now "default"
@@ -68,7 +68,7 @@ the `docker` CLI to connect to the remote host using SSH. This does not require
 creating a context, and can be useful to create an ad-hoc connection with a different
 engine:
 
-```console
+```bash
 $ export DOCKER_HOST=ssh://docker-user@host1.example.com
 $ docker info
 <prints output of the remote engine>
@@ -109,7 +109,7 @@ it only connects to servers with a certificate signed by that CA.
 
 First, on the Docker daemon's host machine, generate CA private and public keys:
 
-```console
+```bash
 $ openssl genrsa -aes256 -out ca-key.pem 4096
 Generating RSA private key, 4096 bit long modulus
 ..............................................................................++
@@ -145,7 +145,7 @@ to connect to Docker:
 > Replace all instances of `$HOST` in the following example with the
 > DNS name of your Docker daemon's host.
 
-```console
+```bash
 $ openssl genrsa -out server-key.pem 4096
 Generating RSA private key, 4096 bit long modulus
 .....................................................................++
@@ -161,20 +161,20 @@ Since TLS connections can be made through IP address as well as DNS name, the IP
 need to be specified when creating the certificate. For example, to allow connections
 using `10.10.10.20` and `127.0.0.1`:
 
-```console
+```bash
 $ echo subjectAltName = DNS:$HOST,IP:10.10.10.20,IP:127.0.0.1 >> extfile.cnf
 ```
 
 Set the Docker daemon key's extended usage attributes to be used only for
 server authentication:
 
-```console
+```bash
 $ echo extendedKeyUsage = serverAuth >> extfile.cnf
 ```
 
 Now, generate the signed certificate:
 
-```console
+```bash
 $ openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem \
   -CAcreateserial -out server-cert.pem -extfile extfile.cnf
 Signature ok
@@ -197,7 +197,7 @@ request:
 > For simplicity of the next couple of steps, you may perform this
 > step on the Docker daemon's host machine as well.
 
-```console
+```bash
 $ openssl genrsa -out key.pem 4096
 Generating RSA private key, 4096 bit long modulus
 .........................................................++
@@ -210,13 +210,13 @@ $ openssl req -subj '/CN=client' -new -key key.pem -out client.csr
 To make the key suitable for client authentication, create a new extensions
 config file:
 
-```console
+```bash
 $ echo extendedKeyUsage = clientAuth > extfile-client.cnf
 ```
 
 Now, generate the signed certificate:
 
-```console
+```bash
 $ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem \
   -CAcreateserial -out cert.pem -extfile extfile-client.cnf
 Signature ok
@@ -228,31 +228,31 @@ Enter pass phrase for ca-key.pem:
 After generating `cert.pem` and `server-cert.pem` you can safely remove the
 two certificate signing requests and extensions config files:
 
-```console
+```bash
 $ rm -v client.csr server.csr extfile.cnf extfile-client.cnf
 ```
 
-With a default `umask` of 022, your secret keys are *world-readable* and
+With a default `umask` of 022, your secret keys are _world-readable_ and
 writable for you and your group.
 
 To protect your keys from accidental damage, remove their
 write permissions. To make them only readable by you, change file modes as follows:
 
-```console
+```bash
 $ chmod -v 0400 ca-key.pem key.pem server-key.pem
 ```
 
 Certificates can be world-readable, but you might want to remove write access to
 prevent accidental damage:
 
-```console
+```bash
 $ chmod -v 0444 ca.pem server-cert.pem cert.pem
 ```
 
 Now you can make the Docker daemon only accept connections from clients
 providing a certificate trusted by your CA:
 
-```console
+```bash
 $ dockerd \
     --tlsverify \
     --tlscacert=ca.pem \
@@ -275,7 +275,7 @@ certificates and trusted CA:
 > Replace all instances of `$HOST` in the following example with the
 > DNS name of your Docker daemon's host.
 
-```console
+```bash
 $ docker --tlsverify \
     --tlscacert=ca.pem \
     --tlscert=cert.pem \
@@ -302,7 +302,7 @@ the files to the `.docker` directory in your home directory --- and set the
 `DOCKER_HOST` and `DOCKER_TLS_VERIFY` variables as well (instead of passing
 `-H=tcp://$HOST:2376` and `--tlsverify` on every call).
 
-```console
+```bash
 $ mkdir -pv ~/.docker
 $ cp -v {ca,cert,key}.pem ~/.docker
 
@@ -320,24 +320,24 @@ Docker in various other modes by mixing the flags.
 
 #### Daemon modes
 
- - `tlsverify`, `tlscacert`, `tlscert`, `tlskey` set: Authenticate clients
- - `tls`, `tlscert`, `tlskey`: Do not authenticate clients
+- `tlsverify`, `tlscacert`, `tlscert`, `tlskey` set: Authenticate clients
+- `tls`, `tlscert`, `tlskey`: Do not authenticate clients
 
 #### Client modes
 
- - `tls`: Authenticate server based on public/default CA pool
- - `tlsverify`, `tlscacert`: Authenticate server based on given CA
- - `tls`, `tlscert`, `tlskey`: Authenticate with client certificate, do not
-   authenticate server based on given CA
- - `tlsverify`, `tlscacert`, `tlscert`, `tlskey`: Authenticate with client
-   certificate and authenticate server based on given CA
+- `tls`: Authenticate server based on public/default CA pool
+- `tlsverify`, `tlscacert`: Authenticate server based on given CA
+- `tls`, `tlscert`, `tlskey`: Authenticate with client certificate, do not
+  authenticate server based on given CA
+- `tlsverify`, `tlscacert`, `tlscert`, `tlskey`: Authenticate with client
+  certificate and authenticate server based on given CA
 
 If found, the client sends its client certificate, so you just need
 to drop your keys into `~/.docker/{ca,cert,key}.pem`. Alternatively,
 if you want to store your keys in another location, you can specify that
 location using the environment variable `DOCKER_CERT_PATH`.
 
-```console
+```bash
 $ export DOCKER_CERT_PATH=~/.docker/zone1/
 $ docker --tlsverify ps
 ```
@@ -347,7 +347,7 @@ $ docker --tlsverify ps
 To use `curl` to make test API requests, you need to use three extra command line
 flags:
 
-```console
+```bash
 $ curl https://$HOST:2376/images/json \
   --cert ~/.docker/cert.pem \
   --key ~/.docker/key.pem \
@@ -356,5 +356,5 @@ $ curl https://$HOST:2376/images/json \
 
 ## Related information
 
-* [Using certificates for repository client verification](certificates.md)
-* [Use trusted images](trust/_index.md)
+- [Using certificates for repository client verification](certificates.md)
+- [Use trusted images](trust/_index.md)

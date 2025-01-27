@@ -22,7 +22,7 @@ BuildKit daemon is exposed from another source.
 
 ## Synopsis
 
-```console
+```bash
 $ docker buildx create \
   --name remote \
   --driver remote \
@@ -49,7 +49,7 @@ Unix socket, and have Buildx connect through it.
 
    For example, you can launch an instance of buildkitd with:
 
-   ```console
+   ```bash
    $ sudo ./buildkitd --group $(id -gn) --addr unix://$HOME/buildkitd.sock
    ```
 
@@ -59,14 +59,14 @@ Unix socket, and have Buildx connect through it.
 
 2. Check that you have a Unix socket that you can connect to.
 
-   ```console
+   ```bash
    $ ls -lh /home/user/buildkitd.sock
    srw-rw---- 1 root user 0 May  5 11:04 /home/user/buildkitd.sock
    ```
 
 3. Connect Buildx to it using the remote driver:
 
-   ```console
+   ```bash
    $ docker buildx create \
      --name remote-unix \
      --driver remote \
@@ -76,7 +76,7 @@ Unix socket, and have Buildx connect through it.
 4. List available builders with `docker buildx ls`. You should then see
    `remote-unix` among them:
 
-   ```console
+   ```bash
    $ docker buildx ls
    NAME/NODE           DRIVER/ENDPOINT                        STATUS  PLATFORMS
    remote-unix         remote
@@ -88,7 +88,7 @@ Unix socket, and have Buildx connect through it.
 You can switch to this new builder as the default using
 `docker buildx use remote-unix`, or specify it per build using `--builder`:
 
-```console
+```bash
 $ docker buildx build --builder=remote-unix -t test --load .
 ```
 
@@ -109,7 +109,7 @@ but this is for illustration purposes.)
     You can use this [bake definition](https://github.com/moby/buildkit/blob/master/examples/create-certs)
     as a starting point:
 
-    ```console
+    ```bash
     SAN="localhost 127.0.0.1" docker buildx bake "https://github.com/moby/buildkit.git#master:examples/create-certs"
     ```
 
@@ -119,7 +119,7 @@ but this is for illustration purposes.)
 
 2.  With certificates generated in `.certs/`, startup the container:
 
-    ```console
+    ```bash
     $ docker run -d --rm \
       --name=remote-buildkitd \
       --privileged \
@@ -137,7 +137,7 @@ but this is for illustration purposes.)
 
 3.  Connect to this running container using Buildx:
 
-    ```console
+    ```bash
     $ docker buildx create \
       --name remote-container \
       --driver remote \
@@ -148,7 +148,7 @@ but this is for illustration purposes.)
     Alternatively, use the `docker-container://` URL scheme to connect to the
     BuildKit container without specifying a port:
 
-    ```console
+    ```bash
     $ docker buildx create \
       --name remote-container \
       --driver remote \
@@ -175,7 +175,7 @@ copied between them.
 2. Assuming that the service is called `buildkitd`, create a remote builder in
    Buildx, ensuring that the listed certificate files are present:
 
-   ```console
+   ```bash
    $ docker buildx create \
      --name remote-kubernetes \
      --driver remote \
@@ -194,7 +194,7 @@ can use the `kube-pod://` URL scheme to connect directly to a BuildKit pod
 through the Kubernetes API. Note that this method only connects to a single pod
 in the deployment.
 
-```console
+```bash
 $ kubectl get pods --selector=app=buildkitd -o json | jq -r '.items[].metadata.name'
 buildkitd-XXXXXXXXXX-xxxxx
 $ docker buildx create \
@@ -205,7 +205,7 @@ $ docker buildx create \
 
 Alternatively, use the port forwarding mechanism of `kubectl`:
 
-```console
+```bash
 $ kubectl port-forward svc/buildkitd 1234:1234
 ```
 

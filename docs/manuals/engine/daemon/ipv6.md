@@ -8,8 +8,8 @@ keywords:
   - networking
   - ipv6
 aliases:
-- /engine/userguide/networking/default_network/ipv6/
-- /config/daemon/ipv6/
+  - /engine/userguide/networking/default_network/ipv6/
+  - /config/daemon/ipv6/
 ---
 
 IPv6 is only supported on Docker daemons running on Linux hosts.
@@ -18,30 +18,30 @@ IPv6 is only supported on Docker daemons running on Linux hosts.
 
 - Using `docker network create`:
 
-  ```console
+  ```bash
   $ docker network create --ipv6 ip6net
   ```
 
 - Using `docker network create`, specifying an IPv6 subnet:
 
-  ```console
+  ```bash
   $ docker network create --ipv6 --subnet 2001:db8::/64 ip6net
   ```
 
 - Using a Docker Compose file:
 
   ```yaml
-   networks:
-     ip6net:
-       enable_ipv6: true
-       ipam:
-         config:
-           - subnet: 2001:db8::/64
+  networks:
+    ip6net:
+      enable_ipv6: true
+      ipam:
+        config:
+          - subnet: 2001:db8::/64
   ```
 
 You can now run containers that attach to the `ip6net` network.
 
-```console
+```bash
 $ docker run --rm --network ip6net -p 80:80 traefik/whoami
 ```
 
@@ -49,7 +49,7 @@ This publishes port 80 on both IPv6 and IPv4.
 You can verify the IPv6 connection by running curl,
 connecting to port 80 on the IPv6 loopback address:
 
-```console
+```bash
 $ curl http://[::1]:80
 Hostname: ea1cfde18196
 IP: 127.0.0.1
@@ -87,13 +87,13 @@ The following steps show you how to use IPv6 on the default bridge network.
 2. Save the configuration file.
 3. Restart the Docker daemon for your changes to take effect.
 
-   ```console
+   ```bash
    $ sudo systemctl restart docker
    ```
 
 You can now run containers on the default bridge network.
 
-```console
+```bash
 $ docker run --rm -p 80:80 traefik/whoami
 ```
 
@@ -101,7 +101,7 @@ This publishes port 80 on both IPv6 and IPv4.
 You can verify the IPv6 connection by making a request
 to port 80 on the IPv6 loopback address:
 
-```console
+```bash
 $ curl http://[::1]:80
 Hostname: ea1cfde18196
 IP: 127.0.0.1

@@ -45,7 +45,7 @@ World!", and exports the binary to the host filesystem.
 
 1. Create a new directory for this example, and navigate to it:
 
-   ```console
+   ```bash
    $ mkdir hello-world-bin
    $ cd hello-world-bin
    ```
@@ -62,7 +62,7 @@ World!", and exports the binary to the host filesystem.
    }
    EOT
    RUN rustc -o /bin/hello hello.rs
-   
+
    FROM scratch
    COPY --from=build /bin/hello /
    ENTRYPOINT ["/hello"]
@@ -81,7 +81,7 @@ World!", and exports the binary to the host filesystem.
 
 3. Build the Dockerfile and export the binary to the current working directory:
 
-   ```console
+   ```bash
    $ docker build --output=. .
    ```
 
@@ -122,7 +122,7 @@ the build exports the binaries for each target to the specified directory.
 
 For example, to build the program for both `linux/amd64` and `linux/arm64`:
 
-```console
+```bash
 $ docker build --platform=linux/amd64,linux/arm64 --output=out .
 $ tree out/
 out/

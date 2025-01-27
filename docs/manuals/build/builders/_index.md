@@ -55,7 +55,7 @@ the selected builder is used.
 Use the `docker buildx ls` command to see the available builder instances.
 The asterisk (`*`) next to a builder name indicates the selected builder.
 
-```console
+```bash
 $ docker buildx ls
 NAME/NODE       DRIVER/ENDPOINT      STATUS   BUILDKIT PLATFORMS
 default *       docker
@@ -88,14 +88,14 @@ To use the `docker build` command with a non-default builder, you must either:
 
 - Specify the builder explicitly, using the `--builder` flag or the `BUILDX_BUILDER` environment variable:
 
-  ```console
+  ```bash
   $ BUILDX_BUILDER=my_builder docker build .
   $ docker build --builder my_builder .
   ```
 
 - Configure Buildx as the default client by running the following command:
 
-  ```console
+  ```bash
   $ docker buildx install
   ```
 

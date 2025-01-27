@@ -52,7 +52,7 @@ Restart Docker for the changes to take effect.
 To configure the logging driver for a specific container, use the `--log-driver`
 flag on the `docker run` command.
 
-```console
+```bash
 $ docker run --log-driver=journald ...
 ```
 
@@ -67,7 +67,7 @@ driver options.
 | `labels`       | optional | Comma-separated list of keys of labels, which should be included in message, if these labels are specified for the container.                                                 |
 | `labels-regex` | optional | Similar to and compatible with labels. A regular expression to match logging-related labels. Used for advanced [log tag options](log_tags.md).                                |
 | `env`          | optional | Comma-separated list of keys of environment variables, which should be included in message, if these variables are specified for the container.                               |
-| `env-regex`    | optional | Similar to and compatible with `env`. A regular expression to match logging-related environment variables. Used for advanced [log tag options](log_tags.md).                    |
+| `env-regex`    | optional | Similar to and compatible with `env`. A regular expression to match logging-related environment variables. Used for advanced [log tag options](log_tags.md).                  |
 
 If a collision occurs between `label` and `env` options, the value of the `env`
 takes precedence. Each option adds additional fields to the attributes of a
@@ -75,7 +75,7 @@ logging message.
 
 The following is an example of the logging options required to log to journald.
 
-```console
+```bash
 $ docker run \
     --log-driver=journald \
     --log-opt labels=location \
@@ -103,21 +103,21 @@ Use the `journalctl` command to retrieve log messages. You can apply filter
 expressions to limit the retrieved messages to those associated with a specific
 container:
 
-```console
+```bash
 $ sudo journalctl CONTAINER_NAME=webserver
 ```
 
 You can use additional filters to further limit the messages retrieved. The `-b`
 flag only retrieves messages generated since the last system boot:
 
-```console
+```bash
 $ sudo journalctl -b CONTAINER_NAME=webserver
 ```
 
 The `-o` flag specifies the format for the retrieved log messages. Use `-o json`
 to return the log messages in JSON format.
 
-```console
+```bash
 $ sudo journalctl -o json CONTAINER_NAME=webserver
 ```
 
@@ -128,7 +128,7 @@ when retrieving log messages.
 The reason for that is that `\r` is appended to the end of the line and
 `journalctl` doesn't strip it automatically unless `--all` is set:
 
-```console
+```bash
 $ sudo journalctl -b CONTAINER_NAME=webserver --all
 ```
 

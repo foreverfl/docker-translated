@@ -35,7 +35,7 @@ of the convenience script:
 > Preview script steps before running. You can run the script with the `--dry-run` option to learn what steps the
 > script will run when invoked:
 >
-> ```console
+> ```bash
 > $ curl -fsSL https://get.docker.com -o get-docker.sh
 > $ sudo sh ./get-docker.sh --dry-run
 > ```
@@ -44,7 +44,7 @@ This example downloads the script from
 [https://get.docker.com/](https://get.docker.com/) and runs it to install the
 latest stable release of Docker on Linux:
 
-```console
+```bash
 $ curl -fsSL https://get.docker.com -o get-docker.sh
 $ sudo sh get-docker.sh
 Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
@@ -79,7 +79,7 @@ released as stable.
 
 To install the latest version of Docker on Linux from the test channel, run:
 
-```console
+```bash
 $ curl -fsSL https://test.docker.com -o test-docker.sh
 $ sudo sh test-docker.sh
 ```

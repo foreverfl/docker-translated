@@ -66,9 +66,9 @@ If you don't specify any files, Bake will use the following lookup order:
 If more than one Bake file is found, all files are loaded and merged into a
 single definition. Files are merged according to the lookup order.
 
-```console
+```bash
 $ docker buildx bake bake --print
-[+] Building 0.0s (1/1) FINISHED                                                                                                                                                                                            
+[+] Building 0.0s (1/1) FINISHED
  => [internal] load local bake definitions                                                                                                                                                                             0.0s
  => => reading compose.yaml 45B / 45B                                                                                                                                                                                  0.0s
  => => reading docker-bake.hcl 113B / 113B                                                                                                                                                                             0.0s
@@ -103,7 +103,7 @@ variable "TAG" {
 Since `docker-bake.override.hcl` is loaded last in the default lookup order,
 the `TAG` variable is overridden with the value `bar`.
 
-```console
+```bash
 $ docker buildx bake --print
 {
   "target": {
@@ -145,7 +145,7 @@ variable "TAG" {
 Printing the build configuration without the `--file` flag shows the `TAG`
 variable is set to the default value `foo`.
 
-```console
+```bash
 $ docker buildx bake --print
 {
   "target": {
@@ -163,7 +163,7 @@ $ docker buildx bake --print
 Using the `--file` flag to load the `overrides.hcl` file overrides the `TAG`
 variable with the value `bar`.
 
-```console
+```bash
 $ docker buildx bake -f docker-bake.hcl -f overrides.hcl --print
 {
   "target": {
@@ -192,7 +192,7 @@ target "app" {
 }
 ```
 
-```console
+```bash
 $ docker buildx bake --set app.args.mybuildarg=bar --set app.platform=linux/arm64 app --print
 ```
 
@@ -219,7 +219,7 @@ $ docker buildx bake --set app.args.mybuildarg=bar --set app.platform=linux/arm6
 Pattern matching syntax defined in [https://golang.org/pkg/path/#Match](https://golang.org/pkg/path/#Match)
 is also supported:
 
-```console
+```bash
 $ docker buildx bake --set foo*.args.mybuildarg=value  # overrides build arg for all targets starting with "foo"
 $ docker buildx bake --set *.platform=linux/arm64      # overrides platform for all targets
 $ docker buildx bake --set foo*.no-cache               # bypass caching only for targets starting with "foo"
@@ -266,7 +266,7 @@ target "default" {
 }
 ```
 
-```console
+```bash
 $ export TAG=$(git rev-parse --short HEAD)
 $ docker buildx bake --print webapp
 ```
@@ -326,7 +326,7 @@ Overriding `PORT` using an environment variable will first coerce the value
 into the expected type, an integer, before the expression in the `frontend`
 target runs.
 
-```console
+```bash
 $ PORT=7070 docker buildx bake --print
 ```
 
@@ -334,10 +334,7 @@ $ PORT=7070 docker buildx bake --print
 {
   "group": {
     "default": {
-      "targets": [
-        "backend",
-        "frontend"
-      ]
+      "targets": ["backend", "frontend"]
     }
   },
   "target": {

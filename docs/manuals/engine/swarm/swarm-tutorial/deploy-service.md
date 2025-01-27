@@ -19,21 +19,21 @@ is not a requirement to deploy a service.
 
 2.  Run the following command:
 
-    ```console
+    ```bash
     $ docker service create --replicas 1 --name helloworld alpine ping docker.com
 
     9uk4639qpg7npwf3fn2aasksr
     ```
 
-    * The `docker service create` command creates the service.
-    * The `--name` flag names the service `helloworld`.
-    * The `--replicas` flag specifies the desired state of 1 running instance.
-    * The arguments `alpine ping docker.com` define the service as an Alpine
-    Linux container that executes the command `ping docker.com`.
+    - The `docker service create` command creates the service.
+    - The `--name` flag names the service `helloworld`.
+    - The `--replicas` flag specifies the desired state of 1 running instance.
+    - The arguments `alpine ping docker.com` define the service as an Alpine
+      Linux container that executes the command `ping docker.com`.
 
 3.  Run `docker service ls` to see the list of running services:
 
-    ```console
+    ```bash
     $ docker service ls
 
     ID            NAME        SCALE  IMAGE   COMMAND

@@ -42,7 +42,7 @@ services:
       dockerfile: Dockerfile.db
 ```
 
-```console
+```bash
 $ docker buildx bake --print
 ```
 
@@ -105,7 +105,7 @@ services:
 TAG=v1.1.0
 ```
 
-```console
+```bash
 $ docker buildx bake --print
 ```
 
@@ -178,7 +178,7 @@ services:
         no-cache: true
 ```
 
-```console
+```bash
 $ docker buildx bake --print
 ```
 

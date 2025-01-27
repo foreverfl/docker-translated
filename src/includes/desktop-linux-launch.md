@@ -14,7 +14,7 @@ To start Docker Desktop for Linux:
 
 Alternatively, open a terminal and run:
 
-```console
+```bash
 $ systemctl --user start docker-desktop
 ```
 
@@ -33,7 +33,7 @@ and creates a symlink to the classic Docker CLI at `/usr/local/bin`.
 After you’ve successfully installed Docker Desktop, you can check the versions
 of these binaries by running the following commands:
 
-```console
+```bash
 $ docker compose version
 Docker Compose version v2.29.1
 
@@ -41,7 +41,7 @@ $ docker --version
 Docker version 27.1.1, build 6312585
 
 $ docker version
-Client: 
+Client:
  Version:           23.0.5
  API version:       1.42
  Go version:        go1.21.12
@@ -53,7 +53,7 @@ To enable Docker Desktop to start on sign in, from the Docker menu, select
 
 Alternatively, open a terminal and run:
 
-```console
+```bash
 $ systemctl --user enable docker-desktop
 ```
 
@@ -61,6 +61,6 @@ To stop Docker Desktop, select the Docker menu icon to open the Docker menu and 
 
 Alternatively, open a terminal and run:
 
-```console
+```bash
 $ systemctl --user stop docker-desktop
 ```

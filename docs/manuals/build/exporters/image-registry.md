@@ -22,7 +22,7 @@ setting `push=true`.
 
 Build a container image using the `image` and `registry` exporters:
 
-```console
+```bash
 $ docker buildx build --output type=image[,parameters] .
 $ docker buildx build --output type=registry[,parameters] .
 ```
@@ -58,7 +58,7 @@ These exporters support adding OCI annotation using `annotation` parameter,
 followed by the annotation name using dot notation. The following example sets
 the `org.opencontainers.image.title` annotation:
 
-```console
+```bash
 $ docker buildx build \
     --output "type=<type>,name=<registry>/<image>,annotation.org.opencontainers.image.title=<title>" .
 ```

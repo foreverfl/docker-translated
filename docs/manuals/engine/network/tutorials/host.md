@@ -35,9 +35,9 @@ host.
 
 ## Procedure
 
-1.  Create and start the container as a detached process. The `--rm` option means to remove the container once it exits/stops. The `-d` flag means to start the container detached (in the background). 
+1.  Create and start the container as a detached process. The `--rm` option means to remove the container once it exits/stops. The `-d` flag means to start the container detached (in the background).
 
-    ```console
+    ```bash
     $ docker run --rm -d --network host --name my_nginx nginx
     ```
 
@@ -48,7 +48,7 @@ host.
 
     - Examine all network interfaces and verify that a new one was not created.
 
-      ```console
+      ```bash
       $ ip addr show
       ```
 
@@ -56,13 +56,13 @@ host.
       need to use `sudo` because the process is owned by the Docker daemon user
       and you otherwise won't be able to see its name or PID.
 
-      ```console
+      ```bash
       $ sudo netstat -tulpn | grep :80
       ```
 
 4.  Stop the container. It will be removed automatically as it was started using the `--rm` option.
 
-    ```console
+    ```bash
     docker container stop my_nginx
     ```
 

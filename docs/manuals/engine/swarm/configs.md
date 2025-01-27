@@ -9,7 +9,7 @@ keywords:
 
 ## About configs
 
-Docker swarm service configs  allow you to store non-sensitive information,
+Docker swarm service configs allow you to store non-sensitive information,
 such as configuration files, outside a service's image or running containers.
 This allows you to keep your images as generic as possible, without the need to
 bind-mount configuration files into the containers or use environment variables.
@@ -49,7 +49,7 @@ following notable differences in mind:
   container.
 
 - On Windows, create or update a service using `--credential-spec` with the
-  `config://<config-name>` format.  This passes the gMSA credentials file
+  `config://<config-name>` format. This passes the gMSA credentials file
   directly to nodes before a container starts. No gMSA credentials are written
   to disk on worker nodes. For more information, refer to
   [Deploy services to a swarm](services.md#gmsa-for-swarm).
@@ -148,7 +148,7 @@ real-world example, continue to
     input because the last argument, which represents the file to read the
     config from, is set to `-`.
 
-    ```console
+    ```bash
     $ echo "This is a config" | docker config create my-config -
     ```
 
@@ -156,14 +156,14 @@ real-world example, continue to
     the container can access the config at `/my-config`, but
     you can customize the file name on the container using the `target` option.
 
-    ```console
+    ```bash
     $ docker service create --name redis --config my-config redis:alpine
     ```
 
 3.  Verify that the task is running without issues using `docker service ps`. If
     everything is working, the output looks similar to this:
 
-    ```console
+    ```bash
     $ docker service ps redis
 
     ID            NAME     IMAGE         NODE              DESIRED STATE  CURRENT STATE          ERROR  PORTS
@@ -177,7 +177,7 @@ real-world example, continue to
     how to find the container ID, and the second and third commands use shell
     completion to do this automatically.
 
-    ```console
+    ```bash
     $ docker ps --filter name=redis -q
 
     5cb1c2348a59
@@ -194,7 +194,7 @@ real-world example, continue to
 5.  Try removing the config. The removal fails because the `redis` service is
     running and has access to the config.
 
-    ```console
+    ```bash
 
     $ docker config ls
 
@@ -211,7 +211,7 @@ real-world example, continue to
 6.  Remove access to the config from the running `redis` service by updating the
     service.
 
-    ```console
+    ```bash
     $ docker service update --config-rm my-config redis
     ```
 
@@ -227,7 +227,7 @@ real-world example, continue to
 
 8.  Stop and remove the service, and remove the config from Docker.
 
-    ```console
+    ```bash
     $ docker service rm redis
 
     $ docker config rm my-config
@@ -237,7 +237,7 @@ real-world example, continue to
 
 This is a very simple example which shows how to use configs with a Microsoft
 IIS service running on Docker for Windows running Windows containers on
-Microsoft Windows 10.  It is a naive example that stores the webpage in a config.
+Microsoft Windows 10. It is a naive example that stores the webpage in a config.
 
 This example assumes that you have PowerShell installed.
 
@@ -245,13 +245,15 @@ This example assumes that you have PowerShell installed.
 
     ```html
     <html lang="en">
-      <head><title>Hello Docker</title></head>
+      <head>
+        <title>Hello Docker</title>
+      </head>
       <body>
         <p>Hello Docker! You have deployed a HTML page.</p>
       </body>
     </html>
     ```
- 
+
 2.  If you have not already done so, initialize or join the swarm.
 
     ```powershell
@@ -295,7 +297,9 @@ name as its argument. The template will be rendered when container is created.
 
     ```html
     <html lang="en">
-      <head><title>Hello Docker</title></head>
+      <head>
+        <title>Hello Docker</title>
+      </head>
       <body>
         <p>Hello {{ env "HELLO" }}! I'm service {{ .Service.Name }}.</p>
       </body>
@@ -305,14 +309,14 @@ name as its argument. The template will be rendered when container is created.
 2.  Save the `index.html.tmpl` file as a swarm config named `homepage`. Provide
     parameter `--template-driver` and specify `golang` as template engine.
 
-    ```console
+    ```bash
     $ docker config create --template-driver golang homepage index.html.tmpl
     ```
 
 3.  Create a service that runs Nginx and has access to the environment variable
     HELLO and to the config.
 
-    ```console
+    ```bash
     $ docker service create \
          --name hello-template \
          --env HELLO="Docker" \
@@ -324,7 +328,7 @@ name as its argument. The template will be rendered when container is created.
 4.  Verify that the service is operational: you can reach the Nginx server, and
     that the correct output is being served.
 
-    ```console
+    ```bash
     $ curl http://0.0.0.0:3000
 
     <html lang="en">
@@ -359,13 +363,13 @@ generate the site key and certificate, name the files `site.key` and
 
 1.  Generate a root key.
 
-    ```console
+    ```bash
     $ openssl genrsa -out "root-ca.key" 4096
     ```
 
 2.  Generate a CSR using the root key.
 
-    ```console
+    ```bash
     $ openssl req \
               -new -key "root-ca.key" \
               -out "root-ca.csr" -sha256 \
@@ -385,7 +389,7 @@ generate the site key and certificate, name the files `site.key` and
 
 4.  Sign the certificate.
 
-    ```console
+    ```bash
     $ openssl x509 -req -days 3650 -in "root-ca.csr" \
                    -signkey "root-ca.key" -sha256 -out "root-ca.crt" \
                    -extfile "root-ca.cnf" -extensions \
@@ -394,13 +398,13 @@ generate the site key and certificate, name the files `site.key` and
 
 5.  Generate the site key.
 
-    ```console
+    ```bash
     $ openssl genrsa -out "site.key" 4096
     ```
 
 6.  Generate the site certificate and sign it with the site key.
 
-    ```console
+    ```bash
     $ openssl req -new -key "site.key" -out "site.csr" -sha256 \
               -subj '/C=US/ST=CA/L=San Francisco/O=Docker/CN=localhost'
     ```
@@ -422,7 +426,7 @@ generate the site key and certificate, name the files `site.key` and
 
 8.  Sign the site certificate.
 
-    ```console
+    ```bash
     $ openssl x509 -req -days 750 -in "site.csr" -sha256 \
         -CA "root-ca.crt" -CAkey "root-ca.key" -CAcreateserial \
         -out "site.crt" -extfile "site.cnf" -extensions server
@@ -460,7 +464,7 @@ generate the site key and certificate, name the files `site.key` and
     to decouple the key and certificate from the services that use them.
     In these examples, the secret name and the file name are the same.
 
-    ```console
+    ```bash
     $ docker secret create site.key site.key
 
     $ docker secret create site.crt site.crt
@@ -469,25 +473,24 @@ generate the site key and certificate, name the files `site.key` and
 3.  Save the `site.conf` file in a Docker config. The first parameter is the
     name of the config, and the second parameter is the file to read it from.
 
-    ```console
+    ```bash
     $ docker config create site.conf site.conf
     ```
 
     List the configs:
 
-    ```console
+    ```bash
     $ docker config ls
 
     ID                          NAME                CREATED             UPDATED
     4ory233120ccg7biwvy11gl5z   site.conf           4 seconds ago       4 seconds ago
     ```
 
-
 4.  Create a service that runs Nginx and has access to the two secrets and the
     config. Set the mode to `0440` so that the file is only readable by its
     owner and that owner's group, not the world.
 
-    ```console
+    ```bash
     $ docker service create \
          --name nginx \
          --secret site.key \
@@ -506,7 +509,7 @@ generate the site key and certificate, name the files `site.key` and
 
 5.  Verify that the Nginx service is running.
 
-    ```console
+    ```bash
     $ docker service ls
 
     ID            NAME   MODE        REPLICAS  IMAGE
@@ -521,7 +524,7 @@ generate the site key and certificate, name the files `site.key` and
 6.  Verify that the service is operational: you can reach the Nginx
     server, and that the correct TLS certificate is being used.
 
-    ```console
+    ```bash
     $ curl --cacert root-ca.crt https://0.0.0.0:3000
 
     <!DOCTYPE html>
@@ -551,7 +554,7 @@ generate the site key and certificate, name the files `site.key` and
     </html>
     ```
 
-    ```console
+    ```bash
     $ openssl s_client -connect 0.0.0.0:3000 -CAfile root-ca.crt
 
     CONNECTED(00000003)
@@ -596,7 +599,7 @@ generate the site key and certificate, name the files `site.key` and
     this example by removing the `nginx` service and the stored secrets and
     config.
 
-    ```console
+    ```bash
     $ docker service rm nginx
 
     $ docker secret rm site.crt site.key
@@ -641,7 +644,7 @@ configuration file.
 
 3.  Update the `nginx` service to use the new config instead of the old one.
 
-    ```console
+    ```bash
     $ docker service update \
       --config-rm site.conf \
       --config-add source=site-v2.conf,target=/etc/nginx/conf.d/site.conf,mode=0440 \
@@ -652,14 +655,14 @@ configuration file.
     `docker service ps nginx`. When it is, you can remove the old `site.conf`
     config.
 
-    ```console
+    ```bash
     $ docker config rm site.conf
     ```
 
 5.  To clean up, you can remove the `nginx` service, as well as the secrets and
     configs.
 
-    ```console
+    ```bash
     $ docker service rm nginx
 
     $ docker secret rm site.crt site.key

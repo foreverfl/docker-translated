@@ -116,7 +116,7 @@ In this case, the build arguments have default values.
 Specifying their values when you invoke a build is optional.
 To override the defaults, you would use the `--build-arg` CLI flag:
 
-```console
+```bash
 $ docker build --build-arg NODE_VERSION=current .
 ```
 
@@ -164,7 +164,7 @@ CMD ["node", "app.js"]
 
 With this Dockerfile, you can use `--build-arg` to override the default value of `ENV`:
 
-```console
+```bash
 $ docker build --build-arg NODE_ENV=development .
 ```
 
@@ -294,7 +294,7 @@ The variables are case insensitive.
 
 To configure a proxy for your build:
 
-```console
+```bash
 $ docker build --build-arg HTTP_PROXY=https://my-proxy.example.com .
 ```
 
@@ -344,7 +344,7 @@ See the [reference documentation](https://pkg.go.dev/strconv#ParseBool) for deta
 Changes the colors of the terminal output. Set `BUILDKIT_COLORS` to a CSV string
 in the following format:
 
-```console
+```bash
 $ export BUILDKIT_COLORS="run=123,20,245:error=yellow:cancel=blue:warning=white"
 ```
 
@@ -362,7 +362,7 @@ argument to `docker buildx create`.
 
 Usage:
 
-```console
+```bash
 $ export BUILDKIT_HOST=tcp://localhost:1234
 $ docker buildx create --name=remote --driver=remote
 ```
@@ -382,7 +382,7 @@ Sets the type of the BuildKit progress output. Valid values are:
 
 Usage:
 
-```console
+```bash
 $ export BUILDKIT_PROGRESS=plain
 ```
 
@@ -391,7 +391,7 @@ $ export BUILDKIT_PROGRESS=plain
 You can change how many log lines are visible for active steps in TTY mode by
 setting `BUILDKIT_TTY_LOG_LINES` to a number (default to `6`).
 
-```console
+```bash
 $ export BUILDKIT_TTY_LOG_LINES=8
 ```
 
@@ -401,7 +401,7 @@ Lets you specify a
 [BuildKit source policy](https://github.com/moby/buildkit/blob/master/docs/build-repro.md#reproducing-the-pinned-dependencies)
 file for creating reproducible builds with pinned dependencies.
 
-```console
+```bash
 $ export EXPERIMENTAL_BUILDKIT_SOURCE_POLICY=./policy.json
 ```
 
@@ -449,7 +449,7 @@ Supported values are `bearer` (default) and `basic`.
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_BAKE_GIT_AUTH_HEADER=basic
 ```
 
@@ -461,7 +461,7 @@ but facilitates the pre-flight authentication in Bake when loading the remote Ba
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_BAKE_GIT_AUTH_TOKEN=$(cat git-token.txt)
 ```
 
@@ -477,7 +477,7 @@ This variable can take multiple paths using a comma-separated string.
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_BAKE_GIT_SSH=/run/foo/listener.sock,~/.creds/ssh.sock
 ```
 
@@ -488,7 +488,7 @@ CLI flag.
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_BUILDER=my-builder
 ```
 
@@ -504,7 +504,7 @@ follows:
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_CONFIG=/usr/local/etc
 ```
 
@@ -518,7 +518,7 @@ If specified, Buildx generates a `pprof` CPU profile at the specified location.
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_CPU_PROFILE=buildx_cpu.prof
 ```
 
@@ -528,7 +528,7 @@ Enables experimental build features.
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_EXPERIMENTAL=1
 ```
 
@@ -539,7 +539,7 @@ When set to true, checks for dirty state in source control information for
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_GIT_CHECK_DIRTY=1
 ```
 
@@ -550,7 +550,7 @@ When set to false, removes source control information from
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_GIT_INFO=0
 ```
 
@@ -592,7 +592,7 @@ location.
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_MEM_PROFILE=buildx_mem.prof
 ```
 
@@ -605,7 +605,7 @@ attestations.
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_NO_DEFAULT_ATTESTATIONS=1
 ```
 
@@ -617,7 +617,7 @@ to disable automatic loading of images to the local container store.
 
 Usage:
 
-```console
+```bash
 $ export BUILDX_NO_DEFAULT_LOAD=1
 ```
 

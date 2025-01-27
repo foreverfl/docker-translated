@@ -162,7 +162,7 @@ pulled down separately, and stored in Docker's local storage area, which is
 usually `/var/lib/docker/` on Linux hosts. You can see these layers being pulled
 in this example:
 
-```console
+```bash
 $ docker pull ubuntu:22.04
 22.04: Pulling from library/ubuntu
 f476d66f5408: Pull complete
@@ -176,10 +176,10 @@ docker.io/library/ubuntu:22.04
 
 Each of these layers is stored in its own directory inside the Docker host's
 local storage area. To examine the layers on the filesystem, list the contents
-of `/var/lib/docker/<storage-driver>`. This example uses the `overlay2` 
+of `/var/lib/docker/<storage-driver>`. This example uses the `overlay2`
 storage driver:
 
-```console
+```bash
 $ ls /var/lib/docker/overlay2
 16802227a96c24dcbeab5b37821e2b67a9f921749cd9a2e386d5a6d5bc6fc6d3
 377d73dbb466e0bc7c9ee23166771b35ebdbe02ef17753d79fd3571d4ce659d7
@@ -238,7 +238,7 @@ layers are the same.
    include the final `.` in the command. That sets the `PATH`, which tells
    Docker where to look for any files that need to be added to the image.
 
-   ```console
+   ```bash
    $ docker build -t acme/my-base-image:1.0 -f Dockerfile.base .
    [+] Building 6.0s (11/11) FINISHED
    => [internal] load build definition from Dockerfile.base                                      0.4s
@@ -261,7 +261,7 @@ layers are the same.
 
 6. Build the second image.
 
-   ```console
+   ```bash
    $ docker build -t acme/my-final-image:1.0 -f Dockerfile .
 
    [+] Building 3.6s (12/12) FINISHED
@@ -287,7 +287,7 @@ layers are the same.
 
 7. Check out the sizes of the images.
 
-   ```console
+   ```bash
    $ docker image ls
 
    REPOSITORY             TAG     IMAGE ID         CREATED               SIZE
@@ -297,7 +297,7 @@ layers are the same.
 
 8. Check out the history of each image.
 
-   ```console
+   ```bash
    $ docker image history acme/my-base-image:1.0
 
    IMAGE          CREATED         CREATED BY                                      SIZE      COMMENT
@@ -310,7 +310,7 @@ layers are the same.
    not produce an image layer and don't take up any size, other than the metadata
    itself. The output above shows that this image consists of 2 image layers.
 
-   ```console
+   ```bash
    $ docker image history  acme/my-final-image:1.0
 
    IMAGE          CREATED         CREATED BY                                      SIZE      COMMENT
@@ -332,7 +332,7 @@ layers are the same.
    Before BuildKit, the "classic" builder would produce a new "intermediate"
    image for each step for caching purposes, and the `IMAGE` column would show
    the ID of that image.
-   
+
    BuildKit uses its own caching mechanism, and no longer requires intermediate
    images for caching. Refer to [BuildKit](/manuals/build/buildkit/_index.md)
    to learn more about other enhancements made in BuildKit.
@@ -342,15 +342,15 @@ layers are the same.
    Use the `docker image inspect` command to view the cryptographic IDs of the
    layers in each image:
 
-   ```console
+   ```bash
    $ docker image inspect --format "{{json .RootFS.Layers}}" acme/my-base-image:1.0
    [
      "sha256:72e830a4dff5f0d5225cdc0a320e85ab1ce06ea5673acfe8d83a7645cbd0e9cf",
      "sha256:07b4a9068b6af337e8b8f1f1dae3dd14185b2c0003a9a1f0a6fd2587495b204a"
    ]
    ```
-   
-   ```console
+
+   ```bash
    $ docker image inspect --format "{{json .RootFS.Layers}}" acme/my-final-image:1.0
    [
      "sha256:72e830a4dff5f0d5225cdc0a320e85ab1ce06ea5673acfe8d83a7645cbd0e9cf",
@@ -369,7 +369,7 @@ layers are the same.
    > [!TIP]
    >
    > Format output of Docker commands with the `--format` option.
-   > 
+   >
    > The examples above use the `docker image inspect` command with the `--format`
    > option to view the layer IDs, formatted as a JSON array. The `--format`
    > option on Docker commands can be a powerful feature that allows you to
@@ -389,16 +389,16 @@ layer. This means that the writable layer is as small as possible.
 
 When an existing file in a container is modified, the storage driver performs a
 copy-on-write operation. The specific steps involved depend on the specific
-storage driver. For the `overlay2` driver, the  copy-on-write operation follows
+storage driver. For the `overlay2` driver, the copy-on-write operation follows
 this rough sequence:
 
-*  Search through the image layers for the file to update. The process starts
-   at the newest layer and works down to the base layer one layer at a time.
-   When results are found, they're added to a cache to speed future operations.
-*  Perform a `copy_up` operation on the first copy of the file that's found, to
-   copy the file to the container's writable layer.
-*  Any modifications are made to this copy of the file, and the container can't
-   see the read-only copy of the file that exists in the lower layer.
+- Search through the image layers for the file to update. The process starts
+  at the newest layer and works down to the base layer one layer at a time.
+  When results are found, they're added to a cache to speed future operations.
+- Perform a `copy_up` operation on the first copy of the file that's found, to
+  copy the file to the container's writable layer.
+- Any modifications are made to this copy of the file, and the container can't
+  see the read-only copy of the file that exists in the lower layer.
 
 Btrfs, ZFS, and other drivers handle the copy-on-write differently. You can
 read more about the methods of these drivers later in their detailed
@@ -418,7 +418,7 @@ in a `copy_up` operation, therefore duplicating the file to the writable layer.
 > applications, for example write-intensive databases, are known to be
 > problematic particularly when pre-existing data exists in the read-only
 > layer.
-> 
+>
 > Instead, use Docker volumes, which are independent of the running container,
 > and designed to be efficient for I/O. In addition, volumes can be shared
 > among containers and don't increase the size of your container's writable
@@ -438,7 +438,7 @@ examines how much room they take up.
 1. From a terminal on your Docker host, run the following `docker run` commands.
    The strings at the end are the IDs of each container.
 
-   ```console
+   ```bash
    $ docker run -dit --name my_container_1 acme/my-final-image:1.0 bash \
      && docker run -dit --name my_container_2 acme/my-final-image:1.0 bash \
      && docker run -dit --name my_container_3 acme/my-final-image:1.0 bash \
@@ -455,8 +455,7 @@ examines how much room they take up.
 2. Run the `docker ps` command with the `--size` option to verify the 5 containers
    are running, and to see each container's size.
 
-   
-   ```console
+   ```bash
    $ docker ps --size --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Size}}"
 
    CONTAINER ID   IMAGE                     NAMES            SIZE
@@ -466,7 +465,7 @@ examines how much room they take up.
    a5ff32e2b551   acme/my-final-image:1.0   my_container_2   0B (virtual 7.75MB)
    40ebdd763416   acme/my-final-image:1.0   my_container_1   0B (virtual 7.75MB)
    ```
-   
+
    The output above shows that all containers share the image's read-only layers
    (7.75MB), but no data was written to the container's filesystem, so no additional
    storage is used for the containers.
@@ -475,24 +474,24 @@ examines how much room they take up.
    >
    > This step requires a Linux machine, and doesn't work on Docker Desktop, as
    > it requires access to the Docker Daemon's file storage.
-   
+
    While the output of `docker ps` provides you information about disk space
    consumed by a container's writable layer, it doesn't include information
    about metadata and log-files stored for each container.
-   
+
    More details can be obtained by exploring the Docker Daemon's storage
    location (`/var/lib/docker` by default).
-   
-   ```console
+
+   ```bash
    $ sudo du -sh /var/lib/docker/containers/*
-   
+
    36K  /var/lib/docker/containers/3ed3c1a10430e09f253704116965b01ca920202d52f3bf381fbb833b8ae356bc
    36K  /var/lib/docker/containers/40ebdd7634162eb42bdb1ba76a395095527e9c0aa40348e6c325bd0aa289423c
    36K  /var/lib/docker/containers/939b3bf9e7ece24bcffec57d974c939da2bdcc6a5077b5459c897c1e2fa37a39
    36K  /var/lib/docker/containers/a5ff32e2b551168b9498870faf16c9cd0af820edf8a5c157f7b80da59d01a107
    36K  /var/lib/docker/containers/cddae31c314fbab3f7eabeb9b26733838187abc9a2ed53f97bd5b04cd7984a5a
    ```
-   
+
    Each of these containers only takes up 36k of space on the filesystem.
 
 3. Per-container storage
@@ -501,17 +500,16 @@ examines how much room they take up.
    a file on the container's writable layer in containers `my_container_1`,
    `my_container_2`, and `my_container_3`:
 
-   ```console
+   ```bash
    $ for i in {1..3}; do docker exec my_container_$i sh -c 'printf hello > /out.txt'; done
    ```
-   
+
    Running the `docker ps` command again afterward shows that those containers
    now consume 5 bytes each. This data is unique to each container, and not
    shared. The read-only layers of the containers aren't affected, and are still
    shared by all containers.
 
-   
-   ```console
+   ```bash
    $ docker ps --size --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Size}}"
 
    CONTAINER ID   IMAGE                     NAMES            SIZE
@@ -537,5 +535,5 @@ driver, a full copy of the image's data is created for each container.
 
 ## Related information
 
-* [Volumes](../volumes.md)
-* [Select a storage driver](select-storage-driver.md)
+- [Volumes](../volumes.md)
+- [Select a storage driver](select-storage-driver.md)

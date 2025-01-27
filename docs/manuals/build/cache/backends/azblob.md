@@ -24,7 +24,7 @@ To use this feature, create a new builder using a different driver. See
 
 ## Synopsis
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=azblob,name=<cache-image>[,parameters...] \
   --cache-from type=azblob,name=<cache-image>[,parameters...] .

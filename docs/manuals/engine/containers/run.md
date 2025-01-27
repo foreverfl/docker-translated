@@ -1,11 +1,11 @@
 ---
 description: "Running and configuring containers with the Docker CLI"
-keywords: 
- - docker
- - run
- - cli
+keywords:
+  - docker
+  - run
+  - cli
 aliases:
-- /reference/run/
+  - /reference/run/
 title: Running containers
 ---
 
@@ -21,7 +21,7 @@ This page details how to use the `docker run` command to run containers.
 
 A `docker run` command takes the following form:
 
-```console
+```bash
 $ docker run [OPTIONS] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
 ```
 
@@ -49,7 +49,7 @@ the digest value is predictable.
 The following example runs a container from the `alpine` image with the
 `sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0` digest:
 
-```console
+```bash
 $ docker run alpine@sha256:9cacb71397b640eca97488cf08582ae4e4068513101088e9f96c9814bfda95e0 date
 ```
 
@@ -68,7 +68,7 @@ you can specify `sh` as the `[COMMAND]`, combined with the `-i` and `-t` flags,
 to start an interactive shell in the container (if the image you select has an
 `sh` executable on `PATH`).
 
-```console
+```bash
 $ docker run -it IMAGE sh
 ```
 
@@ -87,7 +87,7 @@ If you want to run the container in the background instead, you can use the
 `--detach` (or `-d`) flag. This starts the container without occupying your
 terminal window.
 
-```console
+```bash
 $ docker run -d <IMAGE>
 ```
 
@@ -95,7 +95,7 @@ While the container runs in the background, you can interact with the container
 using other CLI commands. For example, `docker logs` lets you view the logs for
 the container, and `docker attach` brings it to the foreground.
 
-```console
+```bash
 $ docker run -d nginx
 0246aa4d1448a401cabd2ce8f242192b6e7af721527e48a810463366c7ff54f1
 $ docker ps
@@ -129,7 +129,7 @@ For more information about re-attaching to a background container, see
 You can identify a container in three ways:
 
 | Identifier type       | Example value                                                      |
-|:----------------------|:-------------------------------------------------------------------|
+| :-------------------- | :----------------------------------------------------------------- |
 | UUID long identifier  | `f78375b1c487e03c9438c729345e54db9d20cfa2ac1fc3494b6eb60872e74778` |
 | UUID short identifier | `f78375b1c487`                                                     |
 | Name                  | `evil_ptolemy`                                                     |
@@ -154,7 +154,7 @@ find out the IDs of containers using an image by using the `--filter` flag. For
 example, the following `docker ps` command gets the IDs of all running
 containers based on the `nginx:alpine` image:
 
-```console
+```bash
 $ docker ps -q --filter ancestor=nginx:alpine
 ```
 
@@ -173,7 +173,7 @@ communicate with each other using the container names as a DNS hostname. The
 following example creates a custom network named `my-net`, and runs two
 containers that attach to the network.
 
-```console
+```bash
 $ docker network create my-net
 $ docker run -d --name web --network my-net nginx:alpine
 $ docker run --rm -it --network my-net busybox
@@ -219,7 +219,7 @@ the [storage section](https://docs.docker.com/storage/) in the documentation.
 
 To create a volume mount:
 
-```console
+```bash
 $ docker run --mount source=<VOLUME_NAME>,target=[PATH] [IMAGE] [COMMAND...]
 ```
 
@@ -229,7 +229,7 @@ The value for the `source` parameter is the name of the volume. The value of
 created the volume, any data you write to the volume is persisted, even if you
 stop or remove the container:
 
-```console
+```bash
 $ docker run --rm --mount source=my_volume,target=/foo busybox \
   echo "hello, volume!" > /foo/hello.txt
 $ docker run --mount source=my_volume,target=/bar busybox
@@ -246,7 +246,7 @@ alphanumeric character, followed by `a-z0-9`, `_` (underscore), `.` (period) or
 
 To create a bind mount:
 
-```console
+```bash
 $ docker run -it --mount type=bind,source=[PATH],target=[PATH] busybox
 ```
 
@@ -259,7 +259,7 @@ Bind mounts are read-write by default, meaning that you can both read and write
 files to and from the mounted location from the container. Changes that you
 make, such as adding or editing files, are reflected on the host filesystem:
 
-```console
+```bash
 $ docker run -it --mount type=bind,source=.,target=/foo busybox
 / # echo "hello from container" > /foo/hello.txt
 / # exit
@@ -277,7 +277,7 @@ different container exit codes values.
 
 Exit code `125` indicates that the error is with Docker daemon itself.
 
-```console
+```bash
 $ docker run --foo busybox; echo $?
 
 flag provided but not defined: --foo
@@ -290,7 +290,7 @@ See 'docker run --help'.
 Exit code `126` indicates that the specified contained command can't be invoked.
 The container command in the following example is: `/etc`.
 
-```console
+```bash
 $ docker run busybox /etc; echo $?
 
 docker: Error response from daemon: Container command '/etc' could not be invoked.
@@ -301,7 +301,7 @@ docker: Error response from daemon: Container command '/etc' could not be invoke
 
 Exit code `127` indicates that the contained command can't be found.
 
-```console
+```bash
 $ docker run busybox foo; echo $?
 
 docker: Error response from daemon: Container command 'foo' not found or does not exist.
@@ -313,7 +313,7 @@ docker: Error response from daemon: Container command 'foo' not found or does no
 Any exit code other than `125`, `126`, and `127` represent the exit code of the
 provided container command.
 
-```console
+```bash
 $ docker run busybox /bin/sh -c 'exit 3'
 $ echo $?
 3
@@ -325,7 +325,7 @@ The operator can also adjust the performance parameters of the
 container:
 
 | Option                     | Description                                                                                                                                                                                                                                                                              |
-|:---------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `-m`, `--memory=""`        | Memory limit (format: `<number>[<unit>]`). Number is a positive integer. Unit can be one of `b`, `k`, `m`, or `g`. Minimum is 6M.                                                                                                                                                        |
 | `--memory-swap=""`         | Total memory limit (memory + swap, format: `<number>[<unit>]`). Number is a positive integer. Unit can be one of `b`, `k`, `m`, or `g`.                                                                                                                                                  |
 | `--memory-reservation=""`  | Memory soft limit (format: `<number>[<unit>]`). Number is a positive integer. Unit can be one of `b`, `k`, `m`, or `g`.                                                                                                                                                                  |
@@ -401,14 +401,14 @@ We have four ways to set user memory usage:
 
 Examples:
 
-```console
+```bash
 $ docker run -it ubuntu:24.04 /bin/bash
 ```
 
 We set nothing about memory, this means the processes in the container can use
 as much memory and swap memory as they need.
 
-```console
+```bash
 $ docker run -it -m 300M --memory-swap -1 ubuntu:24.04 /bin/bash
 ```
 
@@ -416,16 +416,16 @@ We set memory limit and disabled swap memory limit, this means the processes in
 the container can use 300M memory and as much swap memory as they need (if the
 host supports swap memory).
 
-```console
+```bash
 $ docker run -it -m 300M ubuntu:24.04 /bin/bash
 ```
 
 We set memory limit only, this means the processes in the container can use
 300M memory and 300M swap memory, by default, the total virtual memory size
 (--memory-swap) will be set as double of memory, in this case, memory + swap
-would be 2*300M, so processes can use 300M swap memory as well.
+would be 2\*300M, so processes can use 300M swap memory as well.
 
-```console
+```bash
 $ docker run -it -m 300M --memory-swap 1G ubuntu:24.04 /bin/bash
 ```
 
@@ -451,7 +451,7 @@ heavily contended for, memory is allocated based on the reservation hints/setup.
 The following example limits the memory (`-m`) to 500M and sets the memory
 reservation to 200M.
 
-```console
+```bash
 $ docker run -it -m 500M --memory-reservation 200M ubuntu:24.04 /bin/bash
 ```
 
@@ -461,7 +461,7 @@ memory below 200M.
 
 The following example set memory reservation to 1G without a hard memory limit.
 
-```console
+```bash
 $ docker run -it --memory-reservation 1G ubuntu:24.04 /bin/bash
 ```
 
@@ -479,13 +479,13 @@ memory.
 The following example limits the memory to 100M and disables the OOM killer for
 this container:
 
-```console
+```bash
 $ docker run -it -m 100M --oom-kill-disable ubuntu:24.04 /bin/bash
 ```
 
 The following example, illustrates a dangerous way to use the flag:
 
-```console
+```bash
 $ docker run -it --oom-kill-disable ubuntu:24.04 /bin/bash
 ```
 
@@ -501,10 +501,10 @@ Kernel memory is fundamentally different than user memory as kernel memory can't
 be swapped out. The inability to swap makes it possible for the container to
 block system services by consuming too much kernel memory. Kernel memory includes：
 
- - stack pages
- - slab pages
- - sockets memory pressure
- - tcp memory pressure
+- stack pages
+- slab pages
+- sockets memory pressure
+- tcp memory pressure
 
 You can setup kernel memory limit to constrain these kinds of memory. For example,
 every process consumes some stack pages. By limiting kernel memory, you can
@@ -555,14 +555,14 @@ limit and "K" the kernel limit. There are three possible ways to set limits:
 
 Examples:
 
-```console
+```bash
 $ docker run -it -m 500M --kernel-memory 50M ubuntu:24.04 /bin/bash
 ```
 
 We set memory and kernel memory, so the processes in the container can use
 500M memory in total, in this 500M memory, it can be 50M kernel memory tops.
 
-```console
+```bash
 $ docker run -it --kernel-memory 50M ubuntu:24.04 /bin/bash
 ```
 
@@ -579,7 +579,7 @@ between 0 and 100. A value of 0 turns off anonymous page swapping. A value of
 
 For example, you can set:
 
-```console
+```bash
 $ docker run -it --memory-swappiness=0 ubuntu:24.04 /bin/bash
 ```
 
@@ -630,7 +630,7 @@ And usually `--cpu-period` should work with `--cpu-quota`.
 
 Examples:
 
-```console
+```bash
 $ docker run -it --cpu-period=50000 --cpu-quota=25000 ubuntu:24.04 /bin/bash
 ```
 
@@ -651,13 +651,13 @@ We can set cpus in which to allow execution for containers.
 
 Examples:
 
-```console
+```bash
 $ docker run -it --cpuset-cpus="1,3" ubuntu:24.04 /bin/bash
 ```
 
 This means processes in container can be executed on cpu 1 and cpu 3.
 
-```console
+```bash
 $ docker run -it --cpuset-cpus="0-2" ubuntu:24.04 /bin/bash
 ```
 
@@ -668,14 +668,14 @@ on NUMA systems.
 
 Examples:
 
-```console
+```bash
 $ docker run -it --cpuset-mems="1,3" ubuntu:24.04 /bin/bash
 ```
 
 This example restricts the processes in the container to only use memory from
 memory nodes 1 and 3.
 
-```console
+```bash
 $ docker run -it --cpuset-mems="0-2" ubuntu:24.04 /bin/bash
 ```
 
@@ -706,14 +706,14 @@ The `--blkio-weight` flag can set the weighting to a value between 10 to 1000.
 For example, the commands below create two containers with different blkio
 weight:
 
-```console
+```bash
 $ docker run -it --name c1 --blkio-weight 300 ubuntu:24.04 /bin/bash
 $ docker run -it --name c2 --blkio-weight 600 ubuntu:24.04 /bin/bash
 ```
 
 If you do block IO in the two containers at the same time, by, for example:
 
-```console
+```bash
 $ time dd if=/mnt/zerofile of=test.out bs=1M count=1024 oflag=direct
 ```
 
@@ -724,7 +724,7 @@ The `--blkio-weight-device="DEVICE_NAME:WEIGHT"` flag sets a specific device wei
 The `DEVICE_NAME:WEIGHT` is a string containing a colon-separated device name and weight.
 For example, to set `/dev/sda` device weight to `200`:
 
-```console
+```bash
 $ docker run -it \
     --blkio-weight-device "/dev/sda:200" \
     ubuntu
@@ -736,7 +736,7 @@ to override this default with a new value on a specific device.
 The following example uses a default weight of `300` and overrides this default
 on `/dev/sda` setting that weight to `200`:
 
-```console
+```bash
 $ docker run -it \
     --blkio-weight 300 \
     --blkio-weight-device "/dev/sda:200" \
@@ -747,7 +747,7 @@ The `--device-read-bps` flag limits the read rate (bytes per second) from a devi
 For example, this command creates a container and limits the read rate to `1mb`
 per second from `/dev/sda`:
 
-```console
+```bash
 $ docker run -it --device-read-bps /dev/sda:1mb ubuntu
 ```
 
@@ -755,7 +755,7 @@ The `--device-write-bps` flag limits the write rate (bytes per second) to a devi
 For example, this command creates a container and limits the write rate to `1mb`
 per second for `/dev/sda`:
 
-```console
+```bash
 $ docker run -it --device-write-bps /dev/sda:1mb ubuntu
 ```
 
@@ -767,7 +767,7 @@ The `--device-read-iops` flag limits read rate (IO per second) from a device.
 For example, this command creates a container and limits the read rate to
 `1000` IO per second from `/dev/sda`:
 
-```console
+```bash
 $ docker run -it --device-read-iops /dev/sda:1000 ubuntu
 ```
 
@@ -775,7 +775,7 @@ The `--device-write-iops` flag limits write rate (IO per second) to a device.
 For example, this command creates a container and limits the write rate to
 `1000` IO per second to `/dev/sda`:
 
-```console
+```bash
 $ docker run -it --device-write-iops /dev/sda:1000 ubuntu
 ```
 
@@ -784,7 +784,7 @@ write rates must be a positive integer.
 
 ## Additional groups
 
-```console
+```bash
 --group-add: Add additional groups to run as
 ```
 
@@ -792,7 +792,7 @@ By default, the docker container process runs with the supplementary groups look
 up for the specified user. If one wants to add more to that list of groups, then
 one can use this flag:
 
-```console
+```bash
 $ docker run --rm --group-add audio --group-add nogroup --group-add 777 busybox id
 
 uid=0(root) gid=0(root) groups=10(wheel),29(audio),99(nogroup),777
@@ -800,11 +800,11 @@ uid=0(root) gid=0(root) groups=10(wheel),29(audio),99(nogroup),777
 
 ## Runtime privilege and Linux capabilities
 
-| Option         | Description                                                                   |
-|:---------------|:------------------------------------------------------------------------------|
-| `--cap-add`    | Add Linux capabilities                                                        |
-| `--cap-drop`   | Drop Linux capabilities                                                       |
-| `--privileged` | Give extended privileges to this container                                    |
+| Option         | Description                                                                     |
+| :------------- | :------------------------------------------------------------------------------ |
+| `--cap-add`    | Add Linux capabilities                                                          |
+| `--cap-drop`   | Drop Linux capabilities                                                         |
+| `--privileged` | Give extended privileges to this container                                      |
 | `--device=[]`  | Allows you to run devices inside the container without the `--privileged` flag. |
 
 By default, Docker containers are "unprivileged" and cannot, for
@@ -825,14 +825,14 @@ If you want to limit access to a specific device or devices you can use
 the `--device` flag. It allows you to specify one or more devices that
 will be accessible within the container.
 
-```console
+```bash
 $ docker run --device=/dev/snd:/dev/snd ...
 ```
 
 By default, the container will be able to `read`, `write`, and `mknod` these devices.
 This can be overridden using a third `:rwm` set of options to each `--device` flag:
 
-```console
+```bash
 $ docker run --device=/dev/sda:/dev/xvdc --rm -it ubuntu fdisk  /dev/xvdc
 
 Command (m for help): q
@@ -853,54 +853,54 @@ capabilities using `--cap-add` and `--cap-drop`. By default, Docker has a defaul
 list of capabilities that are kept. The following table lists the Linux capability
 options which are allowed by default and can be dropped.
 
-| Capability Key        | Capability Description                                                                                                         |
-|:----------------------|:-------------------------------------------------------------------------------------------------------------------------------|
-| AUDIT_WRITE           | Write records to kernel auditing log.                                                                                          |
-| CHOWN                 | Make arbitrary changes to file UIDs and GIDs (see chown(2)).                                                                   |
-| DAC_OVERRIDE          | Bypass file read, write, and execute permission checks.                                                                        |
-| FOWNER                | Bypass permission checks on operations that normally require the file system UID of the process to match the UID of the file.  |
-| FSETID                | Don't clear set-user-ID and set-group-ID permission bits when a file is modified.                                              |
-| KILL                  | Bypass permission checks for sending signals.                                                                                  |
-| MKNOD                 | Create special files using mknod(2).                                                                                           |
-| NET_BIND_SERVICE      | Bind a socket to internet domain privileged ports (port numbers less than 1024).                                               |
-| NET_RAW               | Use RAW and PACKET sockets.                                                                                                    |
-| SETFCAP               | Set file capabilities.                                                                                                         |
-| SETGID                | Make arbitrary manipulations of process GIDs and supplementary GID list.                                                       |
-| SETPCAP               | Modify process capabilities.                                                                                                   |
-| SETUID                | Make arbitrary manipulations of process UIDs.                                                                                  |
-| SYS_CHROOT            | Use chroot(2), change root directory.                                                                                          |
+| Capability Key   | Capability Description                                                                                                        |
+| :--------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| AUDIT_WRITE      | Write records to kernel auditing log.                                                                                         |
+| CHOWN            | Make arbitrary changes to file UIDs and GIDs (see chown(2)).                                                                  |
+| DAC_OVERRIDE     | Bypass file read, write, and execute permission checks.                                                                       |
+| FOWNER           | Bypass permission checks on operations that normally require the file system UID of the process to match the UID of the file. |
+| FSETID           | Don't clear set-user-ID and set-group-ID permission bits when a file is modified.                                             |
+| KILL             | Bypass permission checks for sending signals.                                                                                 |
+| MKNOD            | Create special files using mknod(2).                                                                                          |
+| NET_BIND_SERVICE | Bind a socket to internet domain privileged ports (port numbers less than 1024).                                              |
+| NET_RAW          | Use RAW and PACKET sockets.                                                                                                   |
+| SETFCAP          | Set file capabilities.                                                                                                        |
+| SETGID           | Make arbitrary manipulations of process GIDs and supplementary GID list.                                                      |
+| SETPCAP          | Modify process capabilities.                                                                                                  |
+| SETUID           | Make arbitrary manipulations of process UIDs.                                                                                 |
+| SYS_CHROOT       | Use chroot(2), change root directory.                                                                                         |
 
 The next table shows the capabilities which are not granted by default and may be added.
 
-| Capability Key        | Capability Description                                                                                                         |
-|:----------------------|:-------------------------------------------------------------------------------------------------------------------------------|
-| AUDIT_CONTROL         | Enable and disable kernel auditing; change auditing filter rules; retrieve auditing status and filtering rules.                |
-| AUDIT_READ            | Allow reading the audit log via multicast netlink socket.                                                                      |
-| BLOCK_SUSPEND         | Allow preventing system suspends.                                                                                              |
-| BPF                   | Allow creating BPF maps, loading BPF Type Format (BTF) data, retrieve JITed code of BPF programs, and more.                    |
-| CHECKPOINT_RESTORE    | Allow checkpoint/restore related operations.  Introduced in kernel 5.9.                                                        |
-| DAC_READ_SEARCH       | Bypass file read permission checks and directory read and execute permission checks.                                           |
-| IPC_LOCK              | Lock memory (mlock(2), mlockall(2), mmap(2), shmctl(2)).                                                                       |
-| IPC_OWNER             | Bypass permission checks for operations on System V IPC objects.                                                               |
-| LEASE                 | Establish leases on arbitrary files (see fcntl(2)).                                                                            |
-| LINUX_IMMUTABLE       | Set the FS_APPEND_FL and FS_IMMUTABLE_FL i-node flags.                                                                         |
-| MAC_ADMIN             | Allow MAC configuration or state changes. Implemented for the Smack LSM.                                                       |
-| MAC_OVERRIDE          | Override Mandatory Access Control (MAC). Implemented for the Smack Linux Security Module (LSM).                                |
-| NET_ADMIN             | Perform various network-related operations.                                                                                    |
-| NET_BROADCAST         | Make socket broadcasts, and listen to multicasts.                                                                              |
-| PERFMON               | Allow system performance and observability privileged operations using perf_events, i915_perf and other kernel subsystems      |
-| SYS_ADMIN             | Perform a range of system administration operations.                                                                           |
-| SYS_BOOT              | Use reboot(2) and kexec_load(2), reboot and load a new kernel for later execution.                                             |
-| SYS_MODULE            | Load and unload kernel modules.                                                                                                |
-| SYS_NICE              | Raise process nice value (nice(2), setpriority(2)) and change the nice value for arbitrary processes.                          |
-| SYS_PACCT             | Use acct(2), switch process accounting on or off.                                                                              |
-| SYS_PTRACE            | Trace arbitrary processes using ptrace(2).                                                                                     |
-| SYS_RAWIO             | Perform I/O port operations (iopl(2) and ioperm(2)).                                                                           |
-| SYS_RESOURCE          | Override resource Limits.                                                                                                      |
-| SYS_TIME              | Set system clock (settimeofday(2), stime(2), adjtimex(2)); set real-time (hardware) clock.                                     |
-| SYS_TTY_CONFIG        | Use vhangup(2); employ various privileged ioctl(2) operations on virtual terminals.                                            |
-| SYSLOG                | Perform privileged syslog(2) operations.                                                                                       |
-| WAKE_ALARM            | Trigger something that will wake up the system.                                                                                |
+| Capability Key     | Capability Description                                                                                                    |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------------ |
+| AUDIT_CONTROL      | Enable and disable kernel auditing; change auditing filter rules; retrieve auditing status and filtering rules.           |
+| AUDIT_READ         | Allow reading the audit log via multicast netlink socket.                                                                 |
+| BLOCK_SUSPEND      | Allow preventing system suspends.                                                                                         |
+| BPF                | Allow creating BPF maps, loading BPF Type Format (BTF) data, retrieve JITed code of BPF programs, and more.               |
+| CHECKPOINT_RESTORE | Allow checkpoint/restore related operations. Introduced in kernel 5.9.                                                    |
+| DAC_READ_SEARCH    | Bypass file read permission checks and directory read and execute permission checks.                                      |
+| IPC_LOCK           | Lock memory (mlock(2), mlockall(2), mmap(2), shmctl(2)).                                                                  |
+| IPC_OWNER          | Bypass permission checks for operations on System V IPC objects.                                                          |
+| LEASE              | Establish leases on arbitrary files (see fcntl(2)).                                                                       |
+| LINUX_IMMUTABLE    | Set the FS_APPEND_FL and FS_IMMUTABLE_FL i-node flags.                                                                    |
+| MAC_ADMIN          | Allow MAC configuration or state changes. Implemented for the Smack LSM.                                                  |
+| MAC_OVERRIDE       | Override Mandatory Access Control (MAC). Implemented for the Smack Linux Security Module (LSM).                           |
+| NET_ADMIN          | Perform various network-related operations.                                                                               |
+| NET_BROADCAST      | Make socket broadcasts, and listen to multicasts.                                                                         |
+| PERFMON            | Allow system performance and observability privileged operations using perf_events, i915_perf and other kernel subsystems |
+| SYS_ADMIN          | Perform a range of system administration operations.                                                                      |
+| SYS_BOOT           | Use reboot(2) and kexec_load(2), reboot and load a new kernel for later execution.                                        |
+| SYS_MODULE         | Load and unload kernel modules.                                                                                           |
+| SYS_NICE           | Raise process nice value (nice(2), setpriority(2)) and change the nice value for arbitrary processes.                     |
+| SYS_PACCT          | Use acct(2), switch process accounting on or off.                                                                         |
+| SYS_PTRACE         | Trace arbitrary processes using ptrace(2).                                                                                |
+| SYS_RAWIO          | Perform I/O port operations (iopl(2) and ioperm(2)).                                                                      |
+| SYS_RESOURCE       | Override resource Limits.                                                                                                 |
+| SYS_TIME           | Set system clock (settimeofday(2), stime(2), adjtimex(2)); set real-time (hardware) clock.                                |
+| SYS_TTY_CONFIG     | Use vhangup(2); employ various privileged ioctl(2) operations on virtual terminals.                                       |
+| SYSLOG             | Perform privileged syslog(2) operations.                                                                                  |
+| WAKE_ALARM         | Trigger something that will wake up the system.                                                                           |
 
 Further reference information is available on the [capabilities(7) - Linux man page](https://man7.org/linux/man-pages/man7/capabilities.7.html),
 and in the [Linux kernel source code](https://github.com/torvalds/linux/blob/124ea650d3072b005457faed69909221c2905a1f/include/uapi/linux/capability.h).
@@ -908,14 +908,14 @@ and in the [Linux kernel source code](https://github.com/torvalds/linux/blob/124
 Both flags support the value `ALL`, so to allow a container to use all capabilities
 except for `MKNOD`:
 
-```console
+```bash
 $ docker run --cap-add=ALL --cap-drop=MKNOD ...
 ```
 
 The `--cap-add` and `--cap-drop` flags accept capabilities to be specified with
 a `CAP_` prefix. The following examples are therefore equivalent:
 
-```console
+```bash
 $ docker run --cap-add=SYS_ADMIN ...
 $ docker run --cap-add=CAP_SYS_ADMIN ...
 ```
@@ -923,7 +923,7 @@ $ docker run --cap-add=CAP_SYS_ADMIN ...
 For interacting with the network stack, instead of using `--privileged` they
 should use `--cap-add=NET_ADMIN` to modify the network interfaces.
 
-```console
+```bash
 $ docker run -it --rm  ubuntu:24.04 ip link add dummy0 type dummy
 
 RTNETLINK answers: Operation not permitted
@@ -934,7 +934,7 @@ $ docker run -it --rm --cap-add=NET_ADMIN ubuntu:24.04 ip link add dummy0 type d
 To mount a FUSE based filesystem, you need to combine both `--cap-add` and
 `--device`:
 
-```console
+```bash
 $ docker run --rm -it --cap-add SYS_ADMIN sshfs sshfs sven@10.10.10.20:/home/sven /mnt
 
 fuse: failed to open /dev/fuse: Operation not permitted
@@ -987,7 +987,7 @@ The command syntax for `docker run` supports optionally specifying commands and
 arguments to the container's entrypoint, represented as `[COMMAND]` and
 `[ARG...]` in the following synopsis example:
 
-```console
+```bash
 $ docker run [OPTIONS] IMAGE[:TAG|@DIGEST] [COMMAND] [ARG...]
 ```
 
@@ -1011,8 +1011,8 @@ container. A container's entrypoint is defined using the Dockerfile
 it specifies, but the difference is that you need to pass an explicit flag to
 override the entrypoint, whereas you can override default commands with
 positional arguments. The defines a container's default behavior, with the idea
-that when you set an entrypoint you can run the container *as if it were that
-binary*, complete with default options, and you can pass in more options as
+that when you set an entrypoint you can run the container _as if it were that
+binary_, complete with default options, and you can pass in more options as
 commands. But there are cases where you may want to run something else inside
 the container. This is when overriding the default entrypoint at runtime comes
 in handy, using the `--entrypoint` flag for the `docker run` command.
@@ -1022,21 +1022,21 @@ of the binary that you want to invoke when the container starts. The following
 example shows you how to run a Bash shell in a container that has been set up
 to automatically run some other binary (like `/usr/bin/redis-server`):
 
-```console
+```bash
 $ docker run -it --entrypoint /bin/bash example/redis
 ```
 
 The following examples show how to pass additional parameters to the custom
 entrypoint, using the positional command arguments:
 
-```console
+```bash
 $ docker run -it --entrypoint /bin/bash example/redis -c ls -l
 $ docker run -it --entrypoint /usr/bin/redis-cli example/redis --help
 ```
 
 You can reset a containers entrypoint by passing an empty string, for example:
 
-```console
+```bash
 $ docker run -it --entrypoint="" mysql bash
 ```
 
@@ -1079,12 +1079,11 @@ container.
 The following environment variables are set for Linux containers:
 
 | Variable   | Value                                                                                                |
-|:-----------|:-----------------------------------------------------------------------------------------------------|
+| :--------- | :--------------------------------------------------------------------------------------------------- |
 | `HOME`     | Set based on the value of `USER`                                                                     |
 | `HOSTNAME` | The hostname associated with the container                                                           |
 | `PATH`     | Includes popular directories, such as `/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin` |
 | `TERM`     | `xterm` if the container is allocated a pseudo-TTY                                                   |
-
 
 Additionally, you can set any environment variable in the container by using
 one or more `-e` flags. You can even override the variables mentioned above, or
@@ -1094,7 +1093,7 @@ If the you name an environment variable without specifying a value, the current
 value of the named variable on the host is propagated into the container's
 environment:
 
-```console
+```bash
 $ export today=Wednesday
 $ docker run -e "deep=purple" -e today --rm alpine env
 
@@ -1145,19 +1144,19 @@ windir=C:\Windows
 The following flags for the `docker run` command let you control the parameters
 for container healthchecks:
 
-| Option                     | Description                                                                            |
-|:---------------------------|:---------------------------------------------------------------------------------------|
-| `--health-cmd`             | Command to run to check health                                                         |
-| `--health-interval`        | Time between running the check                                                         |
-| `--health-retries`         | Consecutive failures needed to report unhealthy                                        |
-| `--health-timeout`         | Maximum time to allow one check to run                                                 |
-| `--health-start-period`    | Start period for the container to initialize before starting health-retries countdown  |
-| `--health-start-interval`  | Time between running the check during the start period                                 |
-| `--no-healthcheck`         | Disable any container-specified `HEALTHCHECK`                                          |
+| Option                    | Description                                                                           |
+| :------------------------ | :------------------------------------------------------------------------------------ |
+| `--health-cmd`            | Command to run to check health                                                        |
+| `--health-interval`       | Time between running the check                                                        |
+| `--health-retries`        | Consecutive failures needed to report unhealthy                                       |
+| `--health-timeout`        | Maximum time to allow one check to run                                                |
+| `--health-start-period`   | Start period for the container to initialize before starting health-retries countdown |
+| `--health-start-interval` | Time between running the check during the start period                                |
+| `--no-healthcheck`        | Disable any container-specified `HEALTHCHECK`                                         |
 
 Example:
 
-```console
+```bash
 $ docker run --name=test -d \
     --health-cmd='stat /etc/passwd || exit 1' \
     --health-interval=2s \

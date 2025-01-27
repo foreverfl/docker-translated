@@ -139,56 +139,56 @@ To add a CA certificate to a running Linux container:
 1. Download the CA certificate for your MITM proxy software.
 2. If the certificate is in a format other than `.crt`, convert it to `.crt` format:
 
-   ```console {title="Example command"}
+   ```bash {title="Example command"}
    $ openssl x509 -in cacert.der -inform DER -out myca.crt
    ```
 
 3. Copy the certificate into the running container:
 
-    ```console
-    $ docker cp myca.crt <containerid>:/tmp
-    ```
+   ```bash
+   $ docker cp myca.crt <containerid>:/tmp
+   ```
 
 4. Attach to the container:
 
-    ```console
-    $ docker exec -it <containerid> sh
-    ```
+   ```bash
+   $ docker exec -it <containerid> sh
+   ```
 
 5. Ensure the `ca-certificates` package is installed (required for updating certificates):
 
-    ```console
-    # apt-get update && apt-get install -y ca-certificates
-    ```
+   ```bash
+   # apt-get update && apt-get install -y ca-certificates
+   ```
 
 6. Copy the certificate to the correct location for CA certificates:
 
-    ```console
-    # cp /tmp/myca.crt /usr/local/share/ca-certificates/root_cert.crt
-    ```
+   ```bash
+   # cp /tmp/myca.crt /usr/local/share/ca-certificates/root_cert.crt
+   ```
 
 7. Update the CA certificates:
 
-    ```console
-    # update-ca-certificates
-    ```
+   ```bash
+   # update-ca-certificates
+   ```
 
-    ```plaintext {title="Example output"}
-    Updating certificates in /etc/ssl/certs...
-    rehash: warning: skipping ca-certificates.crt, it does not contain exactly one certificate or CRL
-    1 added, 0 removed; done.
-    ```
+   ```plaintext {title="Example output"}
+   Updating certificates in /etc/ssl/certs...
+   rehash: warning: skipping ca-certificates.crt, it does not contain exactly one certificate or CRL
+   1 added, 0 removed; done.
+   ```
 
 8. Verify that the container can communicate via the MITM proxy:
 
-    ```console
-    # curl https://example.com
-    ```
+   ```bash
+   # curl https://example.com
+   ```
 
-    ```plaintext {title="Example output"}
-    <!doctype html>
-    <html>
-    <head>
-        <title>Example Domain</title>
-    ...
-    ```
+   ```plaintext {title="Example output"}
+   <!doctype html>
+   <html>
+   <head>
+       <title>Example Domain</title>
+   ...
+   ```

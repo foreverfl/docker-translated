@@ -28,7 +28,7 @@ To view the `dockerd` logs on macOS, open a terminal Window, and use the `tail`
 command with the `-f` flag to "follow" the logs. Logs will be printed until you
 terminate the command using `CTRL+c`:
 
-```console
+```bash
 $ tail -f ~/Library/Containers/com.docker.docker/Data/log/vm/dockerd.log
 2021-07-28T10:21:21Z dockerd time="2021-07-28T10:21:21.497642089Z" level=debug msg="attach: stdout: begin"
 2021-07-28T10:21:21Z dockerd time="2021-07-28T10:21:21.497714291Z" level=debug msg="attach: stderr: begin"
@@ -67,7 +67,7 @@ Docker platform.
 3.  Send a `HUP` signal to the daemon to cause it to reload its configuration.
     On Linux hosts, use the following command.
 
-    ```console
+    ```bash
     $ sudo kill -SIGHUP $(pidof dockerd)
     ```
 
@@ -85,7 +85,7 @@ sending a `SIGUSR1` signal to the daemon.
 
 - **Linux**:
 
-  ```console
+  ```bash
   $ sudo kill -SIGUSR1 $(pidof dockerd)
   ```
 

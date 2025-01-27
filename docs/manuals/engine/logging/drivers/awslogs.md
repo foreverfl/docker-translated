@@ -44,7 +44,7 @@ Restart Docker for the changes to take effect.
 You can set the logging driver for a specific container by using the
 `--log-driver` option to `docker run`:
 
-```console
+```bash
 $ docker run --log-driver=awslogs ...
 ```
 
@@ -71,7 +71,7 @@ the `awslogs-region` log option or the `AWS_REGION` environment variable to set
 the region. By default, if your Docker daemon is running on an EC2 instance
 and no region is set, the driver uses the instance's region.
 
-```console
+```bash
 $ docker run --log-driver=awslogs --log-opt awslogs-region=us-east-1 ...
 ```
 
@@ -95,7 +95,7 @@ You must specify a
 for the `awslogs` logging driver. You can specify the log group with the
 `awslogs-group` log option:
 
-```console
+```bash
 $ docker run --log-driver=awslogs --log-opt awslogs-region=us-east-1 --log-opt awslogs-group=myLogGroup ...
 ```
 
@@ -118,7 +118,7 @@ Log driver returns an error by default if the log group doesn't exist. However, 
 `awslogs-create-group` to `true` to automatically create the log group as needed.
 The `awslogs-create-group` option defaults to `false`.
 
-```console
+```bash
 $ docker run \
     --log-driver=awslogs \
     --log-opt awslogs-region=us-east-1 \
@@ -137,13 +137,13 @@ $ docker run \
 By default, the log driver creates the AWS CloudWatch Logs stream used for container log persistence.
 
 Set `awslogs-create-stream` to `false` to disable log stream creation. When disabled, the Docker daemon assumes
-the log stream already exists. A use case where this is beneficial is when log stream creation is handled by 
+the log stream already exists. A use case where this is beneficial is when log stream creation is handled by
 another process avoiding redundant AWS CloudWatch Logs API calls.
 
 If `awslogs-create-stream` is set to `false` and the log stream does not exist, log persistence to CloudWatch
 fails during container runtime, resulting in `Failed to put log events` error messages in daemon logs.
 
-```console
+```bash
 $ docker run \
     --log-driver=awslogs \
     --log-opt awslogs-region=us-east-1 \
@@ -176,7 +176,7 @@ This option always takes precedence if both `awslogs-datetime-format` and
 Consider the following log stream, where new log messages start with a
 timestamp:
 
-```console
+```bash
 [May 01, 2017 19:00:01] A message was logged
 [May 01, 2017 19:00:04] Another multi-line message was logged
 Some random message
@@ -188,7 +188,7 @@ The format can be expressed as a `strftime` expression of
 `[%b %d, %Y %H:%M:%S]`, and the `awslogs-datetime-format` value can be set to
 that expression:
 
-```console
+```bash
 $ docker run \
     --log-driver=awslogs \
     --log-opt awslogs-region=us-east-1 \
@@ -199,7 +199,7 @@ $ docker run \
 
 This parses the logs into the following CloudWatch log events:
 
-```console
+```bash
 # First event
 [May 01, 2017 19:00:01] A message was logged
 
@@ -253,7 +253,7 @@ This option is ignored if `awslogs-datetime-format` is also configured.
 Consider the following log stream, where each log message should start with the
 pattern `INFO`:
 
-```console
+```bash
 INFO A message was logged
 INFO Another multi-line message was logged
      Some random message
@@ -262,7 +262,7 @@ INFO Another message was logged
 
 You can use the regular expression of `^INFO`:
 
-```console
+```bash
 $ docker run \
     --log-driver=awslogs \
     --log-opt awslogs-region=us-east-1 \
@@ -273,7 +273,7 @@ $ docker run \
 
 This parses the logs into the following CloudWatch log events:
 
-```console
+```bash
 # First event
 INFO A message was logged
 

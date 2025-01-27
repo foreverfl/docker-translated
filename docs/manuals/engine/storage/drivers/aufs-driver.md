@@ -18,7 +18,7 @@ aliases:
 > before upgrading to Docker Engine v24.0. Read the [Docker storage drivers](select-storage-driver.md)
 > page for supported storage drivers.
 
-AUFS is a *union filesystem*. The `aufs` storage driver was previously the default
+AUFS is a _union filesystem_. The `aufs` storage driver was previously the default
 storage driver used for managing images and layers on Docker for Ubuntu, and for
 Debian versions prior to Stretch. If your Linux kernel is version 4.0 or higher,
 and you use Docker Engine - Community, consider using the newer
@@ -31,7 +31,7 @@ potential performance advantages over the `aufs` storage driver.
   Stretch.
 - For Docker EE, AUFS is supported on Ubuntu.
 - If you use Ubuntu, you need to add the AUFS module to the kernel. If you do
-  not install these packages, you need to use  `overlay2`.
+  not install these packages, you need to use `overlay2`.
 - AUFS cannot use the following backing filesystems: `aufs`, `btrfs`, or
   `ecryptfs`. This means that the filesystem which contains
   `/var/lib/docker/aufs` cannot be one of these filesystem types.
@@ -43,7 +43,7 @@ storage driver is configured, Docker uses it by default.
 
 1.  Use the following command to verify that your kernel supports AUFS.
 
-    ```console
+    ```bash
     $ grep aufs /proc/filesystems
 
     nodev   aufs
@@ -51,7 +51,7 @@ storage driver is configured, Docker uses it by default.
 
 2.  Check which storage driver Docker is using.
 
-    ```console
+    ```bash
     $ docker info
 
     <truncated output>
@@ -71,7 +71,7 @@ storage driver is configured, Docker uses it by default.
 
 ## How the `aufs` storage driver works
 
-AUFS is a *union filesystem*, which means that it layers multiple directories on
+AUFS is a _union filesystem_, which means that it layers multiple directories on
 a single Linux host and presents them as a single directory. These directories
 are called _branches_ in AUFS terminology, and _layers_ in Docker terminology.
 
@@ -79,7 +79,7 @@ The unification process is referred to as a _union mount_.
 
 The diagram below shows a Docker container based on the `ubuntu:latest` image.
 
-![Layers of an Ubuntu container](images/aufs_layers.webp) 
+![Layers of an Ubuntu container](images/aufs_layers.webp)
 
 Each image layer, and the container layer, are represented on the Docker host as
 subdirectories within `/var/lib/docker/`. The union mount provides the unified
@@ -94,7 +94,7 @@ minimize overhead.
 The following `docker pull` command shows a Docker host downloading a Docker
 image comprising five layers.
 
-```console
+```bash
 $ docker pull ubuntu
 
 Using default tag: latest
@@ -131,7 +131,7 @@ If a container is running, the contents of `/var/lib/docker/aufs/` change in the
 following ways:
 
 - `diff/`: Differences introduced in the writable container layer, such as new
-   or modified files.
+  or modified files.
 - `layers/`: Metadata about the writable container layer's parent layers.
 - `mnt/`: A mount point for each running container's unified filesystem, exactly
   as it appears from within the container.
@@ -165,7 +165,7 @@ Consider some scenarios where files in a container are modified.
 
 - **Writing to a file for the first time**: The first time a container writes
   to an existing file, that file does not exist in the container (`upperdir`).
-  The `aufs` driver performs a *copy_up* operation to copy the file from the
+  The `aufs` driver performs a _copy_up_ operation to copy the file from the
   image layer where it exists to the writable container layer. The container
   then writes the changes to the new copy of the file in the container layer.
 
@@ -180,7 +180,7 @@ Consider some scenarios where files in a container are modified.
 
 - **Deleting files and directories**:
 
-  - When a _file_ is deleted within a container, a *whiteout* file is created
+  - When a _file_ is deleted within a container, a _whiteout_ file is created
     in the container layer. The version of the file in the image layer is not
     deleted (because the image layers are read-only). However, the whiteout
     file prevents it from being available to the container.

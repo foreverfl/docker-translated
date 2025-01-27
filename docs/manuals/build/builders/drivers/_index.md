@@ -52,7 +52,7 @@ output, the build result is exported to the build cache only.
 To build an image using a non-default driver and load it to the image store,
 use the `--load` flag with the build command:
 
-```console
+```bash
 $ docker buildx build --load -t <image> --builder=container .
 ...
 => exporting to oci image format                                                                                                      7.7s
@@ -65,7 +65,7 @@ $ docker buildx build --load -t <image> --builder=container .
 
 With this option, the image is available in the image store after the build finishes:
 
-```console
+```bash
 $ docker image ls
 REPOSITORY                       TAG               IMAGE ID       CREATED             SIZE
 <image>                          latest            adf3eec768a1   2 minutes ago       197MB
@@ -77,7 +77,7 @@ You can configure the custom build drivers to behave in a similar way to the
 default `docker` driver, and load images to the local image store by default.
 To do so, set the `default-load` driver option when creating the builder:
 
-```console
+```bash
 $ docker buildx create --driver-opt default-load=true
 ```
 

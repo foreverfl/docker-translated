@@ -20,7 +20,7 @@ solution.
 
 ## Synopsis
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=local,dest=path/to/local/dir[,parameters...] \
   --cache-from type=local,src=path/to/local/dir .
@@ -60,7 +60,7 @@ and how you can use the `digest` parameter to use older versions of cache.
 If you inspect the cache directory manually, you can see the resulting OCI image
 layout:
 
-```console
+```bash
 $ ls cache
 blobs  index.json  ingest
 $ cat cache/index.json | jq
@@ -89,7 +89,7 @@ for more information).
 When importing cache using `--cache-to`, you can specify the `digest` parameter
 to force loading an older version of the cache, for example:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=local,dest=path/to/local/dir \
   --cache-from type=local,ref=path/to/local/dir,digest=sha256:6982c70595cb91769f61cd1e064cf5f41d5357387bab6b18c0164c5f98c1f707 .

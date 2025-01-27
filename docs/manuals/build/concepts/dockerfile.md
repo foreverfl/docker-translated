@@ -9,8 +9,8 @@ keywords:
   - 시작하기
   - dockerfile
 aliases:
-- /build/hellobuild/
-- /build/building/packaging/
+  - /build/hellobuild/
+  - /build/building/packaging/
 ---
 
 ## Dockerfile {#dockerfile}
@@ -21,12 +21,12 @@ Docker는 Dockerfile의 지침을 읽어 이미지를 빌드합니다. Dockerfil
 
 다음은 가장 일반적인 지침 유형입니다:
 
-| 지침                                                              | 설명                                                                                                                                                                                              |
-| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`FROM <image>`](/reference/dockerfile.md#from)           | 이미지의 기본을 정의합니다.                                                                                                                                                                           |
-| [`RUN <command>`](/reference/dockerfile.md#run)           | 현재 이미지 위에 새로운 레이어에서 명령을 실행하고 결과를 커밋합니다. `RUN`은 명령을 실행하기 위한 셸 형식도 있습니다.                                                               |
-| [`WORKDIR <directory>`](/reference/dockerfile.md#workdir) | Dockerfile에서 뒤따르는 모든 `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, `ADD` 지침에 대한 작업 디렉토리를 설정합니다.                                                                          |
-| [`COPY <src> <dest>`](/reference/dockerfile.md#copy)      | 새로운 파일이나 디렉토리를 `<src>`에서 복사하여 컨테이너의 파일 시스템에 `<dest>` 경로로 추가합니다.                                                                                      |
+| 지침                                                      | 설명                                                                                                                                                                              |
+| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`FROM <image>`](/reference/dockerfile.md#from)           | 이미지의 기본을 정의합니다.                                                                                                                                                       |
+| [`RUN <command>`](/reference/dockerfile.md#run)           | 현재 이미지 위에 새로운 레이어에서 명령을 실행하고 결과를 커밋합니다. `RUN`은 명령을 실행하기 위한 셸 형식도 있습니다.                                                            |
+| [`WORKDIR <directory>`](/reference/dockerfile.md#workdir) | Dockerfile에서 뒤따르는 모든 `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, `ADD` 지침에 대한 작업 디렉토리를 설정합니다.                                                                    |
+| [`COPY <src> <dest>`](/reference/dockerfile.md#copy)      | 새로운 파일이나 디렉토리를 `<src>`에서 복사하여 컨테이너의 파일 시스템에 `<dest>` 경로로 추가합니다.                                                                              |
 | [`CMD <command>`](/reference/dockerfile.md#cmd)           | 이 이미지를 기반으로 컨테이너를 시작할 때 실행되는 기본 프로그램을 정의합니다. 각 Dockerfile에는 하나의 `CMD`만 있으며, 여러 개가 존재할 경우 마지막 `CMD` 인스턴스만 존중됩니다. |
 
 Dockerfile은 이미지 빌드의 중요한 입력이며 고유한 구성에 따라 자동화된 다중 레이어 이미지 빌드를 용이하게 할 수 있습니다. Dockerfile은 간단하게 시작하여 더 복잡한 시나리오를 지원하기 위해 필요에 따라 성장할 수 있습니다.
@@ -202,7 +202,7 @@ CMD flask run --host 0.0.0.0 --port 8000
 
 [이전 섹션](#example)의 Dockerfile 예제를 사용하여 컨테이너 이미지를 빌드하려면 `docker build` 명령을 사용합니다:
 
-```console
+```bash
 $ docker build -t test:latest .
 ```
 
@@ -212,7 +212,7 @@ $ docker build -t test:latest .
 
 이미지가 빌드된 후 `docker run`을 사용하여 이미지 이름을 지정하여 애플리케이션을 컨테이너로 실행할 수 있습니다:
 
-```console
+```bash
 $ docker run -p 127.0.0.1:8000:8000 test:latest
 ```
 

@@ -6,7 +6,7 @@ keywords:
   - buildx buildkit
   - opentelemetry
 aliases:
-- /build/building/opentelemetry/
+  - /build/building/opentelemetry/
 ---
 
 Both Buildx and BuildKit support [OpenTelemetry](https://opentelemetry.io/).
@@ -17,14 +17,14 @@ set `JAEGER_TRACE` environment variable to the collection address using a
 
 First create a Jaeger container:
 
-```console
+```bash
 $ docker run -d --name jaeger -p "6831:6831/udp" -p "16686:16686" --restart unless-stopped jaegertracing/all-in-one
 ```
 
 Then [create a `docker-container` builder](/manuals/build/builders/drivers/docker-container.md)
 that will use the Jaeger instance via the `JAEGER_TRACE` environment variable:
 
-```console
+```bash
 $ docker buildx create --use \
   --name mybuilder \
   --driver docker-container \
@@ -34,7 +34,7 @@ $ docker buildx create --use \
 
 Boot and [inspect `mybuilder`](/reference/cli/docker/buildx/inspect.md):
 
-```console
+```bash
 $ docker buildx inspect --bootstrap
 ```
 

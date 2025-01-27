@@ -53,7 +53,7 @@ Invoking a build runs the checks by default, and displays any violations in the
 build output. For example, the following command both builds the image and runs
 the checks:
 
-```console
+```bash
 $ docker build .
 [+] Building 3.5s (11/11) FINISHED
 ...
@@ -91,7 +91,7 @@ containing the rule name, the message, and the line number of where in the
 Dockerfile the issue originated. If you want to see more detailed information
 about the checks, you can use the `--debug` flag. For example:
 
-```console
+```bash
 $ docker --debug build .
 [+] Building 3.5s (11/11) FINISHED
 ...
@@ -119,7 +119,7 @@ To run build checks without actually building, you can use the `docker build`
 command as you typically would, but with the addition of the `--check` flag.
 Here's an example:
 
-```console
+```bash
 $ docker build --check .
 ```
 
@@ -173,7 +173,7 @@ Without the `# check=error=true` directive, this build would complete with an
 exit code of 0. However, with the directive, build check violation results in
 non-zero exit code:
 
-```console
+```bash
 $ docker build .
 [+] Building 1.5s (5/5) FINISHED
 ...
@@ -194,7 +194,7 @@ $ echo $?
 You can also set the error directive on the CLI by passing the
 `BUILDKIT_DOCKERFILE_CHECK` build argument:
 
-```console
+```bash
 $ docker build --check --build-arg "BUILDKIT_DOCKERFILE_CHECK=error=true" .
 ```
 
@@ -218,7 +218,7 @@ Building this Dockerfile results in no check violations.
 You can also skip checks by passing the `BUILDKIT_DOCKERFILE_CHECK` build
 argument with a CSV string of check IDs you want to skip. For example:
 
-```console
+```bash
 $ docker build --check --build-arg "BUILDKIT_DOCKERFILE_CHECK=skip=JSONArgsRecommended,StageNameCasing" .
 ```
 
@@ -240,7 +240,7 @@ directive in your Dockerfile or in a build argument. For example:
 # check=skip=JSONArgsRecommended,StageNameCasing;error=true
 ```
 
-```console {title="Build argument"}
+```bash {title="Build argument"}
 $ docker build --check --build-arg "BUILDKIT_DOCKERFILE_CHECK=skip=JSONArgsRecommended,StageNameCasing;error=true" .
 ```
 
@@ -253,7 +253,7 @@ experimental checks available, refer to the [Build checks reference](/reference/
 To enable all experimental checks, set the `BUILDKIT_DOCKERFILE_CHECK` build
 argument to `experimental=all`:
 
-```console
+```bash
 $ docker build --check --build-arg "BUILDKIT_DOCKERFILE_CHECK=experimental=all" .
 ```
 

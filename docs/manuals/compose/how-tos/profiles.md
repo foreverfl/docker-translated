@@ -57,11 +57,11 @@ Valid profiles names follow the regex format of `[a-zA-Z0-9][a-zA-Z0-9_.-]+`.
 To start a specific profile supply the `--profile` [command-line option](/reference/cli/docker/compose.md) or
 use the [`COMPOSE_PROFILES` environment variable](environment-variables/envvars.md#compose_profiles):
 
-```console
+```bash
 $ docker compose --profile debug up
 ```
 
-```console
+```bash
 $ COMPOSE_PROFILES=debug docker compose up
 ```
 
@@ -78,11 +78,11 @@ the profiles `frontend` and `debug` will be enabled.
 Multiple profiles can be specified by passing multiple `--profile` flags or
 a comma-separated list for the `COMPOSE_PROFILES` environment variable:
 
-```console
+```bash
 $ docker compose --profile frontend --profile debug up
 ```
 
-```console
+```bash
 $ COMPOSE_PROFILES=frontend,debug docker compose up
 ```
 
@@ -175,7 +175,7 @@ db:
 
 or start the `dev` profile explicitly:
 
-```console
+```bash
 # Profiles "debug" is started automatically by targeting phpmyadmin
 $ docker compose --profile dev up phpmyadmin
 $ COMPOSE_PROFILES=dev docker compose up phpmyadmin
@@ -186,11 +186,11 @@ $ COMPOSE_PROFILES=dev docker compose up phpmyadmin
 As with starting specific profiles, you can use the `--profile` [command-line option](/reference/cli/docker/compose.md#use--p-to-specify-a-project-name) or
 use the [`COMPOSE_PROFILES` environment variable](environment-variables/envvars.md#compose_profiles):
 
-```console
+```bash
 $ docker compose --profile debug down
 ```
 
-```console
+```bash
 $ COMPOSE_PROFILES=debug docker compose down
 ```
 

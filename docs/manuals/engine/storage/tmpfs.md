@@ -40,7 +40,7 @@ Docker의 tmpfs 마운트는 Linux 커널의 [tmpfs](https://en.wikipedia.org/wi
 
 `docker run` 명령어를 사용하여 tmpfs를 마운트하려면 `--mount` 또는 `--tmpfs` 플래그를 사용할 수 있습니다.
 
-```console
+```bash
 $ docker run --mount type=tmpfs,dst=<mount-path>
 $ docker run --tmpfs <mount-path>
 ```
@@ -53,7 +53,7 @@ $ docker run --tmpfs <mount-path>
 
 `--tmpfs` 플래그는 콜론 문자(`:`)로 구분된 두 개의 필드로 구성됩니다.
 
-```console
+```bash
 $ docker run --tmpfs <mount-path>[:opts]
 ```
 
@@ -83,7 +83,7 @@ $ docker run --tmpfs <mount-path>[:opts]
 | `nr_inodes`  | tmpfs 마운트의 최대 inode 수를 지정합니다(예: `nr_inodes=400k`).          |
 | `nr_blocks`  | tmpfs 마운트의 최대 블록 수를 지정합니다(예: `nr_blocks=1024`).           |
 
-```console {title="예제"}
+```bash {title="예제"}
 $ docker run --tmpfs /data:noexec,size=1024,mode=1777
 ```
 
@@ -93,7 +93,7 @@ Linux 마운트 명령어에서 사용할 수 있는 모든 tmpfs 마운트 기�
 `--privileged`로 컨테이너를 실행하면 권한이 상승되며 호스트 시스템이 보안 위험에 노출될 수 있습니다. 이 옵션은 절대적으로 필요한 경우에만 신뢰할 수 있는 환경에서 사용하십시오.
 :::
 
-```console
+```bash
 $ docker run --privileged -it debian sh
 /# mount -t tmpfs -o <options> tmpfs /data
 ```
@@ -102,7 +102,7 @@ $ docker run --privileged -it debian sh
 
 `--mount` 플래그는 쉼표로 구분된 여러 키-값 쌍으로 구성되며 각 쌍은 `<key>=<value>` 튜플로 구성됩니다. 키의 순서는 중요하지 않습니다.
 
-```console
+```bash
 $ docker run --mount type=tmpfs,dst=<mount-path>[,<key>=<value>...]
 ```
 
@@ -114,7 +114,7 @@ $ docker run --mount type=tmpfs,dst=<mount-path>[,<key>=<value>...]
 | `tmpfs-size`                   | tmpfs 마운트의 크기(바이트 단위). 설정되지 않은 경우 tmpfs 볼륨의 기본 최대 크기는 호스트 총 RAM의 50%입니다. |
 | `tmpfs-mode`                   | tmpfs의 파일 모드(8진수). 예를 들어, `700` 또는 `0770`. 기본값은 `1777` 또는 전 세계 쓰기 가능입니다.         |
 
-```console {title="예제"}
+```bash {title="예제"}
 $ docker run --mount type=tmpfs,dst=/app,tmpfs-size=21474836480,tmpfs-mode=1770
 ```
 
@@ -125,7 +125,7 @@ $ docker run --mount type=tmpfs,dst=/app,tmpfs-size=21474836480,tmpfs-mode=1770
 <Tabs>
 <TabItem value="--mount" label="--mount">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name tmptest \
@@ -135,7 +135,7 @@ $ docker run -d \
 
 `docker inspect` 출력의 `Mounts` 섹션을 확인하여 마운트가 `tmpfs` 마운트인지 확인하십시오:
 
-```console
+```bash
 $ docker inspect tmptest --format '{{ json .Mounts }}'
 [{"Type":"tmpfs","Source":"","Destination":"/app","Mode":"","RW":true,"Propagation":""}]
 ```
@@ -143,7 +143,7 @@ $ docker inspect tmptest --format '{{ json .Mounts }}'
 </TabItem>
 <TabItem value="--tmpfs" label="--tmpfs">
 
-```console
+```bash
 $ docker run -d \
   -it \
   --name tmptest \
@@ -153,7 +153,7 @@ $ docker run -d \
 
 `docker inspect` 출력의 `Mounts` 섹션을 확인하여 마운트가 `tmpfs` 마운트인지 확인하십시오:
 
-```console
+```bash
 $ docker inspect tmptest --format '{{ json .Mounts }}'
 {"/app":""}
 ```
@@ -163,7 +163,7 @@ $ docker inspect tmptest --format '{{ json .Mounts }}'
 
 컨테이너를 중지하고 제거하십시오:
 
-```console
+```bash
 $ docker stop tmptest
 $ docker rm tmptest
 ```

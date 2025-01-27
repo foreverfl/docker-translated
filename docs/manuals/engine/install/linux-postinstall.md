@@ -1,5 +1,6 @@
 ---
-description: Find the recommended Docker Engine post-installation steps for Linux
+description:
+  Find the recommended Docker Engine post-installation steps for Linux
   users, including how to run Docker as a non-root user and more.
 keywords:
   - run docker without sudo
@@ -16,9 +17,9 @@ title: Linux post-installation steps for Docker Engine
 linkTitle: Post-installation steps
 weight: 90
 aliases:
-- /engine/installation/linux/docker-ee/linux-postinstall/
-- /engine/installation/linux/linux-postinstall/
-- /install/linux/linux-postinstall/
+  - /engine/installation/linux/docker-ee/linux-postinstall/
+  - /engine/installation/linux/linux-postinstall/
+  - /install/linux/linux-postinstall/
 ---
 
 These optional post-installation procedures describe how to configure your
@@ -53,13 +54,13 @@ To create the `docker` group and add your user:
 
 1. Create the `docker` group.
 
-   ```console
+   ```bash
    $ sudo groupadd docker
    ```
 
 2. Add your user to the `docker` group.
 
-   ```console
+   ```bash
    $ sudo usermod -aG docker $USER
    ```
 
@@ -70,13 +71,13 @@ To create the `docker` group and add your user:
 
    You can also run the following command to activate the changes to groups:
 
-   ```console
+   ```bash
    $ newgrp docker
    ```
 
 4. Verify that you can run `docker` commands without `sudo`.
 
-   ```console
+   ```bash
    $ docker run hello-world
    ```
 
@@ -98,7 +99,7 @@ To create the `docker` group and add your user:
    automatically, but any custom settings are lost), or change its ownership and
    permissions using the following commands:
 
-   ```console
+   ```bash
    $ sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
    $ sudo chmod g+rwx "$HOME/.docker" -R
    ```
@@ -111,14 +112,14 @@ Docker service starts on boot by default. To automatically start Docker and
 containerd on boot for other Linux distributions using systemd, run the
 following commands:
 
-```console
+```bash
 $ sudo systemctl enable docker.service
 $ sudo systemctl enable containerd.service
 ```
 
 To stop this behavior, use `disable` instead.
 
-```console
+```bash
 $ sudo systemctl disable docker.service
 $ sudo systemctl disable containerd.service
 ```

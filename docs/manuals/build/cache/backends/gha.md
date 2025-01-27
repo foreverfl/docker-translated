@@ -29,7 +29,7 @@ To use this feature, create a new builder using a different driver. See
 
 ## Synopsis
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=gha[,parameters...] \
   --cache-from type=gha[,parameters...] .
@@ -72,7 +72,7 @@ To preserve the cache for multiple builds, you can specify this scope attribute
 with a specific name. In the following example, the cache is set to the image
 name, to ensure each image gets its own cache:
 
-```console
+```bash
 $ docker buildx build --push -t <registry>/<image> \
   --cache-to type=gha,url=...,token=...,scope=image \
   --cache-from type=gha,url=...,token=...,scope=image .

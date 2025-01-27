@@ -49,7 +49,7 @@ CMD ["/bin/hello"]
 You only need the single Dockerfile. No need for a separate build script. Just
 run `docker build`.
 
-```console
+```bash
 $ docker build -t hello .
 ```
 
@@ -98,7 +98,7 @@ Dockerfile including every stage. You can specify a target build stage. The
 following command assumes you are using the previous `Dockerfile` but stops at
 the stage named `build`:
 
-```console
+```bash
 $ docker build --target build -t hello .
 ```
 
@@ -169,7 +169,7 @@ With [BuildKit enabled](../buildkit/_index.md#getting-started), building the
 `stage2` target in this Dockerfile means only `base` and `stage2` are processed.
 There is no dependency on `stage1`, so it's skipped.
 
-```console
+```bash
 $ DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile --target stage2 .
 [+] Building 0.4s (7/7) FINISHED
  => [internal] load build definition from Dockerfile                                            0.0s
@@ -188,7 +188,7 @@ $ DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile --target stage2 .
 On the other hand, building the same target without BuildKit results in all
 stages being processed:
 
-```console
+```bash
 $ DOCKER_BUILDKIT=0 docker build --no-cache -f Dockerfile --target stage2 .
 Sending build context to Docker daemon  219.1kB
 Step 1/6 : FROM ubuntu AS base

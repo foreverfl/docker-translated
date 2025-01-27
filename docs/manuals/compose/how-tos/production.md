@@ -8,7 +8,7 @@ keywords:
 title: Use Compose in production
 weight: 100
 aliases:
-- /compose/production/
+  - /compose/production/
 ---
 
 When you define your app with Compose in development, you can use this
@@ -40,7 +40,7 @@ is then applied over the original `compose.yml` to create a new configuration.
 Once you have a second configuration file, you can use it with the
 `-f` option:
 
-```console
+```bash
 $ docker compose -f compose.yml -f production.yml up -d
 ```
 
@@ -52,7 +52,7 @@ When you make changes to your app code, remember to rebuild your image and
 recreate your app's containers. To redeploy a service called
 `web`, use:
 
-```console
+```bash
 $ docker compose build web
 $ docker compose up --no-deps -d web
 ```

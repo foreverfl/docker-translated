@@ -78,11 +78,11 @@ To search or browse for content on Docker Hub:
    > [!TIP]
    >
    > The Docker Desktop Dashboard contains a built-in terminal. At the bottom of
-   > the Dashboard, select **>_ Terminal** to open it.
+   > the Dashboard, select **>\_ Terminal** to open it.
 
 2. In the terminal, run the following command.
 
-   ```console
+   ```bash
    $ docker search --filter is-official=true nginx
    ```
 
@@ -124,7 +124,6 @@ You can run images from Docker Hub using the CLI or Docker Desktop Dashboard.
 6. In the Docker Desktop Dashboard, select the **Stop** button to stop the
    container.
 
-
 </TabItem>
 <TabItem value="cli" label="CLI">
 
@@ -133,11 +132,11 @@ You can run images from Docker Hub using the CLI or Docker Desktop Dashboard.
    > [!TIP]
    >
    > The Docker Desktop Dashboard contains a built-in terminal. At the bottom of
-   > the Dashboard, select **>_ Terminal** to open it.
+   > the Dashboard, select **>\_ Terminal** to open it.
 
 2. In your terminal, run the following command to pull and run the Nginx image.
 
-   ```console
+   ```bash
    $ docker run -p 8080:80 --rm nginx
    ```
 
@@ -147,7 +146,7 @@ You can run images from Docker Hub using the CLI or Docker Desktop Dashboard.
    reference](../../reference/cli/docker/container/run.md). After running the
    command, you should see output similar to the following.
 
-   ```console {collapse=true}
+   ```bash {collapse=true}
    Unable to find image 'nginx:latest' locally
    latest: Pulling from library/nginx
    a480a496ba95: Pull complete
@@ -197,7 +196,6 @@ existing software.
 You can also extend images from Docker Hub, letting you quickly build and
 customize your own images to suit specific needs.
 
-
 ## Step 3: Build and push an image to Docker Hub
 
 1. Create a [Dockerfile](/reference/dockerfile.md) to specify your application:
@@ -213,7 +211,7 @@ customize your own images to suit specific needs.
 
 2. Run the following command to build your image. Replace `<YOUR-USERNAME>` with your Docker ID.
 
-   ```console
+   ```bash
    $ docker build -t <YOUR-USERNAME>/nginx-custom .
    ```
 
@@ -223,7 +221,7 @@ customize your own images to suit specific needs.
    reference](../../reference/cli/docker/buildx/build.md). After running the
    command, you should see output similar to the following.
 
-   ```console {collapse=true}
+   ```bash {collapse=true}
    [+] Building 0.6s (6/6) FINISHED                      docker:desktop-linux
     => [internal] load build definition from Dockerfile                  0.0s
     => => transferring dockerfile: 128B                                  0.0s
@@ -241,7 +239,7 @@ customize your own images to suit specific needs.
 3. Run the following command to test your image. Replace `<YOUR-USERNAME>` with
    your Docker ID.
 
-   ```console
+   ```bash
    $ docker run -p 8080:80 --rm <YOUR-USERNAME>/nginx-custom
    ```
 
@@ -255,13 +253,13 @@ customize your own images to suit specific needs.
 
 7. Run the following command to push your image to Docker Hub. Replace `<YOUR-USERNAME>` with your Docker ID.
 
-   ```console
+   ```bash
    $ docker push <YOUR-USERNAME>/nginx-custom
    ```
 
-    > [!NOTE]
-    >
-    > You must be signed in to Docker Hub through Docker Desktop or the command line, and you must also name your images correctly, as per the above steps.
+   > [!NOTE]
+   >
+   > You must be signed in to Docker Hub through Docker Desktop or the command line, and you must also name your images correctly, as per the above steps.
 
    The command pushes the image to Docker Hub and automatically
    creates the repository if it doesn't exist. To learn more about the command,
@@ -269,7 +267,7 @@ customize your own images to suit specific needs.
    reference](../../reference/cli/docker/image/push.md). After running the
    command, you should see output similar to the following.
 
-   ```console {collapse=true}
+   ```bash {collapse=true}
    Using default tag: latest
    The push refers to repository [docker.io/mobyismyname/nginx-custom]
    d0e011850342: Pushed
@@ -283,8 +281,8 @@ customize your own images to suit specific needs.
    latest: digest: sha256:7f5223ae866e725a7f86b856c30edd3b86f60d76694df81d90b08918d8de1e3f size: 1985
    ```
 
-  Now that you've created a repository and pushed your image, it's time to view
-  your repository and explore its options.
+Now that you've created a repository and pushed your image, it's time to view
+your repository and explore its options.
 
 ## Step 4: View your repository on Docker Hub and explore options
 
@@ -327,4 +325,3 @@ these options.
 
 Add [repository information](./repos/manage/information.md) to help users find and use
 your image.
-

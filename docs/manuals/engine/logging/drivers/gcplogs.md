@@ -42,7 +42,7 @@ Restart Docker for the changes to take effect.
 You can set the logging driver for a specific container by using the
 `--log-driver` option to `docker run`:
 
-```console
+```bash
 $ docker run --log-driver=gcplogs ...
 ```
 
@@ -68,7 +68,7 @@ Cloud Logging driver options:
 
 | Option          | Required | Description                                                                                                                                                  |
 | :-------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `gcp-project`   | optional | Which Google Cloud project to log to. Defaults to discovering this value from the Google Cloud metadata server.                                                               |
+| `gcp-project`   | optional | Which Google Cloud project to log to. Defaults to discovering this value from the Google Cloud metadata server.                                              |
 | `gcp-log-cmd`   | optional | Whether to log the command that the container was started with. Defaults to false.                                                                           |
 | `labels`        | optional | Comma-separated list of keys of labels, which should be included in message, if these labels are specified for the container.                                |
 | `labels-regex`  | optional | Similar to and compatible with `labels`. A regular expression to match logging-related labels. Used for advanced [log tag options](log_tags.md).             |
@@ -85,7 +85,7 @@ logging message.
 The following is an example of the logging options required to log to the default
 logging destination which is discovered by querying the Google Cloud metadata server.
 
-```console
+```bash
 $ docker run \
     --log-driver=gcplogs \
     --log-opt labels=location \
@@ -109,7 +109,7 @@ for the daemon, for example via systemd:
 Environment="GOOGLE_APPLICATION_CREDENTIALS=uQWVCPkMTI34bpssr1HI"
 ```
 
-```console
+```bash
 $ docker run \
     --log-driver=gcplogs \
     --log-opt gcp-project=test-project \

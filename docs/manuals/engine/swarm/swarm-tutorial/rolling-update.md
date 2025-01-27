@@ -23,7 +23,7 @@ Redis 7.4.1 container image using rolling updates.
 2.  Deploy your Redis tag to the swarm and configure the swarm with a 10 second
     update delay. Note that the following example shows an older Redis tag:
 
-    ```console
+    ```bash
     $ docker service create \
       --replicas 3 \
       --name redis \
@@ -53,7 +53,7 @@ Redis 7.4.1 container image using rolling updates.
 
 3.  Inspect the `redis` service:
 
-    ```console
+    ```bash
     $ docker service inspect --pretty redis
 
     ID:             0u6a4s31ybk7yw2wyvtikmu50
@@ -71,28 +71,28 @@ Redis 7.4.1 container image using rolling updates.
     Endpoint Mode:  vip
     ```
 
-4.  Now you can update the container image for `redis`. The swarm  manager
+4.  Now you can update the container image for `redis`. The swarm manager
     applies the update to nodes according to the `UpdateConfig` policy:
 
-    ```console
+    ```bash
     $ docker service update --image redis:7.4.1 redis
     redis
     ```
 
     The scheduler applies rolling updates as follows by default:
 
-    * Stop the first task.
-    * Schedule update for the stopped task.
-    * Start the container for the updated task.
-    * If the update to a task returns `RUNNING`, wait for the
+    - Stop the first task.
+    - Schedule update for the stopped task.
+    - Start the container for the updated task.
+    - If the update to a task returns `RUNNING`, wait for the
       specified delay period then start the next task.
-    * If, at any time during the update, a task returns `FAILED`, pause the
+    - If, at any time during the update, a task returns `FAILED`, pause the
       update.
 
 5.  Run `docker service inspect --pretty redis` to see the new image in the
     desired state:
 
-    ```console
+    ```bash
     $ docker service inspect --pretty redis
 
     ID:             0u6a4s31ybk7yw2wyvtikmu50
@@ -112,7 +112,7 @@ Redis 7.4.1 container image using rolling updates.
 
     The output of `service inspect` shows if your update paused due to failure:
 
-    ```console
+    ```bash
     $ docker service inspect --pretty redis
 
     ID:             0u6a4s31ybk7yw2wyvtikmu50
@@ -127,7 +127,7 @@ Redis 7.4.1 container image using rolling updates.
 
     To restart a paused update run `docker service update <SERVICE-ID>`. For example:
 
-    ```console
+    ```bash
     $ docker service update redis
     ```
 
@@ -136,7 +136,7 @@ Redis 7.4.1 container image using rolling updates.
 
 6.  Run `docker service ps <SERVICE-ID>` to watch the rolling update:
 
-    ```console
+    ```bash
     $ docker service ps redis
 
     NAME                                   IMAGE        NODE       DESIRED STATE  CURRENT STATE            ERROR

@@ -39,7 +39,7 @@ target "default" {
 Printing the Bake file with the `--print` flag shows the evaluated value for
 the `answer` build argument.
 
-```console
+```bash
 $ docker buildx bake --print app
 ```
 
@@ -80,7 +80,7 @@ target "default" {
 In this case, `TAG` is an empty string, so the resulting build configuration
 only contains the hard-coded `my-image:latest` tag.
 
-```console
+```bash
 $ docker buildx bake --print
 ```
 
@@ -131,7 +131,7 @@ target "app" {
 Printing the Bake file with the `--print` flag shows the evaluated values for
 the `v1` and `v2` build arguments.
 
-```console
+```bash
 $ docker buildx bake --print app
 ```
 

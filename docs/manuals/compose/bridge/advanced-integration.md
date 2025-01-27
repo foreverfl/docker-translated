@@ -21,19 +21,19 @@ To use the `compose-bridge` binary as a `kubectl` plugin, you need to make sure 
 
 1. Rename or copy the `compose-bridge` binary to `kubectl-compose_bridge`:
 
-   ```console
+   ```bash
    $ mv /path/to/compose-bridge /usr/local/bin/kubectl-compose_bridge
    ```
 
 2. Ensure that the binary is executable:
 
-   ```console
+   ```bash
    $ chmod +x /usr/local/bin/kubectl-compose_bridge
    ```
 
 3. Verify that the plugin is recognized by `kubectl`:
 
-   ```console
+   ```bash
    $ kubectl plugin list
    ```
 
@@ -41,7 +41,7 @@ To use the `compose-bridge` binary as a `kubectl` plugin, you need to make sure 
 
 4. Now you can use `compose-bridge` as a `kubectl` plugin:
 
-   ```console
+   ```bash
    $ kubectl compose-bridge [command]
    ```
 

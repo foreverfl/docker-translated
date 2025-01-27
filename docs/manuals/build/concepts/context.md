@@ -21,7 +21,7 @@ aliases:
 빌드 컨텍스트는 빌드가 접근할 수 있는 파일들의 집합입니다.
 빌드 명령어에 전달하는 위치 인수가 사용하고자 하는 컨텍스트를 지정합니다:
 
-```console
+```bash
 $ docker build [OPTIONS] PATH | URL | -
                          ^^^^^^^^^^^^^^
 ```
@@ -57,7 +57,7 @@ $ docker build [OPTIONS] PATH | URL | -
 
 로컬 빌드 컨텍스트를 사용하려면 `docker build` 명령어에 상대 경로 또는 절대 파일 경로를 지정할 수 있습니다. 다음 예제는 현재 디렉토리(`.`)를 빌드 컨텍스트로 사용하는 빌드 명령어를 보여줍니다:
 
-```console
+```bash
 $ docker build .
 ...
 #16 [internal] load build context
@@ -94,7 +94,7 @@ RUN npm ci
 COPY index.ts src .
 ```
 
-```console
+```bash
 $ docker build .
 ```
 
@@ -102,7 +102,7 @@ $ docker build .
 
 로컬 파일 시스템의 파일을 사용하면서 stdin에서 Dockerfile을 사용하는 이미지를 빌드하려면 다음 구문을 사용하세요.
 
-```console
+```bash
 $ docker build -f- <PATH>
 ```
 
@@ -146,14 +146,14 @@ tarball을 빌드 명령어에 파이프할 때, 빌드는 tarball의 내용을 
 
 디렉토리의 tarball을 생성하고 이를 빌드에 파이프하여 컨텍스트로 사용할 수 있습니다:
 
-```console
+```bash
 $ tar czf foo.tar.gz *
 $ docker build - < foo.tar.gz
 ```
 
 빌드는 tarball 컨텍스트에서 Dockerfile을 해결합니다. `--file` 플래그를 사용하여 tarball의 루트 상대 위치에 있는 Dockerfile의 이름과 위치를 지정할 수 있습니다. 다음 명령어는 tarball의 `test.Dockerfile`을 사용하여 빌드합니다:
 
-```console
+```bash
 $ docker build --file test.Dockerfile - < foo.tar.gz
 ```
 
@@ -174,7 +174,7 @@ $ docker build --file test.Dockerfile - < foo.tar.gz
 
 빌더는 저장소와 포함된 모든 서브모듈을 재귀적으로 클론합니다.
 
-```console
+```bash
 $ docker build https://github.com/user/myrepo.git
 ```
 
@@ -191,22 +191,22 @@ URL 프래그먼트의 형식은 `#ref:dir`이며, 여기서:
 
 예를 들어, 다음 명령어는 `container` 브랜치와 해당 브랜치의 `docker` 하위 디렉토리를 빌드 컨텍스트로 사용합니다:
 
-```console
+```bash
 $ docker build https://github.com/user/myrepo.git#container:docker
 ```
 
 다음 표는 빌드 컨텍스트와 함께 사용되는 모든 유효한 접미사를 나타냅니다:
 
-| 빌드 구문 접미사                | 사용된 커밋                   | 사용된 빌드 컨텍스트 |
-| ------------------------------ | ----------------------------- | ------------------ |
-| `myrepo.git`                   | `refs/heads/<default branch>` | `/`                |
-| `myrepo.git#mytag`             | `refs/tags/mytag`             | `/`                |
-| `myrepo.git#mybranch`          | `refs/heads/mybranch`         | `/`                |
-| `myrepo.git#pull/42/head`      | `refs/pull/42/head`           | `/`                |
-| `myrepo.git#:myfolder`         | `refs/heads/<default branch>` | `/myfolder`        |
-| `myrepo.git#master:myfolder`   | `refs/heads/master`           | `/myfolder`        |
-| `myrepo.git#mytag:myfolder`    | `refs/tags/mytag`             | `/myfolder`        |
-| `myrepo.git#mybranch:myfolder` | `refs/heads/mybranch`         | `/myfolder`        |
+| 빌드 구문 접미사               | 사용된 커밋                   | 사용된 빌드 컨텍스트 |
+| ------------------------------ | ----------------------------- | -------------------- |
+| `myrepo.git`                   | `refs/heads/<default branch>` | `/`                  |
+| `myrepo.git#mytag`             | `refs/tags/mytag`             | `/`                  |
+| `myrepo.git#mybranch`          | `refs/heads/mybranch`         | `/`                  |
+| `myrepo.git#pull/42/head`      | `refs/pull/42/head`           | `/`                  |
+| `myrepo.git#:myfolder`         | `refs/heads/<default branch>` | `/myfolder`          |
+| `myrepo.git#master:myfolder`   | `refs/heads/master`           | `/myfolder`          |
+| `myrepo.git#mytag:myfolder`    | `refs/tags/mytag`             | `/myfolder`          |
+| `myrepo.git#mybranch:myfolder` | `refs/heads/mybranch`         | `/myfolder`          |
 
 URL 프래그먼트에서 `ref`로 커밋 해시를 사용할 때는 전체 40자 문자열 SHA-1 해시를 사용하세요. 예를 들어, 7자로 잘린 짧은 해시는 지원되지 않습니다.
 
@@ -230,7 +230,7 @@ RUN --mount=target=. \
   make REVISION=$(git rev-parse HEAD) build
 ```
 
-```console
+```bash
 $ docker build \
   --build-arg BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
   https://github.com/user/myrepo.git#main
@@ -243,14 +243,14 @@ Git 컨텍스트가 비공개 저장소인 경우, 빌더는 필요한 인증 �
 Git 컨텍스트가 SSH 또는 Git 주소인 경우, Buildx는 SSH 자격 증명을 자동으로 감지하고 사용합니다. 기본적으로 `$SSH_AUTH_SOCK`을 사용합니다.
 [`--ssh` 플래그](/reference/cli/docker/buildx/build.md#ssh)를 사용하여 사용할 SSH 자격 증명을 구성할 수 있습니다.
 
-```console
+```bash
 $ docker buildx build --ssh default git@github.com:user/private.git
 ```
 
 토큰 기반 인증을 사용하려면
 [`--secret` 플래그](/reference/cli/docker/buildx/build.md#secret)를 사용하여 토큰을 전달할 수 있습니다.
 
-```console
+```bash
 $ GIT_AUTH_TOKEN=<token> docker buildx build \
   --secret id=GIT_AUTH_TOKEN \
   https://github.com/user/private.git
@@ -264,7 +264,7 @@ $ GIT_AUTH_TOKEN=<token> docker buildx build \
 
 로컬 파일 시스템의 파일을 사용하면서 stdin에서 Dockerfile을 사용하는 이미지를 빌드하려면 다음 구문을 사용하세요.
 
-```console
+```bash
 $ docker build -f- <URL>
 ```
 
@@ -285,7 +285,7 @@ EOF
 
 원격 tarball의 URL을 전달하면, URL 자체가 빌더로 전송됩니다.
 
-```console
+```bash
 $ docker build http://server/context.tar.gz
 #1 [internal] load remote build context
 #1 DONE 0.2s
@@ -310,7 +310,7 @@ Dockerfile이 로컬 파일에 의존하지 않는 경우 빈 빌드 컨텍스�
 <Tabs>
 <TabItem value="unix-pipe" label="Unix 파이프">
 
-```console
+```bash
 $ docker build - < Dockerfile
 ```
 
@@ -334,7 +334,7 @@ EOF
 </TabItem>
 <TabItem value="remote-file" label="원격 파일">
 
-```console
+```bash
 $ docker build https://raw.githubusercontent.com/dvdksn/clockbox/main/Dockerfile
 ```
 
@@ -343,7 +343,7 @@ $ docker build https://raw.githubusercontent.com/dvdksn/clockbox/main/Dockerfile
 
 파일 시스템 컨텍스트 없이 빌드할 때, Dockerfile 명령어인 `COPY`는 로컬 파일을 참조할 수 없습니다:
 
-```console
+```bash
 $ ls
 main.c
 $ docker build -<<< $'FROM scratch\nCOPY main.c .'
@@ -432,12 +432,12 @@ temp?
 
 이 파일은 다음과 같은 빌드 동작을 유발합니다:
 
-| 규칙        | 동작                                                                                                                                                                                                      |
-| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `# comment` | 무시됨.                                                                                                                                                                                                      |
+| 규칙        | 동작                                                                                                                                                                                   |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `# comment` | 무시됨.                                                                                                                                                                                |
 | `*/temp*`   | 루트의 모든 하위 디렉토리에서 이름이 `temp`로 시작하는 파일 및 디렉토리를 제외합니다. 예를 들어, 일반 파일 `/somedir/temporary.txt`는 제외되며, 디렉토리 `/somedir/temp`도 제외됩니다. |
-| `*/*/temp*` | 루트에서 두 레벨 아래의 하위 디렉토리에서 `temp`로 시작하는 파일 및 디렉토리를 제외합니다. 예를 들어, `/somedir/subdir/temporary.txt`는 제외됩니다.                                         |
-| `temp?`     | 루트 디렉토리에서 이름이 `temp`의 한 문자 확장인 파일 및 디렉토리를 제외합니다. 예를 들어, `/tempa` 및 `/tempb`는 제외됩니다.                                                     |
+| `*/*/temp*` | 루트에서 두 레벨 아래의 하위 디렉토리에서 `temp`로 시작하는 파일 및 디렉토리를 제외합니다. 예를 들어, `/somedir/subdir/temporary.txt`는 제외됩니다.                                    |
+| `temp?`     | 루트 디렉토리에서 이름이 `temp`의 한 문자 확장인 파일 및 디렉토리를 제외합니다. 예를 들어, `/tempa` 및 `/tempb`는 제외됩니다.                                                          |
 
 매칭은 Go의 [`filepath.Match` 함수](https://golang.org/pkg/path/filepath#Match) 규칙을 사용하여 수행됩니다. 전처리 단계에서는 Go의 [`filepath.Clean` 함수](https://golang.org/pkg/path/filepath/#Clean)를 사용하여 공백을 제거하고 `.` 및 `..`을 제거합니다. 전처리 후 빈 줄은 무시됩니다.
 

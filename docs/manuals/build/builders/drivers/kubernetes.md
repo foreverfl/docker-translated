@@ -24,7 +24,7 @@ powerful compute resources, optionally on multiple native architectures.
 Run the following command to create a new builder, named `kube`, that uses the
 Kubernetes driver:
 
-```console
+```bash
 $ docker buildx create \
   --bootstrap \
   --name=kube \
@@ -84,7 +84,7 @@ is configurable using the following driver options:
 
 For example, to create 4 replica BuildKit pods:
 
-```console
+```bash
 $ docker buildx create \
   --bootstrap \
   --name=kube \
@@ -94,7 +94,7 @@ $ docker buildx create \
 
 Listing the pods, you get this:
 
-```console
+```bash
 $ kubectl -n buildkit get deployments
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE
 kube0   4/4     4            4           8s
@@ -138,7 +138,7 @@ These options accept CSV-delimited strings as values. Due to quoting rules for
 shell commands, you must wrap the values in single quotes. You can even wrap all
 of `--driver-opt` in single quotes, for example:
 
-```console
+```bash
 $ docker buildx create \
   --bootstrap \
   --name=kube \
@@ -161,7 +161,7 @@ and specify which platforms you want to output to.
 
 For example, to build a Linux image for `amd64` and `arm64`:
 
-```console
+```bash
 $ docker buildx build \
   --builder=kube \
   --platform=linux/amd64,linux/arm64 \
@@ -179,7 +179,7 @@ Using a custom BuildKit image or invoking non-native binaries in builds may
 require that you explicitly turn on QEMU using the `qemu.install` option when
 creating the builder:
 
-```console
+```bash
 $ docker buildx create \
   --bootstrap \
   --name=kube \
@@ -196,7 +196,7 @@ driver can take advantage of these for native builds. To do this, use the
 First, create your builder with explicit support for a single architecture, for
 example `amd64`:
 
-```console
+```bash
 $ docker buildx create \
   --bootstrap \
   --name=kube \
@@ -217,7 +217,7 @@ the same architecture together.
 With the `kube` builder created, you can now introduce another architecture into
 the mix using `--append`. For example, to add `arm64`:
 
-```console
+```bash
 $ docker buildx create \
   --append \
   --bootstrap \
@@ -230,7 +230,7 @@ $ docker buildx create \
 
 Listing your builders shows both nodes for the `kube` builder:
 
-```console
+```bash
 $ docker buildx ls
 NAME/NODE       DRIVER/ENDPOINT                                         STATUS   PLATFORMS
 kube            kubernetes
@@ -241,7 +241,7 @@ kube            kubernetes
 You can now build multi-arch `amd64` and `arm64` images, by specifying those
 platforms together in your build command:
 
-```console
+```bash
 $ docker buildx build --builder=kube --platform=linux/amd64,linux/arm64 -t <user>/<image> --push .
 ```
 
@@ -256,7 +256,7 @@ rootless mode works, and it's requirements, see
 
 To turn it on in your cluster, you can use the `rootless=true` driver option:
 
-```console
+```bash
 $ docker buildx create \
   --name=kube \
   --driver=kubernetes \
@@ -291,14 +291,14 @@ Prerequisites:
    Creating a separate namespace helps keep your Buildx resources separate from
    other resources in the cluster.
 
-   ```console
+   ```bash
    $ kubectl create namespace buildkit
    namespace/buildkit created
    ```
 
 2. Create a new builder with the Kubernetes driver:
 
-   ```console
+   ```bash
    $ docker buildx create \
      --bootstrap \
      --name=kube \
@@ -312,7 +312,7 @@ Prerequisites:
 
 3. List available builders using `docker buildx ls`
 
-   ```console
+   ```bash
    $ docker buildx ls
    NAME/NODE                DRIVER/ENDPOINT STATUS  PLATFORMS
    kube                     kubernetes
@@ -323,7 +323,7 @@ Prerequisites:
 
 4. Inspect the running pods created by the build driver with `kubectl`.
 
-   ```console
+   ```bash
    $ kubectl -n buildkit get deployments
    NAME    READY   UP-TO-DATE   AVAILABLE   AGE
    kube0   1/1     1            1           32s
@@ -340,7 +340,7 @@ Prerequisites:
 5. Use your new builder by including the `--builder` flag when running buildx
    commands. For example: :
 
-   ```console
+   ```bash
    # Replace <registry> with your Docker username
    # and <image> with the name of the image you want to build
    docker buildx build \

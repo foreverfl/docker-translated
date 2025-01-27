@@ -69,73 +69,72 @@ For production systems, see
 
 1. Stop Docker.
 
-   ```console
+   ```bash
    $ sudo systemctl stop docker
    ```
 
-2.  Edit `/etc/docker/daemon.json`. If it does not yet exist, create it. Assuming
-    that the file was empty, add the following contents.
+2. Edit `/etc/docker/daemon.json`. If it does not yet exist, create it. Assuming
+   that the file was empty, add the following contents.
 
-    ```json
-    {
-      "storage-driver": "devicemapper"
-    }
-    ```
+   ```json
+   {
+     "storage-driver": "devicemapper"
+   }
+   ```
 
-    See all storage options for each storage driver in the
-    [daemon reference documentation](/reference/cli/dockerd/#options-per-storage-driver)
+   See all storage options for each storage driver in the
+   [daemon reference documentation](/reference/cli/dockerd/#options-per-storage-driver)
 
-    Docker does not start if the `daemon.json` file contains badly-formed JSON.
+   Docker does not start if the `daemon.json` file contains badly-formed JSON.
 
-3.  Start Docker.
+3. Start Docker.
 
-    ```console
-    $ sudo systemctl start docker
-    ```
+   ```bash
+   $ sudo systemctl start docker
+   ```
 
-4.  Verify that the daemon is using the `devicemapper` storage driver. Use the
-    `docker info` command and look for `Storage Driver`.
+4. Verify that the daemon is using the `devicemapper` storage driver. Use the
+   `docker info` command and look for `Storage Driver`.
 
-    ```console
-    $ docker info
+   ```bash
+   $ docker info
 
-      Containers: 0
-        Running: 0
-        Paused: 0
-        Stopped: 0
-      Images: 0
-      Server Version: 17.03.1-ce
-      Storage Driver: devicemapper
-      Pool Name: docker-202:1-8413957-pool
-      Pool Blocksize: 65.54 kB
-      Base Device Size: 10.74 GB
-      Backing Filesystem: xfs
-      Data file: /dev/loop0
-      Metadata file: /dev/loop1
-      Data Space Used: 11.8 MB
-      Data Space Total: 107.4 GB
-      Data Space Available: 7.44 GB
-      Metadata Space Used: 581.6 KB
-      Metadata Space Total: 2.147 GB
-      Metadata Space Available: 2.147 GB
-      Thin Pool Minimum Free Space: 10.74 GB
-      Udev Sync Supported: true
-      Deferred Removal Enabled: false
-      Deferred Deletion Enabled: false
-      Deferred Deleted Device Count: 0
-      Data loop file: /var/lib/docker/devicemapper/data
-      Metadata loop file: /var/lib/docker/devicemapper/metadata
-      Library Version: 1.02.135-RHEL7 (2016-11-16)
-    <...>
-    ```
+     Containers: 0
+       Running: 0
+       Paused: 0
+       Stopped: 0
+     Images: 0
+     Server Version: 17.03.1-ce
+     Storage Driver: devicemapper
+     Pool Name: docker-202:1-8413957-pool
+     Pool Blocksize: 65.54 kB
+     Base Device Size: 10.74 GB
+     Backing Filesystem: xfs
+     Data file: /dev/loop0
+     Metadata file: /dev/loop1
+     Data Space Used: 11.8 MB
+     Data Space Total: 107.4 GB
+     Data Space Available: 7.44 GB
+     Metadata Space Used: 581.6 KB
+     Metadata Space Total: 2.147 GB
+     Metadata Space Available: 2.147 GB
+     Thin Pool Minimum Free Space: 10.74 GB
+     Udev Sync Supported: true
+     Deferred Removal Enabled: false
+     Deferred Deletion Enabled: false
+     Deferred Deleted Device Count: 0
+     Data loop file: /var/lib/docker/devicemapper/data
+     Metadata loop file: /var/lib/docker/devicemapper/metadata
+     Library Version: 1.02.135-RHEL7 (2016-11-16)
+   <...>
+   ```
 
-  This host is running in `loop-lvm` mode, which is **not** supported on
-  production systems. This is indicated by the fact that the `Data loop file`
-  and a `Metadata loop file` are on files under
-  `/var/lib/docker/devicemapper`. These are loopback-mounted
-  sparse files. For production systems, see
-  [Configure direct-lvm mode for production](#configure-direct-lvm-mode-for-production).
-
+This host is running in `loop-lvm` mode, which is **not** supported on
+production systems. This is indicated by the fact that the `Data loop file`
+and a `Metadata loop file` are on files under
+`/var/lib/docker/devicemapper`. These are loopback-mounted
+sparse files. For production systems, see
+[Configure direct-lvm mode for production](#configure-direct-lvm-mode-for-production).
 
 ### Configure direct-lvm mode for production
 
@@ -164,10 +163,10 @@ single block device. If you need to use multiple block devices,
 The following new configuration options are available:
 
 | Option                          | Description                                                                                                                                                                        | Required? | Default | Example                            |
-|:--------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------|:--------|:-----------------------------------|
+| :------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------- | :------ | :--------------------------------- |
 | `dm.directlvm_device`           | The path to the block device to configure for `direct-lvm`.                                                                                                                        | Yes       |         | `dm.directlvm_device="/dev/xvdf"`  |
 | `dm.thinp_percent`              | The percentage of space to use for storage from the passed in block device.                                                                                                        | No        | 95      | `dm.thinp_percent=95`              |
-| `dm.thinp_metapercent`          | The percentage of space to use for metadata storage from the passed-in block device.                                                                                                   | No        | 1       | `dm.thinp_metapercent=1`           |
+| `dm.thinp_metapercent`          | The percentage of space to use for metadata storage from the passed-in block device.                                                                                               | No        | 1       | `dm.thinp_metapercent=1`           |
 | `dm.thinp_autoextend_threshold` | The threshold for when lvm should automatically extend the thin pool as a percentage of the total storage space.                                                                   | No        | 80      | `dm.thinp_autoextend_threshold=80` |
 | `dm.thinp_autoextend_percent`   | The percentage to increase the thin pool by when an autoextend is triggered.                                                                                                       | No        | 20      | `dm.thinp_autoextend_percent=20`   |
 | `dm.directlvm_device_force`     | Whether to format the block device even if a filesystem already exists on it. If set to `false` and a filesystem is present, an error is logged and the filesystem is left intact. | No        | false   | `dm.directlvm_device_force=true`   |
@@ -218,7 +217,7 @@ assumes that the Docker daemon is in the `stopped` state.
 
 2.  Stop Docker.
 
-    ```console
+    ```bash
     $ sudo systemctl stop docker
     ```
 
@@ -237,7 +236,7 @@ assumes that the Docker daemon is in the `stopped` state.
     > The next few steps are destructive, so be sure that you have specified
     > the correct device.
 
-    ```console
+    ```bash
     $ sudo pvcreate /dev/xvdf
 
     Physical volume "/dev/xvdf" successfully created.
@@ -246,7 +245,7 @@ assumes that the Docker daemon is in the `stopped` state.
 5.  Create a `docker` volume group on the same device, using the `vgcreate`
     command.
 
-    ```console
+    ```bash
     $ sudo vgcreate docker /dev/xvdf
 
     Volume group "docker" successfully created
@@ -257,7 +256,7 @@ assumes that the Docker daemon is in the `stopped` state.
     to allow for automatic expanding of the data or metadata if space runs low,
     as a temporary stop-gap. These are the recommended values.
 
-    ```console
+    ```bash
     $ sudo lvcreate --wipesignatures y -n thinpool docker -l 95%VG
 
     Logical volume "thinpool" created.
@@ -270,7 +269,7 @@ assumes that the Docker daemon is in the `stopped` state.
 7.  Convert the volumes to a thin pool and a storage location for metadata for
     the thin pool, using the `lvconvert` command.
 
-    ```console
+    ```bash
     $ sudo lvconvert -y \
     --zero n \
     -c 512K \
@@ -285,7 +284,7 @@ assumes that the Docker daemon is in the `stopped` state.
 
 8.  Configure autoextension of thin pools via an `lvm` profile.
 
-    ```console
+    ```bash
     $ sudo vi /etc/lvm/profile/docker-thinpool.profile
     ```
 
@@ -312,7 +311,7 @@ assumes that the Docker daemon is in the `stopped` state.
 
 10. Apply the LVM profile, using the `lvchange` command.
 
-    ```console
+    ```bash
     $ sudo lvchange --metadataprofile docker-thinpool docker/thinpool
 
     Logical volume docker/thinpool changed.
@@ -320,7 +319,7 @@ assumes that the Docker daemon is in the `stopped` state.
 
 11. Ensure monitoring of the logical volume is enabled.
 
-    ```console
+    ```bash
     $ sudo lvs -o+seg_monitor
 
     LV       VG     Attr       LSize  Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert Monitor
@@ -332,7 +331,7 @@ assumes that the Docker daemon is in the `stopped` state.
     this step, automatic extension of the logical volume will not occur,
     regardless of any settings in the applied profile.
 
-    ```console
+    ```bash
     $ sudo lvchange --monitor y docker/thinpool
     ```
 
@@ -344,7 +343,7 @@ assumes that the Docker daemon is in the `stopped` state.
     exists, move it out of the way so that Docker can use the new LVM pool to
     store the contents of image and containers.
 
-    ```console
+    ```bash
     $ sudo su -
     # mkdir /var/lib/docker.bk
     # mv /var/lib/docker/* /var/lib/docker.bk
@@ -360,12 +359,12 @@ assumes that the Docker daemon is in the `stopped` state.
 
     ```json
     {
-        "storage-driver": "devicemapper",
-        "storage-opts": [
+      "storage-driver": "devicemapper",
+      "storage-opts": [
         "dm.thinpooldev=/dev/mapper/docker-thinpool",
         "dm.use_deferred_removal=true",
         "dm.use_deferred_deletion=true"
-        ]
+      ]
     }
     ```
 
@@ -373,19 +372,19 @@ assumes that the Docker daemon is in the `stopped` state.
 
     **systemd**:
 
-    ```console
+    ```bash
     $ sudo systemctl start docker
     ```
 
     **service**:
 
-    ```console
+    ```bash
     $ sudo service docker start
     ```
 
 15. Verify that Docker is using the new configuration using `docker info`.
 
-    ```console
+    ```bash
     $ docker info
 
     Containers: 0
@@ -422,7 +421,7 @@ assumes that the Docker daemon is in the `stopped` state.
 16. After you have verified that the configuration is correct, you can remove the
     `/var/lib/docker.bk` directory which contains the previous configuration.
 
-    ```console
+    ```bash
     $ sudo rm -rf /var/lib/docker.bk
     ```
 
@@ -437,7 +436,7 @@ tool at the OS level, such as Nagios.
 
 To view the LVM logs, you can use `journalctl`:
 
-```console
+```bash
 $ sudo journalctl -fu dm-event.service
 ```
 
@@ -479,7 +478,7 @@ If you do not want to use `device_tool`, you can [resize the thin pool manually]
 
 2.  Use the tool. The following example resizes the thin pool to 200GB.
 
-    ```console
+    ```bash
     $ ./device_tool resize 200GB
     ```
 
@@ -495,7 +494,7 @@ it has significant performance and stability drawbacks.
 If you are using `loop-lvm` mode, the output of `docker info` shows file
 paths for `Data loop file` and `Metadata loop file`:
 
-```console
+```bash
 $ docker info |grep 'loop file'
 
  Data loop file: /var/lib/docker/devicemapper/data
@@ -507,7 +506,7 @@ thin pool is 100 GB, and is increased to 200 GB.
 
 1.  List the sizes of the devices.
 
-    ```console
+    ```bash
     $ sudo ls -lh /var/lib/docker/devicemapper/
 
     total 1175492
@@ -519,13 +518,13 @@ thin pool is 100 GB, and is increased to 200 GB.
     which is used to increase **or** decrease the size of a file. Note that
     decreasing the size is a destructive operation.
 
-    ```console
+    ```bash
     $ sudo truncate -s 200G /var/lib/docker/devicemapper/data
     ```
 
 3.  Verify the file size changed.
 
-    ```console
+    ```bash
     $ sudo ls -lh /var/lib/docker/devicemapper/
 
     total 1.2G
@@ -537,7 +536,7 @@ thin pool is 100 GB, and is increased to 200 GB.
     the loopback device in memory, in GB. Reload it, then list the size again.
     After the reload, the size is 200 GB.
 
-    ```console
+    ```bash
     $ echo $[ $(sudo blockdev --getsize64 /dev/loop0) / 1024 / 1024 / 1024 ]
 
     100
@@ -554,14 +553,14 @@ thin pool is 100 GB, and is increased to 200 GB.
     a. Get the pool name first. The pool name is the first field, delimited by
     `:`. This command extracts it.
 
-    ```console
+    ```bash
     $ sudo dmsetup status | grep ' thin-pool ' | awk -F ': ' {'print $1'}
     docker-8:1-123141-pool
     ```
 
     b. Dump the device mapper table for the thin pool.
 
-    ```console
+    ```bash
     $ sudo dmsetup table docker-8:1-123141-pool
     0 209715200 thin-pool 7:1 7:0 128 32768 1 skip_block_zeroing
     ```
@@ -572,9 +571,9 @@ thin pool is 100 GB, and is increased to 200 GB.
     419430400 512-k sectors.
 
     d. Reload the thin pool with the new sector number, using the following
-    three `dmsetup`  commands.
+    three `dmsetup` commands.
 
-    ```console
+    ```bash
     $ sudo dmsetup suspend docker-8:1-123141-pool
     $ sudo dmsetup reload docker-8:1-123141-pool --table '0 419430400 thin-pool 7:1 7:0 128 32768 1 skip_block_zeroing'
     $ sudo dmsetup resume docker-8:1-123141-pool
@@ -594,7 +593,7 @@ block device and other parameters to suit your situation.
     Use the `pvdisplay` command to find the physical block devices currently in
     use by your thin pool, and the volume group's name.
 
-    ```console
+    ```bash
     $ sudo pvdisplay |grep 'VG Name'
 
     PV Name               /dev/xvdf
@@ -607,7 +606,7 @@ block device and other parameters to suit your situation.
 2.  Extend the volume group, using the `vgextend` command with the `VG Name`
     from the previous step, and the name of your **new** block device.
 
-    ```console
+    ```bash
     $ sudo vgextend docker /dev/xvdg
 
     Physical volume "/dev/xvdg" successfully created.
@@ -618,7 +617,7 @@ block device and other parameters to suit your situation.
     volume right away, without auto-extend. To extend the metadata thinpool
     instead, use `docker/thinpool_tmeta`.
 
-    ```console
+    ```bash
     $ sudo lvextend -l+100%FREE -n docker/thinpool
 
     Size of logical volume docker/thinpool_tdata changed from 95.00 GiB (24319 extents) to 198.00 GiB (50688 extents).
@@ -652,7 +651,7 @@ If you reboot the host and find that the `docker` service failed to start,
 look for the error, "Non existing device". You need to re-activate the
 logical volumes with this command:
 
-```console
+```bash
 $ sudo lvchange -ay docker/thinpool
 ```
 
@@ -665,7 +664,7 @@ $ sudo lvchange -ay docker/thinpool
 Use the `lsblk` command to see the devices and their pools, from the operating
 system's point of view:
 
-```console
+```bash
 $ sudo lsblk
 
 NAME                    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
@@ -680,7 +679,7 @@ xvdf                    202:80   0  100G  0 disk
 
 Use the `mount` command to see the mount-point Docker is using:
 
-```console
+```bash
 $ mount |grep devicemapper
 /dev/xvda1 on /var/lib/docker/devicemapper type xfs (rw,relatime,seclabel,attr2,inode64,noquota)
 ```
@@ -700,7 +699,6 @@ The `/var/lib/docker/devicemapper/mnt/` directory contains a mount point for eac
 and container layer that exists. Image layer mount points are empty, but a
 container's mount point shows the container's filesystem as it appears from
 within the container.
-
 
 ### Image layering and sharing
 
@@ -777,7 +775,7 @@ it reads the block from there. The block now exists in the container's memory.
 ### Writing files
 
 **Writing a new file**: With the `devicemapper` driver, writing new data to a
-container is accomplished by an *allocate-on-demand* operation. Each block of
+container is accomplished by an _allocate-on-demand_ operation. Each block of
 the new file is allocated in the container's writable layer and the block is
 written there.
 
@@ -823,7 +821,7 @@ storage driver.
 - **Use `direct-lvm`**: The `loop-lvm` mode is not performant and should never
   be used in production.
 
-- **Use fast storage**:  Solid-state drives (SSDs) provide faster reads and
+- **Use fast storage**: Solid-state drives (SSDs) provide faster reads and
   writes than spinning disks.
 
 - **Memory usage**: the `devicemapper` uses more memory than some other storage
@@ -841,7 +839,7 @@ storage driver.
 
   > [!NOTE]
   >
-  > When using `devicemapper` and the `json-file` log driver, the log files generated by a container are still stored in Docker's dataroot directory, by default `/var/lib/docker`.  If your containers generate lots of log messages, this may lead to increased disk usage or the inability to manage your system due to a full disk. You can configure a [log driver](/manuals/engine/logging/configure.md) to store your container logs externally.
+  > When using `devicemapper` and the `json-file` log driver, the log files generated by a container are still stored in Docker's dataroot directory, by default `/var/lib/docker`. If your containers generate lots of log messages, this may lead to increased disk usage or the inability to manage your system due to a full disk. You can configure a [log driver](/manuals/engine/logging/configure.md) to store your container logs externally.
 
 ## Related Information
 

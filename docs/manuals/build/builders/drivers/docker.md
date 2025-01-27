@@ -27,7 +27,7 @@ store.
 
 ## Synopsis
 
-```console
+```bash
 # The Docker driver is used by buildx by default
 docker buildx build .
 ```

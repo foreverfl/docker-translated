@@ -23,7 +23,7 @@ installed, you also have access to bake, via the `docker buildx bake` command.
 
 Here's a simple example of a `docker build` command:
 
-```console
+```bash
 $ docker build -f Dockerfile -t myapp:latest .
 ```
 
@@ -44,7 +44,7 @@ Bake provides a structured way to manage your build configuration, and it saves
 you from having to remember all the CLI flags for `docker build` every time.
 With this file, building the image is as simple as running:
 
-```console
+```bash
 $ docker buildx bake myapp
 ```
 
@@ -65,7 +65,7 @@ use Bake.
 The properties that can be set for a target closely resemble the CLI flags for
 `docker build`. For instance, consider the following `docker build` command:
 
-```console
+```bash
 $ docker build \
   -f Dockerfile \
   -t myapp:latest \

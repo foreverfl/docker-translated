@@ -32,7 +32,7 @@ It also supplies a Kustomize overlay dedicated to Docker Desktop with:
 
 To use the default transformation run the following command:
 
-```console
+```bash
 $ compose-bridge convert
 ```
 
@@ -40,7 +40,7 @@ Compose looks for a `compose.yaml` file inside the current directory and then co
 
 The following output is displayed
 
-```console
+```bash
 $ compose-bridge convert -f compose.yaml
 Kubernetes resource api-deployment.yaml created
 Kubernetes resource db-deployment.yaml created
@@ -73,13 +73,13 @@ the standard deployment command `kubectl apply -k out/overlays/desktop/`.
 
 If you want to convert a `compose.yaml` file that is located in another directory, you can run:
 
-```console
+```bash
 $ compose-bridge convert -f <path-to-file>/compose.yaml
 ```
 
 To see all available flags, run:
 
-```console
+```bash
 $ compose-bridge convert --help
 ```
 

@@ -17,11 +17,11 @@ availability. The swarm manager can assign tasks to any `Active` node, so up to
 now all nodes have been available to receive tasks.
 
 Sometimes, such as planned maintenance times, you need to set a node to `Drain`
-availability. `Drain` availability  prevents a node from receiving new tasks
+availability. `Drain` availability prevents a node from receiving new tasks
 from the swarm manager. It also means the manager stops tasks running on the
 node and launches replica tasks on a node with `Active` availability.
 
-> [!IMPORTANT]: 
+> [!IMPORTANT]:
 >
 > Setting a node to `Drain` does not remove standalone containers from that node,
 > such as those created with `docker run`, `docker compose up`, or the Docker Engine
@@ -34,7 +34,7 @@ node and launches replica tasks on a node with `Active` availability.
 
 2.  Verify that all your nodes are actively available.
 
-    ```console
+    ```bash
     $ docker node ls
 
     ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
@@ -46,39 +46,39 @@ node and launches replica tasks on a node with `Active` availability.
 3.  If you aren't still running the `redis` service from the
     [rolling update](rolling-update.md) tutorial, start it now:
 
-    ```console
+    ```bash
     $ docker service create --replicas 3 --name redis --update-delay 10s redis:7.4.0
 
     c5uo6kdmzpon37mgj9mwglcfw
     ```
 
 4.  Run `docker service ps redis` to see how the swarm manager assigned the
-tasks to different nodes:
+    tasks to different nodes:
 
-    ```console
-    $ docker service ps redis
+        ```bash
+        $ docker service ps redis
 
-    NAME                               IMAGE        NODE     DESIRED STATE  CURRENT STATE
-    redis.1.7q92v0nr1hcgts2amcjyqg3pq  redis:7.4.0  manager1 Running        Running 26 seconds
-    redis.2.7h2l8h3q3wqy5f66hlv9ddmi6  redis:7.4.0  worker1  Running        Running 26 seconds
-    redis.3.9bg7cezvedmkgg6c8yzvbhwsd  redis:7.4.0  worker2  Running        Running 26 seconds
-    ```
+        NAME                               IMAGE        NODE     DESIRED STATE  CURRENT STATE
+        redis.1.7q92v0nr1hcgts2amcjyqg3pq  redis:7.4.0  manager1 Running        Running 26 seconds
+        redis.2.7h2l8h3q3wqy5f66hlv9ddmi6  redis:7.4.0  worker1  Running        Running 26 seconds
+        redis.3.9bg7cezvedmkgg6c8yzvbhwsd  redis:7.4.0  worker2  Running        Running 26 seconds
+        ```
 
-    In this case the swarm manager distributed one task to each node. You may
-    see the tasks distributed differently among the nodes in your environment.
+        In this case the swarm manager distributed one task to each node. You may
+        see the tasks distributed differently among the nodes in your environment.
 
 5.  Run `docker node update --availability drain <NODE-ID>` to drain a node that
-had a task assigned to it:
+    had a task assigned to it:
 
-    ```console
-    $ docker node update --availability drain worker1
+        ```bash
+        $ docker node update --availability drain worker1
 
-    worker1
-    ```
+        worker1
+        ```
 
 6.  Inspect the node to check its availability:
 
-    ```console
+    ```bash
     $ docker node inspect --pretty worker1
 
     ID:			38ciaotwjuritcdtn9npbnkuz
@@ -92,34 +92,34 @@ had a task assigned to it:
     The drained node shows `Drain` for `Availability`.
 
 7.  Run `docker service ps redis` to see how the swarm manager updated the
-task assignments for the `redis` service:
+    task assignments for the `redis` service:
 
-    ```console
-    $ docker service ps redis
+        ```bash
+        $ docker service ps redis
 
-    NAME                                    IMAGE        NODE      DESIRED STATE  CURRENT STATE           ERROR
-    redis.1.7q92v0nr1hcgts2amcjyqg3pq       redis:7.4.0  manager1  Running        Running 4 minutes
-    redis.2.b4hovzed7id8irg1to42egue8       redis:7.4.0  worker2   Running        Running About a minute
-     \_ redis.2.7h2l8h3q3wqy5f66hlv9ddmi6   redis:7.4.0  worker1   Shutdown       Shutdown 2 minutes ago
-    redis.3.9bg7cezvedmkgg6c8yzvbhwsd       redis:7.4.0  worker2   Running        Running 4 minutes
-    ```
+        NAME                                    IMAGE        NODE      DESIRED STATE  CURRENT STATE           ERROR
+        redis.1.7q92v0nr1hcgts2amcjyqg3pq       redis:7.4.0  manager1  Running        Running 4 minutes
+        redis.2.b4hovzed7id8irg1to42egue8       redis:7.4.0  worker2   Running        Running About a minute
+         \_ redis.2.7h2l8h3q3wqy5f66hlv9ddmi6   redis:7.4.0  worker1   Shutdown       Shutdown 2 minutes ago
+        redis.3.9bg7cezvedmkgg6c8yzvbhwsd       redis:7.4.0  worker2   Running        Running 4 minutes
+        ```
 
-    The swarm manager maintains the desired state by ending the task on a node
-    with `Drain` availability and creating a new task on a node with `Active`
-    availability.
+        The swarm manager maintains the desired state by ending the task on a node
+        with `Drain` availability and creating a new task on a node with `Active`
+        availability.
 
-8.  Run  `docker node update --availability active <NODE-ID>` to return the
-drained node to an active state:
+8.  Run `docker node update --availability active <NODE-ID>` to return the
+    drained node to an active state:
 
-    ```console
-    $ docker node update --availability active worker1
+        ```bash
+        $ docker node update --availability active worker1
 
-    worker1
-    ```
+        worker1
+        ```
 
 9.  Inspect the node to see the updated state:
 
-    ```console
+    ```bash
     $ docker node inspect --pretty worker1
 
     ID:			38ciaotwjuritcdtn9npbnkuz
@@ -132,10 +132,10 @@ drained node to an active state:
 
     When you set the node back to `Active` availability, it can receive new tasks:
 
-    * during a service update to scale up
-    * during a rolling update
-    * when you set another node to `Drain` availability
-    * when a task fails on another active node
+    - during a service update to scale up
+    - during a rolling update
+    - when you set another node to `Drain` availability
+    - when a task fails on another active node
 
 ## Next steps
 

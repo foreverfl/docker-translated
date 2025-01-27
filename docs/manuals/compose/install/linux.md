@@ -49,21 +49,21 @@ To install the Docker Compose plugin on Linux, you can either:
 
    - For Ubuntu and Debian, run:
 
-     ```console
+     ```bash
      $ sudo apt-get update
      $ sudo apt-get install docker-compose-plugin
      ```
 
    - For RPM-based distributions, run:
 
-     ```console
+     ```bash
      $ sudo yum update
      $ sudo yum install docker-compose-plugin
      ```
 
 3. Verify that Docker Compose is installed correctly by checking the version.
 
-   ```console
+   ```bash
    $ docker compose version
    ```
 
@@ -81,14 +81,14 @@ To update the Docker Compose plugin, run the following commands:
 
 - For Ubuntu and Debian, run:
 
-  ```console
+  ```bash
   $ sudo apt-get update
   $ sudo apt-get install docker-compose-plugin
   ```
 
 - For RPM-based distributions, run:
 
-  ```console
+  ```bash
   $ sudo yum update
   $ sudo yum install docker-compose-plugin
   ```
@@ -101,7 +101,7 @@ To update the Docker Compose plugin, run the following commands:
 
 1.  To download and install the Docker Compose CLI plugin, run:
 
-    ```console
+    ```bash
     $ DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
     $ mkdir -p $DOCKER_CONFIG/cli-plugins
     $ curl -SL https://github.com/docker/compose/releases/download//docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
@@ -117,19 +117,19 @@ To update the Docker Compose plugin, run the following commands:
 
 2.  Apply executable permissions to the binary:
 
-    ```console
+    ```bash
     $ chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
     ```
 
     or, if you chose to install Compose for all users:
 
-    ```console
+    ```bash
     $ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
     ```
 
 3.  Test the installation.
 
-    ```console
+    ```bash
     $ docker compose version
     ```
 

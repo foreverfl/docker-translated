@@ -7,8 +7,8 @@ keywords:
   - standalone
   - host mode networking
 aliases:
-- /network/host/
-- /network/drivers/host/
+  - /network/host/
+  - /network/drivers/host/
 ---
 
 If you use the `host` network mode for a container, that container's network
@@ -25,7 +25,7 @@ address.
 > take effect, and the `-p`, `--publish`, `-P`, and `--publish-all` option are
 > ignored, producing a warning instead:
 >
-> ```console
+> ```bash
 > WARNING: Published ports are discarded when using host network mode
 > ```
 
@@ -66,14 +66,14 @@ networking enabled. TCP as well as UDP are supported as communication protocols.
 
 The following command starts netcat in a container that listens on port `8000`:
 
-```console
+```bash
 $ docker run --rm -it --net=host nicolaka/netshoot nc -lkv 0.0.0.0 8000
 ```
 
 Port `8000` will then be available on the host and you can connect to it with the following
 command from another terminal:
 
-```console
+```bash
 $ nc localhost 8000
 ```
 
@@ -83,27 +83,27 @@ running.
 To access a service running on the host from the container, you can start a container with
 host networking enabled with this command:
 
-```console
+```bash
 $ docker run --rm -it --net=host nicolaka/netshoot
 ```
 
 If you then want to access a service on your host from the container (in this
 example a web server running on port `80`), you can do it like this:
 
-```console
+```bash
 $ nc localhost 80
 ```
 
 ### Limitations
 
 - Processes inside the container cannot bind to the IP addresses of the host
- because the container has no direct access to the interfaces of the host.
+  because the container has no direct access to the interfaces of the host.
 - The host network feature of Docker Desktop works on layer 4. This means that
-unlike with Docker on Linux, network protocols that operate below TCP or UDP are
-not supported.
+  unlike with Docker on Linux, network protocols that operate below TCP or UDP are
+  not supported.
 - This feature doesn't work with Enhanced Container Isolation enabled, since
-isolating your containers from the host and allowing them access to the host
-network contradict each other.
+  isolating your containers from the host and allowing them access to the host
+  network contradict each other.
 - Only Linux containers are supported. Host networking does not work with
   Windows containers.
 

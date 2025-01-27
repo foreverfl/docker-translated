@@ -80,19 +80,19 @@ Linux 배포판이 두 가지 중 하나를 지원하는 경우 AppArmor 또는 
 
 2.  `tar` 유틸리티를 사용하여 아카이브를 추출합니다. `dockerd` 및 `docker` 바이너리가 추출됩니다.
 
-    ```console
+    ```bash
     $ tar xzvf /path/to/<FILE>.tar.gz
     ```
 
 3.  **선택 사항**: 바이너리를 `/usr/bin/`과 같은 실행 경로의 디렉토리로 이동합니다. 이 단계를 건너뛰면 `docker` 또는 `dockerd` 명령을 실행할 때 실행 파일의 경로를 제공해야 합니다.
 
-    ```console
+    ```bash
     $ sudo cp docker/* /usr/bin/
     ```
 
 4.  Docker 데몬을 시작합니다:
 
-    ```console
+    ```bash
     $ sudo dockerd &
     ```
 
@@ -100,7 +100,7 @@ Linux 배포판이 두 가지 중 하나를 지원하는 경우 AppArmor 또는 
 
 5.  `hello-world` 이미지를 실행하여 Docker가 올바르게 설치되었는지 확인합니다.
 
-    ```console
+    ```bash
     $ sudo docker run hello-world
     ```
 
@@ -127,31 +127,31 @@ Mac용 바이너리에는 다음이 포함되지 않습니다:
 
 2.  `tar` 유틸리티를 사용하여 아카이브를 추출합니다. `docker` 바이너리가 추출됩니다.
 
-    ```console
+    ```bash
     $ tar xzvf /path/to/<FILE>.tar.gz
     ```
 
 3.  실행할 수 있도록 확장 속성을 지웁니다.
 
-    ```console
+    ```bash
     $ sudo xattr -rc docker
     ```
 
     이제 다음 명령을 실행하면 Docker CLI 사용 지침을 볼 수 있습니다:
 
-    ```console
+    ```bash
     $ docker/docker
     ```
 
 4.  **선택 사항**: 바이너리를 `/usr/local/bin/`과 같은 실행 경로의 디렉토리로 이동합니다. 이 단계를 건너뛰면 `docker` 또는 `dockerd` 명령을 실행할 때 실행 파일의 경로를 제공해야 합니다.
 
-    ```console
+    ```bash
     $ sudo cp docker/docker /usr/local/bin/
     ```
 
 5.  `hello-world` 이미지를 실행하여 Docker가 올바르게 설치되었는지 확인합니다. `<hostname>`의 값은 Docker 데몬을 실행하고 클라이언트에서 액세스할 수 있는 호스트 이름 또는 IP 주소입니다.
 
-    ```console
+    ```bash
     $ sudo docker -H <hostname> run hello-world
     ```
 

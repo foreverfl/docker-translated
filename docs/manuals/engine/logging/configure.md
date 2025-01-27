@@ -90,7 +90,7 @@ To find the current default logging driver for the Docker daemon, run
 `docker info` and search for `Logging Driver`. You can use the following
 command on Linux, macOS, or PowerShell on Windows:
 
-```console
+```bash
 $ docker info --format '{{.LoggingDriver}}'
 
 json-file
@@ -117,7 +117,7 @@ default logging driver, it can use different configurable options.
 
 The following example starts an Alpine container with the `none` logging driver.
 
-```console
+```bash
 $ docker run -it --log-driver none alpine ash
 ```
 
@@ -125,7 +125,7 @@ To find the current logging driver for a running container, if the daemon
 is using the `json-file` logging driver, run the following `docker inspect`
 command, substituting the container name or ID for `<CONTAINER>`:
 
-```console
+```bash
 $ docker inspect -f '{{.HostConfig.LogConfig.Type}}' <CONTAINER>
 
 json-file
@@ -160,7 +160,7 @@ some examples are `1KiB` for 1024 bytes, `2g` for 2 billion bytes.
 The following example starts an Alpine container with log output in non-blocking
 mode and a 4 megabyte buffer:
 
-```console
+```bash
 $ docker run -it --log-opt mode=non-blocking --log-opt max-buffer-size=4m alpine ping 127.0.0.1
 ```
 
@@ -171,7 +171,7 @@ flags to the container's logs. This example starts a container using the Docker
 daemon's default logging driver (in the following example, `json-file`) but
 sets the environment variable `os=ubuntu`.
 
-```console
+```bash
 $ docker run -dit --label production_status=testing -e os=ubuntu alpine sh
 ```
 
@@ -189,19 +189,19 @@ documentation for its configurable options, if applicable. If you are using
 [logging driver plugins](plugins.md), you may
 see more options.
 
-| Driver                                | Description                                                                                                 |
-| :------------------------------------ | :---------------------------------------------------------------------------------------------------------- |
-| `none`                                | No logs are available for the container and `docker logs` does not return any output.                       |
-| [`local`](drivers/local.md)           | Logs are stored in a custom format designed for minimal overhead.                                           |
-| [`json-file`](drivers/json-file.md)   | The logs are formatted as JSON. The default logging driver for Docker.                                      |
-| [`syslog`](drivers/syslog.md)         | Writes logging messages to the `syslog` facility. The `syslog` daemon must be running on the host machine.  |
-| [`journald`](drivers/journald.md)     | Writes log messages to `journald`. The `journald` daemon must be running on the host machine.               |
-| [`gelf`](drivers/gelf.md)             | Writes log messages to a Graylog Extended Log Format (GELF) endpoint such as Graylog or Logstash.           |
-| [`fluentd`](drivers/fluentd.md)       | Writes log messages to `fluentd` (forward input). The `fluentd` daemon must be running on the host machine. |
-| [`awslogs`](drivers/awslogs.md)       | Writes log messages to Amazon CloudWatch Logs.                                                              |
-| [`splunk`](drivers/splunk.md)         | Writes log messages to `splunk` using the HTTP Event Collector.                                             |
-| [`etwlogs`](drivers/etwlogs.md)       | Writes log messages as Event Tracing for Windows (ETW) events. Only available on Windows platforms.         |
-| [`gcplogs`](drivers/gcplogs.md)       | Writes log messages to Google Cloud Platform (GCP) Logging.                                                 |
+| Driver                              | Description                                                                                                 |
+| :---------------------------------- | :---------------------------------------------------------------------------------------------------------- |
+| `none`                              | No logs are available for the container and `docker logs` does not return any output.                       |
+| [`local`](drivers/local.md)         | Logs are stored in a custom format designed for minimal overhead.                                           |
+| [`json-file`](drivers/json-file.md) | The logs are formatted as JSON. The default logging driver for Docker.                                      |
+| [`syslog`](drivers/syslog.md)       | Writes logging messages to the `syslog` facility. The `syslog` daemon must be running on the host machine.  |
+| [`journald`](drivers/journald.md)   | Writes log messages to `journald`. The `journald` daemon must be running on the host machine.               |
+| [`gelf`](drivers/gelf.md)           | Writes log messages to a Graylog Extended Log Format (GELF) endpoint such as Graylog or Logstash.           |
+| [`fluentd`](drivers/fluentd.md)     | Writes log messages to `fluentd` (forward input). The `fluentd` daemon must be running on the host machine. |
+| [`awslogs`](drivers/awslogs.md)     | Writes log messages to Amazon CloudWatch Logs.                                                              |
+| [`splunk`](drivers/splunk.md)       | Writes log messages to `splunk` using the HTTP Event Collector.                                             |
+| [`etwlogs`](drivers/etwlogs.md)     | Writes log messages as Event Tracing for Windows (ETW) events. Only available on Windows platforms.         |
+| [`gcplogs`](drivers/gcplogs.md)     | Writes log messages to Google Cloud Platform (GCP) Logging.                                                 |
 
 ## Limitations of logging drivers
 

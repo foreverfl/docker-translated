@@ -25,7 +25,7 @@ By default, Bake uses the following lookup order to find the configuration file:
 
 You can specify the file location explicitly using the `--file` flag:
 
-```console
+```bash
 $ docker buildx bake --file ../docker/bake.hcl --print
 ```
 
@@ -52,7 +52,7 @@ The following attributes are overridden by the last occurrence:
 For example, if `compose.yaml` and `docker-bake.hcl` both define the `tags`
 attribute, the `docker-bake.hcl` is used.
 
-```console
+```bash
 $ cat compose.yaml
 services:
   webapp:
@@ -89,13 +89,13 @@ All other attributes are merged. For example, if `compose.yaml` and
 `docker-bake.hcl` both define unique entries for the `labels` attribute, all
 entries are included. Duplicate entries for the same label are overridden.
 
-```console
+```bash
 $ cat compose.yaml
 services:
   webapp:
     build:
       context: .
-      labels: 
+      labels:
         com.example.foo: "foo"
         com.example.name: "Alice"
 $ cat docker-bake.hcl
@@ -195,7 +195,7 @@ The examples in this document use the HCL format.
 A target reflects a single `docker build` invocation.
 Consider the following build command:
 
-```console
+```bash
 $ docker build \
   --file=Dockerfile.webapp \
   --tag=docker.io/username/webapp:latest \
@@ -215,7 +215,7 @@ target "webapp" {
 The following table shows the complete list of attributes that you can assign to a target:
 
 | Name                                            | Type    | Description                                                          |
-|-------------------------------------------------|---------|----------------------------------------------------------------------|
+| ----------------------------------------------- | ------- | -------------------------------------------------------------------- |
 | [`args`](#targetargs)                           | Map     | Build arguments                                                      |
 | [`annotations`](#targetannotations)             | List    | Exporter annotations                                                 |
 | [`attest`](#targetattest)                       | List    | Build attestations                                                   |
@@ -389,7 +389,7 @@ target "app" {
 
 This resolves to the current working directory (`"."`) by default.
 
-```console
+```bash
 $ docker buildx bake --print -f - <<< 'target "default" {}'
 [+] Building 0.0s (0/0)
 {
@@ -507,7 +507,7 @@ target "default" {
 
 Resolves to `"Dockerfile"` by default.
 
-```console
+```bash
 $ docker buildx bake --print -f - <<< 'target "default" {}'
 [+] Building 0.0s (0/0)
 {
@@ -599,7 +599,7 @@ the target that appears last in the `inherits` list takes precedence.
 The previous example defines the `BUILDX_EXPERIMENTAL` argument twice for the `app-release` target.
 It resolves to `0` because the `_release` target appears last in the inheritance chain:
 
-```console
+```bash
 $ docker buildx bake --print app-release
 [+] Building 0.0s (0/0)
 {
@@ -677,7 +677,7 @@ target "app" {
 }
 ```
 
-```console
+```bash
 $ docker buildx bake --print app
 [+] Building 0.0s (0/0)
 {
@@ -1047,7 +1047,7 @@ You can override variable defaults set in the Bake file using environment variab
 The following example sets the `TAG` variable to `dev`,
 overriding the default `latest` value shown in the previous example.
 
-```console
+```bash
 $ TAG=dev docker buildx bake webapp-dev
 ```
 
@@ -1104,7 +1104,7 @@ Before you can interpolate a variable into an attribute,
 first you must declare it in the bake file,
 as demonstrated in the following example.
 
-```console
+```bash
 $ cat docker-bake.hcl
 target "default" {
   dockerfile-inline = "FROM ${BASE_IMAGE}"

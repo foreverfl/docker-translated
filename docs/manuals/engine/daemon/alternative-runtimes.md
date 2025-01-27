@@ -20,7 +20,7 @@ By default, containerd uses runc as its container runtime.
 
 ## What runtimes can I use?
 
-You can use any runtime that implements the containerd 
+You can use any runtime that implements the containerd
 [shim API](https://github.com/containerd/containerd/blob/main/core/runtime/v2/README.md).
 Such runtimes ship with a containerd shim, and you can use them without any
 additional configuration. See [Use containerd shims](#use-containerd-shims).
@@ -48,7 +48,7 @@ binary on `PATH` on the system where the Docker daemon is running.
 To use a shim with `docker run`, specify the fully qualified name of the
 runtime as the value to the `--runtime` flag:
 
-```console
+```bash
 $ docker run --runtime io.containerd.kata.v2 hello-world
 ```
 
@@ -69,7 +69,7 @@ register the shim in the daemon configuration as follows:
 
 To use the shim, specify the name that you assigned to it:
 
-```console
+```bash
 $ docker run --runtime foo hello-world
 ```
 
@@ -100,13 +100,13 @@ use the `runtimes` option in the daemon configuration file.
 
 2. Reload the daemon's configuration.
 
-   ```console
+   ```bash
    # systemctl reload docker
    ```
 
 3. Use the customized runtime using the `--runtime` flag for `docker run`.
 
-   ```console
+   ```bash
    $ docker run --runtime gvisor hello-world
    ```
 
@@ -145,7 +145,7 @@ To add youki as a container runtime:
 
    The `path` key should specify the path to wherever you installed youki.
 
-   ```console
+   ```bash
    # cat > /etc/docker/daemon.json <<EOF
    {
      "runtimes": {
@@ -159,13 +159,13 @@ To add youki as a container runtime:
 
 3. Reload the daemon's configuration.
 
-   ```console
+   ```bash
    # systemctl reload docker
    ```
 
 Now you can run containers that use youki as a runtime.
 
-```console
+```bash
 $ docker run --rm --runtime youki hello-world
 ```
 
@@ -197,7 +197,7 @@ To add Wasmtime as a container runtime, follow these steps:
 
 2. Restart the Docker daemon.
 
-   ```console
+   ```bash
    # systemctl restart docker
    ```
 
@@ -206,7 +206,7 @@ To add Wasmtime as a container runtime, follow these steps:
    The following command Dockerfile builds the Wasmtime binary from source
    and exports it to `./containerd-shim-wasmtime-v1`.
 
-   ```console
+   ```bash
    $ docker build --output . - <<EOF
    FROM rust:latest as build
    RUN cargo install \
@@ -221,13 +221,13 @@ To add Wasmtime as a container runtime, follow these steps:
 
    Put the binary in a directory on `PATH`.
 
-   ```console
+   ```bash
    $ mv ./containerd-shim-wasmtime-v1 /usr/local/bin
    ```
 
 Now you can run containers that use Wasmtime as a runtime.
 
-```console
+```bash
 $ docker run --rm \
  --runtime io.containerd.wasmtime.v1 \
  --platform wasi/wasm32 \

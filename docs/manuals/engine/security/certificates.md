@@ -17,13 +17,13 @@ keywords:
   - tutorials
 title: Verify repository client with certificates
 aliases:
-- /articles/certificates/
-- /engine/articles/certificates/
+  - /articles/certificates/
+  - /engine/articles/certificates/
 ---
 
 In [Running Docker with HTTPS](protect-access.md), you learned that, by default,
 Docker runs via a non-networked Unix socket and TLS must be enabled in order
-to have the Docker client and the daemon communicate securely over HTTPS.  TLS ensures authenticity of the registry endpoint and that traffic to/from registry is encrypted.
+to have the Docker client and the daemon communicate securely over HTTPS. TLS ensures authenticity of the registry endpoint and that traffic to/from registry is encrypted.
 
 This article demonstrates how to ensure the traffic between the Docker registry
 server and the Docker daemon (a client of the registry server) is encrypted and
@@ -70,13 +70,12 @@ The preceding example is operating-system specific and is for illustrative
 purposes only. You should consult your operating system documentation for
 creating an os-provided bundled certificate chain.
 
-
 ## Create the client certificates
 
 Use OpenSSL's `genrsa` and `req` commands to first generate an RSA
-key and then use the key to create the certificate.   
+key and then use the key to create the certificate.
 
-```console
+```bash
 $ openssl genrsa -out client.key 4096
 $ openssl req -new -x509 -text -key client.key -out client.cert
 ```
@@ -98,7 +97,7 @@ following error message:
 Missing key KEY_NAME for client certificate CERT_NAME. CA certificates should use the extension .crt.
 ```
 
-If the Docker registry is accessed without a port number, do not add the port to the directory name.  The following shows the configuration for a registry on default port 443 which is accessed with `docker login my-https.registry.example.com`:
+If the Docker registry is accessed without a port number, do not add the port to the directory name. The following shows the configuration for a registry on default port 443 which is accessed with `docker login my-https.registry.example.com`:
 
 ```text
     /etc/docker/certs.d/
@@ -110,5 +109,5 @@ If the Docker registry is accessed without a port number, do not add the port to
 
 ## Related information
 
-* [Use trusted images](trust/_index.md)
-* [Protect the Docker daemon socket](protect-access.md)
+- [Use trusted images](trust/_index.md)
+- [Protect the Docker daemon socket](protect-access.md)

@@ -49,14 +49,14 @@ The following steps explain how to enable the containerd snapshotters feature.
 2. Save the file.
 3. Restart the daemon for the changes to take effect.
 
-   ```console
+   ```bash
    $ sudo systemctl restart docker
    ```
 
 After restarting the daemon, running `docker info` shows that you're using
 containerd snapshotter storage drivers.
 
-```console
+```bash
 $ docker info -f '{{ .DriverStatus }}'
 [[driver-type io.containerd.snapshotter.v1]]
 ```

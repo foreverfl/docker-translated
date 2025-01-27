@@ -36,7 +36,7 @@ target "app" {
 }
 ```
 
-```console
+```bash
 $ docker buildx bake --print app
 [+] Building 0.0s (0/0)
 {

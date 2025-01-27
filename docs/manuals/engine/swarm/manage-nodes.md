@@ -9,16 +9,16 @@ title: Manage nodes in a swarm
 
 As part of the swarm management lifecycle, you may need to:
 
-* [List nodes in the swarm](#list-nodes)
-* [Inspect an individual node](#inspect-an-individual-node)
-* [Update a node](#update-a-node)
-* [Leave the swarm](#leave-the-swarm)
+- [List nodes in the swarm](#list-nodes)
+- [Inspect an individual node](#inspect-an-individual-node)
+- [Update a node](#update-a-node)
+- [Leave the swarm](#leave-the-swarm)
 
 ## List nodes
 
 To view a list of nodes in the swarm run `docker node ls` from a manager node:
 
-```console
+```bash
 $ docker node ls
 
 ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
@@ -32,23 +32,23 @@ ehkv3bcimagdese79dn78otj5 *  node-1    Ready   Active        Leader
 The `AVAILABILITY` column shows whether or not the scheduler can assign tasks to
 the node:
 
-* `Active` means that the scheduler can assign tasks to the node.
-* `Pause` means the scheduler doesn't assign new tasks to the node, but existing
+- `Active` means that the scheduler can assign tasks to the node.
+- `Pause` means the scheduler doesn't assign new tasks to the node, but existing
   tasks remain running.
-* `Drain` means the scheduler doesn't assign new tasks to the node. The
-   scheduler shuts down any existing tasks and schedules them on an available
-   node.
+- `Drain` means the scheduler doesn't assign new tasks to the node. The
+  scheduler shuts down any existing tasks and schedules them on an available
+  node.
 
 The `MANAGER STATUS` column shows node participation in the Raft consensus:
 
-* No value indicates a worker node that does not participate in swarm
+- No value indicates a worker node that does not participate in swarm
   management.
-* `Leader` means the node is the primary manager node that makes all swarm
+- `Leader` means the node is the primary manager node that makes all swarm
   management and orchestration decisions for the swarm.
-* `Reachable` means the node is a manager node participating in the Raft
+- `Reachable` means the node is a manager node participating in the Raft
   consensus quorum. If the leader node becomes unavailable, the node is eligible for
   election as the new leader.
-* `Unavailable` means the node is a manager that can't communicate with
+- `Unavailable` means the node is a manager that can't communicate with
   other managers. If a manager node becomes unavailable, you should either join a
   new manager node to the swarm or promote a worker node to be a
   manager.
@@ -61,7 +61,7 @@ You can run `docker node inspect <NODE-ID>` on a manager node to view the
 details for an individual node. The output defaults to JSON format, but you can
 pass the `--pretty` flag to print the results in human-readable format. For example:
 
-```console
+```bash
 $ docker node inspect self --pretty
 
 ID:                     ehkv3bcimagdese79dn78otj5
@@ -90,23 +90,23 @@ Engine Version:         1.12.0-dev
 
 You can modify node attributes to:
 
-* [Change node availability](#change-node-availability)
-* [Add or remove label metadata](#add-or-remove-label-metadata)
-* [Change a node role](#promote-or-demote-a-node)
+- [Change node availability](#change-node-availability)
+- [Add or remove label metadata](#add-or-remove-label-metadata)
+- [Change a node role](#promote-or-demote-a-node)
 
 ### Change node availability
 
 Changing node availability lets you:
 
-* Drain a manager node so that it only performs swarm management tasks and is
+- Drain a manager node so that it only performs swarm management tasks and is
   unavailable for task assignment.
-* Drain a node so you can take it down for maintenance.
-* Pause a node so it can't receive new tasks.
-* Restore unavailable or paused nodes availability status.
+- Drain a node so you can take it down for maintenance.
+- Pause a node so it can't receive new tasks.
+- Restore unavailable or paused nodes availability status.
 
 For example, to change a manager node to `Drain` availability:
 
-```console
+```bash
 $ docker node update --availability drain node-1
 
 node-1
@@ -127,7 +127,7 @@ pair.
 
 Pass the `--label-add` flag once for each node label you want to add:
 
-```console
+```bash
 $ docker node update --label-add foo --label-add bar=baz node-1
 
 node-1
@@ -169,7 +169,7 @@ maintenance. Similarly, you can demote a manager node to the worker role.
 To promote a node or set of nodes, run `docker node promote` from a manager
 node:
 
-```console
+```bash
 $ docker node promote node-3 node-2
 
 Node node-3 promoted to a manager in the swarm.
@@ -178,7 +178,7 @@ Node node-2 promoted to a manager in the swarm.
 
 To demote a node or set of nodes, run `docker node demote` from a manager node:
 
-```console
+```bash
 $ docker node demote node-3 node-2
 
 Manager node-3 demoted in the swarm.
@@ -215,7 +215,7 @@ Run the `docker swarm leave` command on a node to remove it from the swarm.
 
 For example to leave the swarm on a worker node:
 
-```console
+```bash
 $ docker swarm leave
 
 Node left the swarm.
@@ -237,12 +237,12 @@ manager node to remove the node from the node list.
 
 For instance:
 
-```console
+```bash
 $ docker node rm node-2
 ```
 
 ## Learn more
 
-* [Swarm administration guide](admin_guide.md)
-* [Docker Engine command line reference](/reference/cli/docker/)
-* [Swarm mode tutorial](swarm-tutorial/_index.md)
+- [Swarm administration guide](admin_guide.md)
+- [Docker Engine command line reference](/reference/cli/docker/)
+- [Swarm mode tutorial](swarm-tutorial/_index.md)
