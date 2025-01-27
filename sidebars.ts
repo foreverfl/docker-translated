@@ -415,6 +415,10 @@ const sidebars: SidebarsConfig = {
         {
           type: "category",
           label: "베이크",
+          link: {
+            type: "doc",
+            id: "manuals/build/bake/index",
+          },
           items: [
             "manuals/build/bake/introduction",
             "manuals/build/bake/targets",
@@ -501,6 +505,10 @@ const sidebars: SidebarsConfig = {
         {
           type: "category",
           label: "내보내기 도구",
+          link: {
+            type: "doc",
+            id: "manuals/build/exporters/index",
+          },
           items: [
             "manuals/build/exporters/image-registry",
             "manuals/build/exporters/local-tar",
