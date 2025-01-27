@@ -1,12 +1,12 @@
 ---
-title: Build context
+title: 빌드 컨텍스트
 weight: 30
-description: Learn how to use the build context to access files from your Dockerfile
+description: Dockerfile에서 파일에 접근하기 위해 빌드 컨텍스트를 사용하는 방법을 배우세요
 keywords:
-  - build
+  - 빌드
   - buildx
   - buildkit
-  - context
+  - 컨텍스트
   - git
   - tarball
   - stdin
@@ -14,57 +14,48 @@ aliases:
   - /build/building/context/
 ---
 
-The `docker build` and `docker buildx build` commands build Docker images from
-a [Dockerfile](/reference/dockerfile.md) and a context.
+`docker build` 및 `docker buildx build` 명령어는 [Dockerfile](/reference/dockerfile.md)과 컨텍스트에서 Docker 이미지를 빌드합니다.
 
-## What is a build context?
+## 빌드 컨텍스트란 무엇인가? {#what-is-a-build-context}
 
-The build context is the set of files that your build can access.
-The positional argument that you pass to the build command specifies the
-context that you want to use for the build:
+빌드 컨텍스트는 빌드가 접근할 수 있는 파일들의 집합입니다.
+빌드 명령어에 전달하는 위치 인수가 사용하고자 하는 컨텍스트를 지정합니다:
 
 ```console
 $ docker build [OPTIONS] PATH | URL | -
                          ^^^^^^^^^^^^^^
 ```
 
-You can pass any of the following inputs as the context for a build:
+다음 입력 중 하나를 빌드 컨텍스트로 전달할 수 있습니다:
 
-- The relative or absolute path to a local directory
-- A remote URL of a Git repository, tarball, or plain-text file
-- A plain-text file or tarball piped to the `docker build` command through standard input
+- 로컬 디렉토리의 상대 경로 또는 절대 경로
+- Git 저장소, tarball 또는 일반 텍스트 파일의 원격 URL
+- 표준 입력을 통해 `docker build` 명령어에 파이프된 일반 텍스트 파일 또는 tarball
 
-### Filesystem contexts
+### 파일 시스템 컨텍스트 {#filesystem-contexts}
 
-When your build context is a local directory, a remote Git repository, or a tar
-file, then that becomes the set of files that the builder can access during the
-build. Build instructions such as `COPY` and `ADD` can refer to any of the
-files and directories in the context.
+빌드 컨텍스트가 로컬 디렉토리, 원격 Git 저장소 또는 tar 파일인 경우, 이는 빌더가 빌드 중에 접근할 수 있는 파일 집합이 됩니다. `COPY` 및 `ADD`와 같은 빌드 명령어는 컨텍스트의 파일 및 디렉토리를 참조할 수 있습니다.
 
-A filesystem build context is processed recursively:
+파일 시스템 빌드 컨텍스트는 재귀적으로 처리됩니다:
 
-- When you specify a local directory or a tarball, all subdirectories are included
-- When you specify a remote Git repository, the repository and all submodules are included
+- 로컬 디렉토리 또는 tarball을 지정하면 모든 하위 디렉토리가 포함됩니다.
+- 원격 Git 저장소를 지정하면 저장소와 모든 서브모듈이 포함됩니다.
 
-For more information about the different types of filesystem contexts that you
-can use with your builds, see:
+빌드에 사용할 수 있는 다양한 파일 시스템 컨텍스트에 대한 자세한 내용은 다음을 참조하세요:
 
-- [Local files](#local-context)
-- [Git repositories](#git-repositories)
-- [Remote tarballs](#remote-tarballs)
+- [로컬 파일](#local-context)
+- [Git 저장소](#git-repositories)
+- [원격 tarball](#remote-tarballs)
 
-### Text file contexts
+### 텍스트 파일 컨텍스트 {#text-file-contexts}
 
-When your build context is a plain-text file, the builder interprets the file
-as a Dockerfile. With this approach, the build doesn't use a filesystem context.
+빌드 컨텍스트가 일반 텍스트 파일인 경우, 빌더는 파일을 Dockerfile로 해석합니다. 이 접근 방식에서는 파일 시스템 컨텍스트를 사용하지 않습니다.
 
-For more information, see [empty build context](#empty-context).
+자세한 내용은 [빈 빌드 컨텍스트](#empty-context)를 참조하세요.
 
-## Local context
+## 로컬 컨텍스트 {#local-context}
 
-To use a local build context, you can specify a relative or absolute filepath
-to the `docker build` command. The following example shows a build command that
-uses the current directory (`.`) as a build context:
+로컬 빌드 컨텍스트를 사용하려면 `docker build` 명령어에 상대 경로 또는 절대 파일 경로를 지정할 수 있습니다. 다음 예제는 현재 디렉토리(`.`)를 빌드 컨텍스트로 사용하는 빌드 명령어를 보여줍니다:
 
 ```console
 $ docker build .
@@ -75,16 +66,13 @@ $ docker build .
 ...
 ```
 
-This makes files and directories in the current working directory available to
-the builder. The builder loads the files it needs from the build context when
-needed.
+이렇게 하면 현재 작업 디렉토리의 파일 및 디렉토리가 빌더에게 제공됩니다. 빌더는 필요한 파일을 빌드 컨텍스트에서 로드합니다.
 
-You can also use local tarballs as build context, by piping the tarball
-contents to the `docker build` command. See [Tarballs](#local-tarballs).
+로컬 tarball을 빌드 컨텍스트로 사용하려면 tarball 내용을 `docker build` 명령어에 파이프할 수 있습니다. [Tarballs](#local-tarballs)를 참조하세요.
 
-### Local directories
+### 로컬 디렉토리 {#local-directories}
 
-Consider the following directory structure:
+다음 디렉토리 구조를 고려해보세요:
 
 ```text
 .
@@ -95,8 +83,7 @@ Consider the following directory structure:
 └── package-lock.json
 ```
 
-Dockerfile instructions can reference and include these files in the build if
-you pass this directory as a context.
+Dockerfile 명령어는 이 디렉토리를 컨텍스트로 전달하면 이러한 파일을 참조하고 포함할 수 있습니다.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -111,32 +98,28 @@ COPY index.ts src .
 $ docker build .
 ```
 
-### Local context with Dockerfile from stdin
+### stdin에서 Dockerfile을 사용하는 로컬 컨텍스트 {#local-context-with-dockerfile-from-stdin}
 
-Use the following syntax to build an image using files on your local
-filesystem, while using a Dockerfile from stdin.
+로컬 파일 시스템의 파일을 사용하면서 stdin에서 Dockerfile을 사용하는 이미지를 빌드하려면 다음 구문을 사용하세요.
 
 ```console
 $ docker build -f- <PATH>
 ```
 
-The syntax uses the -f (or --file) option to specify the Dockerfile to use, and
-it uses a hyphen (-) as filename to instruct Docker to read the Dockerfile from
-stdin.
+이 구문은 -f (또는 --file) 옵션을 사용하여 사용할 Dockerfile을 지정하고, 하이픈(-)을 파일 이름으로 사용하여 Docker가 stdin에서 Dockerfile을 읽도록 지시합니다.
 
-The following example uses the current directory (.) as the build context, and
-builds an image using a Dockerfile passed through stdin using a here-document.
+다음 예제는 현재 디렉토리(.)를 빌드 컨텍스트로 사용하고, here-document를 사용하여 stdin을 통해 전달된 Dockerfile을 사용하여 이미지를 빌드합니다.
 
 ```bash
-# create a directory to work in
+# 작업할 디렉토리 생성
 mkdir example
 cd example
 
-# create an example file
+# 예제 파일 생성
 touch somefile.txt
 
-# build an image using the current directory as context
-# and a Dockerfile passed through stdin
+# 현재 디렉토리를 컨텍스트로 사용하여 이미지를 빌드하고
+# stdin을 통해 전달된 Dockerfile을 사용
 docker build -t myimage:latest -f- . <<EOF
 FROM busybox
 COPY somefile.txt ./
@@ -144,12 +127,11 @@ RUN cat /somefile.txt
 EOF
 ```
 
-### Local tarballs
+### 로컬 tarball {#local-tarballs}
 
-When you pipe a tarball to the build command, the build uses the contents of
-the tarball as a filesystem context.
+tarball을 빌드 명령어에 파이프할 때, 빌드는 tarball의 내용을 파일 시스템 컨텍스트로 사용합니다.
 
-For example, given the following project directory:
+예를 들어, 다음 프로젝트 디렉토리가 있다고 가정합니다:
 
 ```text
 .
@@ -162,75 +144,60 @@ For example, given the following project directory:
 └── test.Dockerfile
 ```
 
-You can create a tarball of the directory and pipe it to the build for use as
-a context:
+디렉토리의 tarball을 생성하고 이를 빌드에 파이프하여 컨텍스트로 사용할 수 있습니다:
 
 ```console
 $ tar czf foo.tar.gz *
 $ docker build - < foo.tar.gz
 ```
 
-The build resolves the Dockerfile from the tarball context. You can use the
-`--file` flag to specify the name and location of the Dockerfile relative to
-the root of the tarball. The following command builds using `test.Dockerfile`
-in the tarball:
+빌드는 tarball 컨텍스트에서 Dockerfile을 해결합니다. `--file` 플래그를 사용하여 tarball의 루트 상대 위치에 있는 Dockerfile의 이름과 위치를 지정할 수 있습니다. 다음 명령어는 tarball의 `test.Dockerfile`을 사용하여 빌드합니다:
 
 ```console
 $ docker build --file test.Dockerfile - < foo.tar.gz
 ```
 
-## Remote context
+## 원격 컨텍스트 {#remote-context}
 
-You can specify the address of a remote Git repository, tarball, or plain-text
-file as your build context.
+원격 Git 저장소, tarball 또는 일반 텍스트 파일의 주소를 빌드 컨텍스트로 지정할 수 있습니다.
 
-- For Git repositories, the builder automatically clones the repository. See
-  [Git repositories](#git-repositories).
-- For tarballs, the builder downloads and extracts the contents of the tarball.
-  See [Tarballs](#remote-tarballs).
+- Git 저장소의 경우, 빌더가 자동으로 저장소를 클론합니다. [Git 저장소](#git-repositories)를 참조하세요.
+- tarball의 경우, 빌더가 tarball의 내용을 다운로드하고 추출합니다. [Tarballs](#remote-tarballs)를 참조하세요.
 
-If the remote tarball is a text file, the builder receives no [filesystem
-context](#filesystem-contexts), and instead assumes that the remote
-file is a Dockerfile. See [Empty build context](#empty-context).
+원격 tarball이 텍스트 파일인 경우, 빌더는 [파일 시스템 컨텍스트](#filesystem-contexts)를 받지 않고, 대신 원격 파일을 Dockerfile로 간주합니다. [빈 빌드 컨텍스트](#empty-context)를 참조하세요.
 
-### Git repositories
+### Git 저장소 {#git-repositories}
 
-When you pass a URL pointing to the location of a Git repository as an argument
-to `docker build`, the builder uses the repository as the build context.
+`docker build`에 Git 저장소의 위치를 가리키는 URL을 인수로 전달하면, 빌더는 저장소를 빌드 컨텍스트로 사용합니다.
 
-The builder performs a shallow clone of the repository, downloading only
-the HEAD commit, not the entire history.
+빌더는 저장소의 HEAD 커밋만 다운로드하는 얕은 클론을 수행합니다.
 
-The builder recursively clones the repository and any submodules it contains.
+빌더는 저장소와 포함된 모든 서브모듈을 재귀적으로 클론합니다.
 
 ```console
 $ docker build https://github.com/user/myrepo.git
 ```
 
-By default, the builder clones the latest commit on the default branch of the
-repository that you specify.
+기본적으로 빌더는 지정한 저장소의 기본 브랜치의 최신 커밋을 클론합니다.
 
-#### URL fragments
+#### URL 프래그먼트 {#url-fragments}
 
-You can append URL fragments to the Git repository address to make the builder
-clone a specific branch, tag, and subdirectory of a repository.
+URL 프래그먼트를 Git 저장소 주소에 추가하여 빌더가 특정 브랜치, 태그 및 저장소의 하위 디렉토리를 클론하도록 할 수 있습니다.
 
-The format of the URL fragment is `#ref:dir`, where:
+URL 프래그먼트의 형식은 `#ref:dir`이며, 여기서:
 
-- `ref` is the name of the branch, tag, or commit hash
-- `dir` is a subdirectory inside the repository
+- `ref`는 브랜치, 태그 또는 커밋 해시의 이름입니다.
+- `dir`은 저장소 내의 하위 디렉토리입니다.
 
-For example, the following command uses the `container` branch,
-and the `docker` subdirectory in that branch, as the build context:
+예를 들어, 다음 명령어는 `container` 브랜치와 해당 브랜치의 `docker` 하위 디렉토리를 빌드 컨텍스트로 사용합니다:
 
 ```console
 $ docker build https://github.com/user/myrepo.git#container:docker
 ```
 
-The following table represents all the valid suffixes with their build
-contexts:
+다음 표는 빌드 컨텍스트와 함께 사용되는 모든 유효한 접미사를 나타냅니다:
 
-| Build Syntax Suffix            | Commit Used                   | Build Context Used |
+| 빌드 구문 접미사                | 사용된 커밋                   | 사용된 빌드 컨텍스트 |
 | ------------------------------ | ----------------------------- | ------------------ |
 | `myrepo.git`                   | `refs/heads/<default branch>` | `/`                |
 | `myrepo.git#mytag`             | `refs/tags/mytag`             | `/`                |
@@ -241,23 +208,19 @@ contexts:
 | `myrepo.git#mytag:myfolder`    | `refs/tags/mytag`             | `/myfolder`        |
 | `myrepo.git#mybranch:myfolder` | `refs/heads/mybranch`         | `/myfolder`        |
 
-When you use a commit hash as the `ref` in the URL fragment, use the full,
-40-character string SHA-1 hash of the commit. A short hash, for example a hash
-truncated to 7 characters, is not supported.
+URL 프래그먼트에서 `ref`로 커밋 해시를 사용할 때는 전체 40자 문자열 SHA-1 해시를 사용하세요. 예를 들어, 7자로 잘린 짧은 해시는 지원되지 않습니다.
 
 ```bash
-# ✅ The following works:
+# ✅ 다음은 작동합니다:
 docker build github.com/docker/buildx#d4f088e689b41353d74f1a0bfcd6d7c0b213aed2
-# ❌ The following doesn't work because the commit hash is truncated:
+# ❌ 다음은 커밋 해시가 잘려서 작동하지 않습니다:
 docker build github.com/docker/buildx#d4f088e
 ```
 
-#### Keep `.git` directory
+#### `.git` 디렉토리 유지 {#keep-git-directory}
 
-By default, BuildKit doesn't keep the `.git` directory when using Git contexts.
-You can configure BuildKit to keep the directory by setting the
-[`BUILDKIT_CONTEXT_KEEP_GIT_DIR` build argument](/reference/dockerfile.md#buildkit-built-in-build-args).
-This can be useful to if you want to retrieve Git information during your build:
+기본적으로 BuildKit은 Git 컨텍스트를 사용할 때 `.git` 디렉토리를 유지하지 않습니다.
+빌드 중에 Git 정보를 검색하려는 경우, [`BUILDKIT_CONTEXT_KEEP_GIT_DIR` 빌드 인수](/reference/dockerfile.md#buildkit-built-in-build-args)를 설정하여 BuildKit이 디렉토리를 유지하도록 구성할 수 있습니다.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -273,24 +236,19 @@ $ docker build \
   https://github.com/user/myrepo.git#main
 ```
 
-#### Private repositories
+#### 비공개 저장소 {#private-repositories}
 
-When you specify a Git context that's also a private repository, the builder
-needs you to provide the necessary authentication credentials. You can use
-either SSH or token-based authentication.
+Git 컨텍스트가 비공개 저장소인 경우, 빌더는 필요한 인증 자격 증명을 제공해야 합니다. SSH 또는 토큰 기반 인증을 사용할 수 있습니다.
 
-Buildx automatically detects and uses SSH credentials if the Git context you
-specify is an SSH or Git address. By default, this uses `$SSH_AUTH_SOCK`.
-You can configure the SSH credentials to use with the
-[`--ssh` flag](/reference/cli/docker/buildx/build.md#ssh).
+Git 컨텍스트가 SSH 또는 Git 주소인 경우, Buildx는 SSH 자격 증명을 자동으로 감지하고 사용합니다. 기본적으로 `$SSH_AUTH_SOCK`을 사용합니다.
+[`--ssh` 플래그](/reference/cli/docker/buildx/build.md#ssh)를 사용하여 사용할 SSH 자격 증명을 구성할 수 있습니다.
 
 ```console
 $ docker buildx build --ssh default git@github.com:user/private.git
 ```
 
-If you want to use token-based authentication instead, you can pass the token
-using the
-[`--secret` flag](/reference/cli/docker/buildx/build.md#secret).
+토큰 기반 인증을 사용하려면
+[`--secret` 플래그](/reference/cli/docker/buildx/build.md#secret)를 사용하여 토큰을 전달할 수 있습니다.
 
 ```console
 $ GIT_AUTH_TOKEN=<token> docker buildx build \
@@ -300,28 +258,21 @@ $ GIT_AUTH_TOKEN=<token> docker buildx build \
 
 > [!NOTE]
 >
-> Don't use `--build-arg` for secrets.
+> 비밀 정보에 `--build-arg`를 사용하지 마세요.
 
-### Remote context with Dockerfile from stdin
+### stdin에서 Dockerfile을 사용하는 원격 컨텍스트 {#remote-context-with-dockerfile-from-stdin}
 
-Use the following syntax to build an image using files on your local
-filesystem, while using a Dockerfile from stdin.
+로컬 파일 시스템의 파일을 사용하면서 stdin에서 Dockerfile을 사용하는 이미지를 빌드하려면 다음 구문을 사용하세요.
 
 ```console
 $ docker build -f- <URL>
 ```
 
-The syntax uses the -f (or --file) option to specify the Dockerfile to use, and
-it uses a hyphen (-) as filename to instruct Docker to read the Dockerfile from
-stdin.
+이 구문은 -f (또는 --file) 옵션을 사용하여 사용할 Dockerfile을 지정하고, 하이픈(-)을 파일 이름으로 사용하여 Docker가 stdin에서 Dockerfile을 읽도록 지시합니다.
 
-This can be useful in situations where you want to build an image from a
-repository that doesn't contain a Dockerfile. Or if you want to build with a
-custom Dockerfile, without maintaining your own fork of the repository.
+이 방법은 Dockerfile을 포함하지 않는 저장소에서 이미지를 빌드하거나, 저장소의 포크를 유지하지 않고 사용자 정의 Dockerfile로 빌드하려는 경우에 유용합니다.
 
-The following example builds an image using a Dockerfile from stdin, and adds
-the `hello.c` file from the [hello-world](https://github.com/docker-library/hello-world)
-repository on GitHub.
+다음 예제는 stdin에서 Dockerfile을 사용하여 이미지를 빌드하고, GitHub의 [hello-world](https://github.com/docker-library/hello-world) 저장소에서 `hello.c` 파일을 추가합니다.
 
 ```bash
 docker build -t myimage:latest -f- https://github.com/docker-library/hello-world.git <<EOF
@@ -330,9 +281,9 @@ COPY hello.c ./
 EOF
 ```
 
-### Remote tarballs
+### 원격 tarball {#remote-tarballs}
 
-If you pass the URL to a remote tarball, the URL itself is sent to the builder.
+원격 tarball의 URL을 전달하면, URL 자체가 빌더로 전송됩니다.
 
 ```console
 $ docker build http://server/context.tar.gz
@@ -344,30 +295,20 @@ $ docker build http://server/context.tar.gz
 ...
 ```
 
-The download operation will be performed on the host where the BuildKit daemon
-is running. Note that if you're using a remote Docker context or a remote
-builder, that's not necessarily the same machine as where you issue the build
-command. BuildKit fetches the `context.tar.gz` and uses it as the build
-context. Tarball contexts must be tar archives conforming to the standard `tar`
-Unix format and can be compressed with any one of the `xz`, `bzip2`, `gzip` or
-`identity` (no compression) formats.
+다운로드 작업은 BuildKit 데몬이 실행 중인 호스트에서 수행됩니다. 원격 Docker 컨텍스트 또는 원격 빌더를 사용하는 경우, 이는 빌드 명령어를 실행하는 머신과 반드시 동일한 머신이 아닙니다. BuildKit은 `context.tar.gz`를 가져와 빌드 컨텍스트로 사용합니다. tarball 컨텍스트는 표준 `tar` Unix 형식을 준수하는 tar 아카이브여야 하며, `xz`, `bzip2`, `gzip` 또는 `identity` (압축 없음) 형식으로 압축될 수 있습니다.
 
-## Empty context
+## 빈 컨텍스트 {#empty-context}
 
-When you use a text file as the build context, the builder interprets the file
-as a Dockerfile. Using a text file as context means that the build has no
-filesystem context.
+빌드 컨텍스트로 텍스트 파일을 사용할 때, 빌더는 파일을 Dockerfile로 해석합니다. 텍스트 파일을 컨텍스트로 사용하면 빌드에 파일 시스템 컨텍스트가 없습니다.
 
-You can build with an empty build context when your Dockerfile doesn't depend
-on any local files.
+Dockerfile이 로컬 파일에 의존하지 않는 경우 빈 빌드 컨텍스트로 빌드할 수 있습니다.
 
-### How to build without a context
+### 컨텍스트 없이 빌드하는 방법 {#how-to-build-without-a-context}
 
-You can pass the text file using a standard input stream, or by pointing at the
-URL of a remote text file.
+표준 입력 스트림을 사용하거나 원격 텍스트 파일의 URL을 지정하여 텍스트 파일을 전달할 수 있습니다.
 
 <Tabs>
-<TabItem value="unix-pipe" label="Unix pipe">
+<TabItem value="unix-pipe" label="Unix 파이프">
 
 ```console
 $ docker build - < Dockerfile
@@ -391,7 +332,7 @@ EOF
 ```
 
 </TabItem>
-<TabItem value="remote-file" label="Remote file">
+<TabItem value="remote-file" label="원격 파일">
 
 ```console
 $ docker build https://raw.githubusercontent.com/dvdksn/clockbox/main/Dockerfile
@@ -400,8 +341,7 @@ $ docker build https://raw.githubusercontent.com/dvdksn/clockbox/main/Dockerfile
 </TabItem>
 </Tabs>
 
-When you build without a filesystem context, Dockerfile instructions such as
-`COPY` can't refer to local files:
+파일 시스템 컨텍스트 없이 빌드할 때, Dockerfile 명령어인 `COPY`는 로컬 파일을 참조할 수 없습니다:
 
 ```console
 $ ls
@@ -427,10 +367,9 @@ Dockerfile:2
 ERROR: failed to solve: failed to compute cache key: failed to calculate checksum of ref 7ab2bb61-0c28-432e-abf5-a4c3440bc6b6::4lgfpdf54n5uqxnv9v6ymg7ih: "/main.c": not found
 ```
 
-## .dockerignore files
+## .dockerignore 파일 {#dockerignore-files}
 
-You can use a `.dockerignore` file to exclude files or directories from the
-build context.
+`.dockerignore` 파일을 사용하여 빌드 컨텍스트에서 파일이나 디렉토리를 제외할 수 있습니다.
 
 ```text
 # .dockerignore
@@ -438,20 +377,13 @@ node_modules
 bar
 ```
 
-This helps avoid sending unwanted files and directories to the builder,
-improving build speed, especially when using a remote builder.
+이렇게 하면 원하지 않는 파일과 디렉토리를 빌더로 보내는 것을 방지하여 빌드 속도를 향상시킬 수 있습니다. 특히 원격 빌더를 사용할 때 유용합니다.
 
-### Filename and location
+### 파일 이름 및 위치 {#filename-and-location}
 
-When you run a build command, the build client looks for a file named
-`.dockerignore` in the root directory of the context. If this file exists, the
-files and directories that match patterns in the files are removed from the
-build context before it's sent to the builder.
+빌드 명령어를 실행할 때, 빌드 클라이언트는 컨텍스트의 루트 디렉토리에 `.dockerignore`라는 파일이 있는지 확인합니다. 이 파일이 존재하면, 파일에 있는 패턴과 일치하는 파일 및 디렉토리가 빌더로 보내지기 전에 빌드 컨텍스트에서 제거됩니다.
 
-If you use multiple Dockerfiles, you can use different ignore-files for each
-Dockerfile. You do so using a special naming convention for the ignore-files.
-Place your ignore-file in the same directory as the Dockerfile, and prefix the
-ignore-file with the name of the Dockerfile, as shown in the following example.
+여러 Dockerfile을 사용하는 경우, 각 Dockerfile에 대해 다른 ignore 파일을 사용할 수 있습니다. 이를 위해 ignore 파일의 이름을 특별한 방식으로 지정합니다. ignore 파일을 Dockerfile과 동일한 디렉토리에 배치하고, ignore 파일의 이름을 Dockerfile의 이름으로 접두사로 지정합니다. 다음 예제를 참조하세요.
 
 ```text
 .
@@ -468,36 +400,28 @@ ignore-file with the name of the Dockerfile, as shown in the following example.
 └── package-lock.json
 ```
 
-A Dockerfile-specific ignore-file takes precedence over the `.dockerignore`
-file at the root of the build context if both exist.
+Dockerfile 전용 ignore 파일은 둘 다 존재하는 경우 루트 빌드 컨텍스트의 `.dockerignore` 파일보다 우선합니다.
 
-### Syntax
+### 구문
 
-The `.dockerignore` file is a newline-separated list of patterns similar to the
-file globs of Unix shells. Leading and trailing slashes in ignore patterns are
-disregarded. The following patterns all exclude a file or directory named `bar`
-in the subdirectory `foo` under the root of the build context:
+`.dockerignore` 파일은 Unix 셸의 파일 글로브와 유사한 패턴의 개행으로 구분된 목록입니다. ignore 패턴의 선행 및 후행 슬래시는 무시됩니다. 다음 패턴은 모두 빌드 컨텍스트의 루트 하위 디렉토리 `foo`에 있는 `bar`라는 파일 또는 디렉토리를 제외합니다:
 
 - `/foo/bar/`
 - `/foo/bar`
 - `foo/bar/`
 - `foo/bar`
 
-If a line in `.dockerignore` file starts with `#` in column 1, then this line
-is considered as a comment and is ignored before interpreted by the CLI.
+`.dockerignore` 파일의 줄이 1열에서 `#`로 시작하면, 이 줄은 주석으로 간주되어 CLI에서 해석되기 전에 무시됩니다.
 
 ```gitignore
 #/this/is/a/comment
 ```
 
-If you're interested in learning the precise details of the `.dockerignore`
-pattern matching logic, check out the
-[moby/patternmatcher repository](https://github.com/moby/patternmatcher/tree/main/ignorefile)
-on GitHub, which contains the source code.
+`.dockerignore` 패턴 매칭 로직의 정확한 세부 사항을 알고 싶다면, GitHub의 [moby/patternmatcher 리포지토리](https://github.com/moby/patternmatcher/tree/main/ignorefile)를 확인하세요. 여기에는 소스 코드가 포함되어 있습니다.
 
-#### Matching
+#### 매칭
 
-The following code snippet shows an example `.dockerignore` file.
+다음 코드 스니펫은 예제 `.dockerignore` 파일을 보여줍니다.
 
 ```text
 # comment
@@ -506,54 +430,37 @@ The following code snippet shows an example `.dockerignore` file.
 temp?
 ```
 
-This file causes the following build behavior:
+이 파일은 다음과 같은 빌드 동작을 유발합니다:
 
-| Rule        | Behavior                                                                                                                                                                                                      |
+| 규칙        | 동작                                                                                                                                                                                                      |
 | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `# comment` | Ignored.                                                                                                                                                                                                      |
-| `*/temp*`   | Exclude files and directories whose names start with `temp` in any immediate subdirectory of the root. For example, the plain file `/somedir/temporary.txt` is excluded, as is the directory `/somedir/temp`. |
-| `*/*/temp*` | Exclude files and directories starting with `temp` from any subdirectory that is two levels below the root. For example, `/somedir/subdir/temporary.txt` is excluded.                                         |
-| `temp?`     | Exclude files and directories in the root directory whose names are a one-character extension of `temp`. For example, `/tempa` and `/tempb` are excluded.                                                     |
+| `# comment` | 무시됨.                                                                                                                                                                                                      |
+| `*/temp*`   | 루트의 모든 하위 디렉토리에서 이름이 `temp`로 시작하는 파일 및 디렉토리를 제외합니다. 예를 들어, 일반 파일 `/somedir/temporary.txt`는 제외되며, 디렉토리 `/somedir/temp`도 제외됩니다. |
+| `*/*/temp*` | 루트에서 두 레벨 아래의 하위 디렉토리에서 `temp`로 시작하는 파일 및 디렉토리를 제외합니다. 예를 들어, `/somedir/subdir/temporary.txt`는 제외됩니다.                                         |
+| `temp?`     | 루트 디렉토리에서 이름이 `temp`의 한 문자 확장인 파일 및 디렉토리를 제외합니다. 예를 들어, `/tempa` 및 `/tempb`는 제외됩니다.                                                     |
 
-Matching is done using Go's
-[`filepath.Match` function](https://golang.org/pkg/path/filepath#Match) rules.
-A preprocessing step uses Go's
-[`filepath.Clean` function](https://golang.org/pkg/path/filepath/#Clean)
-to trim whitespace and remove `.` and `..`.
-Lines that are blank after preprocessing are ignored.
+매칭은 Go의 [`filepath.Match` 함수](https://golang.org/pkg/path/filepath#Match) 규칙을 사용하여 수행됩니다. 전처리 단계에서는 Go의 [`filepath.Clean` 함수](https://golang.org/pkg/path/filepath/#Clean)를 사용하여 공백을 제거하고 `.` 및 `..`을 제거합니다. 전처리 후 빈 줄은 무시됩니다.
 
 > [!NOTE]
 >
-> For historical reasons, the pattern `.` is ignored.
+> 역사적인 이유로, 패턴 `.`은 무시됩니다.
 
-Beyond Go's `filepath.Match` rules, Docker also supports a special wildcard
-string `**` that matches any number of directories (including zero). For
-example, `**/*.go` excludes all files that end with `.go` found anywhere in the
-build context.
+Go의 `filepath.Match` 규칙 외에도 Docker는 디렉토리 수(0 포함)에 관계없이 일치하는 특수 와일드카드 문자열 `**`를 지원합니다. 예를 들어, `**/*.go`는 빌드 컨텍스트 어디에서나 `.go`로 끝나는 모든 파일을 제외합니다.
 
-You can use the `.dockerignore` file to exclude the `Dockerfile` and
-`.dockerignore` files. These files are still sent to the builder as they're
-needed for running the build. But you can't copy the files into the image using
-`ADD`, `COPY`, or bind mounts.
+`.dockerignore` 파일을 사용하여 `Dockerfile` 및 `.dockerignore` 파일을 제외할 수 있습니다. 이러한 파일은 빌드를 실행하는 데 필요하므로 여전히 빌더로 전송됩니다. 그러나 `ADD`, `COPY` 또는 바인드 마운트를 사용하여 파일을 이미지에 복사할 수는 없습니다.
 
-#### Negating matches
+#### 매칭 부정
 
-You can prepend lines with a `!` (exclamation mark) to make exceptions to
-exclusions. The following is an example `.dockerignore` file that uses this
-mechanism:
+제외에 대한 예외를 만들기 위해 줄 앞에 `!`(느낌표)를 추가할 수 있습니다. 다음은 이 메커니즘을 사용하는 예제 `.dockerignore` 파일입니다:
 
 ```text
 *.md
 !README.md
 ```
 
-All markdown files right under the context directory _except_ `README.md` are
-excluded from the context. Note that markdown files under subdirectories are
-still included.
+컨텍스트 디렉토리 바로 아래의 모든 마크다운 파일 중 `README.md`를 제외한 모든 파일이 컨텍스트에서 제외됩니다. 하위 디렉토리의 마크다운 파일은 여전히 포함됩니다.
 
-The placement of `!` exception rules influences the behavior: the last line of
-the `.dockerignore` that matches a particular file determines whether it's
-included or excluded. Consider the following example:
+`!` 예외 규칙의 위치는 동작에 영향을 미칩니다: 특정 파일과 일치하는 `.dockerignore`의 마지막 줄이 포함 여부를 결정합니다. 다음 예제를 고려해보세요:
 
 ```text
 *.md
@@ -561,10 +468,9 @@ included or excluded. Consider the following example:
 README-secret.md
 ```
 
-No markdown files are included in the context except README files other than
-`README-secret.md`.
+컨텍스트에는 `README-secret.md`를 제외한 모든 README 파일이 포함됩니다.
 
-Now consider this example:
+이제 이 예제를 고려해보세요:
 
 ```text
 *.md
@@ -572,5 +478,4 @@ README-secret.md
 !README*.md
 ```
 
-All of the README files are included. The middle line has no effect because
-`!README*.md` matches `README-secret.md` and comes last.
+모든 README 파일이 포함됩니다. 중간 줄은 `!README*.md`가 `README-secret.md`와 일치하고 마지막에 오기 때문에 아무런 효과가 없습니다.

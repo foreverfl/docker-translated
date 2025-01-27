@@ -1,82 +1,60 @@
 ---
-title: Docker Build Overview
+title: 도커 빌드 개요
 weight: 10
-description: Learn about Docker Build and its components.
+description: Docker Build 및 구성 요소에 대해 알아보세요.
 keywords:
-  - build
-  - buildkit
-  - buildx
-  - architecture
+  - 빌드
+  - 빌드킷
+  - 빌드엑스
+  - 아키텍처
 aliases:
 - /build/install-buildx/
 - /build/architecture/
 ---
 
-Docker Build implements a client-server architecture, where:
+Docker Build는 클라이언트-서버 아키텍처를 구현합니다. 여기서:
 
-- Client: Buildx is the client and the user interface for running and managing builds.
-- Server: BuildKit is the server, or builder, that handles the build execution.
+- 클라이언트: Buildx는 빌드를 실행하고 관리하기 위한 사용자 인터페이스인 클라이언트입니다.
+- 서버: BuildKit은 빌드 실행을 처리하는 서버 또는 빌더입니다.
 
-When you invoke a build, the Buildx client sends a build request to the
-BuildKit backend. BuildKit resolves the build instructions and executes the
-build steps. The build output is either sent back to the client or uploaded to
-a registry, such as Docker Hub.
+빌드를 호출하면 Buildx 클라이언트가 BuildKit 백엔드에 빌드 요청을 보냅니다. BuildKit은 빌드 지침을 해결하고 빌드 단계를 실행합니다. 빌드 출력은 클라이언트로 다시 전송되거나 Docker Hub와 같은 레지스트리에 업로드됩니다.
 
-Buildx and BuildKit are both installed with Docker Desktop and Docker Engine
-out-of-the-box. When you invoke the `docker build` command, you're using Buildx
-to run a build using the default BuildKit bundled with Docker.
+Buildx와 BuildKit은 Docker Desktop 및 Docker Engine에 기본적으로 설치되어 있습니다. `docker build` 명령을 호출하면 기본적으로 Docker에 번들로 포함된 BuildKit을 사용하여 빌드를 실행하는 Buildx를 사용하게 됩니다.
 
-## Buildx
+## Buildx {#buildx}
 
-Buildx is the CLI tool that you use to run builds. The `docker build` command
-is a wrapper around Buildx. When you invoke `docker build`, Buildx interprets
-the build options and sends a build request to the BuildKit backend.
+Buildx는 빌드를 실행하는 데 사용하는 CLI 도구입니다. `docker build` 명령은 Buildx를 감싸는 래퍼입니다. `docker build`를 호출하면 Buildx는 빌드 옵션을 해석하고 BuildKit 백엔드에 빌드 요청을 보냅니다.
 
-The Buildx client can do more than just run builds. You can also use Buildx to
-create and manage BuildKit backends, referred to as builders. It also supports
-features for managing images in registries, and for running multiple builds
-concurrently.
+Buildx 클라이언트는 빌드를 실행하는 것 이상을 할 수 있습니다. Buildx를 사용하여 빌더라고 하는 BuildKit 백엔드를 생성하고 관리할 수도 있습니다. 또한 레지스트리에서 이미지를 관리하고 여러 빌드를 동시에 실행하는 기능도 지원합니다.
 
-Docker Buildx is installed by default with Docker Desktop. You can also build
-the CLI plugin from source, or grab a binary from the GitHub repository and
-install it manually. See [Buildx README](https://github.com/docker/buildx#manual-download)
-on GitHub for more information.
+Docker Buildx는 Docker Desktop에 기본적으로 설치되어 있습니다. 또한 소스에서 CLI 플러그인을 빌드하거나 GitHub 리포지토리에서 바이너리를 다운로드하여 수동으로 설치할 수 있습니다. 자세한 내용은 GitHub의 [Buildx README](https://github.com/docker/buildx#manual-download)를 참조하세요.
 
-> [!NOTE]
-> While `docker build` invokes Buildx under the hood, there are subtle
-> differences between this command and the canonical `docker buildx build`.
-> For details, see [Difference between `docker build` and `docker buildx build`](../builders/_index.md#difference-between-docker-build-and-docker-buildx-build).
+:::note
+`docker build`는 내부적으로 Buildx를 호출하지만, 이 명령과 정식 `docker buildx build` 사이에는 미묘한 차이가 있습니다. 자세한 내용은 [Difference between `docker build` and `docker buildx build`](../builders/_index.md#difference-between-docker-build-and-docker-buildx-build)를 참조하세요.
+:::
 
-## BuildKit
+## BuildKit {#buildkit}
 
-BuildKit is the daemon process that executes the build workloads.
+BuildKit은 빌드 작업을 실행하는 데몬 프로세스입니다.
 
-A build execution starts with the invocation of a `docker build` command.
-Buildx interprets your build command and sends a build request to the BuildKit
-backend. The build request includes:
+빌드 실행은 `docker build` 명령 호출로 시작됩니다. Buildx는 빌드 명령을 해석하고 BuildKit 백엔드에 빌드 요청을 보냅니다. 빌드 요청에는 다음이 포함됩니다:
 
-- The Dockerfile
-- Build arguments
-- Export options
-- Caching options
+- Dockerfile
+- 빌드 인수
+- 내보내기 옵션
+- 캐싱 옵션
 
-BuildKit resolves the build instructions and executes the build steps. While
-BuildKit is executing the build, Buildx monitors the build status and prints
-the progress to the terminal.
+BuildKit은 빌드 지침을 해결하고 빌드 단계를 실행합니다. BuildKit이 빌드를 실행하는 동안 Buildx는 빌드 상태를 모니터링하고 진행 상황을 터미널에 출력합니다.
 
-If the build requires resources from the client, such as local files or build
-secrets, BuildKit requests the resources that it needs from Buildx.
+빌드에 클라이언트의 리소스(예: 로컬 파일 또는 보안 정보)가 필요한 경우 BuildKit은 필요한 리소스를 Buildx에서 요청합니다.
 
-This is one way in which BuildKit is more efficient compared to the legacy
-builder used in earlier versions of Docker. BuildKit only requests the
-resources that the build needs when they're needed. The legacy builder, in
-comparison, always takes a copy of the local filesystem.
+이것이 이전 버전의 Docker에서 사용된 레거시 빌더와 비교하여 BuildKit이 더 효율적인 한 가지 방법입니다. BuildKit은 빌드에 필요한 리소스만 필요할 때 요청합니다. 반면 레거시 빌더는 항상 로컬 파일 시스템의 복사본을 가져옵니다.
 
-Examples of resources that BuildKit can request from Buildx include:
+BuildKit이 Buildx에서 요청할 수 있는 리소스의 예는 다음과 같습니다:
 
-- Local filesystem build contexts
-- Build secrets
-- SSH sockets
-- Registry authentication tokens
+- 로컬 파일 시스템 빌드 컨텍스트
+- 보안 키나 비밀번호 등 민감한 빌드 정보
+- SSH 소켓
+- 레지스트리 인증 토큰
 
-For more information about BuildKit, see [BuildKit](/manuals/build/buildkit/_index.md).
+BuildKit에 대한 자세한 내용은 [BuildKit](/manuals/build/buildkit/_index.md)를 참조하세요.
