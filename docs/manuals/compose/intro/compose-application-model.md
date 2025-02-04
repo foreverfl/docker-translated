@@ -1,111 +1,111 @@
 ---
-title: How Compose works
+title: Compose 작동 방식
 weight: 10
-description: Understand how Compose works and the Compose application model with an illustrative example
+description: 예시를 통해 Compose 작동 방식과 Compose 애플리케이션 모델 이해하기
 keywords:
-  - compose
-  - docker compose
-  - compose specification
-  - compose model
+ - compose
+ - docker compose
+ - compose 명세
+ - compose 모델
 aliases:
   - /compose/compose-file/02-model/
   - /compose/compose-yaml-file/
   - /compose/compose-application-model/
 ---
 
-With Docker Compose you use a YAML configuration file, known as the [Compose file](#the-compose-file), to configure your application’s services, and then you create and start all the services from your configuration with the [Compose CLI](#cli).
+Docker Compose를 사용하면 [Compose 파일](#the-compose-file)로 알려진 YAML 구성 파일을 사용하여 애플리케이션의 서비스를 구성하고, [Compose CLI](#cli)를 사용하여 구성에서 모든 서비스를 생성하고 시작할 수 있습니다.
 
-The Compose file, or `compose.yaml` file, follows the rules provided by the [Compose Specification](/reference/compose-file/_index.md) in how to define multi-container applications. This is the Docker Compose implementation of the formal [Compose Specification](https://github.com/compose-spec/compose-spec).
+Compose 파일 또는 `compose.yaml` 파일은 다중 컨테이너 애플리케이션을 정의하는 방법에 대한 [Compose 명세](/reference/compose-file/_index.md)의 규칙을 따릅니다. 이것은 공식 [Compose 명세](https://github.com/compose-spec/compose-spec)의 Docker Compose 구현입니다.
 
-Computing components of an application are defined as [services](/reference/compose-file/services.md). A service is an abstract concept implemented on platforms by running the same container image, and configuration, one or more times.
+<details>
+<summary>Compose 애플리케이션 모델</summary>
 
-Services communicate with each other through [networks](/reference/compose-file/networks.md). In the Compose Specification, a network is a platform capability abstraction to establish an IP route between containers within services connected together.
+애플리케이션의 컴퓨팅 구성 요소는 [서비스](/reference/compose-file/services.md)로 정의됩니다. 서비스는 동일한 컨테이너 이미지와 구성을 한 번 이상 실행하여 플랫폼에서 구현되는 추상 개념입니다.
 
-Services store and share persistent data into [volumes](/reference/compose-file/volumes.md). The Specification describes such a persistent data as a high-level filesystem mount with global options.
+서비스는 [네트워크](/reference/compose-file/networks.md)를 통해 서로 통신합니다. Compose 명세에서 네트워크는 서비스에 연결된 컨테이너 간에 IP 경로를 설정하기 위한 플랫폼 기능 추상화입니다.
 
-Some services require configuration data that is dependent on the runtime or platform. For this, the Specification defines a dedicated [configs](/reference/compose-file/configs.md) concept. From a service container point of view, configs are comparable to volumes, in that they are files mounted into the container. But the actual definition involves distinct platform resources and services, which are abstracted by this type.
+서비스는 [볼륨](/reference/compose-file/volumes.md)에 영구 데이터를 저장하고 공유합니다. 명세는 이러한 영구 데이터를 전역 옵션이 있는 고급 파일 시스템 마운트로 설명합니다.
 
-A [secret](/reference/compose-file/secrets.md) is a specific flavor of configuration data for sensitive data that should not be exposed without security considerations. Secrets are made available to services as files mounted into their containers, but the platform-specific resources to provide sensitive data are specific enough to deserve a distinct concept and definition within the Compose specification.
+일부 서비스는 런타임 또는 플랫폼에 따라 달라지는 구성 데이터가 필요합니다. 이를 위해 명세는 전용 [구성](/reference/compose-file/configs.md) 개념을 정의합니다. 서비스 컨테이너 관점에서 구성은 볼륨과 유사하여 컨테이너에 파일로 마운트됩니다. 그러나 실제 정의는 이 유형에 의해 추상화된 별개의 플랫폼 리소스 및 서비스를 포함합니다.
 
-> [!NOTE]
->
-> With volumes, configs and secrets you can have a simple declaration at the top-level and then add more platform-specific information at the service level.
+[비밀](/reference/compose-file/secrets.md)은 보안 고려 사항 없이 노출되어서는 안 되는 민감한 데이터를 위한 특정 구성 데이터입니다. 비밀은 파일로 컨테이너에 마운트되어 서비스에 제공되지만, 민감한 데이터를 제공하기 위한 플랫폼별 리소스는 Compose 명세 내에서 별개의 개념과 정의를 가질 만큼 충분히 구체적입니다.
 
-A project is an individual deployment of an application specification on a platform. A project's name, set with the top-level [`name`](/reference/compose-file/version-and-name.md) attribute, is used to group
-resources together and isolate them from other applications or other installation of the same Compose-specified application with distinct parameters. If you are creating resources on a platform, you must prefix resource names by project and
-set the label `com.docker.compose.project`.
+:::note
+볼륨, 구성 및 비밀을 사용하면 상위 수준에서 간단한 선언을 한 다음 서비스 수준에서 더 많은 플랫폼별 정보를 추가할 수 있습니다.
+:::
 
-Compose offers a way for you to set a custom project name and override this name, so that the same `compose.yaml` file can be deployed twice on the same infrastructure, without changes, by just passing a distinct name.
+프로젝트는 플랫폼에 애플리케이션 명세를 개별적으로 배포한 것입니다. 상위 수준 [`name`](/reference/compose-file/version-and-name.md) 속성으로 설정된 프로젝트 이름은 리소스를 그룹화하고 다른 애플리케이션 또는 동일한 Compose 명세 애플리케이션의 다른 설치와 구별하기 위해 사용됩니다. 플랫폼에서 리소스를 생성하는 경우 프로젝트로 리소스 이름을 접두사로 설정하고 레이블 `com.docker.compose.project`를 설정해야 합니다.
 
-## The Compose file
+Compose는 동일한 `compose.yaml` 파일을 변경 없이 다른 이름을 전달하여 동일한 인프라에 두 번 배포할 수 있도록 사용자 정의 프로젝트 이름을 설정하고 이 이름을 재정의할 수 있는 방법을 제공합니다.
 
-The default path for a Compose file is `compose.yaml` (preferred) or `compose.yml` that is placed in the working directory.
-Compose also supports `docker-compose.yaml` and `docker-compose.yml` for backwards compatibility of earlier versions.
-If both files exist, Compose prefers the canonical `compose.yaml`.
+</details>
 
-You can use [fragments](/reference/compose-file/fragments.md) and [extensions](/reference/compose-file/extension.md) to keep your Compose file efficient and easy to maintain.
+## Compose 파일 {#the-compose-file}
 
-Multiple Compose files can be [merged](/reference/compose-file/merge.md) together to define the application model. The combination of YAML files is implemented by appending or overriding YAML elements based on the Compose file order you set.
-Simple attributes and maps get overridden by the highest order Compose file, lists get merged by appending. Relative
-paths are resolved based on the first Compose file's parent folder, whenever complimentary files being
-merged are hosted in other folders. As some Compose file elements can both be expressed as single strings or complex objects, merges apply to
-the expanded form. For more information, see [Working with multiple Compose files](/manuals/compose/how-tos/multiple-compose-files/_index.md).
+Compose 파일의 기본 경로는 작업 디렉토리에 배치된 `compose.yaml`(선호됨) 또는 `compose.yml`입니다.
+Compose는 이전 버전의 하위 호환성을 위해 `docker-compose.yaml` 및 `docker-compose.yml`도 지원합니다.
+두 파일이 모두 존재하는 경우 Compose는 표준 `compose.yaml`을 선호합니다.
 
-If you want to reuse other Compose files, or factor out parts of your application model into separate Compose files, you can also use [`include`](/reference/compose-file/include.md). This is useful if your Compose application is dependent on another application which is managed by a different team, or needs to be shared with others.
+Compose 파일을 효율적이고 유지 관리하기 쉽게 유지하기 위해 [프래그먼트](/reference/compose-file/fragments.md) 및 [확장](/reference/compose-file/extension.md)를 사용할 수 있습니다.
 
-## CLI
+여러 Compose 파일을 함께 [병합](/reference/compose-file/merge.md)하여 애플리케이션 모델을 정의할 수 있습니다. YAML 파일의 조합은 설정한 Compose 파일 순서에 따라 YAML 요소를 추가하거나 재정의하여 구현됩니다.
+단순 속성과 맵은 가장 높은 순서의 Compose 파일에 의해 재정의되고, 목록은 추가하여 병합됩니다. 상대 경로는 보완 파일이 다른 폴더에 호스팅되는 경우 첫 번째 Compose 파일의 상위 폴더를 기준으로 해석됩니다. 일부 Compose 파일 요소는 단일 문자열 또는 복잡한 객체로 모두 표현될 수 있으므로 병합은 확장된 형식에 적용됩니다. 자세한 내용은 [여러 Compose 파일 작업](/manuals/compose/how-tos/multiple-compose-files/_index.md)을 참조하십시오.
 
-The Docker CLI lets you interact with your Docker Compose applications through the `docker compose` command, and its subcommands. Using the CLI, you can manage the lifecycle of your multi-container applications defined in the `compose.yaml` file. The CLI commands enable you to start, stop, and configure your applications effortlessly.
+다른 Compose 파일을 재사용하거나 애플리케이션 모델의 일부를 별도의 Compose 파일로 분리하려는 경우 [`include`](/reference/compose-file/include.md)를 사용할 수도 있습니다. 이는 Compose 애플리케이션이 다른 팀에서 관리하는 다른 애플리케이션에 의존하거나 다른 사람과 공유해야 하는 경우 유용합니다.
 
-### Key commands
+## CLI {#cli}
 
-To start all the services defined in your `compose.yaml` file:
+Docker CLI를 사용하면 `docker compose` 명령과 하위 명령을 통해 Docker Compose 애플리케이션과 상호 작용할 수 있습니다. CLI를 사용하면 `compose.yaml` 파일에 정의된 다중 컨테이너 애플리케이션의 수명 주기를 관리할 수 있습니다. CLI 명령을 사용하여 애플리케이션을 쉽게 시작, 중지 및 구성할 수 있습니다.
 
-```bash
+### 주요 명령 {#key-commands}
+
+`compose.yaml` 파일에 정의된 모든 서비스를 시작하려면:
+
+```console
 $ docker compose up
 ```
 
-To stop and remove the running services:
+실행 중인 서비스를 중지하고 제거하려면:
 
-```bash
+```console
 $ docker compose down
 ```
 
-If you want to monitor the output of your running containers and debug issues, you can view the logs with:
+실행 중인 컨테이너의 출력을 모니터링하고 문제를 디버그하려면 로그를 볼 수 있습니다:
 
-```bash
+```console
 $ docker compose logs
 ```
 
-To lists all the services along with their current status:
+현재 상태와 함께 모든 서비스를 나열하려면:
 
-```bash
+```console
 $ docker compose ps
 ```
 
-For a full list of all the Compose CLI commands, see the [reference documentation](/reference/cli/docker/compose/_index.md).
+모든 Compose CLI 명령의 전체 목록은 [참조 문서](/reference/cli/docker/compose/_index.md)를 참조하십시오.
 
-## Illustrative example
+## 예시 {#illustrative-example}
 
-The following example illustrates the Compose concepts outlined above. The example is non-normative.
+다음 예시는 위에서 설명한 Compose 개념을 설명합니다. 이 예시는 비규범적입니다.
 
-Consider an application split into a frontend web application and a backend service.
+프론트엔드 웹 애플리케이션과 백엔드 서비스로 나뉜 애플리케이션을 고려하십시오.
 
-The frontend is configured at runtime with an HTTP configuration file managed by infrastructure, providing an external domain name, and an HTTPS server certificate injected by the platform's secured secret store.
+프론트엔드는 인프라에서 관리하는 HTTP 구성 파일로 런타임에 구성되며, 플랫폼의 보안 비밀 저장소에서 주입된 외부 도메인 이름과 HTTPS 서버 인증서를 제공합니다.
 
-The backend stores data in a persistent volume.
+백엔드는 영구 볼륨에 데이터를 저장합니다.
 
-Both services communicate with each other on an isolated back-tier network, while the frontend is also connected to a front-tier network and exposes port 443 for external usage.
+두 서비스는 격리된 백티어 네트워크에서 서로 통신하며, 프론트엔드는 또한 프론트티어 네트워크에 연결되어 외부 사용을 위해 포트 443을 노출합니다.
 
 ![Compose application example](../images/compose-application.webp)
 
-The example application is composed of the following parts:
+예시 애플리케이션은 다음과 같은 부분으로 구성됩니다:
 
-- 2 services, backed by Docker images: `webapp` and `database`
-- 1 secret (HTTPS certificate), injected into the frontend
-- 1 configuration (HTTP), injected into the frontend
-- 1 persistent volume, attached to the backend
-- 2 networks
+- Docker 이미지로 지원되는 2개의 서비스: `webapp` 및 `database`
+- 프론트엔드에 주입된 1개의 비밀(HTTPS 인증서)
+- 프론트엔드에 주입된 1개의 구성(HTTP)
+- 백엔드에 연결된 1개의 영구 볼륨
+- 2개의 네트워크
 
 ```yml
 services:
@@ -143,14 +143,14 @@ secrets:
     external: true
 
 networks:
-  # The presence of these objects is sufficient to define them
+  # 이러한 객체의 존재만으로도 정의가 충분합니다
   front-tier: {}
   back-tier: {}
 ```
 
-The `docker compose up` command starts the `frontend` and `backend` services, create the necessary networks and volumes, and injects the configuration and secret into the frontend service.
+`docker compose up` 명령은 `frontend` 및 `backend` 서비스를 시작하고, 필요한 네트워크와 볼륨을 생성하며, 프론트엔드 서비스에 구성 및 비밀을 주입합니다.
 
-`docker compose ps` provides a snapshot of the current state of your services, making it easy to see which containers are running, their status, and the ports they are using:
+`docker compose ps`는 서비스의 현재 상태를 스냅샷으로 제공하여 실행 중인 컨테이너, 상태 및 사용 중인 포트를 쉽게 확인할 수 있습니다:
 
 ```text
 $ docker compose ps
@@ -160,8 +160,8 @@ example-frontend-1  example/webapp       "nginx -g 'daemon of…"   frontend    
 example-backend-1   example/database     "docker-entrypoint.s…"   backend             2 minutes ago       Up 2 minutes
 ```
 
-## What's next
+## 다음 단계 {#whats-next}
 
-- [Quickstart](/manuals/compose/gettingstarted.md)
-- [Explore some sample applications](/manuals/compose/support-and-feedback/samples-for-compose.md)
-- [Familiarize yourself with the Compose Specification](/reference/compose-file/_index.md)
+- [빠른 시작](/manuals/compose/gettingstarted.md)
+- [샘플 애플리케이션 탐색](/manuals/compose/support-and-feedback/samples-for-compose.md)
+- [Compose 명세 익히기](/reference/compose-file/_index.md)

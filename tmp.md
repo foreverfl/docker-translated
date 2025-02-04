@@ -1,576 +1,624 @@
 ---
-title: Build context
-weight: 30
-description: Learn how to use the build context to access files from your Dockerfile
+title: Build variables
+linkTitle: Variables
+weight: 20
+description: Using build arguments and environment variables to configure builds
 keywords:
   - build
-  - buildx
-  - buildkit
-  - context
-  - git
-  - tarball
-  - stdin
+  - args
+  - variables
+  - parameters
+  - env
+  - environment variables
+  - config
 aliases:
-  - /build/building/context/
+  - /build/buildkit/color-output-controls/
+  - /build/building/env-vars/
+  - /build/guide/build-args/
 ---
 
-The `docker build` and `docker buildx build` commands build Docker images from
-a [Dockerfile](/reference/dockerfile.md) and a context.
+In Docker Build, build arguments (`ARG`) and environment variables (`ENV`)
+both serve as a means to pass information into the build process.
+You can use them to parameterize the build, allowing for more flexible and configurable builds.
 
-## What is a build context?
+> [!WARNING]
+>
+> Build arguments and environment variables are inappropriate for passing secrets
+> to your build, because they're exposed in the final image. Instead, use
+> secret mounts or SSH mounts, which expose secrets to your builds securely.
+>
+> See [Build secrets](./secrets.md) for more information.
 
-The build context is the set of files that your build can access.
-The positional argument that you pass to the build command specifies the
-context that you want to use for the build:
+## Similarities and differences
 
-```bash
-$ docker build [OPTIONS] PATH | URL | -
-                         ^^^^^^^^^^^^^^
-```
+Build arguments and environment variables are similar.
+They're both declared in the Dockerfile and can be set using flags for the `docker build` command.
+Both can be used to parameterize the build.
+But they each serve a distinct purpose.
 
-You can pass any of the following inputs as the context for a build:
+### Build arguments
 
-- The relative or absolute path to a local directory
-- A remote URL of a Git repository, tarball, or plain-text file
-- A plain-text file or tarball piped to the `docker build` command through standard input
+Build arguments are variables for the Dockerfile itself.
+Use them to parameterize values of Dockerfile instructions.
+For example, you might use a build argument to specify the version of a dependency to install.
 
-### Filesystem contexts
+Build arguments have no effect on the build unless it's used in an instruction.
+They're not accessible or present in containers instantiated from the image
+unless explicitly passed through from the Dockerfile into the image filesystem or configuration.
+They may persist in the image metadata, as provenance attestations and in the image history,
+which is why they're not suitable for holding secrets.
 
-When your build context is a local directory, a remote Git repository, or a tar
-file, then that becomes the set of files that the builder can access during the
-build. Build instructions such as `COPY` and `ADD` can refer to any of the
-files and directories in the context.
+They make Dockerfiles more flexible, and easier to maintain.
 
-A filesystem build context is processed recursively:
+For an example on how you can use build arguments,
+see [`ARG` usage example](#arg-usage-example).
 
-- When you specify a local directory or a tarball, all subdirectories are included
-- When you specify a remote Git repository, the repository and all submodules are included
+### Environment variables
 
-For more information about the different types of filesystem contexts that you
-can use with your builds, see:
+Environment variables are passed through to the build execution environment,
+and persist in containers instantiated from the image.
 
-- [Local files](#local-context)
-- [Git repositories](#git-repositories)
-- [Remote tarballs](#remote-tarballs)
+Environment variables are primarily used to:
 
-### Text file contexts
+- Configure the execution environment for builds
+- Set default environment variables for containers
 
-When your build context is a plain-text file, the builder interprets the file
-as a Dockerfile. With this approach, the build doesn't use a filesystem context.
+Environment variables, if set, can directly influence the execution of your build,
+and the behavior or configuration of the application.
 
-For more information, see [empty build context](#empty-context).
+You can't override or set an environment variable at build-time.
+Values for environment variables must be declared in the Dockerfile.
+You can combine environment variables and build arguments to allow
+environment variables to be configured at build-time.
 
-## Local context
+For an example on how to use environment variables for configuring builds,
+see [`ENV` usage example](#env-usage-example).
 
-To use a local build context, you can specify a relative or absolute filepath
-to the `docker build` command. The following example shows a build command that
-uses the current directory (`.`) as a build context:
+## `ARG` usage example
 
-```bash
-$ docker build .
-...
-#16 [internal] load build context
-#16 sha256:23ca2f94460dcbaf5b3c3edbaaa933281a4e0ea3d92fe295193e4df44dc68f85
-#16 transferring context: 13.16MB 2.2s done
-...
-```
+Build arguments are commonly used to specify versions of components,
+such as image variants or package versions, used in a build.
 
-This makes files and directories in the current working directory available to
-the builder. The builder loads the files it needs from the build context when
-needed.
+Specifying versions as build arguments lets build with different versions
+without having to manually update the Dockerfile.
+It also makes it easier to maintain the Dockerfile,
+since it lets you declare versions at the top of the file.
 
-You can also use local tarballs as build context, by piping the tarball
-contents to the `docker build` command. See [Tarballs](#local-tarballs).
+Build arguments can also be a way to reuse a value in multiple places.
+For example, if you use multiple flavors of `alpine` in your build,
+you can ensure you're using the same version of `alpine` everywhere:
 
-### Local directories
+- `golang:1.22-alpine${ALPINE_VERSION}`
+- `python:3.12-alpine${ALPINE_VERSION}`
+- `nginx:1-alpine${ALPINE_VERSION}`
 
-Consider the following directory structure:
-
-```text
-.
-├── index.ts
-├── src/
-├── Dockerfile
-├── package.json
-└── package-lock.json
-```
-
-Dockerfile instructions can reference and include these files in the build if
-you pass this directory as a context.
+The following example defines the version of `node` and `alpine` using build arguments.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
-FROM node:latest
+
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS base
 WORKDIR /src
-COPY package.json package-lock.json .
+
+FROM base AS build
+COPY package*.json ./
 RUN npm ci
-COPY index.ts src .
+RUN npm run build
+
+FROM base AS production
+COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
+COPY --from=build /src/dist/ .
+CMD ["node", "app.js"]
 ```
+
+In this case, the build arguments have default values.
+Specifying their values when you invoke a build is optional.
+To override the defaults, you would use the `--build-arg` CLI flag:
 
 ```bash
-$ docker build .
+$ docker build --build-arg NODE_VERSION=current .
 ```
 
-### Local context with Dockerfile from stdin
+For more information on how to use build arguments, refer to:
 
-Use the following syntax to build an image using files on your local
-filesystem, while using a Dockerfile from stdin.
+- [`ARG` Dockerfile reference](/reference/dockerfile.md#arg)
+- [`docker build --build-arg` reference](/reference/cli/docker/buildx/build.md#build-arg)
 
-```bash
-$ docker build -f- <PATH>
-```
+## `ENV` usage example
 
-The syntax uses the -f (or --file) option to specify the Dockerfile to use, and
-it uses a hyphen (-) as filename to instruct Docker to read the Dockerfile from
-stdin.
-
-The following example uses the current directory (.) as the build context, and
-builds an image using a Dockerfile passed through stdin using a here-document.
-
-```bash
-# create a directory to work in
-mkdir example
-cd example
-
-# create an example file
-touch somefile.txt
-
-# build an image using the current directory as context
-# and a Dockerfile passed through stdin
-docker build -t myimage:latest -f- . <<EOF
-FROM busybox
-COPY somefile.txt ./
-RUN cat /somefile.txt
-EOF
-```
-
-### Local tarballs
-
-When you pipe a tarball to the build command, the build uses the contents of
-the tarball as a filesystem context.
-
-For example, given the following project directory:
-
-```text
-.
-├── Dockerfile
-├── Makefile
-├── README.md
-├── main.c
-├── scripts
-├── src
-└── test.Dockerfile
-```
-
-You can create a tarball of the directory and pipe it to the build for use as
-a context:
-
-```bash
-$ tar czf foo.tar.gz *
-$ docker build - < foo.tar.gz
-```
-
-The build resolves the Dockerfile from the tarball context. You can use the
-`--file` flag to specify the name and location of the Dockerfile relative to
-the root of the tarball. The following command builds using `test.Dockerfile`
-in the tarball:
-
-```bash
-$ docker build --file test.Dockerfile - < foo.tar.gz
-```
-
-## Remote context
-
-You can specify the address of a remote Git repository, tarball, or plain-text
-file as your build context.
-
-- For Git repositories, the builder automatically clones the repository. See
-  [Git repositories](#git-repositories).
-- For tarballs, the builder downloads and extracts the contents of the tarball.
-  See [Tarballs](#remote-tarballs).
-
-If the remote tarball is a text file, the builder receives no [filesystem
-context](#filesystem-contexts), and instead assumes that the remote
-file is a Dockerfile. See [Empty build context](#empty-context).
-
-### Git repositories
-
-When you pass a URL pointing to the location of a Git repository as an argument
-to `docker build`, the builder uses the repository as the build context.
-
-The builder performs a shallow clone of the repository, downloading only
-the HEAD commit, not the entire history.
-
-The builder recursively clones the repository and any submodules it contains.
-
-```bash
-$ docker build https://github.com/user/myrepo.git
-```
-
-By default, the builder clones the latest commit on the default branch of the
-repository that you specify.
-
-#### URL fragments
-
-You can append URL fragments to the Git repository address to make the builder
-clone a specific branch, tag, and subdirectory of a repository.
-
-The format of the URL fragment is `#ref:dir`, where:
-
-- `ref` is the name of the branch, tag, or commit hash
-- `dir` is a subdirectory inside the repository
-
-For example, the following command uses the `container` branch,
-and the `docker` subdirectory in that branch, as the build context:
-
-```bash
-$ docker build https://github.com/user/myrepo.git#container:docker
-```
-
-The following table represents all the valid suffixes with their build
-contexts:
-
-| Build Syntax Suffix            | Commit Used                   | Build Context Used |
-| ------------------------------ | ----------------------------- | ------------------ |
-| `myrepo.git`                   | `refs/heads/<default branch>` | `/`                |
-| `myrepo.git#mytag`             | `refs/tags/mytag`             | `/`                |
-| `myrepo.git#mybranch`          | `refs/heads/mybranch`         | `/`                |
-| `myrepo.git#pull/42/head`      | `refs/pull/42/head`           | `/`                |
-| `myrepo.git#:myfolder`         | `refs/heads/<default branch>` | `/myfolder`        |
-| `myrepo.git#master:myfolder`   | `refs/heads/master`           | `/myfolder`        |
-| `myrepo.git#mytag:myfolder`    | `refs/tags/mytag`             | `/myfolder`        |
-| `myrepo.git#mybranch:myfolder` | `refs/heads/mybranch`         | `/myfolder`        |
-
-When you use a commit hash as the `ref` in the URL fragment, use the full,
-40-character string SHA-1 hash of the commit. A short hash, for example a hash
-truncated to 7 characters, is not supported.
-
-```bash
-# ✅ The following works:
-docker build github.com/docker/buildx#d4f088e689b41353d74f1a0bfcd6d7c0b213aed2
-# ❌ The following doesn't work because the commit hash is truncated:
-docker build github.com/docker/buildx#d4f088e
-```
-
-#### Keep `.git` directory
-
-By default, BuildKit doesn't keep the `.git` directory when using Git contexts.
-You can configure BuildKit to keep the directory by setting the
-[`BUILDKIT_CONTEXT_KEEP_GIT_DIR` build argument](/reference/dockerfile.md#buildkit-built-in-build-args).
-This can be useful to if you want to retrieve Git information during your build:
+Declaring an environment variable with `ENV` makes the variable
+available to all subsequent instructions in the build stage.
+The following example shows an example setting `NODE_ENV` to `production`
+before installing JavaScript dependencies with `npm`.
+Setting the variable makes `npm` omits packages needed only for local development.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
+
+FROM node:20
+WORKDIR /app
+COPY package*.json ./
+ENV NODE_ENV=production
+RUN npm ci && npm cache clean --force
+COPY . .
+CMD ["node", "app.js"]
+```
+
+Environment variables aren't configurable at build-time by default.
+If you want to change the value of an `ENV` at build-time,
+you can combine environment variables and build arguments:
+
+```dockerfile
+# syntax=docker/dockerfile:1
+
+FROM node:20
+ARG NODE_ENV=production
+ENV NODE_ENV=$NODE_ENV
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci && npm cache clean --force
+COPY . .
+CMD ["node", "app.js"]
+```
+
+With this Dockerfile, you can use `--build-arg` to override the default value of `ENV`:
+
+```bash
+$ docker build --build-arg NODE_ENV=development .
+```
+
+Note that, because the environment variables you set persist in containers,
+using them can lead to unintended side-effects for the application's runtime.
+
+For more information on how to use environment variables in builds, refer to:
+
+- [`ENV` Dockerfile reference](/reference/dockerfile.md#env)
+
+## Scoping
+
+Build arguments declared in the global scope of a Dockerfile
+aren't automatically inherited into the build stages.
+They're only accessible in the global scope.
+
+```dockerfile
+# syntax=docker/dockerfile:1
+
+# The following build argument is declared in the global scope:
+ARG NAME="joe"
+
 FROM alpine
-WORKDIR /src
-RUN --mount=target=. \
-  make REVISION=$(git rev-parse HEAD) build
+# The following instruction doesn't have access to the $NAME build argument
+# because the argument was defined in the global scope, not for this stage.
+RUN echo "hello ${NAME}!"
 ```
+
+The `echo` command in this example evaluates to `hello !`
+because the value of the `NAME` build argument is out of scope.
+To inherit global build arguments into a stage, you must consume them:
+
+```dockerfile
+# syntax=docker/dockerfile:1
+
+# Declare the build argument in the global scope
+ARG NAME="joe"
+
+FROM alpine
+# Consume the build argument in the build stage
+ARG NAME
+RUN echo $NAME
+```
+
+Once a build argument is declared or consumed in a stage,
+it's automatically inherited by child stages.
+
+```dockerfile
+# syntax=docker/dockerfile:1
+FROM alpine AS base
+# Declare the build argument in the build stage
+ARG NAME="joe"
+
+# Create a new stage based on "base"
+FROM base AS build
+# The NAME build argument is available here
+# since it's declared in a parent stage
+RUN echo "hello $NAME!"
+```
+
+The following diagram further exemplifies how build argument
+and environment variable inheritance works for multi-stage builds.
+
+<!-- {{< figure src="../../images/build-variables.svg" class="invertible" >}} -->
+
+## Pre-defined build arguments
+
+This section describes pre-defined build arguments available to all builds by default.
+
+### Multi-platform build arguments
+
+Multi-platform build arguments describe the build and target platforms for the build.
+
+The build platform is the operating system, architecture, and platform variant
+of the host system where the builder (the BuildKit daemon) is running.
+
+- `BUILDPLATFORM`
+- `BUILDOS`
+- `BUILDARCH`
+- `BUILDVARIANT`
+
+The target platform arguments hold the same values for the target platforms for the build,
+specified using the `--platform` flag for the `docker build` command.
+
+- `TARGETPLATFORM`
+- `TARGETOS`
+- `TARGETARCH`
+- `TARGETVARIANT`
+
+These arguments are useful for doing cross-compilation in multi-platform builds.
+They're available in the global scope of the Dockerfile,
+but they aren't automatically inherited by build stages.
+To use them inside stage, you must declare them:
+
+```dockerfile
+# syntax=docker/dockerfile:1
+
+# Pre-defined build arguments are available in the global scope
+FROM --platform=$BUILDPLATFORM golang
+# To inherit them to a stage, declare them with ARG
+ARG TARGETOS
+RUN GOOS=$TARGETOS go build -o ./exe .
+```
+
+For more information about multi-platform build arguments, refer to
+[Multi-platform arguments](/reference/dockerfile.md#automatic-platform-args-in-the-global-scope)
+
+### Proxy arguments
+
+Proxy build arguments let you specify proxies to use for your build.
+You don't need to declare or reference these arguments in the Dockerfile.
+Specifying a proxy with `--build-arg` is enough to make your build use the proxy.
+
+Proxy arguments are automatically excluded from the build cache
+and the output of `docker history` by default.
+If you do reference the arguments in your Dockerfile,
+the proxy configuration ends up in the build cache.
+
+The builder respects the following proxy build arguments.
+The variables are case insensitive.
+
+- `HTTP_PROXY`
+- `HTTPS_PROXY`
+- `FTP_PROXY`
+- `NO_PROXY`
+- `ALL_PROXY`
+
+To configure a proxy for your build:
 
 ```bash
-$ docker build \
-  --build-arg BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
-  https://github.com/user/myrepo.git#main
+$ docker build --build-arg HTTP_PROXY=https://my-proxy.example.com .
 ```
 
-#### Private repositories
+For more information about proxy build arguments, refer to
+[Proxy arguments](/reference/dockerfile.md#predefined-args).
 
-When you specify a Git context that's also a private repository, the builder
-needs you to provide the necessary authentication credentials. You can use
-either SSH or token-based authentication.
+## Build tool configuration variables
 
-Buildx automatically detects and uses SSH credentials if the Git context you
-specify is an SSH or Git address. By default, this uses `$SSH_AUTH_SOCK`.
-You can configure the SSH credentials to use with the
-[`--ssh` flag](/reference/cli/docker/buildx/build.md#ssh).
+The following environment variables enable, disable, or change the behavior of Buildx and BuildKit.
+Note that these variables aren't used to configure the build container;
+they aren't available inside the build and they have no relation to the `ENV` instruction.
+They're used to configure the Buildx client, or the BuildKit daemon.
+
+| Variable                                                                    | Type              | Description                                                  |
+| --------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------ |
+| [BUILDKIT_COLORS](#buildkit_colors)                                         | String            | Configure text color for the terminal output.                |
+| [BUILDKIT_HOST](#buildkit_host)                                             | String            | Specify host to use for remote builders.                     |
+| [BUILDKIT_PROGRESS](#buildkit_progress)                                     | String            | Configure type of progress output.                           |
+| [BUILDKIT_TTY_LOG_LINES](#buildkit_tty_log_lines)                           | String            | Number of log lines (for active steps in TTY mode).          |
+| [BUILDX_BAKE_GIT_AUTH_HEADER](#buildx_bake_git_auth_header)                 | String            | HTTP authentication scheme for remote Bake files.            |
+| [BUILDX_BAKE_GIT_AUTH_TOKEN](#buildx_bake_git_auth_token)                   | String            | HTTP authentication token for remote Bake files.             |
+| [BUILDX_BAKE_GIT_SSH](#buildx_bake_git_ssh)                                 | String            | SSH authentication for remote Bake files.                    |
+| [BUILDX_BUILDER](#buildx_builder)                                           | String            | Specify the builder instance to use.                         |
+| [BUILDX_CONFIG](#buildx_config)                                             | String            | Specify location for configuration, state, and logs.         |
+| [BUILDX_CPU_PROFILE](#buildx_cpu_profile)                                   | String            | Generate a `pprof` CPU profile at the specified location.    |
+| [BUILDX_EXPERIMENTAL](#buildx_experimental)                                 | Boolean           | Turn on experimental features.                               |
+| [BUILDX_GIT_CHECK_DIRTY](#buildx_git_check_dirty)                           | Boolean           | Enable dirty Git checkout detection.                         |
+| [BUILDX_GIT_INFO](#buildx_git_info)                                         | Boolean           | Remove Git information in provenance attestations.           |
+| [BUILDX_GIT_LABELS](#buildx_git_labels)                                     | String \| Boolean | Add Git provenance labels to images.                         |
+| [BUILDX_MEM_PROFILE](#buildx_mem_profile)                                   | String            | Generate a `pprof` memory profile at the specified location. |
+| [BUILDX_NO_DEFAULT_ATTESTATIONS](#buildx_no_default_attestations)           | Boolean           | Turn off default provenance attestations.                    |
+| [BUILDX_NO_DEFAULT_LOAD](#buildx_no_default_load)                           | Boolean           | Turn off loading images to image store by default.           |
+| [EXPERIMENTAL_BUILDKIT_SOURCE_POLICY](#experimental_buildkit_source_policy) | String            | Specify a BuildKit source policy file.                       |
+
+BuildKit also supports a few additional configuration parameters. Refer to
+[BuildKit built-in build args](/reference/dockerfile.md#buildkit-built-in-build-args).
+
+You can express Boolean values for environment variables in different ways.
+For example, `true`, `1`, and `T` all evaluate to true.
+Evaluation is done using the `strconv.ParseBool` function in the Go standard library.
+See the [reference documentation](https://pkg.go.dev/strconv#ParseBool) for details.
+
+<!-- vale Docker.HeadingSentenceCase = NO -->
+
+### BUILDKIT_COLORS
+
+Changes the colors of the terminal output. Set `BUILDKIT_COLORS` to a CSV string
+in the following format:
 
 ```bash
-$ docker buildx build --ssh default git@github.com:user/private.git
+$ export BUILDKIT_COLORS="run=123,20,245:error=yellow:cancel=blue:warning=white"
 ```
 
-If you want to use token-based authentication instead, you can pass the token
-using the
-[`--secret` flag](/reference/cli/docker/buildx/build.md#secret).
+Color values can be any valid RGB hex code, or one of the
+[BuildKit predefined colors](https://github.com/moby/buildkit/blob/master/util/progress/progressui/colors.go).
+
+Setting `NO_COLOR` to anything turns off colorized output, as recommended by
+[no-color.org](https://no-color.org/).
+
+### BUILDKIT_HOST
+
+You use the `BUILDKIT_HOST` to specify the address of a BuildKit daemon to use
+as a remote builder. This is the same as specifying the address as a positional
+argument to `docker buildx create`.
+
+Usage:
 
 ```bash
-$ GIT_AUTH_TOKEN=<token> docker buildx build \
-  --secret id=GIT_AUTH_TOKEN \
-  https://github.com/user/private.git
+$ export BUILDKIT_HOST=tcp://localhost:1234
+$ docker buildx create --name=remote --driver=remote
 ```
+
+If you specify both the `BUILDKIT_HOST` environment variable and a positional
+argument, the argument takes priority.
+
+### BUILDKIT_PROGRESS
+
+Sets the type of the BuildKit progress output. Valid values are:
+
+- `auto` (default)
+- `plain`
+- `tty`
+- `quiet`
+- `rawjson`
+
+Usage:
+
+```bash
+$ export BUILDKIT_PROGRESS=plain
+```
+
+### BUILDKIT_TTY_LOG_LINES
+
+You can change how many log lines are visible for active steps in TTY mode by
+setting `BUILDKIT_TTY_LOG_LINES` to a number (default to `6`).
+
+```bash
+$ export BUILDKIT_TTY_LOG_LINES=8
+```
+
+### EXPERIMENTAL_BUILDKIT_SOURCE_POLICY
+
+Lets you specify a
+[BuildKit source policy](https://github.com/moby/buildkit/blob/master/docs/build-repro.md#reproducing-the-pinned-dependencies)
+file for creating reproducible builds with pinned dependencies.
+
+```bash
+$ export EXPERIMENTAL_BUILDKIT_SOURCE_POLICY=./policy.json
+```
+
+Example:
+
+```json
+{
+  "rules": [
+    {
+      "action": "CONVERT",
+      "selector": {
+        "identifier": "docker-image://docker.io/library/alpine:latest"
+      },
+      "updates": {
+        "identifier": "docker-image://docker.io/library/alpine:latest@sha256:4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5acce2c4f9454"
+      }
+    },
+    {
+      "action": "CONVERT",
+      "selector": {
+        "identifier": "https://raw.githubusercontent.com/moby/buildkit/v0.10.1/README.md"
+      },
+      "updates": {
+        "attrs": {
+          "http.checksum": "sha256:6e4b94fc270e708e1068be28bd3551dc6917a4fc5a61293d51bb36e6b75c4b53"
+        }
+      }
+    },
+    {
+      "action": "DENY",
+      "selector": {
+        "identifier": "docker-image://docker.io/library/golang*"
+      }
+    }
+  ]
+}
+```
+
+### BUILDX_BAKE_GIT_AUTH_HEADER
+
+Sets the HTTP authentication scheme when using a remote Bake definition in a private Git repository.
+This is equivalent to the [`GIT_AUTH_HEADER` secret](./secrets#http-authentication-scheme),
+but facilitates the pre-flight authentication in Bake when loading the remote Bake file.
+Supported values are `bearer` (default) and `basic`.
+
+Usage:
+
+```bash
+$ export BUILDX_BAKE_GIT_AUTH_HEADER=basic
+```
+
+### BUILDX_BAKE_GIT_AUTH_TOKEN
+
+Sets the HTTP authentication token when using a remote Bake definition in a private Git repository.
+This is equivalent to the [`GIT_AUTH_TOKEN` secret](./secrets#git-authentication-for-remote-contexts),
+but facilitates the pre-flight authentication in Bake when loading the remote Bake file.
+
+Usage:
+
+```bash
+$ export BUILDX_BAKE_GIT_AUTH_TOKEN=$(cat git-token.txt)
+```
+
+### BUILDX_BAKE_GIT_SSH
+
+Lets you specify a list of SSH agent socket filepaths to forward to Bake
+for authenticating to a Git server when using a remote Bake definition in a private repository.
+This is similar to SSH mounts for builds, but facilitates the pre-flight authentication in Bake when resolving the build definition.
+
+Setting this environment is typically not necessary, because Bake will use the `SSH_AUTH_SOCK` agent socket by default.
+You only need to specify this variable if you want to use a socket with a different filepath.
+This variable can take multiple paths using a comma-separated string.
+
+Usage:
+
+```bash
+$ export BUILDX_BAKE_GIT_SSH=/run/foo/listener.sock,~/.creds/ssh.sock
+```
+
+### BUILDX_BUILDER
+
+Overrides the configured builder instance. Same as the `docker buildx --builder`
+CLI flag.
+
+Usage:
+
+```bash
+$ export BUILDX_BUILDER=my-builder
+```
+
+### BUILDX_CONFIG
+
+You can use `BUILDX_CONFIG` to specify the directory to use for build
+configuration, state, and logs. The lookup order for this directory is as
+follows:
+
+- `$BUILDX_CONFIG`
+- `$DOCKER_CONFIG/buildx`
+- `~/.docker/buildx` (default)
+
+Usage:
+
+```bash
+$ export BUILDX_CONFIG=/usr/local/etc
+```
+
+### BUILDX_CPU_PROFILE
+
+If specified, Buildx generates a `pprof` CPU profile at the specified location.
 
 > [!NOTE]
->
-> Don't use `--build-arg` for secrets.
+> This property is only useful for when developing Buildx. The profiling data
+> is not relevant for analyzing a build's performance.
 
-### Remote context with Dockerfile from stdin
-
-Use the following syntax to build an image using files on your local
-filesystem, while using a Dockerfile from stdin.
+Usage:
 
 ```bash
-$ docker build -f- <URL>
+$ export BUILDX_CPU_PROFILE=buildx_cpu.prof
 ```
 
-The syntax uses the -f (or --file) option to specify the Dockerfile to use, and
-it uses a hyphen (-) as filename to instruct Docker to read the Dockerfile from
-stdin.
+### BUILDX_EXPERIMENTAL
 
-This can be useful in situations where you want to build an image from a
-repository that doesn't contain a Dockerfile. Or if you want to build with a
-custom Dockerfile, without maintaining your own fork of the repository.
+Enables experimental build features.
 
-The following example builds an image using a Dockerfile from stdin, and adds
-the `hello.c` file from the [hello-world](https://github.com/docker-library/hello-world)
-repository on GitHub.
+Usage:
 
 ```bash
-docker build -t myimage:latest -f- https://github.com/docker-library/hello-world.git <<EOF
-FROM busybox
-COPY hello.c ./
-EOF
+$ export BUILDX_EXPERIMENTAL=1
 ```
 
-### Remote tarballs
+### BUILDX_GIT_CHECK_DIRTY
 
-If you pass the URL to a remote tarball, the URL itself is sent to the builder.
+When set to true, checks for dirty state in source control information for
+[provenance attestations](/manuals/build/metadata/attestations/slsa-provenance.md).
+
+Usage:
 
 ```bash
-$ docker build http://server/context.tar.gz
-#1 [internal] load remote build context
-#1 DONE 0.2s
-
-#2 copy /context /
-#2 DONE 0.1s
-...
+$ export BUILDX_GIT_CHECK_DIRTY=1
 ```
 
-The download operation will be performed on the host where the BuildKit daemon
-is running. Note that if you're using a remote Docker context or a remote
-builder, that's not necessarily the same machine as where you issue the build
-command. BuildKit fetches the `context.tar.gz` and uses it as the build
-context. Tarball contexts must be tar archives conforming to the standard `tar`
-Unix format and can be compressed with any one of the `xz`, `bzip2`, `gzip` or
-`identity` (no compression) formats.
+### BUILDX_GIT_INFO
 
-## Empty context
+When set to false, removes source control information from
+[provenance attestations](/manuals/build/metadata/attestations/slsa-provenance.md).
 
-When you use a text file as the build context, the builder interprets the file
-as a Dockerfile. Using a text file as context means that the build has no
-filesystem context.
-
-You can build with an empty build context when your Dockerfile doesn't depend
-on any local files.
-
-### How to build without a context
-
-You can pass the text file using a standard input stream, or by pointing at the
-URL of a remote text file.
-
-<Tabs>
-<TabItem value="unix-pipe" label="Unix pipe">
+Usage:
 
 ```bash
-$ docker build - < Dockerfile
+$ export BUILDX_GIT_INFO=0
 ```
 
-</TabItem>
-<TabItem value="powershell" label="PowerShell">
+### BUILDX_GIT_LABELS
 
-```powershell
-Get-Content Dockerfile | docker build -
+Adds provenance labels, based on Git information, to images that you build. The
+labels are:
+
+- `com.docker.image.source.entrypoint`: Location of the Dockerfile relative to
+  the project root
+- `org.opencontainers.image.revision`: Git commit revision
+- `org.opencontainers.image.source`: SSH or HTTPS address of the repository
+
+Example:
+
+```json
+  "Labels": {
+    "com.docker.image.source.entrypoint": "Dockerfile",
+    "org.opencontainers.image.revision": "5734329c6af43c2ae295010778cd308866b95d9b",
+    "org.opencontainers.image.source": "git@github.com:foo/bar.git"
+  }
 ```
 
-</TabItem>
-<TabItem value="heredocs" label="Heredocs">
+Usage:
 
-```bash
-docker build -t myimage:latest - <<EOF
-FROM busybox
-RUN echo "hello world"
-EOF
-```
+- Set `BUILDX_GIT_LABELS=1` to include the `entrypoint` and `revision` labels.
+- Set `BUILDX_GIT_LABELS=full` to include all labels.
 
-</TabItem>
-<TabItem value="remote-file" label="Remote file">
+If the repository is in a dirty state, the `revision` gets a `-dirty` suffix.
 
-```bash
-$ docker build https://raw.githubusercontent.com/dvdksn/clockbox/main/Dockerfile
-```
+### BUILDX_MEM_PROFILE
 
-</TabItem>
-</Tabs>
-
-When you build without a filesystem context, Dockerfile instructions such as
-`COPY` can't refer to local files:
-
-```bash
-$ ls
-main.c
-$ docker build -<<< $'FROM scratch\nCOPY main.c .'
-[+] Building 0.0s (4/4) FINISHED
- => [internal] load build definition from Dockerfile       0.0s
- => => transferring dockerfile: 64B                        0.0s
- => [internal] load .dockerignore                          0.0s
- => => transferring context: 2B                            0.0s
- => [internal] load build context                          0.0s
- => => transferring context: 2B                            0.0s
- => ERROR [1/1] COPY main.c .                              0.0s
-------
- > [1/1] COPY main.c .:
-------
-Dockerfile:2
---------------------
-   1 |     FROM scratch
-   2 | >>> COPY main.c .
-   3 |
---------------------
-ERROR: failed to solve: failed to compute cache key: failed to calculate checksum of ref 7ab2bb61-0c28-432e-abf5-a4c3440bc6b6::4lgfpdf54n5uqxnv9v6ymg7ih: "/main.c": not found
-```
-
-## .dockerignore files
-
-You can use a `.dockerignore` file to exclude files or directories from the
-build context.
-
-```text
-# .dockerignore
-node_modules
-bar
-```
-
-This helps avoid sending unwanted files and directories to the builder,
-improving build speed, especially when using a remote builder.
-
-### Filename and location
-
-When you run a build command, the build client looks for a file named
-`.dockerignore` in the root directory of the context. If this file exists, the
-files and directories that match patterns in the files are removed from the
-build context before it's sent to the builder.
-
-If you use multiple Dockerfiles, you can use different ignore-files for each
-Dockerfile. You do so using a special naming convention for the ignore-files.
-Place your ignore-file in the same directory as the Dockerfile, and prefix the
-ignore-file with the name of the Dockerfile, as shown in the following example.
-
-```text
-.
-├── index.ts
-├── src/
-├── docker
-│   ├── build.Dockerfile
-│   ├── build.Dockerfile.dockerignore
-│   ├── lint.Dockerfile
-│   ├── lint.Dockerfile.dockerignore
-│   ├── test.Dockerfile
-│   └── test.Dockerfile.dockerignore
-├── package.json
-└── package-lock.json
-```
-
-A Dockerfile-specific ignore-file takes precedence over the `.dockerignore`
-file at the root of the build context if both exist.
-
-### Syntax
-
-The `.dockerignore` file is a newline-separated list of patterns similar to the
-file globs of Unix shells. Leading and trailing slashes in ignore patterns are
-disregarded. The following patterns all exclude a file or directory named `bar`
-in the subdirectory `foo` under the root of the build context:
-
-- `/foo/bar/`
-- `/foo/bar`
-- `foo/bar/`
-- `foo/bar`
-
-If a line in `.dockerignore` file starts with `#` in column 1, then this line
-is considered as a comment and is ignored before interpreted by the CLI.
-
-```gitignore
-#/this/is/a/comment
-```
-
-If you're interested in learning the precise details of the `.dockerignore`
-pattern matching logic, check out the
-[moby/patternmatcher repository](https://github.com/moby/patternmatcher/tree/main/ignorefile)
-on GitHub, which contains the source code.
-
-#### Matching
-
-The following code snippet shows an example `.dockerignore` file.
-
-```text
-# comment
-*/temp*
-*/*/temp*
-temp?
-```
-
-This file causes the following build behavior:
-
-| Rule        | Behavior                                                                                                                                                                                                      |
-| :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `# comment` | Ignored.                                                                                                                                                                                                      |
-| `*/temp*`   | Exclude files and directories whose names start with `temp` in any immediate subdirectory of the root. For example, the plain file `/somedir/temporary.txt` is excluded, as is the directory `/somedir/temp`. |
-| `*/*/temp*` | Exclude files and directories starting with `temp` from any subdirectory that is two levels below the root. For example, `/somedir/subdir/temporary.txt` is excluded.                                         |
-| `temp?`     | Exclude files and directories in the root directory whose names are a one-character extension of `temp`. For example, `/tempa` and `/tempb` are excluded.                                                     |
-
-Matching is done using Go's
-[`filepath.Match` function](https://golang.org/pkg/path/filepath#Match) rules.
-A preprocessing step uses Go's
-[`filepath.Clean` function](https://golang.org/pkg/path/filepath/#Clean)
-to trim whitespace and remove `.` and `..`.
-Lines that are blank after preprocessing are ignored.
+If specified, Buildx generates a `pprof` memory profile at the specified
+location.
 
 > [!NOTE]
->
-> For historical reasons, the pattern `.` is ignored.
+> This property is only useful for when developing Buildx. The profiling data
+> is not relevant for analyzing a build's performance.
 
-Beyond Go's `filepath.Match` rules, Docker also supports a special wildcard
-string `**` that matches any number of directories (including zero). For
-example, `**/*.go` excludes all files that end with `.go` found anywhere in the
-build context.
+Usage:
 
-You can use the `.dockerignore` file to exclude the `Dockerfile` and
-`.dockerignore` files. These files are still sent to the builder as they're
-needed for running the build. But you can't copy the files into the image using
-`ADD`, `COPY`, or bind mounts.
-
-#### Negating matches
-
-You can prepend lines with a `!` (exclamation mark) to make exceptions to
-exclusions. The following is an example `.dockerignore` file that uses this
-mechanism:
-
-```text
-*.md
-!README.md
+```bash
+$ export BUILDX_MEM_PROFILE=buildx_mem.prof
 ```
 
-All markdown files right under the context directory _except_ `README.md` are
-excluded from the context. Note that markdown files under subdirectories are
-still included.
+### BUILDX_NO_DEFAULT_ATTESTATIONS
 
-The placement of `!` exception rules influences the behavior: the last line of
-the `.dockerignore` that matches a particular file determines whether it's
-included or excluded. Consider the following example:
+By default, BuildKit v0.11 and later adds
+[provenance attestations](/manuals/build/metadata/attestations/slsa-provenance.md) to images you
+build. Set `BUILDX_NO_DEFAULT_ATTESTATIONS=1` to disable the default provenance
+attestations.
 
-```text
-*.md
-!README*.md
-README-secret.md
+Usage:
+
+```bash
+$ export BUILDX_NO_DEFAULT_ATTESTATIONS=1
 ```
 
-No markdown files are included in the context except README files other than
-`README-secret.md`.
+### BUILDX_NO_DEFAULT_LOAD
 
-Now consider this example:
+When you build an image using the `docker` driver, the image is automatically
+loaded to the image store when the build finishes. Set `BUILDX_NO_DEFAULT_LOAD`
+to disable automatic loading of images to the local container store.
 
-```text
-*.md
-README-secret.md
-!README*.md
+Usage:
+
+```bash
+$ export BUILDX_NO_DEFAULT_LOAD=1
 ```
 
-All of the README files are included. The middle line has no effect because
-`!README*.md` matches `README-secret.md` and comes last.
+<!-- vale Docker.HeadingSentenceCase = YES -->
