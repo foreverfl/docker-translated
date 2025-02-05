@@ -1,7 +1,7 @@
 ---
-title: History and development of Docker Compose
+title: Docker Compose의 역사와 개발
 linkTitle: History and development
-description: History of Compose V1 and Compose YAML schema versioning
+description: Compose V1 및 Compose YAML 스키마 버전 관리의 역사
 keywords:
   - compose
   - compose yaml
@@ -14,43 +14,43 @@ aliases:
 - /compose/history/
 ---
 
-This page provides:
- - A brief history of the development of the Docker Compose CLI
- - A clear explanation of the major versions and file formats that make up Compose V1 and Compose V2
- - The main differences between Compose V1 and Compose V2 
+이 페이지는 다음을 제공합니다:
+ - Docker Compose CLI 개발의 간략한 역사
+ - Compose V1 및 Compose V2를 구성하는 주요 버전 및 파일 형식에 대한 명확한 설명
+ - Compose V1과 Compose V2의 주요 차이점
 
-## Introduction
+## 소개 {#introduction}
 
-![Image showing the main differences between Compose V1 and Compose V2](../images/v1-versus-v2.png)
+![Compose V1과 Compose V2의 주요 차이점을 보여주는 이미지](../images/v1-versus-v2.png)
 
-The image above shows that the currently supported version of the Docker Compose CLI is Compose V2 which is defined by the [Compose Specification](/reference/compose-file/_index.md).
+위 이미지는 현재 지원되는 Docker Compose CLI 버전이 Compose V2임을 보여줍니다. 이는 [Compose 명세](/reference/compose-file/_index.md)로 정의됩니다.
 
-It also provides a quick snapshot of the differences in file formats, command-line syntax, and top-level elements. This is covered in more detail in the following sections.
+또한 파일 형식, 명령줄 구문 및 최상위 요소의 차이점을 빠르게 보여줍니다. 이는 다음 섹션에서 더 자세히 다룹니다.
 
-### Docker Compose CLI versioning
+### Docker Compose CLI 버전 관리 {#docker-compose-cli-versioning}
 
-Version one of the Docker Compose command-line binary was first released in 2014. It was written in Python, and is invoked with `docker-compose`.
-Typically, Compose V1 projects include a top-level `version` element in the `compose.yml` file, with values ranging from `2.0` to `3.8`, which refer to the specific [file formats](#compose-file-format-versioning).
+Docker Compose 명령줄 바이너리의 첫 번째 버전은 2014년에 처음 출시되었습니다. 이는 Python으로 작성되었으며 `docker-compose`로 호출됩니다.
+일반적으로 Compose V1 프로젝트는 `compose.yml` 파일에 최상위 `version` 요소를 포함하며, 값은 `2.0`에서 `3.8`까지 다양합니다. 이는 특정 [파일 형식](#compose-file-format-versioning)을 참조합니다.
 
-Version two of the Docker Compose command-line binary was announced in 2020, is written in Go, and is invoked with `docker compose`.
-Compose V2 ignores the `version` top-level element in the `compose.yml` file. 
+Docker Compose 명령줄 바이너리의 두 번째 버전은 2020년에 발표되었으며, Go로 작성되었고 `docker compose`로 호출됩니다.
+Compose V2는 `compose.yml` 파일의 최상위 `version` 요소를 무시합니다.
 
-### Compose file format versioning
+### Compose 파일 형식 버전 관리 {#compose-file-format-versioning}
 
-The Docker Compose CLIs are defined by specific file formats. 
+Docker Compose CLI는 특정 파일 형식으로 정의됩니다.
 
-Three major versions of the Compose file format for Compose V1 were released:
-- Compose file format 1 with Compose 1.0.0 in 2014
-- Compose file format 2.x with Compose 1.6.0 in 2016
-- Compose file format 3.x with Compose 1.10.0 in 2017
+Compose V1의 세 가지 주요 파일 형식 버전이 출시되었습니다:
+- 2014년 Compose 1.0.0과 함께 Compose 파일 형식 1
+- 2016년 Compose 1.6.0과 함께 Compose 파일 형식 2.x
+- 2017년 Compose 1.10.0과 함께 Compose 파일 형식 3.x
 
-Compose file format 1 is substantially different to all the following formats as it lacks a top-level `services` key.
-Its usage is historical and files written in this format don't run with Compose V2.
+Compose 파일 형식 1은 최상위 `services` 키가 없기 때문에 이후 모든 형식과 상당히 다릅니다.
+이 형식으로 작성된 파일은 역사적 용도로 사용되며 Compose V2에서는 실행되지 않습니다.
 
-Compose file format 2.x and 3.x are very similar to each other, but the latter introduced many new options targeted at Swarm deployments.
+Compose 파일 형식 2.x와 3.x는 매우 유사하지만 후자는 Swarm 배포를 대상으로 하는 많은 새로운 옵션이 추가되었습니다다.
 
-To address confusion around Compose CLI versioning, Compose file format versioning, and feature parity depending on whether Swarm mode was in use, file format 2.x and 3.x were merged into the [Compose Specification](/reference/compose-file/_index.md). 
+Compose CLI 버전 관리, Compose 파일 형식 버전 관리 및 Swarm 모드 사용 여부에 따른 기능 일관성을 유지하며며 혼란을 해소하기 위해 파일 형식 2.x와 3.x는 [Compose 명세](/reference/compose-file/_index.md)로 통합되었습니다.
 
-Compose V2 uses the Compose Specification for project definition. Unlike the prior file formats, the Compose Specification is rolling and makes the `version` top-level element optional. Compose V2 also makes use of optional specifications - [Deploy](/reference/compose-file/deploy.md), [Develop](/reference/compose-file/develop.md) and [Build](/reference/compose-file/build.md).
+Compose V2는 프로젝트 정의를 위해 Compose 명세를 사용합니다. 이전 파일 형식과 달리 Compose 명세는 점진적 업데이트 방식을 따르며, 최상위 `version` 요소를 필수 사항이 아닌 선택 사항으로 변경했습니다다. Compose V2는 또한 선택 사양인 [Deploy](/reference/compose-file/deploy.md), [Develop](/reference/compose-file/develop.md) 및 [Build](/reference/compose-file/build.md)를 사용합니다.
 
-To make [migration](/manuals/compose/releases/migrate.md) easier, Compose V2 has backwards compatibility for certain elements that have been deprecated or changed between Compose file format 2.x/3.x and the Compose Specification.
+[migration](/manuals/compose/releases/migrate.md)을 쉽게 하기 위해 Compose V2는 Compose 파일 형식 2.x/3.x와 Compose 명세 간에 사용되지 않거나 변경된 특정 요소에 대한 하위 호환성을 제공합니다.
