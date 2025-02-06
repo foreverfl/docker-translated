@@ -606,7 +606,6 @@ const sidebars: SidebarsConfig = {
             "manuals/compose/bridge/advanced-integration",
           ],
         },
-        "manuals/compose/gettingstarted",
         {
           type: "category",
           label: "지원 및 피드백",
