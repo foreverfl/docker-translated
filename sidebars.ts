@@ -573,6 +573,10 @@ const sidebars: SidebarsConfig = {
             {
               type: "category",
               label: "환경 변수 사용",
+              link: {
+                type: "doc",
+                id: "manuals/compose/how-tos/environment-variables/index",
+              },
               items: [
                 "manuals/compose/how-tos/environment-variables/set-environment-variables",
                 "manuals/compose/how-tos/environment-variables/envvars-precedence",
@@ -587,6 +591,10 @@ const sidebars: SidebarsConfig = {
             {
               type: "category",
               label: "여러 Compose 파일 사용",
+              link: {
+                type: "doc",
+                id: "manuals/compose/how-tos/multiple-compose-files/index",
+              },
               items: [
                 "manuals/compose/how-tos/multiple-compose-files/merge",
                 "manuals/compose/how-tos/multiple-compose-files/extends",

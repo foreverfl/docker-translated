@@ -1,35 +1,34 @@
 ---
-description: How Docker Compose sets up networking between containers
+description: Docker Compose가 컨테이너 간 네트워킹을 설정하는 방법
 keywords:
-  - documentation
-  - docs
-  - docker
-  - compose
-  - orchestration
-  - containers
-  - networking
-title: Networking in Compose
-linkTitle: Networking
+  - 문서
+  - 도커
+  - 컴포즈
+  - 오케스트레이션
+  - 컨테이너
+  - 네트워킹
+title: 컴포즈에서의 네트워킹
+linkTitle: 네트워킹
 weight: 70
 aliases:
   - /compose/networking/
 ---
 
-<Include file="compose-eol.md" />
+:::important
+Docker의 문서는 Compose V2의 기능을 참조하고 설명합니다.
 
-By default Compose sets up a single
-[network](/reference/cli/docker/network/create.md) for your app. Each
-container for a service joins the default network and is both reachable by
-other containers on that network, and discoverable by the service's name.
+2023년 7월부터 Compose V1은 업데이트가 중단되었으며 새로운 Docker Desktop 릴리스에서는 더 이상 제공되지 않습니다. [Compose V2](/compose/migrate)가 이를 대체하였으며 현재 모든 Docker Desktop 버전에 통합되어 있습니다. 자세한 내용은 Compose V2로의 마이그레이션을 참조하세요.
+:::
 
-> [!NOTE]
->
-> Your app's network is given a name based on the "project name",
-> which is based on the name of the directory it lives in. You can override the
-> project name with either the [`--project-name` flag](/reference/cli/docker/compose.md)
-> or the [`COMPOSE_PROJECT_NAME` environment variable](environment-variables/envvars.md#compose_project_name).
+기본적으로 Compose는 앱을 위한 단일
+[네트워크](/reference/cli/docker/network/create.md)를 설정합니다. 각
+서비스의 컨테이너는 기본 네트워크에 연결되며, 해당 네트워크의 다른 컨테이너에 의해 접근 가능하고 서비스 이름으로 검색할 수 있습니다.
 
-For example, suppose your app is in a directory called `myapp`, and your `compose.yml` looks like this:
+:::note
+앱의 네트워크는 "프로젝트 이름"을 기반으로 이름이 지정되며, 이는 해당 디렉토리의 이름을 기반으로 합니다. [`--project-name` 플래그](/reference/cli/docker/compose.md) 또는 [`COMPOSE_PROJECT_NAME` 환경 변수](environment-variables/envvars.md#compose_project_name)를 사용하여 프로젝트 이름을 재정의할 수 있습니다.
+:::
+
+예를 들어, 앱이 `myapp`이라는 디렉토리에 있고 `compose.yml`이 다음과 같다고 가정해 봅시다:
 
 ```yaml
 services:
@@ -43,42 +42,31 @@ services:
       - "8001:5432"
 ```
 
-When you run `docker compose up`, the following happens:
+`docker compose up`을 실행하면 다음과 같은 일이 발생합니다:
 
-1.  A network called `myapp_default` is created.
-2.  A container is created using `web`'s configuration. It joins the network
-    `myapp_default` under the name `web`.
-3.  A container is created using `db`'s configuration. It joins the network
-    `myapp_default` under the name `db`.
+1. `myapp_default`라는 네트워크가 생성됩니다.
+2. `web`의 설정을 사용하여 컨테이너가 생성됩니다. 이 컨테이너는 `myapp_default` 네트워크에 `web`이라는 이름으로 연결됩니다.
+3. `db`의 설정을 사용하여 컨테이너가 생성됩니다. 이 컨테이너는 `myapp_default` 네트워크에 `db`라는 이름으로 연결됩니다.
 
-Each container can now look up the service name `web` or `db` and
-get back the appropriate container's IP address. For example, `web`'s
-application code could connect to the URL `postgres://db:5432` and start
-using the Postgres database.
+이제 각 컨테이너는 서비스 이름 `web` 또는 `db`를 조회하여 적절한 컨테이너의 IP 주소를 얻을 수 있습니다. 예를 들어, `web`의 애플리케이션 코드는 `postgres://db:5432` URL에 연결하여 Postgres 데이터베이스를 사용할 수 있습니다.
 
-It is important to note the distinction between `HOST_PORT` and `CONTAINER_PORT`.
-In the above example, for `db`, the `HOST_PORT` is `8001` and the container port is
-`5432` (postgres default). Networked service-to-service
-communication uses the `CONTAINER_PORT`. When `HOST_PORT` is defined,
-the service is accessible outside the swarm as well.
+`HOST_PORT`와 `CONTAINER_PORT`의 차이를 이해하는 것이 중요합니다. 위의 예에서 `db`의 경우 `HOST_PORT`는 `8001`이고 컨테이너 포트는 `5432`(postgres 기본값)입니다. 네트워크 서비스 간 통신은 `CONTAINER_PORT`를 사용합니다. `HOST_PORT`가 정의되면 서비스는 스웜 외부에서도 접근 가능합니다.
 
-Within the `web` container, your connection string to `db` would look like
-`postgres://db:5432`, and from the host machine, the connection string would
-look like `postgres://{DOCKER_IP}:8001` for example `postgres://localhost:8001` if your container is running locally.
+`web` 컨테이너 내에서 `db`에 대한 연결 문자열은 `postgres://db:5432`처럼 보일 것이며, 호스트 머신에서는 `postgres://{DOCKER_IP}:8001`처럼 보일 것입니다. 예를 들어, 컨테이너가 로컬에서 실행 중이라면 `postgres://localhost:8001`처럼 보일 것입니다.
 
-## Update containers on the network
+## 네트워크의 컨테이너 업데이트 {#update-containers-on-the-network}
 
-If you make a configuration change to a service and run `docker compose up` to update it, the old container is removed and the new one joins the network under a different IP address but the same name. Running containers can look up that name and connect to the new address, but the old address stops working.
+서비스의 설정을 변경하고 `docker compose up`을 실행하여 업데이트하면, 이전 컨테이너가 제거되고 새 컨테이너가 동일한 이름으로 네트워크에 연결되지만 다른 IP 주소를 갖게 됩니다. 실행 중인 컨테이너는 해당 이름을 조회하여 새 주소에 연결할 수 있지만, 이전 주소는 작동을 멈춥니다.
 
-If any containers have connections open to the old container, they are closed. It is a container's responsibility to detect this condition, look up the name again and reconnect.
+어떤 컨테이너가 이전 컨테이너에 대한 연결을 열어두고 있다면, 해당 연결은 닫힙니다. 컨테이너는 이 조건을 감지하고 이름을 다시 조회하여 재연결해야 합니다.
 
-> [!TIP]
->
-> Reference containers by name, not IP, whenever possible. Otherwise you’ll need to constantly update the IP address you use.
+:::tip
+가능한 한 IP가 아닌 이름으로 컨테이너를 참조하십시오. 그렇지 않으면 사용 중인 IP 주소를 계속 업데이트해야 합니다.
+:::
 
-## Link containers
+## 컨테이너 연결 {#link-containers}
 
-Links allow you to define extra aliases by which a service is reachable from another service. They are not required to enable services to communicate. By default, any service can reach any other service at that service's name. In the following example, `db` is reachable from `web` at the hostnames `db` and `database`:
+링크를 사용하면 서비스가 다른 서비스에서 접근할 수 있는 추가 별칭을 정의할 수 있습니다. 서비스 간 통신을 가능하게 하기 위해 링크가 필요하지는 않습니다. 기본적으로 모든 서비스는 해당 서비스 이름으로 다른 모든 서비스에 접근할 수 있습니다. 다음 예제에서 `db`는 `web`에서 `db` 및 `database`라는 호스트 이름으로 접근할 수 있습니다:
 
 ```yaml
 services:
@@ -90,26 +78,23 @@ services:
     image: postgres
 ```
 
-See the [links reference](/reference/compose-file/services.md#links) for more information.
+자세한 내용은 [링크 참조](/reference/compose-file/services.md#links)를 참조하십시오.
 
-## Multi-host networking
+## 멀티 호스트 네트워킹 {#multi-host-networking}
 
-When deploying a Compose application on a Docker Engine with [Swarm mode enabled](/manuals/engine/swarm/_index.md),
-you can make use of the built-in `overlay` driver to enable multi-host communication.
+[스웜 모드가 활성화된](/manuals/engine/swarm/_index.md) Docker Engine에서 Compose 애플리케이션을 배포할 때, 내장된 `overlay` 드라이버를 사용하여 멀티 호스트 통신을 활성화할 수 있습니다.
 
-Overlay networks are always created as `attachable`. You can optionally set the [`attachable`](/reference/compose-file/networks.md#attachable) property to `false`.
+오버레이 네트워크는 항상 `attachable`로 생성됩니다. 선택적으로 [`attachable`](/reference/compose-file/networks.md#attachable) 속성을 `false`로 설정할 수 있습니다.
 
-Consult the [Swarm mode section](/manuals/engine/swarm/_index.md), to see how to set up
-a Swarm cluster, and the [Getting started with multi-host networking](/manuals/engine/network/tutorials/overlay.md)
-to learn about multi-host overlay networks.
+스웜 클러스터 설정 방법은 [스웜 모드 섹션](/manuals/engine/swarm/_index.md)을 참조하고, 멀티 호스트 오버레이 네트워크에 대한 자세한 내용은 [멀티 호스트 네트워킹 시작하기](/manuals/engine/network/tutorials/overlay.md)를 참조하십시오.
 
-## Specify custom networks
+## 사용자 정의 네트워크 지정 {#specify-custom-networks}
 
-Instead of just using the default app network, you can specify your own networks with the top-level `networks` key. This lets you create more complex topologies and specify [custom network drivers](/engine/extend/plugins_network/) and options. You can also use it to connect services to externally-created networks which aren't managed by Compose.
+기본 앱 네트워크를 사용하는 대신, 최상위 `networks` 키를 사용하여 사용자 정의 네트워크를 지정할 수 있습니다. 이를 통해 더 복잡한 토폴로지를 만들고 [사용자 정의 네트워크 드라이버](/engine/extend/plugins_network/) 및 옵션을 지정할 수 있습니다. 또한 Compose에서 관리하지 않는 외부 생성 네트워크에 서비스를 연결하는 데 사용할 수도 있습니다.
 
-Each service can specify what networks to connect to with the service-level `networks` key, which is a list of names referencing entries under the top-level `networks` key.
+각 서비스는 서비스 수준의 `networks` 키를 사용하여 연결할 네트워크를 지정할 수 있으며, 이는 최상위 `networks` 키 아래의 항목을 참조하는 이름 목록입니다.
 
-The following example shows a Compose file which defines two custom networks. The `proxy` service is isolated from the `db` service, because they do not share a network in common. Only `app` can talk to both.
+다음 예제는 두 개의 사용자 정의 네트워크를 정의하는 Compose 파일을 보여줍니다. `proxy` 서비스는 `db` 서비스와 네트워크를 공유하지 않기 때문에 격리됩니다. 오직 `app`만이 둘 다와 통신할 수 있습니다.
 
 ```yaml
 services:
@@ -129,18 +114,18 @@ services:
 
 networks:
   frontend:
-    # Specify driver options
+    # 드라이버 옵션 지정
     driver: bridge
     driver_opts:
       com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
   backend:
-    # Use a custom driver
+    # 사용자 정의 드라이버 사용
     driver: custom-driver
 ```
 
-Networks can be configured with static IP addresses by setting the [ipv4_address and/or ipv6_address](/reference/compose-file/services.md#ipv4_address-ipv6_address) for each attached network.
+네트워크는 각 연결된 네트워크에 대해 [ipv4_address 및/또는 ipv6_address](/reference/compose-file/services.md#ipv4_address-ipv6_address)를 설정하여 정적 IP 주소로 구성할 수 있습니다.
 
-Networks can also be given a [custom name](/reference/compose-file/networks.md#name):
+네트워크는 [사용자 정의 이름](/reference/compose-file/networks.md#name)을 지정할 수도 있습니다:
 
 ```yaml
 services:
@@ -151,9 +136,9 @@ networks:
     driver: custom-driver-1
 ```
 
-## Configure the default network
+## 기본 네트워크 구성 {#configure-the-default-network}
 
-Instead of, or as well as, specifying your own networks, you can also change the settings of the app-wide default network by defining an entry under `networks` named `default`:
+자신의 네트워크를 지정하는 대신 또는 그와 함께, `default`라는 이름의 항목을 `networks` 아래에 정의하여 앱 전체의 기본 네트워크 설정을 변경할 수 있습니다:
 
 ```yaml
 services:
@@ -166,13 +151,13 @@ services:
 
 networks:
   default:
-    # Use a custom driver
+    # 사용자 정의 드라이버 사용
     driver: custom-driver-1
 ```
 
-## Use a pre-existing network
+## 기존 네트워크 사용 {#use-a-pre-existing-network}
 
-If you want your containers to join a pre-existing network, use the [`external` option](/reference/compose-file/networks.md#external)
+컨테이너가 기존 네트워크에 연결되도록 하려면 [`external` 옵션](/reference/compose-file/networks.md#external)을 사용하십시오.
 
 ```yaml
 services:
@@ -183,11 +168,11 @@ networks:
     external: true
 ```
 
-Instead of attempting to create a network called `[projectname]_default`, Compose looks for a network called `my-pre-existing-network` and connects your app's containers to it.
+Compose는 `[projectname]_default`라는 네트워크를 생성하려고 시도하는 대신, `my-pre-existing-network`라는 네트워크를 찾아 앱의 컨테이너를 해당 네트워크에 연결합니다.
 
-## Further reference information
+## 추가 참조 정보 {#further-reference-information}
 
-For full details of the network configuration options available, see the following references:
+사용 가능한 네트워크 구성 옵션의 전체 세부 사항은 다음 참조를 참조하십시오:
 
-- [Top-level `networks` element](/reference/compose-file/networks.md)
-- [Service-level `networks` attribute](/reference/compose-file/services.md#networks)
+- [최상위 `networks` 요소](/reference/compose-file/networks.md)
+- [서비스 수준 `networks` 속성](/reference/compose-file/services.md#networks)

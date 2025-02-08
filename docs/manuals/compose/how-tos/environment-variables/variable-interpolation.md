@@ -1,13 +1,12 @@
 ---
-title: Set, use, and manage variables in a Compose file with interpolation
+title: 컴포즈 파일에서 변수 설정, 사용 및 관리 (Interpolation)
 linkTitle: Interpolation
-description: How to set, use, and manage variables in your Compose file with interpolation
+description: 컴포즈 파일에서 변수를 설정, 사용 및 관리하는 방법 (Interpolation)
 keywords:
-  - compose
-  - orchestration
-  - environment
-  - variables
-  - interpolation
+  - 컴포즈
+  - 오케스트레이션
+  - 환경 변수
+  - 인터폴레이션
 weight: 40
 aliases:
   - /compose/env-file/
@@ -15,13 +14,11 @@ aliases:
   - /compose/environment-variables/variable-interpolation/
 ---
 
-A Compose file can use variables to offer more flexibility. If you want to quickly switch
-between image tags to test multiple versions, or want to adjust a volume source to your local
-environment, you don't need to edit the Compose file each time, you can just set variables that insert values into your Compose file at run time.
+컴포즈 파일은 변수를 사용하여 더 많은 유연성을 제공합니다. 여러 버전을 테스트하기 위해 이미지 태그를 빠르게 전환하거나 로컬 환경에 맞게 볼륨 소스를 조정하려면 매번 컴포즈 파일을 편집할 필요 없이 런타임에 값을 삽입하는 변수를 설정할 수 있습니다.
 
-Interpolation can also be used to insert values into your Compose file at run time, which is then used to pass variables into your container's environment
+인터폴레이션은 런타임에 값을 컴포즈 파일에 삽입하는 데 사용할 수 있으며, 이는 컨테이너의 환경 변수에 변수를 전달하는 데 사용됩니다.
 
-Below is a simple example:
+아래는 간단한 예제입니다:
 
 ```bash
 $ cat .env
@@ -32,8 +29,7 @@ services:
     image: "webapp:${TAG}"
 ```
 
-When you run `docker compose up`, the `web` service defined in the Compose file [interpolates](variable-interpolation.md) in the image `webapp:v1.5` which was set in the `.env` file. You can verify this with the
-[config command](/reference/cli/docker/compose/config.md), which prints your resolved application config to the terminal:
+`docker compose up`을 실행하면 컴포즈 파일에 정의된 `web` 서비스가 `.env` 파일에 설정된 `webapp:v1.5` 이미지를 [인터폴레이션](variable-interpolation.md)합니다. 이를 확인하려면 터미널에 해결된 애플리케이션 구성을 출력하는 [config 명령어](/reference/cli/docker/compose/config.md)를 사용할 수 있습니다:
 
 ```bash
 $ docker compose config
@@ -42,50 +38,50 @@ services:
     image: 'webapp:v1.5'
 ```
 
-## Interpolation syntax
+## 인터폴레이션 구문 {#interpolation-syntax}
 
-Interpolation is applied for unquoted and double-quoted values.
-Both braced (`${VAR}`) and unbraced (`$VAR`) expressions are supported.
+인터폴레이션은 따옴표가 없는 값과 이중 따옴표가 있는 값에 적용됩니다.
+중괄호(`${VAR}`)와 중괄호가 없는(`$VAR`) 표현식이 모두 지원됩니다.
 
-For braced expressions, the following formats are supported:
+중괄호 표현식의 경우 다음 형식이 지원됩니다:
 
-- Direct substitution
-  - `${VAR}` -> value of `VAR`
-- Default value
-  - `${VAR:-default}` -> value of `VAR` if set and non-empty, otherwise `default`
-  - `${VAR-default}` -> value of `VAR` if set, otherwise `default`
-- Required value
-  - `${VAR:?error}` -> value of `VAR` if set and non-empty, otherwise exit with error
-  - `${VAR?error}` -> value of `VAR` if set, otherwise exit with error
-- Alternative value
-  - `${VAR:+replacement}` -> `replacement` if `VAR` is set and non-empty, otherwise empty
-  - `${VAR+replacement}` -> `replacement` if `VAR` is set, otherwise empty
+- 직접 대체
+  - `${VAR}` -> `VAR`의 값
+- 기본값
+  - `${VAR:-default}` -> `VAR`이 설정되고 비어 있지 않으면 `VAR`의 값, 그렇지 않으면 `default`
+  - `${VAR-default}` -> `VAR`이 설정되어 있으면 `VAR`의 값, 그렇지 않으면 `default`
+- 필수 값
+  - `${VAR:?error}` -> `VAR`이 설정되고 비어 있지 않으면 `VAR`의 값, 그렇지 않으면 오류로 종료
+  - `${VAR?error}` -> `VAR`이 설정되어 있으면 `VAR`의 값, 그렇지 않으면 오류로 종료
+- 대체 값
+  - `${VAR:+replacement}` -> `VAR`이 설정되고 비어 있지 않으면 `replacement`, 그렇지 않으면 빈 값
+  - `${VAR+replacement}` -> `VAR`이 설정되어 있으면 `replacement`, 그렇지 않으면 빈 값
 
-For more information, see [Interpolation](/reference/compose-file/interpolation.md) in the Compose Specification.
+자세한 내용은 컴포즈 사양의 [Interpolation](/reference/compose-file/interpolation.md)을 참조하십시오.
 
-## Ways to set variables with interpolation
+## 인터폴레이션으로 변수를 설정하는 방법 {#ways-to-set-variables-with-interpolation}
 
-Docker Compose can interpolate variables into your Compose file from multiple sources.
+Docker Compose는 여러 소스에서 컴포즈 파일에 변수를 인터폴레이션할 수 있습니다.
 
-Note that when the same variable is declared by multiple sources, precedence applies:
+동일한 변수가 여러 소스에서 선언된 경우 우선순위가 적용됩니다:
 
-1. Variables from your shell environment
-2. If `--env-file` is not set, variables set by an `.env` file in local working directory (`PWD`)
-3. Variables from a file set by `--env-file` or an `.env` file in project directory
+1. 셸 환경의 변수
+2. `--env-file`이 설정되지 않은 경우 로컬 작업 디렉토리(`PWD`)의 `.env` 파일에 설정된 변수
+3. `--env-file`로 설정된 파일 또는 프로젝트 디렉토리의 `.env` 파일에서 설정된 변수
 
-You can check variables and values used by Compose to interpolate the Compose model by running `docker compose config --environment`.
+`docker compose config --environment`를 실행하여 컴포즈 모델을 인터폴레이션하는 데 사용된 변수와 값을 확인할 수 있습니다.
 
-### `.env` file
+### `.env` 파일 {#env-file}
 
-An `.env` file in Docker Compose is a text file used to define variables that should be made available for interpolation when running `docker compose up`. This file typically contains key-value pairs of variables, and it lets you centralize and manage configuration in one place. The `.env` file is useful if you have multiple variables you need to store.
+Docker Compose의 `.env` 파일은 `docker compose up`을 실행할 때 인터폴레이션을 위해 사용할 변수를 정의하는 텍스트 파일입니다. 이 파일은 일반적으로 변수의 키-값 쌍을 포함하며, 구성 관리를 한 곳에서 중앙 집중화하고 관리할 수 있게 해줍니다. `.env` 파일은 여러 변수를 저장해야 하는 경우 유용합니다.
 
-The `.env` file is the default method for setting variables. The `.env` file should be placed at the root of the project directory next to your `compose.yaml` file. For more information on formatting an environment file, see [Syntax for environment files](#env-file-syntax).
+`.env` 파일은 변수를 설정하는 기본 방법입니다. `.env` 파일은 프로젝트 디렉토리의 루트에 `compose.yaml` 파일 옆에 배치해야 합니다. 환경 파일 형식에 대한 자세한 내용은 [환경 파일 구문](#env-file-syntax)을 참조하십시오.
 
-Basic example:
+기본 예제:
 
 ```bash
 $ cat .env
-## define COMPOSE_DEBUG based on DEV_MODE, defaults to false
+## DEV_MODE에 따라 COMPOSE_DEBUG를 정의하며, 기본값은 false입니다.
 COMPOSE_DEBUG=${DEV_MODE:-false}
 
 $ cat compose.yaml
@@ -102,9 +98,9 @@ services:
       DEBUG: "true"
 ```
 
-#### Additional information
+#### 추가 정보 {#additional-information}
 
-- If you define a variable in your `.env` file, you can reference it directly in your `compose.yml` with the [`environment` attribute](/reference/compose-file/services.md#environment). For example, if your `.env` file contains the environment variable `DEBUG=1` and your `compose.yml` file looks like this:
+- `.env` 파일에 변수를 정의하면 [`environment` 속성](/reference/compose-file/services.md#environment)으로 `compose.yml`에서 직접 참조할 수 있습니다. 예를 들어, `.env` 파일에 환경 변수 `DEBUG=1`이 포함되어 있고 `compose.yml` 파일이 다음과 같다면:
 
   ```yaml
   services:
@@ -114,65 +110,64 @@ services:
         - DEBUG=${DEBUG}
   ```
 
-  Docker Compose replaces `${DEBUG}` with the value from the `.env` file
+  Docker Compose는 `.env` 파일의 값으로 `${DEBUG}`를 대체합니다.
 
-  > [!IMPORTANT]
-  >
-  > Be aware of [Environment variables precedence](envvars-precedence.md) when using variables in an `.env` file that as environment variables in your container's environment.
+  :::important
+  컨테이너의 환경 변수로 `.env` 파일의 변수를 사용할 때 [환경 변수 우선순위](envvars-precedence.md)를 유의하십시오.
+  :::
 
-- You can place your `.env` file in a location other than the root of your project's directory, and then use the [`--env-file` option in the CLI](#substitute-with---env-file) so Compose can navigate to it.
+- `.env` 파일을 프로젝트 디렉토리의 루트가 아닌 다른 위치에 배치하고 [`--env-file` 옵션](#substitute-with---env-file)을 사용하여 Compose가 해당 위치로 이동할 수 있습니다.
 
-- Your `.env` file can be overridden by another `.env` if it is [substituted with `--env-file`](#substitute-with---env-file).
+- `.env` 파일은 다른 `.env` 파일로 [대체될 수 있습니다](#substitute-with---env-file).
 
-> [!IMPORTANT]
->
-> Substitution from `.env` files is a Docker Compose CLI feature.
->
-> It is not supported by Swarm when running `docker stack deploy`.
+:::important
+`.env` 파일에서의 대체는 Docker Compose CLI 기능입니다.
 
-#### `.env` file syntax
+`docker stack deploy`를 실행할 때 Swarm에서는 지원되지 않습니다.
+:::
 
-The following syntax rules apply to environment files:
+#### `.env` 파일 구문 {#env-file-syntax}
 
-- Lines beginning with `#` are processed as comments and ignored.
-- Blank lines are ignored.
-- Unquoted and double-quoted (`"`) values have interpolation applied.
-- Each line represents a key-value pair. Values can optionally be quoted.
+환경 파일에는 다음 구문 규칙이 적용됩니다:
+
+- `#`로 시작하는 줄은 주석으로 처리되어 무시됩니다.
+- 빈 줄은 무시됩니다.
+- 따옴표가 없는 값과 이중 따옴표(`"`) 값에는 인터폴레이션이 적용됩니다.
+- 각 줄은 키-값 쌍을 나타냅니다. 값은 선택적으로 따옴표로 묶을 수 있습니다.
   - `VAR=VAL` -> `VAL`
   - `VAR="VAL"` -> `VAL`
   - `VAR='VAL'` -> `VAL`
-- Inline comments for unquoted values must be preceded with a space.
-  - `VAR=VAL # comment` -> `VAL`
-  - `VAR=VAL# not a comment` -> `VAL# not a comment`
-- Inline comments for quoted values must follow the closing quote.
-  - `VAR="VAL # not a comment"` -> `VAL # not a comment`
-  - `VAR="VAL" # comment` -> `VAL`
-- Single-quoted (`'`) values are used literally.
+- 따옴표가 없는 값의 인라인 주석은 공백으로 시작해야 합니다.
+  - `VAR=VAL # 주석` -> `VAL`
+  - `VAR=VAL# 주석 아님` -> `VAL# 주석 아님`
+- 따옴표가 있는 값의 인라인 주석은 닫는 따옴표 뒤에 있어야 합니다.
+  - `VAR="VAL # 주석 아님"` -> `VAL # 주석 아님`
+  - `VAR="VAL" # 주석` -> `VAL`
+- 단일 따옴표(`'`) 값은 문자 그대로 사용됩니다.
   - `VAR='$OTHER'` -> `$OTHER`
   - `VAR='${OTHER}'` -> `${OTHER}`
-- Quotes can be escaped with `\`.
+- 따옴표는 `\`로 이스케이프할 수 있습니다.
   - `VAR='Let\'s go!'` -> `Let's go!`
   - `VAR="{\"hello\": \"json\"}"` -> `{"hello": "json"}`
-- Common shell escape sequences including `\n`, `\r`, `\t`, and `\\` are supported in double-quoted values.
+- 이중 따옴표 값에서는 `\n`, `\r`, `\t`, `\\` 등의 일반적인 셸 이스케이프 시퀀스가 지원됩니다.
   - `VAR="some\tvalue"` -> `some  value`
   - `VAR='some\tvalue'` -> `some\tvalue`
   - `VAR=some\tvalue` -> `some\tvalue`
 
-### Substitute with `--env-file`
+### `--env-file`로 대체 {#substitute-with---env-file}
 
-You can set default values for multiple environment variables, in an `.env` file and then pass the file as an argument in the CLI.
+여러 환경 변수에 대한 기본값을 `.env` 파일에 설정한 다음 CLI에서 파일을 인수로 전달할 수 있습니다.
 
-The advantage of this method is that you can store the file anywhere and name it appropriately, for example,
-This file path is relative to the current working directory where the Docker Compose command is executed. Passing the file path is done using the `--env-file` option:
+이 방법의 장점은 파일을 어디에나 저장하고 적절하게 이름을 지정할 수 있다는 것입니다. 예를 들어, Docker Compose 명령어가 실행되는 현재 작업 디렉토리에 상대적인 파일 경로입니다. 파일 경로는 `--env-file` 옵션을 사용하여 전달됩니다:
 
 ```bash
 $ docker compose --env-file ./config/.env.dev up
 ```
 
-#### Additional information
+#### 추가 정보 {#additional-information}
 
-- This method is useful if you want to temporarily override an `.env` file that is already referenced in your `compose.yml` file. For example you may have different `.env` files for production ( `.env.prod`) and testing (`.env.test`).
-  In the following example, there are two environment files, `.env` and `.env.dev`. Both have different values set for `TAG`.
+- 이 방법은 이미 `compose.yml` 파일에서 참조된 `.env` 파일을 일시적으로 재정의하려는 경우 유용합니다. 예를 들어, 프로덕션(`.env.prod`) 및 테스트(`.env.test`)용으로 다른 `.env` 파일이 있을 수 있습니다.
+  다음 예제에서는 두 개의 환경 파일, `.env` 및 `.env.dev`가 있습니다. 두 파일 모두 `TAG`에 대해 다른 값을 설정합니다.
   ```bash
   $ cat .env
   TAG=v1.5
@@ -183,43 +178,43 @@ $ docker compose --env-file ./config/.env.dev up
     web:
       image: "webapp:${TAG}"
   ```
-  If the `--env-file` is not used in the command line, the `.env` file is loaded by default:
+  명령줄에서 `--env-file`이 사용되지 않으면 기본적으로 `.env` 파일이 로드됩니다:
   ```bash
   $ docker compose config
   services:
     web:
       image: 'webapp:v1.5'
   ```
-  Passing the `--env-file` argument overrides the default file path:
+  `--env-file` 인수를 전달하면 기본 파일 경로가 재정의됩니다:
   ```bash
   $ docker compose --env-file ./config/.env.dev config
   services:
     web:
       image: 'webapp:v1.6'
   ```
-  When an invalid file path is being passed as an `--env-file` argument, Compose returns an error:
+  잘못된 파일 경로가 `--env-file` 인수로 전달되면 Compose는 오류를 반환합니다:
   ```bash
   $ docker compose --env-file ./doesnotexist/.env.dev  config
   ERROR: Couldn't find env file: /home/user/./doesnotexist/.env.dev
   ```
-- You can use multiple `--env-file` options to specify multiple environment files, and Docker Compose reads them in order. Later files can override variables from earlier files.
+- 여러 `--env-file` 옵션을 사용하여 여러 환경 파일을 지정할 수 있으며, Docker Compose는 순서대로 읽습니다. 나중에 지정된 파일이 이전 파일의 변수를 재정의할 수 있습니다.
   ```bash
   $ docker compose --env-file .env --env-file .env.override up
   ```
-- You can override specific environment variables from the command line when starting containers.
+- 컨테이너를 시작할 때 명령줄에서 특정 환경 변수를 재정의할 수 있습니다.
   ```bash
   $ docker compose --env-file .env.dev up -e DATABASE_URL=mysql://new_user:new_password@new_db:3306/new_database
   ```
 
-### local `.env` file versus &lt;project directory&gt; `.env` file
+### 로컬 `.env` 파일 대 `<프로젝트 디렉토리>` `.env` 파일 {#local-env-file-versus-project-directory-env-file}
 
-An `.env` file can also be used to declare [pre-defined environment variables](envvars.md) used to control Compose behavior and files to be loaded.
+`.env` 파일은 컴포즈 동작을 제어하고 로드할 파일을 선언하는 [사전 정의된 환경 변수](envvars.md)를 선언하는 데에도 사용할 수 있습니다.
 
-When executed without an explicit `--env-file` flag, Compose searches for an `.env` file in your working directory ([PWD](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-PWD)) and loads values
-both for self-configuration and interpolation. If the values in this file define the `COMPOSE_FILE` pre-defined variable, which results in a project directory being set to another folder,
-Compose will load a second `.env` file, if present. This second `.env` file has a lower precedence.
+명시적인 `--env-file` 플래그 없이 실행되면 Compose는 작업 디렉토리([PWD](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-PWD))에서 `.env` 파일을 검색하고 값을 로드합니다.
+자체 구성 및 인터폴레이션을 위해. 이 파일의 값이 `COMPOSE_FILE` 사전 정의 변수를 정의하여 프로젝트 디렉토리가 다른 폴더로 설정되면
+두 번째 `.env` 파일이 있으면 로드됩니다. 이 두 번째 `.env` 파일의 우선순위는 낮습니다.
 
-This mechanism makes it possible to invoke an existing Compose project with a custom set of variables as overrides, without the need to pass environment variables by the command line.
+이 메커니즘을 통해 명령줄에서 환경 변수를 전달할 필요 없이 사용자 정의 변수 세트를 재정의로 사용하여 기존 컴포즈 프로젝트를 호출할 수 있습니다.
 
 ```bash
 $ cat .env
@@ -239,20 +234,20 @@ services:
     image: "postgres:9.3"
 ```
 
-### Substitute from the shell
+### 셸에서 대체 {#substitute-from-the-shell}
 
-You can use existing environment variables from your host machine or from the shell environment where you execute `docker compose` commands. This lets you dynamically inject values into your Docker Compose configuration at runtime.
-For example, suppose the shell contains `POSTGRES_VERSION=9.3` and you supply the following configuration:
+호스트 머신의 기존 환경 변수 또는 `docker compose` 명령어를 실행하는 셸 환경에서 기존 환경 변수를 사용할 수 있습니다. 이를 통해 런타임에 Docker Compose 구성에 동적으로 값을 주입할 수 있습니다.
+예를 들어, 셸에 `POSTGRES_VERSION=9.3`이 포함되어 있고 다음 구성을 제공한다고 가정합니다:
 
 ```yaml
 db:
   image: "postgres:${POSTGRES_VERSION}"
 ```
 
-When you run `docker compose up` with this configuration, Compose looks for the `POSTGRES_VERSION` environment variable in the shell and substitutes its value in. For this example, Compose resolves the image to `postgres:9.3` before running the configuration.
+이 구성을 사용하여 `docker compose up`을 실행하면 Compose는 셸에서 `POSTGRES_VERSION` 환경 변수를 찾아 값을 대체합니다. 이 예제에서는 Compose가 실행하기 전에 이미지를 `postgres:9.3`으로 변환합니다.
 
-If an environment variable is not set, Compose substitutes with an empty string. In the previous example, if `POSTGRES_VERSION` is not set, the value for the image option is `postgres:`.
+환경 변수가 설정되지 않은 경우 Compose는 빈 문자열로 대체합니다. 이전 예제에서 `POSTGRES_VERSION`이 설정되지 않은 경우 이미지 옵션의 값은 `postgres:`입니다.
 
-> [!NOTE]
->
-> `postgres:` is not a valid image reference. Docker expects either a reference without a tag, like `postgres` which defaults to the latest image, or with a tag such as `postgres:15`.
+:::note
+`postgres:`는 유효한 이미지 참조가 아닙니다. Docker는 태그가 없는 참조(`postgres`, 기본적으로 최신 이미지) 또는 태그가 있는 참조(`postgres:15`)를 기대합니다.
+:::

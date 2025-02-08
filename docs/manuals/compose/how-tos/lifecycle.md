@@ -1,40 +1,35 @@
 ---
-title: Using lifecycle hooks with Compose
-linkTitle: Use lifecycle hooks
+title: Compose와 함께 라이프사이클 훅 사용하기
+linkTitle: 라이프사이클 훅 사용하기
 weight: 20
-desription: How to use lifecycle hooks with Docker Compose
+desription: Docker Compose에서 라이프사이클 훅을 사용하는 방법
 keywords:
   - cli
   - compose
-  - lifecycle
-  - hooks reference
+  - 라이프사이클
+  - 훅 참조
 ---
 
-## Services lifecycle hooks
+## 서비스 라이프사이클 훅 {#services-lifecycle-hooks}
 
-When Docker Compose runs a container, it uses two elements,
-[ENTRYPOINT and COMMAND](https://github.com/manuals//engine/containers/run.md#default-command-and-options),
-to manage what happens when the container starts and stops.
+Docker Compose가 컨테이너를 실행할 때, 컨테이너가 시작되고 중지될 때 발생하는 일을 관리하기 위해
+[ENTRYPOINT와 COMMAND](https://github.com/manuals//engine/containers/run.md#default-command-and-options) 두 가지 요소를 사용합니다.
 
-However, it can sometimes be easier to handle these tasks separately with lifecycle hooks -
-commands that run right after the container starts or just before it stops.
+그러나 때로는 이러한 작업을 라이프사이클 훅과 함께 별도로 처리하는 것이 더 쉬울 수 있습니다. 컨테이너가 시작된 직후 또는 중지되기 직전에 실행되는 명령입니다.
 
-Lifecycle hooks are particularly useful because they can have special privileges
-(like running as the root user), even when the container itself runs with lower privileges
-for security. This means that certain tasks requiring higher permissions can be done without
-compromising the overall security of the container.
+라이프사이클 훅은 특히 유용합니다. 왜냐하면 컨테이너 자체가 보안을 위해 낮은 권한으로 실행될 때에도
+특별한 권한(예: 루트 사용자로 실행)을 가질 수 있기 때문입니다. 이는 더 높은 권한이 필요한 특정 작업을
+컨테이너의 전체 보안을 손상시키지 않고 수행할 수 있음을 의미합니다.
 
-### Post-start hooks
+### 시작 후 훅 {#post-start-hooks}
 
-Post-start hooks are commands that run after the container has started, but there's no
-set time for when exactly they will execute. The hook execution timing is not assured during
-the execution of the container's `entrypoint`.
+시작 후 훅은 컨테이너가 시작된 후 실행되는 명령이지만, 정확히 언제 실행될지는 정해져 있지 않습니다.
+훅 실행 타이밍은 컨테이너의 `entrypoint` 실행 중 보장되지 않습니다.
 
-In the example provided:
+제공된 예제에서:
 
-- The hook is used to change the ownership of a volume to a non-root user (because volumes
-  are created with root ownership by default).
-- After the container starts, the `chown` command changes the ownership of the `/data` directory to user `1001`.
+- 훅은 볼륨의 소유권을 비루트 사용자로 변경하는 데 사용됩니다 참고로, 볼륨은 기본적으로 루트 소유권으로 생성됩니다.
+- 컨테이너가 시작된 후, `chown` 명령은 `/data` 디렉토리의 소유권을 사용자 `1001`로 변경합니다.
 
 ```yaml
 services:
@@ -48,17 +43,15 @@ services:
         user: root
 
 volumes:
-  data: {} # a Docker volume is created with root ownership
+  data: {} # Docker 볼륨은 루트 소유권으로 생성됩니다
 ```
 
-### Pre-stop hooks
+### 중지 전 훅 {#pre-stop-hooks}
 
-Pre-stop hooks are commands that run before the container is stopped by a specific
-command (like `docker compose down` or stopping it manually with `Ctrl+C`).
-These hooks won't run if the container stops by itself or gets killed suddenly.
+중지 전 훅은 특정 명령(예: `docker compose down` 또는 수동으로 `Ctrl+C`로 중지하는 경우)에 의해 컨테이너가 중지되기 전에 실행되는 명령입니다.
+이 훅은 컨테이너가 스스로 중지되거나 갑자기 종료되는 경우에는 실행되지 않습니다.
 
-In the following example, before the container stops, the `./data_flush.sh` script is
-run to perform any necessary cleanup.
+다음 예제에서, 컨테이너가 중지되기 전에 `./data_flush.sh` 스크립트가 실행되어 필요한 정리 작업을 수행합니다.
 
 ```yaml
 services:
@@ -68,7 +61,7 @@ services:
       - command: ./data_flush.sh
 ```
 
-## Reference information
+## 참조 정보 {#reference-information}
 
 - [`post_start`](/reference/compose-file/services.md#post_start)
 - [`pre_stop`](/reference/compose-file/services.md#pre_stop)

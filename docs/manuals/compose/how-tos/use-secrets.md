@@ -1,37 +1,37 @@
 ---
-title: How to use secrets in Docker Compose
-linkTitle: Secrets in Compose
+title: Docker Compose에서 비밀 사용 방법
+linkTitle: Compose에서 비밀
 weight: 60
-description: How to use secrets in Compose and their benefits
+description: Compose에서 비밀을 사용하는 방법과 그 이점
 keywords:
-  - secrets
+  - 비밀
   - compose
-  - security
-  - environment variables
+  - 보안
+  - 환경 변수
 tags: [Secrets]
 aliases:
   - /compose/use-secrets/
 ---
 
-A secret is any piece of data, such as a password, certificate, or API key, that shouldn’t be transmitted over a network or stored unencrypted in a Dockerfile or in your application’s source code.
+비밀은 비밀번호, 인증서 또는 API 키와 같이 네트워크를 통해 전송되거나 Dockerfile 또는 애플리케이션 소스 코드에 암호화되지 않은 상태로 저장되지 않아야 하는 모든 데이터입니다.
 
 <Include file="compose/secrets.md" />
 
-Environment variables are often available to all processes, and it can be difficult to track access. They can also be printed in logs when debugging errors without your knowledge. Using secrets mitigates these risks.
+환경 변수는 종종 모든 프로세스에서 사용할 수 있으며 액세스를 추적하기 어려울 수 있습니다. 또한 오류를 디버깅할 때 모르는 사이에 로그에 출력될 수 있습니다. 비밀을 사용하면 이러한 위험을 완화할 수 있습니다.
 
-## Use secrets
+## 비밀 사용 {#use-secrets}
 
-Secrets are mounted as a file in `/run/secrets/<secret_name>` inside the container.
+비밀은 컨테이너 내부의 `/run/secrets/<secret_name>` 파일로 마운트됩니다.
 
-Getting a secret into a container is a two-step process. First, define the secret using the [top-level secrets element in your Compose file](/reference/compose-file/secrets.md). Next, update your service definitions to reference the secrets they require with the [secrets attribute](/reference/compose-file/services.md#secrets). Compose grants access to secrets on a per-service basis.
+비밀을 컨테이너에 넣는 것은 두 단계로 이루어집니다. 먼저, [Compose 파일의 최상위 비밀 요소](/reference/compose-file/secrets.md)를 사용하여 비밀을 정의합니다. 다음으로, [secrets 속성](/reference/compose-file/services.md#secrets)을 사용하여 서비스 정의를 업데이트하여 필요한 비밀을 참조합니다. Compose는 서비스별로 비밀에 대한 액세스를 허용합니다.
 
-Unlike the other methods, this permits granular access control within a service container via standard filesystem permissions.
+다른 방법과 달리, 이는 표준 파일 시스템 권한을 통해 서비스 컨테이너 내에서 세분화된 액세스 제어를 허용합니다.
 
-## Examples
+## 예제 {#examples}
 
-### Simple
+### 간단한 예제 {#simple}
 
-In the following example, the frontend service is given access to the `my_secret` secret. In the container, `/run/secrets/my_secret` is set to the contents of the file `./my_secret.txt`.
+다음 예제에서, frontend 서비스는 `my_secret` 비밀에 대한 액세스 권한을 부여받습니다. 컨테이너에서 `/run/secrets/my_secret`은 `./my_secret.txt` 파일의 내용으로 설정됩니다.
 
 ```yaml
 services:
@@ -44,7 +44,7 @@ secrets:
     file: ./my_secret.txt
 ```
 
-### Advanced
+### 고급 예제 {#advanced}
 
 ```yaml
 services:
@@ -53,10 +53,10 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password # 비밀 파일 경로
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password # 비밀 파일 경로
     secrets:
       - db_root_password
       - db_password
@@ -70,7 +70,7 @@ services:
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password # 비밀 파일 경로
     secrets:
       - db_password
 
@@ -84,19 +84,19 @@ volumes:
   db_data:
 ```
 
-In the advanced example above:
+위의 고급 예제에서:
 
-- The `secrets` attribute under each service defines the secrets you want to inject into the specific container.
-- The top-level `secrets` section defines the variables `db_password` and `db_root_password` and provides the `file` that populates their values.
-- The deployment of each container means Docker creates a temporary filesystem mount under `/run/secrets/<secret_name>` with their specific values.
+- 각 서비스 아래의 `secrets` 속성은 특정 컨테이너에 주입하려는 비밀을 정의합니다.
+- 최상위 `secrets` 섹션은 `db_password` 및 `db_root_password` 변수를 정의하고 해당 값을 채우는 `file`을 제공합니다.
+- 각 컨테이너의 배포는 Docker가 특정 값으로 `/run/secrets/<secret_name>` 아래에 임시 파일 시스템 마운트를 생성함을 의미합니다.
 
-> [!NOTE]
->
-> The `_FILE` environment variables demonstrated here are a convention used by some images, including Docker Official Images like [mysql](https://hub.docker.com/_/mysql) and [postgres](https://hub.docker.com/_/postgres).
+:::note
+여기서 보여준 `_FILE` 환경 변수는 [mysql](https://hub.docker.com/_/mysql) 및 [postgres](https://hub.docker.com/_/postgres)와 같은 Docker 공식 이미지에서 사용되는 관례입니다.
+:::
 
-### Build secrets
+### 빌드 비밀 {#build-secrets}
 
-In the following example, the `npm_token` secret is made available at build time. Its value is taken from the `NPM_TOKEN` environment variable.
+다음 예제에서, `npm_token` 비밀은 빌드 시점에 사용할 수 있습니다. 그 값은 `NPM_TOKEN` 환경 변수에서 가져옵니다.
 
 ```yaml
 services:
@@ -111,8 +111,8 @@ secrets:
     environment: NPM_TOKEN
 ```
 
-## Resources
+## 리소스 {#resources}
 
-- [Secrets top-level element](/reference/compose-file/secrets.md)
-- [Secrets attribute for services top-level element](/reference/compose-file/services.md#secrets)
-- [Build secrets](https://docs.docker.com/build/building/secrets/)
+- [Secrets 최상위 요소](/reference/compose-file/secrets.md)
+- [서비스 최상위 요소의 Secrets 속성](/reference/compose-file/services.md#secrets)
+- [빌드 비밀](https://docs.docker.com/build/building/secrets/)

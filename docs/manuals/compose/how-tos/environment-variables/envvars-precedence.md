@@ -1,35 +1,33 @@
 ---
-title: Environment variables precedence in Docker Compose
-linkTitle: Environment variables precedence
-description:
-  Scenario overview illustrating how environment variables are resolved
-  in Compose
+title: Docker Compose에서 환경 변수 우선순위
+linkTitle: 환경 변수 우선순위
+description: Compose에서 환경 변수가 해결되는 시나리오 개요
 keywords:
   - compose
-  - environment
-  - env file
+  - 환경
+  - env 파일
 weight: 20
 aliases:
   - /compose/envvars-precedence/
   - /compose/environment-variables/envvars-precedence/
 ---
 
-When the same environment variable is set in multiple sources, Docker Compose follows a precedence rule to determine the value for that variable in your container's environment.
+동일한 환경 변수가 여러 소스에서 설정된 경우 Docker Compose는 우선순위 규칙을 따라 컨테이너 환경에서 해당 변수의 값을 결정합니다.
 
-This page contains information on the level of precedence each method of setting environmental variables takes.
+이 페이지에는 환경 변수를 설정하는 각 방법의 우선순위 수준에 대한 정보가 포함되어 있습니다.
 
-The order of precedence (highest to lowest) is as follows:
+우선순위는 높은 것부터 낮은 것까지 다음과 같은 순서로 적용됩니다:
 
-1. Set using [`docker compose run -e` in the CLI](set-environment-variables.md#set-environment-variables-with-docker-compose-run---env).
-2. Set with either the `environment` or `env_file` attribute but with the value interpolated from your [shell](variable-interpolation.md#substitute-from-the-shell) or an environment file. (either your default [`.env` file](variable-interpolation.md#env-file), or with the [`--env-file` argument](variable-interpolation.md#substitute-with---env-file) in the CLI).
-3. Set using just the [`environment` attribute](set-environment-variables.md#use-the-environment-attribute) in the Compose file.
-4. Use of the [`env_file` attribute](set-environment-variables.md#use-the-env_file-attribute) in the Compose file.
-5. Set in a container image in the [ENV directive](/reference/dockerfile.md#env).
-   Having any `ARG` or `ENV` setting in a `Dockerfile` evaluates only if there is no Docker Compose entry for `environment`, `env_file` or `run --env`.
+1. CLI에서 [`docker compose run -e`](set-environment-variables.md#set-environment-variables-with-docker-compose-run---env)를 사용하여 설정.
+2. `environment` 또는 `env_file` 속성을 사용하여 설정하되, [셸](variable-interpolation.md#substitute-from-the-shell) 또는 환경 파일(기본 [`.env` 파일](variable-interpolation.md#env-file) 또는 CLI에서 [`--env-file` 인수](variable-interpolation.md#substitute-with---env-file))에서 값을 보간.
+3. Compose 파일에서 [`environment` 속성](set-environment-variables.md#use-the-environment-attribute)을 사용하여 설정.
+4. Compose 파일에서 [`env_file` 속성](set-environment-variables.md#use-the-env_file-attribute)을 사용하여 설정.
+5. 컨테이너 이미지에서 [ENV 지시문](/reference/dockerfile.md#env)을 사용하여 설정.
+   `Dockerfile`에 `ARG` 또는 `ENV` 설정이 있는 경우 `environment`, `env_file` 또는 `run --env`에 대한 Docker Compose 항목이 없는 경우에만 평가됩니다.
 
-## Simple example
+## 간단한 예제 {#simple-example}
 
-In the following example, a different value for the same environment variable in an `.env` file and with the `environment` attribute in the Compose file:
+다음 예제에서는 `.env` 파일과 Compose 파일의 `environment` 속성에 동일한 환경 변수에 대해 다른 값을 설정합니다:
 
 ```bash
 $ cat ./webapp.env
@@ -45,67 +43,67 @@ services:
      - NODE_ENV=production
 ```
 
-The environment variable defined with the `environment` attribute takes precedence.
+`environment` 속성으로 정의된 환경 변수가 우선합니다.
 
 ```bash
 $ docker compose run webapp env | grep NODE_ENV
 NODE_ENV=production
 ```
 
-## Advanced example
+## 고급 예제 {#advanced-example}
 
-The following table uses `VALUE`, an environment variable defining the version for an image, as an example.
+다음 표는 이미지 버전을 정의하는 환경 변수 `VALUE`를 예로 사용합니다.
 
-### How the table works
+### 표 작동 방식 {#how-the-table-works}
 
-Each column represents a context from where you can set a value, or substitute in a value for `VALUE`.
+각 열은 `VALUE`에 대한 값을 설정하거나 대체할 수 있는 컨텍스트를 나타냅니다.
 
-The columns `Host OS environment` and `.env` file is listed only for illustration purposes. In reality, they don't result in a variable in the container by itself, but in conjunction with either the `environment` or `env_file` attribute.
+`Host OS environment` 및 `.env` 파일 열은 설명 목적으로만 나열됩니다. 실제로는 자체적으로 컨테이너에 변수를 생성하지 않지만 `environment` 또는 `env_file` 속성과 함께 사용됩니다.
 
-Each row represents a combination of contexts where `VALUE` is set, substituted, or both. The **Result** column indicates the final value for `VALUE` in each scenario.
+각 행은 `VALUE`가 설정되거나 대체되거나 둘 다 설정된 컨텍스트 조합을 나타냅니다. **Result** 열은 각 시나리오에서 `VALUE`의 최종 값을 나타냅니다.
 
-|  #  | `docker compose run` | `environment` attribute | `env_file` attribute | Image `ENV` | `Host OS` environment | `.env` file |     |     Result      |
-| :-: | :------------------: | :---------------------: | :------------------: | :---------: | :-------------------: | :---------: | :-: | :-------------: |
-|  1  |          -           |            -            |          -           |      -      |      `VALUE=1.4`      | `VALUE=1.3` |     |        -        |
-|  2  |          -           |            -            |     `VALUE=1.6`      | `VALUE=1.5` |      `VALUE=1.4`      |      -      |     | **`VALUE=1.6`** |
-|  3  |          -           |       `VALUE=1.7`       |          -           | `VALUE=1.5` |      `VALUE=1.4`      |      -      |     | **`VALUE=1.7`** |
-|  4  |          -           |            -            |          -           | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.5`** |
-|  5  |  `--env VALUE=1.8`   |            -            |          -           | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.8`** |
-|  6  |    `--env VALUE`     |            -            |          -           | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.4`** |
-|  7  |    `--env VALUE`     |            -            |          -           | `VALUE=1.5` |           -           | `VALUE=1.3` |     | **`VALUE=1.3`** |
-|  8  |          -           |            -            |       `VALUE`        | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.4`** |
-|  9  |          -           |            -            |       `VALUE`        | `VALUE=1.5` |           -           | `VALUE=1.3` |     | **`VALUE=1.3`** |
-| 10  |          -           |         `VALUE`         |          -           | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.4`** |
-| 11  |          -           |         `VALUE`         |          -           | `VALUE=1.5` |           -           | `VALUE=1.3` |     | **`VALUE=1.3`** |
-| 12  |    `--env VALUE`     |       `VALUE=1.7`       |          -           | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.4`** |
-| 13  |  `--env VALUE=1.8`   |       `VALUE=1.7`       |          -           | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.8`** |
-| 14  |  `--env VALUE=1.8`   |            -            |     `VALUE=1.6`      | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.8`** |
-| 15  |  `--env VALUE=1.8`   |       `VALUE=1.7`       |     `VALUE=1.6`      | `VALUE=1.5` |      `VALUE=1.4`      | `VALUE=1.3` |     | **`VALUE=1.8`** |
+|  #  | `docker compose run` | `environment` 속성 | `env_file` 속성 | 이미지 `ENV` | `Host OS` 환경 | `.env` 파일 |     |      결과       |
+| :-: | :------------------: | :----------------: | :-------------: | :----------: | :------------: | :---------: | :-: | :-------------: |
+|  1  |          -           |         -          |        -        |      -       |  `VALUE=1.4`   | `VALUE=1.3` |     |        -        |
+|  2  |          -           |         -          |   `VALUE=1.6`   | `VALUE=1.5`  |  `VALUE=1.4`   |      -      |     | **`VALUE=1.6`** |
+|  3  |          -           |    `VALUE=1.7`     |        -        | `VALUE=1.5`  |  `VALUE=1.4`   |      -      |     | **`VALUE=1.7`** |
+|  4  |          -           |         -          |        -        | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.5`** |
+|  5  |  `--env VALUE=1.8`   |         -          |        -        | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.8`** |
+|  6  |    `--env VALUE`     |         -          |        -        | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.4`** |
+|  7  |    `--env VALUE`     |         -          |        -        | `VALUE=1.5`  |       -        | `VALUE=1.3` |     | **`VALUE=1.3`** |
+|  8  |          -           |         -          |     `VALUE`     | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.4`** |
+|  9  |          -           |         -          |     `VALUE`     | `VALUE=1.5`  |       -        | `VALUE=1.3` |     | **`VALUE=1.3`** |
+| 10  |          -           |      `VALUE`       |        -        | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.4`** |
+| 11  |          -           |      `VALUE`       |        -        | `VALUE=1.5`  |       -        | `VALUE=1.3` |     | **`VALUE=1.3`** |
+| 12  |    `--env VALUE`     |    `VALUE=1.7`     |        -        | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.4`** |
+| 13  |  `--env VALUE=1.8`   |    `VALUE=1.7`     |        -        | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.8`** |
+| 14  |  `--env VALUE=1.8`   |         -          |   `VALUE=1.6`   | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.8`** |
+| 15  |  `--env VALUE=1.8`   |    `VALUE=1.7`     |   `VALUE=1.6`   | `VALUE=1.5`  |  `VALUE=1.4`   | `VALUE=1.3` |     | **`VALUE=1.8`** |
 
-### Result explanation
+### 결과 설명 {#result-explanation}
 
-Result 1: The local environment takes precedence, but the Compose file is not set to replicate this inside the container, so no such variable is set.
+결과 1: 로컬 환경이 우선하지만 Compose 파일이 이를 컨테이너 내부에서 복제하도록 설정되지 않았으므로 해당 변수가 설정되지 않습니다.
 
-Result 2: The `env_file` attribute in the Compose file defines an explicit value for `VALUE` so the container environment is set accordingly.
+결과 2: Compose 파일의 `env_file` 속성이 `VALUE`에 대한 명시적 값을 정의하므로 컨테이너 환경이 이에 따라 설정됩니다.
 
-Result 3: The `environment` attribute in the Compose file defines an explicit value for `VALUE`, so the container environment is set accordingly/
+결과 3: Compose 파일의 `environment` 속성이 `VALUE`에 대한 명시적 값을 정의하므로 컨테이너 환경이 이에 따라 설정됩니다.
 
-Result 4: The image's `ENV` directive declares the variable `VALUE`, and since the Compose file is not set to override this value, this variable is defined by image
+결과 4: 이미지의 `ENV` 지시문이 `VALUE` 변수를 선언하며, Compose 파일이 이 값을 재정의하도록 설정되지 않았으므로 이 변수는 이미지에 의해 정의됩니다.
 
-Result 5: The `docker compose run` command has the `--env` flag set which an explicit value, and overrides the value set by the image.
+결과 5: `docker compose run` 명령에 명시적 값을 설정하는 `--env` 플래그가 설정되어 있으며, 이미지에 설정된 값을 재정의합니다.
 
-Result 6: The `docker compose run` command has the `--env` flag set to replicate the value from the environment. Host OS value takes precedence and is replicated into the container's environment.
+결과 6: `docker compose run` 명령에 로컬 환경에서 값을 복제하도록 설정된 `--env` 플래그가 있습니다. 호스트 OS 값이 우선하며 컨테이너 환경에 복제됩니다.
 
-Result 7: The `docker compose run` command has the `--env` flag set to replicate the value from the environment. Value from `.env` file is the selected to define the container's environment.
+결과 7: `docker compose run` 명령에 로컬 환경에서 값을 복제하도록 설정된 `--env` 플래그가 있습니다. `.env` 파일의 값이 선택되어 컨테이너 환경을 정의합니다.
 
-Result 8: The `env_file` attribute in the Compose file is set to replicate `VALUE` from the local environment. Host OS value takes precedence and is replicated into the container's environment.
+결과 8: Compose 파일의 `env_file` 속성이 로컬 환경에서 `VALUE`를 복제하도록 설정되어 있습니다. 호스트 OS 값이 우선하며 컨테이너 환경에 복제됩니다.
 
-Result 9: The `env_file` attribute in the Compose file is set to replicate `VALUE` from the local environment. Value from `.env` file is the selected to define the container's environment.
+결과 9: Compose 파일의 `env_file` 속성이 로컬 환경에서 `VALUE`를 복제하도록 설정되어 있습니다. `.env` 파일의 값이 선택되어 컨테이너 환경을 정의합니다.
 
-Result 10: The `environment` attribute in the Compose file is set to replicate `VALUE` from the local environment. Host OS value takes precedence and is replicated into the container's environment.
+결과 10: Compose 파일의 `environment` 속성이 로컬 환경에서 `VALUE`를 복제하도록 설정되어 있습니다. 호스트 OS 값이 우선하며 컨테이너 환경에 복제됩니다.
 
-Result 11: The `environment` attribute in the Compose file is set to replicate `VALUE` from the local environment. Value from `.env` file is the selected to define the container's environment.
+결과 11: Compose 파일의 `environment` 속성이 로컬 환경에서 `VALUE`를 복제하도록 설정되어 있습니다. `.env` 파일의 값이 선택되어 컨테이너 환경을 정의합니다.
 
-Result 12: The `--env` flag has higher precedence than the `environment` and `env_file` attributes and is to set to replicate `VALUE` from the local environment. Host OS value takes precedence and is replicated into the container's environment.
+결과 12: `--env` 플래그는 `environment` 및 `env_file` 속성보다 높은 우선순위를 가지며 로컬 환경에서 `VALUE`를 복제하도록 설정되어 있습니다. 호스트 OS 값이 우선하며 컨테이너 환경에 복제됩니다.
 
-Results 13 to 15: The `--env` flag has higher precedence than the `environment` and `env_file` attributes and so sets the value.
+결과 13에서 15: `--env` 플래그는 `environment` 및 `env_file` 속성보다 높은 우선순위를 가지며 값을 설정합니다.
