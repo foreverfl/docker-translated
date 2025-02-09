@@ -645,9 +645,9 @@ const sidebars: SidebarsConfig = {
           },
           items: [
             {
-              type: "link",
+              type: "doc",
               label: "docker build",
-              href: "/reference/cli/docker/buildx/build",
+              id: "reference/cli/docker/buildx/build",
             },
             {
               type: "category",
@@ -844,9 +844,9 @@ const sidebars: SidebarsConfig = {
               items: ["reference/intro"],
             },
             {
-              type: "category",
+              type: "doc",
               label: "docker ps",
-              items: ["reference/intro"],
+              id: "reference/cli/docker/container/ls",
             },
             {
               type: "category",
@@ -859,9 +859,9 @@ const sidebars: SidebarsConfig = {
               items: ["reference/intro"],
             },
             {
-              type: "category",
+              type: "doc",
               label: "docker run",
-              items: ["reference/intro"],
+              id: "reference/cli/docker/container/run",
             },
             {
               type: "category",
