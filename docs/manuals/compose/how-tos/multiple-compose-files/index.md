@@ -25,5 +25,5 @@ aliases:
 
 Docker Compose는 여러 Compose 파일을 사용할 때 이 복잡성을 관리하기 위한 두 가지 다른 옵션을 제공합니다. 프로젝트의 필요에 따라 다음을 수행할 수 있습니다:
 
-- 다른 Compose 파일을 참조하고 애플리케이션에서 사용하려는 부분을 선택하며 일부 속성을 재정의할 수 있는 [Compose 파일 확장](extends.md).
-- Compose 파일에 다른 Compose 파일을 직접 [포함](include.md).
+- 다른 Compose 파일을 참조하고 애플리케이션에서 사용하려는 부분을 선택하며 일부 속성을 재정의할 수 있는 [Compose 파일 확장](extends.md)
+- Compose 파일에 다른 Compose 파일을 직접 [포함](include.md)

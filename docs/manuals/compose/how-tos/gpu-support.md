@@ -1,46 +1,46 @@
 ---
-description: Understand GPU support in Docker Compose
+description: Docker Compose에서 GPU 지원 이해하기
 keywords:
-  - documentation
-  - docs
-  - docker
-  - compose
-  - GPU access
+  - 문서
+  - 도큐멘트
+  - 도커
+  - 컴포즈
+  - GPU 접근
   - NVIDIA
-  - samples
-title: Enable GPU access with Docker Compose
-linkTitle: Enable GPU support
+  - 샘플
+title: Docker Compose로 GPU 접근 활성화
+linkTitle: GPU 지원 활성화
 weight: 90
 aliases:
   - /compose/gpu-support/
 ---
 
-Compose services can define GPU device reservations if the Docker host contains such devices and the Docker Daemon is set accordingly. For this, make sure you install the [prerequisites](/manuals/engine/containers/resource_constraints.md#gpu) if you haven't already done so.
+Compose 서비스는 Docker 호스트에 GPU 장치가 있고 Docker Daemon이 적절히 설정된 경우 GPU를 사용할 수 있도록 설정할 수 있습니다. 이를 위해 [먼저 필요한 패키지와 설정](/manuals/engine/containers/resource_constraints.md#gpu)을 먼저 완료해야 합니다.
 
-The examples in the following sections focus specifically on providing service containers access to GPU devices with Docker Compose.
-You can use either `docker-compose` or `docker compose` commands. For more information, see [Migrate to Compose V2](/manuals/compose/releases/migrate.md).
+다음 섹션의 예제는 Docker Compose를 사용하여 서비스 컨테이너가 GPU에 접근할 수 있도록 구성하는 방법을 중점적으로 다룹니다.
+`docker-compose` 또는 `docker compose` 명령을 사용할 수 있습니다. 자세한 내용은 [Compose V2로 마이그레이션](/manuals/compose/releases/migrate.md)을 참조하십시오.
 
-## Enabling GPU access to service containers
+## 서비스 컨테이너에 GPU 접근 활성화 {#enabling-gpu-access-to-service-containers}
 
-GPUs are referenced in a `compose.yml` file using the [device](/reference/compose-file/deploy.md#devices) attribute from the Compose Deploy specification, within your services that need them.
+GPU는 Compose Deploy 사양의 [device](/reference/compose-file/deploy.md#devices) 속성을 사용하여 `compose.yml` 파일에서 참조됩니다. 이 속성은 GPU가 필요한 서비스 내에서 사용됩니다.
 
-This provides more granular control over a GPU reservation as custom values can be set for the following device properties:
+이 속성은 다음 장치 속성에 대해 사용자 정의 값을 설정할 수 있으므로 GPU 예약에 대한 더 세밀한 제어를 제공합니다:
 
-- `capabilities`. This value specifies as a list of strings (eg. `capabilities: [gpu]`). You must set this field in the Compose file. Otherwise, it returns an error on service deployment.
-- `count`. This value, specified as an integer or the value `all`, represents the number of GPU devices that should be reserved (providing the host holds that number of GPUs). If `count` is set to `all` or not specified, all GPUs available on the host are used by default.
-- `device_ids`. This value, specified as a list of strings, represents GPU device IDs from the host. You can find the device ID in the output of `nvidia-smi` on the host. If no `device_ids` are set, all GPUs available on the host are used by default.
-- `driver`. This value is specified as a string, for example `driver: 'nvidia'`
-- `options`. Key-value pairs representing driver specific options.
+- `capabilities`. 이 값은 문자열 목록으로 지정됩니다 (예: `capabilities: [gpu]`). 이 필드는 Compose 파일에 설정해야 합니다. 그렇지 않으면 서비스 배포 시 오류가 반환됩니다.
+- `count`. 이 값은 정수 또는 `all` 값으로 지정되며, 예약해야 하는 GPU 장치의 수를 나타냅니다 (호스트에 해당 수의 GPU가 있는 경우). `count`가 `all`로 설정되거나 지정되지 않은 경우, 기본적으로 호스트에서 사용 가능한 모든 GPU가 사용됩니다.
+- `device_ids`. 이 값은 문자열 목록으로 지정되며, 호스트의 GPU 장치 ID를 나타냅니다. 호스트에서 `nvidia-smi`의 출력에서 장치 ID를 찾을 수 있습니다. `device_ids`가 설정되지 않은 경우, 기본적으로 호스트에서 사용 가능한 모든 GPU가 사용됩니다.
+- `driver`. 이 값은 문자열로 지정됩니다. 예: `driver: 'nvidia'`
+- `options`. 드라이버 특정 옵션을 나타내는 키-값 쌍입니다.
 
-> [!IMPORTANT]
->
-> You must set the `capabilities` field. Otherwise, it returns an error on service deployment.
->
-> `count` and `device_ids` are mutually exclusive. You must only define one field at a time.
+:::important
+`capabilities` 필드를 설정해야 합니다. 그렇지 않으면 서비스 배포 시 오류가 반환됩니다.
 
-For more information on these properties, see the [Compose Deploy Specification](/reference/compose-file/deploy.md#devices).
+`count`와 `device_ids`는 상호 배타적입니다. 한 번에 하나의 필드만 정의해야 합니다.
+:::
 
-### Example of a Compose file for running a service with access to 1 GPU device
+이 속성에 대한 자세한 내용은 [Compose Deploy 사양](/reference/compose-file/deploy.md#devices)을 참조하십시오.
+
+### 1개의 GPU 장치에 접근하는 서비스 실행을 위한 Compose 파일 예제 {#example-of-a-compose-file-for-running-a-service-with-access-to-1-gpu-device}
 
 ```yaml
 services:
@@ -56,7 +56,7 @@ services:
               capabilities: [gpu]
 ```
 
-Run with Docker Compose:
+Docker Compose로 실행:
 
 ```bash
 $ docker compose up
@@ -86,9 +86,9 @@ gpu_test_1 exited with code 0
 
 ```
 
-On machines hosting multiple GPUs, the `device_ids` field can be set to target specific GPU devices and `count` can be used to limit the number of GPU devices assigned to a service container.
+여러 GPU를 호스팅하는 머신에서는 `device_ids` 필드를 설정하여 특정 GPU 장치를 대상으로 하고 `count`를 사용하여 서비스 컨테이너에 할당된 GPU 장치 수를 제한할 수 있습니다.
 
-You can use `count` or `device_ids` in each of your service definitions. An error is returned if you try to combine both, specify an invalid device ID, or use a value of count that’s higher than the number of GPUs in your system.
+각 서비스 정의에서 `count` 또는 `device_ids`를 사용할 수 있습니다. 둘 다 결합하려고 하거나 잘못된 장치 ID를 지정하거나 시스템의 GPU 수보다 높은 값을 사용하려고 하면 오류가 반환됩니다.
 
 ```bash
 $ nvidia-smi
@@ -117,9 +117,9 @@ $ nvidia-smi
 +-------------------------------+----------------------+----------------------+
 ```
 
-## Access specific devices
+## 특정 장치에 접근 {#access-specific-devices}
 
-To allow access only to GPU-0 and GPU-3 devices:
+GPU-0 및 GPU-3 장치에만 접근을 허용하려면:
 
 ```yaml
 services:

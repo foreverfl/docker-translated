@@ -1,51 +1,40 @@
 ---
-description: Summary of samples related to Compose
+description: Compose와 관련된 샘플 요약
 keywords:
-  - documentation
-  - docs
-  - docker
-  - compose
-  - samples
-title: Sample apps with Compose
+  - 문서
+  - 도커
+  - 컴포즈
+  - 샘플
+title: Compose 샘플 앱
 linkTitle: Sample apps
 weight: 30
 aliases:
 - /compose/samples-for-compose/
 ---
 
-The following samples show the various aspects of how to work with Docker
-Compose. As a prerequisite, be sure to [install Docker Compose](/manuals/compose/install/_index.md)
-if you have not already done so.
+다음 샘플들은 Docker Compose를 사용하는 다양한 측면을 보여줍니다. 사전 요구 사항으로, 아직 설치하지 않았다면 [Docker Compose 설치](/manuals/compose/install/_index.md)를 확인하세요.
 
-## Key concepts these samples cover
+## 이 샘플들이 다루는 주요 개념 {#key-concepts-these-samples-cover}
 
-The samples should help you to:
+샘플들은 다음을 도와줍니다:
 
-- Define services based on Docker images using
-  [Compose files](/reference/compose-file/_index.md): `compose.yml` and
-  `docker-stack.yml`
-- Understand the relationship between `compose.yml` and
-  [Dockerfiles](/reference/dockerfile/)
-- Learn how to make calls to your application services from Compose files
-- Learn how to deploy applications and services to a [swarm](/manuals/engine/swarm/_index.md)
+- `compose.yml` 및 `docker-stack.yml` [Compose 파일](/reference/compose-file/_index.md)을 사용하여 Docker 이미지 기반의 서비스를 정의합니다.
+- `compose.yml`과 [Dockerfiles](/reference/dockerfile/) 간의 관계를 이해합니다.
+- Compose 파일에서 애플리케이션 서비스에 호출하는 방법을 배웁니다.
+- 애플리케이션 및 서비스를 [swarm](/manuals/engine/swarm/_index.md)에 배포하는 방법을 배웁니다.
 
-## Samples tailored to demo Compose
+## Compose 데모를 위한 샘플 {#samples-tailored-to-demo-compose}
 
-These samples focus specifically on Docker Compose:
+이 샘플들은 Docker Compose에 중점을 둡니다:
 
-- [Quickstart: Compose and ELK](https://github.com/docker/awesome-compose/tree/master/elasticsearch-logstash-kibana/README.md) - Shows
-  how to use Docker Compose to set up and run ELK - Elasticsearch-Logstash-Kibana.
+- [빠른 시작: Compose와 ELK](https://github.com/docker/awesome-compose/tree/master/elasticsearch-logstash-kibana/README.md) - Docker Compose를 사용하여 ELK - Elasticsearch-Logstash-Kibana를 설정하고 실행하는 방법을 보여줍니다.
 
-- [Quickstart: Compose and Django](https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/django/README.md) - Shows
-  how to use Docker Compose to set up and run a simple Django/PostgreSQL app.
+- [빠른 시작: Compose와 Django](https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/django/README.md) - Docker Compose를 사용하여 간단한 Django/PostgreSQL 앱을 설정하고 실행하는 방법을 보여줍니다.
 
-- [Quickstart: Compose and Rails](https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/rails/README.md) - Shows
-  how to use Docker Compose to set up and run a Rails/PostgreSQL app.
+- [빠른 시작: Compose와 Rails](https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/rails/README.md) - Docker Compose를 사용하여 Rails/PostgreSQL 앱을 설정하고 실행하는 방법을 보여줍니다.
 
-- [Quickstart: Compose and WordPress](https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/wordpress/README.md) - Shows
-  how to use Docker Compose to set up and run WordPress in an isolated
-  environment with Docker containers.
+- [빠른 시작: Compose와 WordPress](https://github.com/docker/awesome-compose/tree/master/official-documentation-samples/wordpress/README.md) - Docker Compose를 사용하여 WordPress를 Docker 컨테이너로 격리된 환경에서 설정하고 실행하는 방법을 보여줍니다.
 
-## Awesome Compose samples
+## Awesome Compose 샘플 {#awesome-compose-samples}
 
-The Awesome Compose samples provide a starting point on how to integrate different frameworks and technologies using Docker Compose. All samples are available in the [Awesome-compose GitHub repo](https://github.com/docker/awesome-compose) and are ready to run with `docker compose up`.
+Awesome Compose 샘플들은 Docker Compose를 사용하여 다양한 프레임워크와 기술을 통합하는 출발점을 제공합니다. 모든 샘플은 [Awesome-compose GitHub repo](https://github.com/docker/awesome-compose)에서 사용할 수 있으며, `docker compose up`으로 실행할 준비가 되어 있습니다.

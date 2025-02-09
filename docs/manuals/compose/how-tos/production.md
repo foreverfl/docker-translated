@@ -1,71 +1,53 @@
 ---
-description: Guide to using Docker Compose in production
+description: 프로덕션 환경에서 Docker Compose 사용 가이드
 keywords:
-  - compose
-  - orchestration
-  - containers
-  - production
-title: Use Compose in production
+  - 컴포즈
+  - 오케스트레이션
+  - 컨테이너
+  - 프로덕션
+title: 프로덕션 환경에서 Compose 사용하기
 weight: 100
 aliases:
   - /compose/production/
 ---
 
-When you define your app with Compose in development, you can use this
-definition to run your application in different environments such as CI,
-staging, and production.
+개발 환경에서 Compose로 앱을 정의하면 CI, 스테이징, 프로덕션과 같은 다양한 환경에서 애플리케이션을 실행하는 데 이 정의를 사용할 수 있습니다.
 
-The easiest way to deploy an application is to run it on a single server,
-similar to how you would run your development environment. If you want to scale
-up your application, you can run Compose apps on a Swarm cluster.
+애플리케이션을 배포하는 가장 쉬운 방법은 개발 환경에서와 유사하게 단일 서버에서 실행하는 것입니다. 애플리케이션을 확장하려면 Swarm 클러스터에서 Compose 앱을 실행할 수 있습니다.
 
-### Modify your Compose file for production
+### 프로덕션을 위한 Compose 파일 수정 {#modify-your-compose-file-for-production}
 
-You may need to make changes to your app configuration to make it ready for
-production. These changes might include:
+앱 구성을 프로덕션에 맞게 준비하려면 변경이 필요할 수 있습니다. 이러한 변경 사항에는 다음이 포함될 수 있습니다:
 
-- Removing any volume bindings for application code, so that code stays inside
-  the container and can't be changed from outside
-- Binding to different ports on the host
-- Setting environment variables differently, such as reducing the verbosity of
-  logging, or to specify settings for external services such as an email server
-- Specifying a restart policy like [`restart: always`](/reference/compose-file/services.md#restart)to avoid downtime
-- Adding extra services such as a log aggregator
+- 애플리케이션 코드에 대한 볼륨 바인딩 제거, 코드가 컨테이너 내부에 유지되고 외부에서 변경할 수 없도록 하기
+- 호스트의 다른 포트에 바인딩
+- 로깅의 자세함을 줄이거나 이메일 서버와 같은 외부 서비스에 대한 설정을 지정하기 위해 환경 변수를 다르게 설정
+- 다운타임을 방지하기 위해 [`restart: always`](/reference/compose-file/services.md#restart)와 같은 재시작 정책 지정
+- 로그 수집기와 같은 추가 서비스 추가
 
-For this reason, consider defining an additional Compose file, for example
-`production.yml`, which specifies production-appropriate
-configuration. This configuration file only needs to include the changes you want to make from the original Compose file. The additional Compose file
-is then applied over the original `compose.yml` to create a new configuration.
+이러한 이유로, 예를 들어 `production.yml`과 같은 추가 Compose 파일을 정의하여 프로덕션에 적합한 구성을 지정하는 것을 고려하십시오. 이 구성 파일에는 원래 Compose 파일에서 변경하려는 내용만 포함하면 됩니다. 추가 Compose 파일은 원래 `compose.yml` 위에 적용되어 새로운 구성을 만듭니다.
 
-Once you have a second configuration file, you can use it with the
-`-f` option:
+두 번째 구성 파일이 있으면 `-f` 옵션을 사용하여 사용할 수 있습니다:
 
 ```bash
 $ docker compose -f compose.yml -f production.yml up -d
 ```
 
-See [Using multiple compose files](multiple-compose-files/_index.md) for a more complete example, and other options.
+보다 완전한 예제와 다른 옵션에 대해서는 [여러 Compose 파일 사용](multiple-compose-files/_index.md)을 참조하십시오.
 
-### Deploying changes
+### 변경 사항 배포 {#deploying-changes}
 
-When you make changes to your app code, remember to rebuild your image and
-recreate your app's containers. To redeploy a service called
-`web`, use:
+앱 코드에 변경 사항을 적용할 때 이미지를 다시 빌드하고 앱의 컨테이너를 다시 생성해야 합니다. `web`이라는 서비스를 다시 배포하려면 다음을 사용하십시오:
 
 ```bash
 $ docker compose build web
 $ docker compose up --no-deps -d web
 ```
 
-This first command rebuilds the image for `web` and then stops, destroys, and recreates
-just the `web` service. The `--no-deps` flag prevents Compose from also
-recreating any services which `web` depends on.
+이 첫 번째 명령은 `web`의 이미지를 다시 빌드한 다음 `web` 서비스를 중지하고, 삭제하고, 다시 생성합니다. `--no-deps` 플래그는 Compose가 `web`이 의존하는 서비스를 다시 생성하지 않도록 합니다.
 
-### Running Compose on a single server
+### 단일 서버에서 Compose 실행 {#running-compose-on-a-single-server}
 
-You can use Compose to deploy an app to a remote Docker host by setting the
-`DOCKER_HOST`, `DOCKER_TLS_VERIFY`, and `DOCKER_CERT_PATH` environment variables
-appropriately. For more information, see [pre-defined environment variables](environment-variables/envvars.md).
+`DOCKER_HOST`, `DOCKER_TLS_VERIFY`, `DOCKER_CERT_PATH` 환경 변수를 적절히 설정하여 원격 Docker 호스트에 앱을 배포할 수 있습니다. 자세한 내용은 [미리 정의된 환경 변수](environment-variables/envvars.md)를 참조하십시오.
 
-Once you've set up your environment variables, all the normal `docker compose`
-commands work with no further configuration.
+환경 변수를 설정한 후에는 추가 구성 없이 모든 일반 `docker compose` 명령이 작동합니다.
