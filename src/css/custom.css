@@ -38,3 +38,8 @@
 .navbar {
   background-color: #086dd7;
 }
+
+td:first-child:has(code) {
+  min-width: 150px;
+  white-space: nowrap; 
+}
